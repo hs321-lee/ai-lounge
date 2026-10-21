@@ -5,99 +5,633 @@
       "id": "monthly-2026-10",
       "type": "monthly",
       "date": "2026-10-21",
-      "title": "진료는 사람이, 반복 업무는 AI가",
-      "summary": "동네 치과 AX 전환기 1–3편에서 고른 여섯 장면. 작성자가 공개한 경험을 짧게 소개합니다.",
+      "title": "동네 치과의 AX 전환기",
+      "summary": "치과 원장이 직접 만든 병원 AI를 1·2·3편 원문 캡처로 따라갑니다. 그리고 다음 소개, Herdr.",
       "author": "AI 라운지",
       "tags": [
-        "공유 준비",
         "AX 사례",
-        "사용 팁"
+        "월간 소개",
+        "Herdr"
       ],
       "sections": [
         {
-          "heading": "시작은 “가장 귀찮은 일 하나”",
-          "body": "진료 대신 전화·보험서류·검색·보고서 같은 반복 업무부터 바꿨습니다.",
-          "media": {
-            "src": "assets/dental/agent-activity.webp",
-            "width": 1265,
-            "height": 1040,
-            "alt": "분석·재무·운영 에이전트의 활동 수, 인계 승인 대기, 작업 성공과 실패 이력을 보여 주는 실제 UI",
-            "caption": "역할별 에이전트와 인계·승인 대기·실행 이력을 모은 화면 · 원문 3편 p.26",
-            "sourceUrl": "https://arca.live/b/aihomelab/186465322"
-          }
+          "kind": "chapter",
+          "part": "1편",
+          "heading": "동네 치과의 AX 전환기",
+          "body": "랜선부터 직접 깔던 비전공 원장이,\n병원 안에 AI를 들이기까지.",
+          "date": "2026-10-13",
+          "url": "https://arca.live/b/aihomelab/185810092"
         },
         {
-          "heading": "전화 한 통을, 다음 할 일까지",
-          "body": "통화 전사 → 요약·분류 → 후속 할 일. 사람이 다시 듣고 옮겨 적던 흐름을 연결했습니다.",
-          "media": {
-            "src": "assets/dental/call-review.webp",
-            "width": 1223,
-            "height": 785,
-            "alt": "통화 목적과 급함, 할 일, 예약 여부를 버튼으로 판정하고 저장하는 실제 원내 UI",
-            "caption": "통화 목적·할 일·예약 여부를 사람이 판정하는 화면 · 원문 1편 p.11",
-            "sourceUrl": "https://arca.live/b/aihomelab/185810092"
-          }
+          "heading": "시작은 랜선 공사비",
+          "body": "네트워크 공사 견적이 아까워서 원장이 직접 랜선을 깔았습니다.\n그게 병원 뒷방 서버랙의 시작이었습니다.",
+          "media": [
+            {
+              "src": "assets/dental/p1-rack-wiring.webp",
+              "width": 1036,
+              "height": 1327,
+              "alt": "천장에서 내려온 랜선을 직접 정리하는 서버랙 공사 사진",
+              "caption": "직접 깔던 날 · 1편 p.3"
+            },
+            {
+              "src": "assets/dental/p1-rack-done.webp",
+              "width": 1005,
+              "height": 1302,
+              "alt": "스위치와 패치 패널로 정리가 끝난 서버랙",
+              "caption": "정리가 끝난 서버랙 · 1편 p.5"
+            }
+          ]
         },
         {
-          "heading": "끝낸 일과, 사람이 볼 일",
-          "body": "자동 처리 기록은 왼쪽에, 직원이 확인할 예외와 후속 업무는 오른쪽에 모읍니다.",
-          "media": {
-            "src": "assets/dental/morning-workboard.webp",
-            "width": 1260,
-            "height": 776,
-            "alt": "왼쪽 자동 업무 완료 기록, 오른쪽 반려 청구·콜백 등 사람이 볼 일을 나눠 보여 주는 실제 원장 업무판",
-            "caption": "자동으로 끝낸 일과 사람이 확인할 일을 한 화면에 분리 · 원문 3편 p.26",
-            "sourceUrl": "https://arca.live/b/aihomelab/186465322"
-          }
+          "heading": "원칙: 환자 정보는 병원 밖으로 안 나간다",
+          "body": "통화 녹음과 보험 서류를 외부 클라우드로 보내지 않기로 했습니다.\n그래서 AI를 병원 안에서 직접 돌립니다.",
+          "stats": [
+            {
+              "value": "12대",
+              "label": "DGX Spark급 AI 장비"
+            },
+            {
+              "value": "0건",
+              "label": "환자 데이터 외부 전송"
+            }
+          ],
+          "media": [
+            {
+              "src": "assets/dental/p1-dgx-boxes.webp",
+              "width": 571,
+              "height": 745,
+              "alt": "포장 상자에 담긴 NVIDIA DGX Spark 여러 대",
+              "caption": "DGX Spark급 장비 도착 · 1편 p.6"
+            },
+            {
+              "src": "assets/dental/p1-dgx-rack.webp",
+              "width": 792,
+              "height": 1067,
+              "alt": "랙에 올라간 금색 DGX Spark 장비들",
+              "caption": "랙에 올린 DGX Spark · 1편 p.8"
+            }
+          ]
         },
         {
-          "heading": "도입 다음은, 운영 점검",
-          "body": "2편은 매출 증가를 병원 확장 효과로 구분하고, 과투자와 예약 문자 누락도 공개합니다."
+          "heading": "한 장으로 보는 병원 AI 구성",
+          "body": "쓰는 곳(직원 PC·전화·방송) → 업무 서버(포털·차트·전화) → 병원 안 대형 언어 모델.\n모든 AI 호출은 게이트웨이 하나를 거칩니다.",
+          "media": [
+            {
+              "src": "assets/dental/p1-infra-map.webp",
+              "width": 1280,
+              "height": 1183,
+              "alt": "직원 PC, 업무 서버, 대형 언어 모델 3층으로 나눈 사내 AI 인프라 구성도",
+              "caption": "사내 AI 인프라 구성도 · 1편 p.21"
+            }
+          ]
         },
         {
-          "heading": "AI가 초안, 마지막 확인은 사람",
-          "body": "추측한 내용은 따로 표시하고, 검토 확인을 거쳐 저장하도록 만들었습니다.",
-          "media": {
-            "src": "assets/dental/assumptions-review.webp",
-            "width": 515,
-            "height": 301,
-            "alt": "AI가 추측한 내용을 별도 목록으로 표시하고 검토 체크박스와 저장 버튼을 두는 실제 UI",
-            "caption": "노란 Assumptions 목록과 검토 확인 후 저장하는 절차 · 원문 3편 p.18",
-            "sourceUrl": "https://arca.live/b/aihomelab/186465322"
-          }
+          "heading": "전화 한 통 → 요약 → 할 일",
+          "body": "AI가 통화를 받아 적고, 요약하고, 할 일까지 뽑습니다.\nAI 분류가 맞는지는 원장이 숫자키로 채점해서 정답지를 만듭니다.",
+          "media": [
+            {
+              "src": "assets/dental/p1-call-review.webp",
+              "width": 1280,
+              "height": 1144,
+              "alt": "통화 목적·상대·급함·할 일·예약 여부를 숫자키로 판정하는 화면",
+              "caption": "사람이 AI 분류를 채점하는 화면 · 1편 p.11"
+            }
+          ]
         },
         {
-          "heading": "우리도 반복 업무 하나부터",
-          "body": "입력 → AI 처리 → 사람 확인 → 다음 행동. 도구보다 업무 흐름을 먼저 정해봅니다."
+          "heading": "보험 서류 대조와 사내 검색",
+          "body": "쌓여 있던 보험 서류를 AI가 읽고 우리 기록과 맞춥니다. 직원은 '확인 필요'만 봅니다.\n통화·문자·서류·매뉴얼은 그냥 말로 물어보면 찾아 줍니다.",
+          "stats": [
+            {
+              "value": "77%",
+              "label": "보험 대조 6,928줄 중 자동 확정"
+            },
+            {
+              "value": "69분",
+              "label": "서류 904개·3,389쪽 판독"
+            },
+            {
+              "value": "26/28",
+              "label": "직원 질문 검색 정답"
+            }
+          ],
+          "media": [
+            {
+              "src": "assets/dental/p1-portal-search.webp",
+              "width": 1256,
+              "height": 1221,
+              "alt": "사내 포털에서 질문하면 근거와 함께 답하는 검색 화면",
+              "caption": "사내 검색 '물어보기' · 1편 p.10"
+            }
+          ]
         },
         {
-          "heading": "다음 소개 후보 · Herdr 스킬",
-          "body": "조사는 조사 창에, 실행은 실행 창에.\nAI에게 역할·범위·결과를 나눠 맡기는 흐름을 시연해보려 합니다."
+          "heading": "매일 올라오는 경영 리포트",
+          "body": "일간·주간·월간 리포트가 자동으로 올라옵니다.\n숫자는 프로그램이 계산하고, AI는 해석만 합니다. 추정은 [추정]으로 표시.",
+          "media": [
+            {
+              "src": "assets/dental/p1-report-list.webp",
+              "width": 1280,
+              "height": 1167,
+              "alt": "일간·주간·월간 경영 리포트 PDF 목록",
+              "caption": "자동으로 쌓이는 경영 리포트 · 1편 p.12"
+            },
+            {
+              "src": "assets/dental/p1-briefing.webp",
+              "width": 496,
+              "height": 280,
+              "alt": "오늘의 일정 브리핑을 읽어 주는 사내 메신저 알림",
+              "caption": "아침 일정 브리핑 · 1편 p.12"
+            }
+          ]
+        },
+        {
+          "heading": "카톡 대신 사내 메신저와 원내 방송",
+          "body": "직원 대화는 병원 안 서버의 메신저로. 퇴근하면 끝.\n진료실 호출과 정시 안내는 천장 스피커에서 AI 목소리로 나옵니다.",
+          "media": [
+            {
+              "src": "assets/dental/p1-messenger.webp",
+              "width": 667,
+              "height": 897,
+              "alt": "진료실 호출과 직원 대화를 주고받는 사내 메신저",
+              "caption": "사내 메신저 · 1편 p.13"
+            },
+            {
+              "src": "assets/dental/p1-daily-word.webp",
+              "width": 1080,
+              "height": 1080,
+              "alt": "오전 9시 정시 안내를 보여 주는 원내 방송 화면",
+              "caption": "원내 방송 '오늘의 한마디' · 1편 p.14"
+            }
+          ]
+        },
+        {
+          "heading": "종이 없는 동의서",
+          "body": "직원 설명 → 직원 서명 → 환자 서명 → PDF로 차트에 자동 저장.\n설명하며 그린 그림까지 같이 남습니다.",
+          "media": [
+            {
+              "src": "assets/dental/p1-consent-tablet.webp",
+              "width": 795,
+              "height": 1057,
+              "alt": "태블릿 전자 동의서에 펜으로 서명하는 모습",
+              "caption": "태블릿 전자 동의서 · 1편 p.15"
+            },
+            {
+              "src": "assets/dental/p1-consent-drawing.webp",
+              "width": 797,
+              "height": 1055,
+              "alt": "동의서 위에 펜으로 그림을 그리며 설명한 화면",
+              "caption": "그림까지 남는 설명 · 1편 p.16"
+            }
+          ]
+        },
+        {
+          "heading": "1편에서 남는 것",
+          "body": "",
+          "points": [
+            "AI는 사람을 대체하기보다, 사람이 싫어하던 일을 가져간다",
+            "판단은 사람이 한다. AI는 읽고 정리하고 제안까지",
+            "환자 정보는 병원 안에서",
+            "비전공자도 된다. 다만 '무엇을 시킬지'는 내가 알아야 한다"
+          ],
+          "media": [
+            {
+              "src": "assets/dental/p1-treatment-room.webp",
+              "width": 1280,
+              "height": 959,
+              "alt": "천장 TV와 모니터가 있는 실제 진료실",
+              "caption": "겉보기엔 평범한 진료실 · 1편 p.16"
+            }
+          ]
+        },
+        {
+          "kind": "chapter",
+          "part": "2편",
+          "heading": "이것이 치과AX다 · 희망편, 파멸편",
+          "body": "잘된 것과 망한 것, 그리고 숫자로 정산.",
+          "date": "2026-10-16",
+          "url": "https://arca.live/b/aihomelab/186115260",
+          "media": [
+            {
+              "src": "assets/dental/p2-poster.webp",
+              "width": 999,
+              "height": 1574,
+              "alt": "'이것이 치과AX다' 희망편과 파멸편 패러디 포스터",
+              "caption": "희망편·파멸편 포스터 · 2편 p.1"
+            }
+          ]
+        },
+        {
+          "heading": "시작은 AI에게 물어본 것",
+          "body": "'GPU 하나면 된다, 구독료 0원'이라던 AI 답을 믿고 시작 → 지금은 DGX 12대.\n계획서대로 된 건 거의 없었지만, 맨 위 한 줄은 그대로입니다: “진료는 사람이, 기록은 AI가.”",
+          "media": [
+            {
+              "src": "assets/dental/p2-claude-plan.webp",
+              "width": 1080,
+              "height": 2340,
+              "alt": "로컬 LLM이 최고의 해결책이라고 답한 초기 AI 대화",
+              "caption": "초기 AI 대화 · 2편 p.8"
+            },
+            {
+              "src": "assets/dental/p2-chatgpt-plan.webp",
+              "width": 1280,
+              "height": 2771,
+              "alt": "ChatGPT가 써 준 치과 로컬 LLM 활용 시나리오",
+              "caption": "AI가 써 준 첫 계획서 · 2편 p.9"
+            }
+          ]
+        },
+        {
+          "heading": "숫자로 바뀐 것",
+          "body": "매출 증가는 병원을 키운 효과이지 AI 덕이 아닙니다.\nAI 덕은 '병원이 커져도 안 무너지게 버틴 것'.",
+          "stats": [
+            {
+              "value": "2배",
+              "label": "직원 수 그대로, 환자 수"
+            },
+            {
+              "value": "½ → ¾",
+              "label": "전화 받는 비율"
+            },
+            {
+              "value": "160 → 60",
+              "label": "못 받은 전화 (월, 건대)"
+            },
+            {
+              "value": "1,000+",
+              "label": "보험 조회 자동 처리 (한 달 반)"
+            }
+          ]
+        },
+        {
+          "heading": "도구는 결국 사람 따라 간다",
+          "body": "잘 쓰는 직원은 혼자 2–3인분, 아니면 점심 메뉴 추천.\nAI가 일을 가져가도 담당 직원 보너스는 그대로 유지했습니다.",
+          "media": [
+            {
+              "src": "assets/dental/p2-lunch-roulette.webp",
+              "width": 901,
+              "height": 857,
+              "alt": "사내 포털 휴게실의 점심 메뉴 룰렛",
+              "caption": "포털 휴게실 점메추 룰렛 · 2편 p.19"
+            },
+            {
+              "src": "assets/dental/p2-training.webp",
+              "width": 1280,
+              "height": 1139,
+              "alt": "과목별 단원으로 정리한 직원 교육 자료 페이지",
+              "caption": "AI와 같이 만든 교육 자료 · 2편 p.20"
+            }
+          ]
+        },
+        {
+          "heading": "파멸편: 과투자와 부작용",
+          "body": "잘된 것만 쓰면 주작 소리를 들으니, 망한 것도 그대로 공개합니다.",
+          "points": [
+            "12대는 과했다 — 실제 일하는 건 8대",
+            "노쇼 8% → 14%: 안 나간 예약 문자 1,000건+ 발견",
+            "어르신은 AI 전화를 '냉정한 직원'으로 오해",
+            "엑스레이 AI 판독은 포기 — 당분간 사람 일",
+            "태블릿과 종이가 같이 도는 반쪽 DX"
+          ],
+          "media": [
+            {
+              "src": "assets/dental/p2-xray-server.webp",
+              "width": 1280,
+              "height": 1170,
+              "alt": "엑스레이 사진을 받아 판독하려던 DICOM 서버 화면",
+              "caption": "포기한 엑스레이 AI 판독 · 2편 p.18"
+            }
+          ]
+        },
+        {
+          "heading": "보안과 재난 대비",
+          "body": "밖에서 들어오는 길은 최소로. 2단계 인증, 백업 2–3중, 손님 와이파이 분리.\n서버가 죽었을 때 뭐부터 할지 문서로 미리 써 둡니다.",
+          "media": [
+            {
+              "src": "assets/dental/p2-disaster-plan.webp",
+              "width": 932,
+              "height": 562,
+              "alt": "장애 복구 절차 문서가 담긴 재난대비 Plan 폴더",
+              "caption": "재난대비 Plan 폴더 · 2편 p.27"
+            }
+          ]
+        },
+        {
+          "kind": "chapter",
+          "part": "3편",
+          "heading": "다 보여 드림, 베껴 가셈",
+          "body": "기능과 화면은 전부 공개.\n서버 주소·설정·내부 구조는 환자 정보를 위해 비공개.",
+          "date": "2026-10-20",
+          "url": "https://arca.live/b/aihomelab/186465322",
+          "media": [
+            {
+              "src": "assets/dental/p3-wife-chat.webp",
+              "width": 1147,
+              "height": 1062,
+              "alt": "기사 링크와 함께 온 아내의 카톡",
+              "caption": "결국 와이프한테 걸림 · 3편 p.1"
+            }
+          ]
+        },
+        {
+          "heading": "DX 없이 AX 없음",
+          "body": "예전에 3D 프린터로 임플란트 수술 가이드를 직접 만들던 경험이 먼저였습니다.\n디지털이 이미 일상이었기에 그 위에 AI를 얹을 수 있었습니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-slicer.webp",
+              "width": 1280,
+              "height": 960,
+              "alt": "슬라이서 프로그램에서 출력물 지지대를 세운 화면",
+              "caption": "출력 전 지지대 세우기 · 3편 p.8"
+            },
+            {
+              "src": "assets/dental/p3-surgical-guide.webp",
+              "width": 1280,
+              "height": 1280,
+              "alt": "직접 출력한 임플란트 수술 가이드",
+              "caption": "직접 만든 수술 가이드 · 3편 p.9"
+            }
+          ]
+        },
+        {
+          "heading": "병원 안에서만 열리는 첫 화면",
+          "body": "사내 포털 · 채팅 · 상담 포털 · 동의서 · 원장 터미널.\n여기서 모든 업무가 갈라집니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-home.webp",
+              "width": 1267,
+              "height": 1121,
+              "alt": "사내 포털, 채팅, 상담 포털, 동의서, 원장 터미널로 이어지는 첫 화면",
+              "caption": "사내 첫 화면 · 3편 p.11"
+            }
+          ]
+        },
+        {
+          "heading": "버튼 하나로 호출, 답장은 자동 확정",
+          "body": "진료실마다 '다음 환자 / 의사 호출 / 프런트 / 응급' 버튼.\n환자가 예약 문자에 '1'이나 'YES'로 답하면 차트에 자동 확정됩니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-messenger-call.webp",
+              "width": 727,
+              "height": 987,
+              "alt": "진료실 호출 버튼과 직원 대화가 있는 메신저",
+              "caption": "진료실 호출 메신저 · 3편 p.12"
+            },
+            {
+              "src": "assets/dental/p3-crowd-alert.webp",
+              "width": 497,
+              "height": 212,
+              "alt": "대기실 혼잡을 알리는 업무 알림",
+              "caption": "대기실 혼잡 알림 · 3편 p.12"
+            },
+            {
+              "src": "assets/dental/p3-sms-confirm.webp",
+              "width": 611,
+              "height": 445,
+              "alt": "문자 회신으로 예약이 자동 확정됐다는 알림",
+              "caption": "문자 회신 자동 확정 · 3편 p.13"
+            }
+          ]
+        },
+        {
+          "heading": "상담 포털: 녹음하면 요약",
+          "body": "사진·엑스레이·3D 스캔을 한 화면에서 보며 상담합니다.\n녹음하면 병원 안 AI가 받아쓰고, 환자 요청과 치료 계획을 요약합니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-consult-3d.webp",
+              "width": 1280,
+              "height": 865,
+              "alt": "3D 치아 스캔과 AI 상담 요약을 함께 보는 상담 포털",
+              "caption": "상담 포털 3D 스캔과 AI 요약 · 3편 p.14"
+            }
+          ]
+        },
+        {
+          "heading": "진료실 음성 차팅 · 고양이 봇",
+          "body": "선생님은 말만 하고, 받아 적기는 AI가. 끝나면 한국어·영어 요약.\n다만 아이 울음·석션 소음, 없는 말을 지어내는 문제는 아직 숙제입니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-cat-bot.webp",
+              "width": 824,
+              "height": 1188,
+              "alt": "마스크 쓴 고양이 마스코트의 진료실 음성 기록 프로그램",
+              "caption": "진료실 고양이 AI봇 · 3편 p.16"
+            }
+          ]
+        },
+        {
+          "heading": "AI가 초안, 사람이 서명",
+          "body": "AI가 추측해서 쓴 부분은 노란 'Assumptions' 칸에 따로 적게 했습니다.\n'검토 확인'을 체크해야만 저장됩니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-charting-assistant.webp",
+              "width": 1280,
+              "height": 916,
+              "alt": "진료 노트 초안과 노란 Assumptions 목록, 검토 확인 체크박스가 있는 차팅 도우미",
+              "caption": "차팅 도우미 · 3편 p.18"
+            }
+          ]
+        },
+        {
+          "heading": "환자 안 놓치기",
+          "body": "치료 계획만 세우고 안 온 환자, 리콜 지난 환자를 매일 자동으로 뽑습니다.\n누구에게 먼저 연락할지 점수까지 매깁니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-followup.webp",
+              "width": 1233,
+              "height": 1042,
+              "alt": "우선순위 점수와 함께 정리된 후속 관리 환자 목록",
+              "caption": "후속 관리 · 3편 p.19"
+            }
+          ]
+        },
+        {
+          "heading": "빈자리는 5분 안에 채운다",
+          "body": "취소·노쇼가 나면 빈자리를 바로 찾고,\n그 시간에 올 수 있는 대기 환자를 프런트에 알립니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-waitlist.webp",
+              "width": 1280,
+              "height": 1004,
+              "alt": "빈자리와 맞는 대기 환자를 찾아 주는 화면",
+              "caption": "대기자 명단 빈자리 · 3편 p.20"
+            }
+          ]
+        },
+        {
+          "heading": "재무 화면",
+          "body": "일일 수납, 은행·카드 대조, 매출 분석, 손익을 한 곳에서.\n못 맞춘 거래만 사람이 봅니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-revenue.webp",
+              "width": 1280,
+              "height": 1055,
+              "alt": "진료 생산 대비 수금 그래프가 있는 매출 분석 화면",
+              "caption": "매출 분석 · 3편 p.22"
+            }
+          ]
+        },
+        {
+          "heading": "원장의 아침 화면",
+          "body": "왼쪽은 AI가 새벽부터 끝낸 일, 오른쪽은 사람이 볼 일.\n초록은 끝남, 노랑은 사람에게 넘김, 빨강은 실패.",
+          "media": [
+            {
+              "src": "assets/dental/p3-morning-board.webp",
+              "width": 1280,
+              "height": 1036,
+              "alt": "AI가 자동으로 한 일과 사람이 볼 일을 나눈 원장 아침 화면",
+              "caption": "원장 아침 화면 · 3편 p.26"
+            }
+          ]
+        },
+        {
+          "heading": "역할별 AI 직원들",
+          "body": "재무·운영·수집 담당 AI가 서로 일을 넘깁니다.\n사람 승인이 필요한 일은 멈춰서 기다립니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-agent-activity.webp",
+              "width": 1280,
+              "height": 1042,
+              "alt": "역할별 AI 에이전트의 인계, 승인 대기, 실행 기록",
+              "caption": "AI 에이전트 활동 · 3편 p.26"
+            }
+          ]
+        },
+        {
+          "heading": "전화: 그림으로 그리는 교환기",
+          "body": "교환기 설정은 화면에서 흐름을 선으로 이으면 끝.\nAI는 진료 시간 외나 아무도 못 받은 전화만 받습니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-pbx-flow.webp",
+              "width": 805,
+              "height": 575,
+              "alt": "노드를 선으로 이어 통화 흐름을 그리는 교환기 설정 화면",
+              "caption": "교환기 흐름도 · 3편 p.28"
+            }
+          ],
+          "stats": [
+            {
+              "value": "13%",
+              "label": "최근 30일 중 AI가 받은 전화"
+            }
+          ]
+        },
+        {
+          "heading": "전화 받는 AI, 시험해서 고른다",
+          "body": "가상 통화 100번 이상으로 모델을 비교했습니다.\n정확도는 큰 모델 둘이 비슷하고, 차이는 속도였습니다.",
+          "media": [
+            {
+              "src": "assets/dental/p3-model-compare.webp",
+              "width": 996,
+              "height": 947,
+              "alt": "DeepSeek, GLM, Qwen, Gemma 음성봇 비교표",
+              "caption": "음성봇 모델 비교표 · 3편 p.28"
+            }
+          ],
+          "stats": [
+            {
+              "value": "0.3초",
+              "label": "첫 대답 (DeepSeek)"
+            },
+            {
+              "value": "0번",
+              "label": "없는 예약을 '됐어요'라고 한 횟수"
+            }
+          ]
+        },
+        {
+          "heading": "현실 체크: AI보다 먼저 할 네 가지",
+          "body": "작은 치과는 IT 담당자가 없습니다. 화려한 AI보다 이것부터.",
+          "points": [
+            "UPS 배터리는 소모품 — 3–5년마다 교체",
+            "UPS 자가 점검 알림 켜 두기",
+            "백업은 '복원'까지 한 번 해 보기",
+            "급할 때 전화할 사람 한 명, 번호는 데스크에"
+          ]
+        },
+        {
+          "heading": "우리에게 주는 한 줄",
+          "body": "큰 회사엔 IT 팀이 있지만, 작은 가게는 사장이 곧 IT 팀입니다.\n반복 업무 하나부터 이 순서로 시작해 봅니다.",
+          "steps": [
+            "입력",
+            "AI 처리",
+            "사람 확인",
+            "다음 행동"
+          ]
+        },
+        {
+          "kind": "chapter",
+          "part": "다음 소개",
+          "heading": "Herdr",
+          "body": "코딩 에이전트 여러 개를 한 터미널에서 돌리고 관리하는 도구.",
+          "date": "2026-10-21",
+          "url": "https://herdr.dev/",
+          "media": [
+            {
+              "src": "assets/herdr/herdr-card.webp",
+              "width": 1200,
+              "height": 630,
+              "alt": "Herdr 공식 소개 이미지: 왼쪽은 작업 목록, 가운데와 오른쪽 창에서 코딩 에이전트가 동시에 실행 중",
+              "caption": "herdr.dev 공식 소개 이미지"
+            }
+          ]
+        },
+        {
+          "heading": "한 화면에서 에이전트 여러 개",
+          "body": "Claude Code, Codex 같은 에이전트를 창을 나눠 나란히 돌립니다.\n어떤 에이전트가 멈춰서 내 답을 기다리는지 바로 보입니다.",
+          "points": [
+            "상태 표시: 작업 중 · 막힘 · 대기",
+            "창을 닫아도 작업은 계속 (detach → 다시 herdr)",
+            "지금 쓰는 터미널 그대로, Rust 단일 실행 파일",
+            "키보드(tmux식 단축키)와 마우스 모두 지원"
+          ],
+          "media": [
+            {
+              "src": "assets/herdr/herdr-workspace.webp",
+              "width": 1600,
+              "height": 900,
+              "alt": "Herdr 화면: 왼쪽 사이드바에 에이전트 상태(idle, working), 오른쪽에 두 개의 에이전트 창",
+              "caption": "Herdr 실행 화면 · 공식 저장소 스크린샷"
+            }
+          ]
+        },
+        {
+          "heading": "에이전트 스킬: AI가 창을 나눠 쓴다",
+          "body": "스킬을 넣으면 에이전트가 직접 창을 나누고, 다른 에이전트에게 일을 맡기고, 끝날 때까지 기다립니다.\n시연 아이디어: 조사는 조사 창에, 실행은 실행 창에.",
+          "code": [
+            "curl -fsSL https://herdr.dev/install.sh | sh",
+            "npx skills add herdrdev/herdr --skill herdr -g",
+            "herdr"
+          ]
         }
       ],
       "sources": [
         {
-          "title": "동네 치과의 AX전환기 · 1편",
+          "title": "1편 · 동네 치과의 AX 전환기",
           "url": "https://arca.live/b/aihomelab/185810092"
         },
         {
-          "title": "동네 치과 AX전환기 · 2편 희망편·파멸편",
+          "title": "2편 · 이것이 치과AX다 (희망편, 파멸편)",
           "url": "https://arca.live/b/aihomelab/186115260"
         },
         {
-          "title": "동네 치과 AX전환기 · 3편 기능·화면·현실 체크",
+          "title": "3편 · 다 보여 드림, 베껴 가셈",
           "url": "https://arca.live/b/aihomelab/186465322"
         },
         {
-          "title": "따라 해볼 별도 공개 예제 · DentalAX",
-          "url": "https://github.com/GangJaeYu/DentalAX"
+          "title": "Herdr 공식 홈페이지",
+          "url": "https://herdr.dev/"
         },
         {
-          "title": "Herdr · 공식 Agent Skill 안내",
+          "title": "Herdr 에이전트 스킬 안내",
           "url": "https://herdr.dev/docs/agent-skill/"
+        },
+        {
+          "title": "Herdr GitHub 저장소",
+          "url": "https://github.com/herdrdev/herdr"
         }
       ],
-      "sourceNote": "작성자가 공개한 운영 경험을 요약했습니다. 수치는 작성자 보고이며 독립 검증한 성과가 아닙니다. DentalAX는 이 원내 운영 시스템과 구분하는 공개 예제입니다."
+      "sourceNote": "화면은 원문 1–3편에 실린 캡처를 그대로 사용했습니다. 검은 가림은 원문 작성자가 직접 한 것입니다. 수치는 작성자 보고이며 독립 검증한 값이 아닙니다. Herdr 이미지는 공식 저장소(Apache-2.0)의 스크린샷입니다."
     },
     {
       "id": "daily-2026-10-21",

@@ -14,15 +14,26 @@ for (const post of data.posts) {
   assert.ok(!Number.isNaN(date.valueOf()) && date.toISOString().slice(0,10) === post.date, `잘못된 날짜: ${post.id}`);
   assert.ok(Array.isArray(post.tags) && post.tags.every(tag=>typeof tag === "string" && tag.trim()), `${post.id}: tags 오류`);
   assert.ok(Array.isArray(post.sections) && post.sections.length, `${post.id}: sections 필요`);
-  for (const section of post.sections) for (const key of ["heading", "body"]) assert.ok(typeof section[key] === "string" && section[key].trim(), `${post.id}: ${key} 필요`);
   for (const section of post.sections) {
-    if (!section.media) continue;
-    const media = section.media;
-    assert.match(media.src, /^assets\/dental\/[a-z0-9-]+\.(?:webp|png|jpg)$/);
-    for (const key of ["alt", "caption"]) assert.ok(typeof media[key] === "string" && media[key].trim(), `${post.id}: media ${key} 필요`);
-    for (const key of ["width", "height"]) assert.ok(Number.isInteger(media[key]) && media[key] > 0, `${post.id}: media ${key} 필요`);
-    await readFile(new URL(`../${media.src}`, import.meta.url));
-    if (media.sourceUrl) assert.equal(new URL(media.sourceUrl).protocol, "https:");
+    assert.ok(typeof section.heading === "string" && section.heading.trim(), `${post.id}: heading 필요`);
+    assert.equal(typeof section.body, "string", `${post.id}: body 필요`);
+    if (section.kind !== undefined) {
+      assert.equal(section.kind, "chapter", `${post.id}: kind는 chapter만 허용`);
+      assert.ok(typeof section.part === "string" && section.part.trim(), `${post.id}: chapter part 필요`);
+      assert.equal(new URL(section.url).protocol, "https:", `${post.id}: chapter url은 HTTPS`);
+    } else if (!section.media && !section.stats && !section.points && !section.steps && !section.code) {
+      assert.ok(section.body.trim(), `${post.id}: 내용 없는 장면: ${section.heading}`);
+    }
+    for (const key of ["points", "steps", "code"]) if (section[key] !== undefined) assert.ok(Array.isArray(section[key]) && section[key].every(item=>typeof item === "string" && item.trim()), `${post.id}: ${key} 오류`);
+    if (section.stats !== undefined) assert.ok(Array.isArray(section.stats) && section.stats.every(stat=>stat.value?.trim() && stat.label?.trim()), `${post.id}: stats 오류`);
+    if (section.media === undefined) continue;
+    assert.ok(Array.isArray(section.media) && section.media.length, `${post.id}: media는 배열이어야 합니다.`);
+    for (const media of section.media) {
+      assert.match(media.src, /^assets\/(?:dental|herdr)\/[a-z0-9-]+\.(?:webp|png|jpg)$/);
+      for (const key of ["alt", "caption"]) assert.ok(typeof media[key] === "string" && media[key].trim(), `${post.id}: media ${key} 필요`);
+      for (const key of ["width", "height"]) assert.ok(Number.isInteger(media[key]) && media[key] > 0, `${post.id}: media ${key} 필요`);
+      await readFile(new URL(`../${media.src}`, import.meta.url));
+    }
   }
   assert.ok(Array.isArray(post.sources), `${post.id}: sources는 배열이어야 합니다.`);
   if (post.type === "daily") assert.ok(post.sources.length, `${post.id}: 데일리 원문 출처 필요`);

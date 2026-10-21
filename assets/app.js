@@ -11,13 +11,31 @@ let dailyReports = [];
 const escape = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
 const safeUrl = value => { try { const url = new URL(value); return url.protocol === "https:" ? escape(url.href) : "#"; } catch { return "#"; } };
 let monthlyMotionCleanup = () => {};
+function renderMedia(section, sectionIndex) {
+  const list = section.media || [];
+  if (!list.length) return "";
+  return `<div class="scene-gallery count-${Math.min(list.length,3)}">${list.map((media,mediaIndex)=>`<figure class="story-media"><a class="story-media-open" href="${escape(media.src)}" data-media="${sectionIndex}-${mediaIndex}" target="_blank" rel="noopener" aria-label="${escape(media.alt)} · 크게 보기"><img src="${escape(media.src)}" width="${media.width}" height="${media.height}" alt="${escape(media.alt)}" loading="${sectionIndex<2 ? "eager" : "lazy"}" decoding="async"><span class="story-zoom-hint" aria-hidden="true">크게 보기 ↗</span></a><figcaption>${escape(media.caption)}</figcaption></figure>`).join("")}</div>`;
+}
+function renderScene(section, index) {
+  const text = section.kind === "chapter"
+    ? `<p class="chapter-part">${escape(section.part)}</p><h2>${escape(section.heading)}</h2><p class="scene-body">${escape(section.body)}</p><p class="chapter-meta">${section.date ? `<time datetime="${escape(section.date)}">${escape(section.date.replaceAll("-","."))}</time>` : ""}<a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} 보기 ↗</a></p>`
+    : `<h2>${escape(section.heading)}</h2>${section.body ? `<p class="scene-body">${escape(section.body)}</p>` : ""}
+      ${section.stats ? `<ul class="scene-stats">${section.stats.map(stat=>`<li><strong>${escape(stat.value)}</strong><span>${escape(stat.label)}</span></li>`).join("")}</ul>` : ""}
+      ${section.points ? `<ul class="scene-points">${section.points.map(point=>`<li>${escape(point)}</li>`).join("")}</ul>` : ""}
+      ${section.steps ? `<ol class="scene-steps">${section.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol>` : ""}
+      ${section.code ? `<pre class="scene-code">${section.code.map(line=>`<span>$ </span>${escape(line)}`).join("\n")}</pre>` : ""}`;
+  return `<section class="story-scene${section.kind === "chapter" ? " story-chapter" : ""}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
+}
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
-  main.innerHTML = `<div class="monthly-story"><header class="story-cover"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · 월간 AI 라운지</p><h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p><p class="story-scroll">아래로 스크롤해 이야기를 이어보세요 <span aria-hidden="true">↓</span></p></header>
+  const chapters = issue.sections.map((section,index)=>({ section, index })).filter(item=>item.section.kind === "chapter");
+  main.innerHTML = `<div class="monthly-story"><section class="story-scene story-cover" data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · 월간 AI 라운지</p><h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p>
+  ${chapters.length ? `<ol class="story-chapters">${chapters.map(({section,index})=>`<li><span class="chapter-part">${escape(section.part)}</span><strong>${escape(section.heading)}</strong><span class="chapter-actions"><button type="button" class="story-jump" data-jump="${index}">바로 가기</button><a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} ↗</a></span></li>`).join("")}</ol>` : ""}
+  <p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p></section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
-  <div class="story-scenes">${issue.sections.map((section,index)=>`<section class="story-panel${section.media ? ` has-media${index%2 ? " media-left" : ""}${section.media.width<800 ? " has-detail" : ""}` : ""}${index===issue.sections.length-1 ? " story-candidate" : ""}" data-reveal><div class="story-panel-content"><h2>${escape(section.heading)}</h2><p>${escape(section.body)}</p></div>${section.media ? `<figure class="story-media${section.media.width<800 ? " is-detail" : ""}"><a class="story-media-open" href="${escape(section.media.src)}" data-media-index="${index}" target="_blank" rel="noopener" aria-label="${escape(section.media.alt)} · 크게 보기"><img src="${escape(section.media.src)}" width="${section.media.width}" height="${section.media.height}" alt="${escape(section.media.alt)}" loading="lazy" decoding="async"><span class="story-zoom-hint">크게 보기 ↗</span></a><figcaption>${escape(section.media.caption)}${section.media.sourceUrl ? ` · <a href="${safeUrl(section.media.sourceUrl)}">원문</a>` : ""}</figcaption></figure>` : ""}</section>`).join("")}</div>
-  <section class="story-sources"><h2>이야기의 출처</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}">${escape(source.title)} ↗</a></li>`).join("")}</ul></section>
-  <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""><p class="story-viewer-caption"></p></dialog>
+  ${issue.sections.map(renderScene).join("")}
+  <section class="story-sources"><h2>출처</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></section>
+  <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""></dialog>
   ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 월간 소개</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="#post/${encodeURIComponent(item.id)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
   const disposeMotion = window.MonthlyMotion?.mount(main) || (() => {});
   const disposeMedia = window.MonthlyMedia?.mount(main, issue.sections) || (() => {});
