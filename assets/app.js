@@ -1,5 +1,11 @@
 "use strict";
 const main = document.querySelector("main");
+// Keep the native skip link within the active reading/presentation route.
+document.querySelector(".skip")?.addEventListener("click", event => {
+  event.preventDefault();
+  main.focus();
+  main.scrollIntoView({ behavior: "auto", block: "start" });
+});
 let issues = [];
 let dailyReports = [];
 const escape = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
