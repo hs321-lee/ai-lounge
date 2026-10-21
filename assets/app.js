@@ -4,14 +4,18 @@ let issues = [];
 let dailyReports = [];
 const escape = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
 const safeUrl = value => { try { const url = new URL(value); return url.protocol === "https:" ? escape(url.href) : "#"; } catch { return "#"; } };
+let monthlyMotionCleanup = () => {};
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
-  main.innerHTML = `<section class="monthly-cover"><p class="eyebrow">MONTHLY AI LOUNGE · ${escape(issue.date.slice(0,7).replace("-","."))}</p><div class="monthly-intro"><h1>나는 이렇게 쓴다.</h1><p>한 달에 한 번,<br>소개하고 싶은 AI 이야기와 작은 사용 팁.</p></div><div class="issue-caption"><h2>${escape(issue.title)}</h2><span>${escape(issue.author)}</span></div><p class="monthly-summary">${escape(issue.summary)}</p></section>
-  <section class="monthly-agenda" aria-label="이번 달 소개 주제">${issue.sections.map((section,index)=>`<article class="topic"><div class="topic-number" aria-hidden="true">${String(index+1).padStart(2,"0")}</div><div><h2>${escape(section.heading)}</h2><p>${escape(section.body)}</p></div></article>`).join("")}</section>
-  ${issue.sources.length ? `<section class="monthly-sources"><h2>함께 볼 자료</h2><ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}">${escape(source.title)} ↗</a></li>`).join("")}</ul></section>` : ""}
-  ${issues.length > 1 ? `<section class="monthly-archive"><h2>지난 월간 소개</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="#post/${encodeURIComponent(item.id)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}`;
+  main.innerHTML = `<div class="monthly-story"><header class="story-cover"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · 월간 AI 라운지</p><h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p><p class="story-scroll">아래로 스크롤해 이야기를 이어보세요 <span aria-hidden="true">↓</span></p></header>
+  <div class="story-progress" aria-hidden="true"><span></span></div>
+  <div class="story-scenes">${issue.sections.map((section,index)=>`<section class="story-panel${index===issue.sections.length-1 ? " story-candidate" : ""}" data-reveal><div class="story-panel-content"><h2>${escape(section.heading)}</h2><p>${escape(section.body)}</p></div></section>`).join("")}</div>
+  <section class="story-sources"><h2>이야기의 출처</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}">${escape(source.title)} ↗</a></li>`).join("")}</ul></section>
+  ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 월간 소개</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="#post/${encodeURIComponent(item.id)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
+  monthlyMotionCleanup = window.MonthlyMotion?.mount(main) || (() => {});
 }
 function setView(monthly) {
+  document.body.classList.toggle("monthly-view", monthly);
   const target = monthly ? "monthly" : "home";
   document.querySelector(".brand").href = `#${target}`;
   document.querySelector("nav").innerHTML = `<a href="#${target}" aria-current="page">${monthly ? "월간 소개" : "데일리 읽기"}</a>`;
@@ -29,6 +33,8 @@ function renderDaily(report) {
   document.querySelector("#report-date")?.addEventListener("change",event=>{location.hash=`post/${encodeURIComponent(event.target.value)}`;});
 }
 function route() {
+  monthlyMotionCleanup();
+  monthlyMotionCleanup = () => {};
   const hash = location.hash.slice(1) || "home";
   let selected;
   if (hash.startsWith("post/")) {
@@ -42,7 +48,7 @@ function route() {
     else main.innerHTML='<section class="page-heading"><p class="eyebrow">MONTHLY AI LOUNGE</p><h1>첫 월간 소개를 준비하고 있어요.</h1><p class="lede">함께 나누고 싶은 사용 경험과 작은 팁을 골라 곧 소개하겠습니다.</p></section>';
   } else renderDaily(selected||dailyReports[0]);
 }
-fetch("data/posts.json").then(response=>{if(!response.ok) throw new Error("Content unavailable");return response.json();}).then(data=>{
+fetch("data/posts.json", { cache: "no-cache" }).then(response=>{if(!response.ok) throw new Error("Content unavailable");return response.json();}).then(data=>{
   // Daily reading and monthly presentations are independent views, sharing one content source.
   issues = data.posts.filter(post=>post.type==="monthly").sort((a,b)=>b.date.localeCompare(a.date));
   dailyReports = data.posts.filter(post=>post.type==="daily").sort((a,b)=>b.date.localeCompare(a.date));

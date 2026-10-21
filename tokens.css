@@ -1,0 +1,19 @@
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4 */
+:root {
+  --story-paper: oklch(97% 0.009 90);
+  --story-ink: oklch(27% 0.025 155);
+  --story-muted: oklch(45% 0.025 155);
+  --story-accent: oklch(50% 0.16 38);
+  --story-rule: oklch(85% 0.015 110);
+  --story-display: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --story-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --story-display-size: clamp(2.75rem, 7.6vw, 6.5rem);
+  --story-heading-size: clamp(2.1rem, 5.8vw, 4.8rem);
+  --story-body-size: clamp(1.1rem, 2.15vw, 1.5rem);
+  --story-space-sm: 1rem;
+  --story-space-md: 1.5rem;
+  --story-space-lg: 2rem;
+  --story-space-xl: 4rem;
+  --story-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --story-duration: 800ms;
+}
