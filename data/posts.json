@@ -2,6 +2,47 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-10-21",
+      "type": "daily",
+      "date": "2026-10-21",
+      "title": "10월 21일 AI 브리핑 — 모델 정책과 에이전트 권한 관리",
+      "summary": "기존 맞춤 아침 브리핑에서 AI 소식만 골랐습니다. GitHub의 모델 정책 API와 Microsoft의 에이전트 권한 제어 발표를 공식 원문으로 다시 확인했습니다.",
+      "author": "AI 라운지 · 아침 브리핑 발췌",
+      "tags": [
+        "AI 동향",
+        "GitHub Copilot",
+        "에이전트"
+      ],
+      "sections": [
+        {
+          "heading": "GitHub: Copilot 모델 정책을 API로 관리",
+          "body": "발표일: 2026-10-19. 기업·기업 팀·에이전트 앱·조직 수준의 Copilot 모델 정책을 조회·변경하는 GET/PATCH REST API가 정식 제공됐습니다.\n활용 제안: 관리 권한이 있는 환경이라면 모델 정책을 먼저 조회해 기록하고, 공용 도구에서 사용할 모델이 허용돼 있는지 확인해보세요. 이는 원문을 바탕으로 한 적용 아이디어이며 직접 사용한 후기는 아닙니다."
+        },
+        {
+          "heading": "GitHub: 종료 모델을 사용하는 설정 점검",
+          "body": "발표일: 2026-10-19. GitHub는 대부분의 Copilot 환경에서 Gemini 3.7 Flash, GPT-5.5, GPT-5.4, GPT-5.4 mini, GPT-5 mini, Grok 4.5의 지원 종료를 공지했습니다.\n활용 제안: 모델 이름을 고정한 설정과 워크플로를 검색해 지원 모델로 바꿔야 하는지 확인하세요. 대체 모델의 조직 정책 허용 여부도 함께 확인할 수 있습니다."
+        },
+        {
+          "heading": "Microsoft: 에이전트의 권한을 작업과 시간에 맞추기",
+          "body": "발표일: 2026-10-19. Microsoft는 Project Perception 확장과 함께 작업·시간 범위에 맞춘 권한, 위험 변화에 따른 동적 접근 제어를 소개했습니다. 지원하는 로컬 에이전트 탐지 유형은 60개로 확대됐으며 Claude Code, OpenAI Codex, GitHub Copilot이 포함됩니다.\n활용 제안: 공용 에이전트 목록에 소유자·목적·허용 도구·쓰기 범위·권한 만료·사람 승인 조건을 적어보세요. 제품 기능 도입 여부와 별개로 권한 현황을 점검하는 데 쓸 수 있는 제안입니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub · Copilot model policy API for enterprise, orgs, and teams (2026-10-19)",
+          "url": "https://github.blog/changelog/2026-10-19-copilot-model-policy-api-for-enterprise-orgs-and-teams/"
+        },
+        {
+          "title": "GitHub · GitHub Copilot models deprecated on October 19, 2026",
+          "url": "https://github.blog/changelog/2026-10-19-github-copilot-models-deprecated-on-october-19-2026/"
+        },
+        {
+          "title": "Microsoft · Agents are your newest insiders. Security must move at their speed. (2026-10-19)",
+          "url": "https://www.microsoft.com/en-us/security/blog/2026/10/19/agents-are-your-newest-insiders-security-must-move-at-their-speed/"
+        }
+      ]
+    },
+    {
       "id": "welcome",
       "type": "guide",
       "date": "2026-10-21",
@@ -15,7 +56,7 @@
       "sections": [
         {
           "heading": "매일 모으고, 매달 고릅니다",
-          "body": "데일리 리포트는 AI 도구와 활용의 변화를 출처와 함께 모으는 공간입니다. 그중 함께 소개할 만한 내용을 골라 월간 공유에 담습니다. 현재 자동 수집은 연결 전이며, 발행된 월간 공유와 데일리 리포트는 아직 없습니다."
+          "body": "데일리 리포트는 기존 아침 브리핑의 AI 관련 내용을 날짜와 원문 출처를 붙여 모으는 공간입니다. 그중 함께 소개할 만한 내용을 골라 월간 공유에 담습니다. 10월 21일 브리핑의 AI 소식으로 첫 데일리 기록을 시작했으며, 첫 월간 공유는 준비 중입니다."
         },
         {
           "heading": "‘나는 이렇게 쓴다’를 나눕니다",
