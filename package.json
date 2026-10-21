@@ -1,0 +1,1 @@
+{"name":"ai-lounge","private":true,"version":"0.1.0","scripts":{"check":"node --check assets/app.js && node scripts/validate.mjs"},"engines":{"node":">=20"}}

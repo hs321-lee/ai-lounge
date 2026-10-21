@@ -1,0 +1,27 @@
+{
+  "id": "daily-yyyy-mm-dd",
+  "type": "daily",
+  "date": "YYYY-MM-DD",
+  "title": "발행 제목을 입력하세요",
+  "summary": "무엇을 알아두거나 따라 해볼 수 있는지 한두 문장으로 적으세요.",
+  "author": "작성자 또는 시스템 이름",
+  "tags": [
+    "AI 활용"
+  ],
+  "sections": [
+    {
+      "heading": "오늘의 변화",
+      "body": "확인한 소식과 핵심 내용을 적으세요."
+    },
+    {
+      "heading": "써볼 지점",
+      "body": "적용 가능한 업무와 확인해야 할 제약을 적으세요."
+    }
+  ],
+  "sources": [
+    {
+      "title": "실제 원문 제목으로 바꾸세요",
+      "url": "https://example.com/replace-with-original-source"
+    }
+  ]
+}
