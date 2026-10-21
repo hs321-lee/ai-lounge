@@ -15,6 +15,15 @@ for (const post of data.posts) {
   assert.ok(Array.isArray(post.tags) && post.tags.every(tag=>typeof tag === "string" && tag.trim()), `${post.id}: tags 오류`);
   assert.ok(Array.isArray(post.sections) && post.sections.length, `${post.id}: sections 필요`);
   for (const section of post.sections) for (const key of ["heading", "body"]) assert.ok(typeof section[key] === "string" && section[key].trim(), `${post.id}: ${key} 필요`);
+  for (const section of post.sections) {
+    if (!section.media) continue;
+    const media = section.media;
+    assert.match(media.src, /^assets\/dental\/[a-z0-9-]+\.(?:webp|png|jpg)$/);
+    for (const key of ["alt", "caption"]) assert.ok(typeof media[key] === "string" && media[key].trim(), `${post.id}: media ${key} 필요`);
+    for (const key of ["width", "height"]) assert.ok(Number.isInteger(media[key]) && media[key] > 0, `${post.id}: media ${key} 필요`);
+    await readFile(new URL(`../${media.src}`, import.meta.url));
+    if (media.sourceUrl) assert.equal(new URL(media.sourceUrl).protocol, "https:");
+  }
   assert.ok(Array.isArray(post.sources), `${post.id}: sources는 배열이어야 합니다.`);
   if (post.type === "daily") assert.ok(post.sources.length, `${post.id}: 데일리 원문 출처 필요`);
   for (const source of post.sources) {

@@ -15,10 +15,13 @@ function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
   main.innerHTML = `<div class="monthly-story"><header class="story-cover"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · 월간 AI 라운지</p><h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p><p class="story-scroll">아래로 스크롤해 이야기를 이어보세요 <span aria-hidden="true">↓</span></p></header>
   <div class="story-progress" aria-hidden="true"><span></span></div>
-  <div class="story-scenes">${issue.sections.map((section,index)=>`<section class="story-panel${index===issue.sections.length-1 ? " story-candidate" : ""}" data-reveal><div class="story-panel-content"><h2>${escape(section.heading)}</h2><p>${escape(section.body)}</p></div></section>`).join("")}</div>
+  <div class="story-scenes">${issue.sections.map((section,index)=>`<section class="story-panel${section.media ? ` has-media${index%2 ? " media-left" : ""}${section.media.width<800 ? " has-detail" : ""}` : ""}${index===issue.sections.length-1 ? " story-candidate" : ""}" data-reveal><div class="story-panel-content"><h2>${escape(section.heading)}</h2><p>${escape(section.body)}</p></div>${section.media ? `<figure class="story-media${section.media.width<800 ? " is-detail" : ""}"><a class="story-media-open" href="${escape(section.media.src)}" data-media-index="${index}" target="_blank" rel="noopener" aria-label="${escape(section.media.alt)} · 크게 보기"><img src="${escape(section.media.src)}" width="${section.media.width}" height="${section.media.height}" alt="${escape(section.media.alt)}" loading="lazy" decoding="async"><span class="story-zoom-hint">크게 보기 ↗</span></a><figcaption>${escape(section.media.caption)}${section.media.sourceUrl ? ` · <a href="${safeUrl(section.media.sourceUrl)}">원문</a>` : ""}</figcaption></figure>` : ""}</section>`).join("")}</div>
   <section class="story-sources"><h2>이야기의 출처</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}">${escape(source.title)} ↗</a></li>`).join("")}</ul></section>
+  <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""><p class="story-viewer-caption"></p></dialog>
   ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 월간 소개</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="#post/${encodeURIComponent(item.id)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
-  monthlyMotionCleanup = window.MonthlyMotion?.mount(main) || (() => {});
+  const disposeMotion = window.MonthlyMotion?.mount(main) || (() => {});
+  const disposeMedia = window.MonthlyMedia?.mount(main, issue.sections) || (() => {});
+  monthlyMotionCleanup = () => { disposeMedia(); disposeMotion(); };
 }
 function setView(monthly) {
   document.body.classList.toggle("monthly-view", monthly);

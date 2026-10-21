@@ -16,15 +16,39 @@
       "sections": [
         {
           "heading": "시작은 “가장 귀찮은 일 하나”",
-          "body": "진료 대신 전화·보험서류·검색·보고서 같은 반복 업무부터 바꿨습니다."
+          "body": "진료 대신 전화·보험서류·검색·보고서 같은 반복 업무부터 바꿨습니다.",
+          "media": {
+            "src": "assets/dental/agent-activity.webp",
+            "width": 1265,
+            "height": 1040,
+            "alt": "분석·재무·운영 에이전트의 활동 수, 인계 승인 대기, 작업 성공과 실패 이력을 보여 주는 실제 UI",
+            "caption": "역할별 에이전트와 인계·승인 대기·실행 이력을 모은 화면 · 원문 3편 p.26",
+            "sourceUrl": "https://arca.live/b/aihomelab/186465322"
+          }
         },
         {
           "heading": "전화 한 통을, 다음 할 일까지",
-          "body": "통화 전사 → 요약·분류 → 후속 할 일. 사람이 다시 듣고 옮겨 적던 흐름을 연결했습니다."
+          "body": "통화 전사 → 요약·분류 → 후속 할 일. 사람이 다시 듣고 옮겨 적던 흐름을 연결했습니다.",
+          "media": {
+            "src": "assets/dental/call-review.webp",
+            "width": 1223,
+            "height": 785,
+            "alt": "통화 목적과 급함, 할 일, 예약 여부를 버튼으로 판정하고 저장하는 실제 원내 UI",
+            "caption": "통화 목적·할 일·예약 여부를 사람이 판정하는 화면 · 원문 1편 p.11",
+            "sourceUrl": "https://arca.live/b/aihomelab/185810092"
+          }
         },
         {
-          "heading": "전부 다시 보지 않고, 다른 것만 확인",
-          "body": "보험 대조 6,928줄 중 77%를 자동 확정하고, 나머지는 직원이 확인했다고 합니다."
+          "heading": "끝낸 일과, 사람이 볼 일",
+          "body": "자동 처리 기록은 왼쪽에, 직원이 확인할 예외와 후속 업무는 오른쪽에 모읍니다.",
+          "media": {
+            "src": "assets/dental/morning-workboard.webp",
+            "width": 1260,
+            "height": 776,
+            "alt": "왼쪽 자동 업무 완료 기록, 오른쪽 반려 청구·콜백 등 사람이 볼 일을 나눠 보여 주는 실제 원장 업무판",
+            "caption": "자동으로 끝낸 일과 사람이 확인할 일을 한 화면에 분리 · 원문 3편 p.26",
+            "sourceUrl": "https://arca.live/b/aihomelab/186465322"
+          }
         },
         {
           "heading": "도입 다음은, 운영 점검",
@@ -32,7 +56,15 @@
         },
         {
           "heading": "AI가 초안, 마지막 확인은 사람",
-          "body": "추측한 내용은 따로 표시하고, 검토 확인을 거쳐 저장하도록 만들었습니다."
+          "body": "추측한 내용은 따로 표시하고, 검토 확인을 거쳐 저장하도록 만들었습니다.",
+          "media": {
+            "src": "assets/dental/assumptions-review.webp",
+            "width": 515,
+            "height": 301,
+            "alt": "AI가 추측한 내용을 별도 목록으로 표시하고 검토 체크박스와 저장 버튼을 두는 실제 UI",
+            "caption": "노란 Assumptions 목록과 검토 확인 후 저장하는 절차 · 원문 3편 p.18",
+            "sourceUrl": "https://arca.live/b/aihomelab/186465322"
+          }
         },
         {
           "heading": "우리도 반복 업무 하나부터",
