@@ -8,14 +8,52 @@
   "tags": [
     "AI 활용"
   ],
+  "highlights": [
+    "핵심 변화와 오늘 볼 이유",
+    "주목할 저장소와 쓰임새",
+    "오늘 해볼 행동 한 가지"
+  ],
   "sections": [
     {
       "heading": "오늘의 변화",
-      "body": "확인한 소식과 핵심 내용을 적으세요."
+      "label": "도구 업데이트",
+      "date": "YYYY-MM-DD",
+      "body": "확인된 사실을 2~3문장으로 적으세요. 인사이트는 보통 2~3건을 선정합니다.",
+      "takeaway": "해석: 변화의 의미와 적용 범위를 적으세요.",
+      "action": "바로 적용할 행동과 제약을 적으세요.",
+      "url": "https://example.com/replace-with-official-source"
     },
     {
       "heading": "써볼 지점",
       "body": "적용 가능한 업무와 확인해야 할 제약을 적으세요."
+    }
+  ],
+  "radar": [
+    {
+      "label": "추천 저장소",
+      "repo": "owner/repository",
+      "url": "https://github.com/owner/repository",
+      "description": "무엇을 하는 저장소인지 한 문장",
+      "signal": "선정 근거. Trending·기간별 증가를 직접 확인한 경우에만 인기 급상승이라 표시",
+      "checkedAt": "YYYY-MM-DD",
+      "sourceUrl": "https://github.com/owner/repository",
+      "why": "개발자와 공용 스킬 운영자에게 유용한 이유",
+      "try": "처음 확인할 파일 또는 검증한 설치·실행 방법",
+      "limitation": "유지보수·라이선스·호스트 지원 등 확인할 제약"
+    }
+  ],
+  "recipe": {
+    "heading": "오늘 해볼 한 가지",
+    "description": "오늘 인사이트나 저장소를 활용하는 작은 실험. 실제 사용 후기와 구분",
+    "steps": ["입력 준비", "실행", "결과 확인"],
+    "prompt": "복사해 써볼 요청 예시",
+    "limitation": "성공 조건과 아직 확인하지 않은 부분"
+  },
+  "monthlyCandidates": [
+    {
+      "title": "발표 후보 제목",
+      "reason": "선별한 이유와 발표 전에 보완할 근거",
+      "url": "https://example.com/replace-with-original-source"
     }
   ],
   "sources": [
