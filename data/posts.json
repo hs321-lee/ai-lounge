@@ -634,6 +634,117 @@
       "sourceNote": "화면은 원문 1–3편에 실린 캡처를 그대로 사용했습니다. 검은 가림은 원문 작성자가 직접 한 것입니다. 수치는 작성자 보고이며 독립 검증한 값이 아닙니다. Herdr 이미지는 공식 저장소(Apache-2.0)의 스크린샷입니다."
     },
     {
+      "id": "daily-2026-10-24",
+      "type": "daily",
+      "date": "2026-10-24",
+      "title": "스킬은 사용을 측정하고, 코드는 검증 조건을 명확히",
+      "summary": "공용 스킬의 실제 사용을 구별하는 Copilot 지표와, 코드의 검증 범위를 명시하는 형식 검증 연구를 살펴봅니다. Trendar에서 발견한 도구는 원본 저장소와 제약을 대조해 소개합니다.",
+      "author": "AI 라운지",
+      "tags": ["AI 동향", "공용 스킬", "검증", "GitHub 레이더"],
+      "highlights": [
+        "공용 스킬: 이름별 사용 추세와 성공 작업을 함께 보기",
+        "검증: 증명한 조건과 실제 실행 환경의 차이를 명시하기",
+        "실전: 작은 함수 하나에 입력 조건·불변식·반례 붙이기"
+      ],
+      "sections": [
+        {
+          "heading": "어떤 공용 스킬을 쓰는지 이름별로 확인",
+          "summary": "Copilot 사용 지표에 커스텀 스킬·에이전트·MCP 등의 이름이 표시됩니다. 항목별 목록도 최대 5개에서 25개로 늘었습니다.",
+          "relevance": "공용 스킬의 배포 후 채택 추세를 볼 수 있지만, 사용 횟수가 작업 품질을 증명하지는 않습니다.",
+          "label": "운영 · 사용 지표",
+          "date": "2026-10-22",
+          "body": "GitHub는 사용 지표 API에서 스킬·커스텀 에이전트·MCP 서버·슬래시 명령·플러그인의 설정 이름을 제공합니다. 기존 interaction_count 등의 계산 방식은 같습니다. 이름은 이번 릴리스 이후 처리된 보고 날짜부터 표시되며 과거 데이터는 소급되지 않습니다.",
+          "takeaway": "채택률과 성공률을 구분해 운영할 근거입니다. 클라이언트 텔레메트리는 누락될 수 있어 정밀 회계보다 추세 관찰에 적합합니다. IDE의 내장 채팅 텔레메트리는 이름 보고 대상이 아닙니다.",
+          "action": "관리 권한과 지표 정책이 있는 환경에서 스킬 식별자 목록을 정리하고 7일 사용 추세에 성공 작업 표본을 붙여 보세요. 앱·프롬프트 모드·ACP는 CLI 1.0.97 이상, SDK는 1.0.21 이상인지 확인합니다. 경로 형태 이름은 이름별로 분리되지 않고 other/custom으로 묶이므로 이름 규칙도 확인하세요.",
+          "url": "https://github.blog/changelog/2026-10-22-custom-skills-agents-and-mcp-servers-in-usage-metrics-api/"
+        },
+        {
+          "heading": "AI 코드 검증, 안전하다는 답보다 증명 조건부터",
+          "summary": "Anthropic과 Theorem이 123개 오픈소스 라이브러리의 일부 실행 진입점에 형식 검증을 적용한 연구를 공개했습니다. 제한된 실행 조건의 보장이며 전체 코드의 무결함 선언은 아닙니다.",
+          "relevance": "개발 에이전트에 검증을 맡길 때도 입력·실행 환경·확인할 속성을 먼저 고정해야 합니다.",
+          "label": "연구 · 형식 검증",
+          "date": "2026-10-22",
+          "body": "발표에 따르면 Claude가 작성한 증명을 외부 Rocq 검사기로 확인해, 123개 OSS-Fuzz 라이브러리의 239개 진입점에서 지정한 무충돌 속성을 증명했습니다. 대상은 Linux의 단일 스레드·정적 RISC-V 바이너리, 고정 메모리 예산과 64MB 미만 입력 등의 가정 아래 실행됩니다. 일부 증명과 기계·OS 의미 모델을 공개했습니다.",
+          "takeaway": "테스트 성공을 넘어 명세와 증명 검사를 연결하는 방향입니다. 다만 모델이 실제 ARM·동적 링크·동시성 환경과 다를 수 있고, 미검증 진입점과 명세 밖 결함은 남습니다. 연구 결과를 제품 전체의 안전성 보장으로 확대할 수 없습니다.",
+          "action": "작은 파서나 순수 함수 하나를 골라 허용 입력, 반환 조건, 실패 조건과 반례를 먼저 적어 보세요. 아래 실험은 명세를 다듬는 활용 제안이며 형식 증명 도구를 실행했다는 뜻은 아닙니다.",
+          "url": "https://www.anthropic.com/research/formal-verification"
+        }
+      ],
+      "radar": [
+        {
+          "label": "Trendar 급상승 · 분석 스킬",
+          "repo": "aicodeking/leanrea",
+          "headline": "짧은 스킬로 기존 분석 도구를 바로 연결",
+          "url": "https://github.com/aicodeking/leanrea",
+          "description": "약 8KB SKILL.md가 대상 파일에 맞춰 Bash와 jadx·apktool 등 기존 분석 도구를 고르는 경량 스킬입니다.",
+          "signal": "Trendar 집계 13위 · 약 1.7천 Stars · +366/일. 페이지 갱신 2026-10-23 18:00 UTC(10월 24일 03:00 KST), 최근 24시간 스냅샷 기준. GitHub 공식 Trending 순위가 아닙니다.",
+          "checkedAt": "2026-10-24",
+          "sourceUrl": "https://trendar.org/ko/trending",
+          "why": "별도 MCP 서버를 늘리기 전에 기존 CLI와 짧은 작업 지침으로 해결할 수 있는지 비교할 사례입니다. Android APK 분석 경로도 안내합니다.",
+          "try": "원본 leanrea/SKILL.md의 도구 선택 규칙을 먼저 읽고, 직접 만든 공개 예제 APK 사본을 읽기 전용으로 조사해 근거 위치를 남겨 보세요. README의 설치 예시는 npx skills add aicodeking/leanrea 입니다. 여기서는 실행하지 않았습니다.",
+          "limitation": "MIT. 최신 push는 2026-10-19 UTC로 확인했습니다. 성능 수치는 한 모델·한 macOS 머신의 소규모 작성자 벤치마크이며 jadx는 설치되지 않아 Android 효과를 입증하지 않습니다. 필요한 CLI는 별도로 준비해야 합니다."
+        },
+        {
+          "label": "Trendar 급상승 · 오디오 검사",
+          "repo": "Leonxlnx/earshot",
+          "headline": "UI 소리의 음량·타이밍을 측정해 피드백",
+          "url": "https://github.com/Leonxlnx/earshot",
+          "description": "코딩 에이전트가 소리를 측정·분류하도록 돕는 로컬 CPU 도구로, CLI·Python·MCP와 스킬 두 개를 제공합니다.",
+          "signal": "Trendar 집계 16위 · 약 2.4천 Stars · +287/일. 페이지 갱신 2026-10-23 18:00 UTC(10월 24일 03:00 KST), 최근 24시간 스냅샷 기준. GitHub 공식 Trending 순위가 아닙니다.",
+          "checkedAt": "2026-10-24",
+          "sourceUrl": "https://trendar.org/ko/trending",
+          "why": "UI 클릭·알림 소리나 제품 시연의 음량과 화면 동기화를 수치로 검토할 수 있습니다. 10월 22일 v0.4.0에는 새 사운드와 영상용 믹스 프리셋이 추가됐습니다.",
+          "try": "README의 Python 3.10+·ffmpeg 설치 조건을 확인한 뒤 직접 만든 짧은 UI 사운드에 earshot measure click.wav를 실행하는 실험부터 시작하세요. 이 명령은 모델을 로드하지 않으며 LUFS·피크·길이 등을 사람이 들은 결과와 비교합니다. 여기서는 실행하지 않았습니다.",
+          "limitation": "코드는 MIT이며 모델은 별도 라이선스입니다. 모델 사용은 초기 다운로드와 로딩 비용이 있고, 취향·발화 내용·음원의 라이선스를 판정하지 못합니다. 선택형 llm 기능은 명시적 동의로 Gemini에 업로드하므로 로컬 측정과 구분해야 합니다."
+        }
+      ],
+      "recipe": {
+        "heading": "작은 함수에 검증 조건과 반례를 붙이기",
+        "description": "활용 제안 · 10분 동안 파서나 순수 함수 하나의 검증 범위를 구체화합니다. 형식 증명을 수행한 실험 결과는 아닙니다.",
+        "steps": [
+          "공개 예제 코드에서 외부 상태에 의존하지 않는 작은 함수 하나와 revision을 고릅니다.",
+          "허용 입력 범위, 전제조건, 반환값의 불변식, 실패 시 동작을 한 문장씩 적습니다.",
+          "에이전트에게 경계값과 반례 후보를 요청하고 기존 테스트가 다루는 범위와 비교합니다.",
+          "실제로 실행한 검사와 아직 검증하지 않은 가정을 구분해 남깁니다. 성공 기준은 전체 안전성 선언이 아니라 빠진 조건 한 개를 찾는 것입니다."
+        ],
+        "prompt": "이 revision의 지정한 함수만 읽어줘. 허용 입력·전제조건·반환 불변식·실패 조건을 구분하고, 각 조건을 깨뜨릴 경계값과 반례 후보를 제시해줘. 기존 테스트의 파일 위치와 커버하지 않는 가정을 연결해줘. 실제 실행한 검사와 제안만 한 검사를 구분하고, 형식 증명을 수행하지 않았다면 증명됐다고 말하지 마. 코드는 변경하지 마.",
+        "limitation": "명세 자체의 오류와 실제 실행 환경의 차이는 별도 검토가 필요합니다. 에이전트가 제안한 반례도 실제 실행으로 확인하기 전에는 가설입니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "공용 스킬의 채택과 성과를 나눠 보기",
+          "reason": "이름별 사용 지표와 성공 작업 표본을 연결하는 운영 사례 후보입니다. 발표 전 실제 집계 누락·버전 조건과 검증 가능한 공개 예제를 보완합니다.",
+          "url": "https://github.blog/changelog/2026-10-22-custom-skills-agents-and-mcp-servers-in-usage-metrics-api/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub · Custom skills, agents, and MCP servers in usage metrics API (2026-10-22)",
+          "url": "https://github.blog/changelog/2026-10-22-custom-skills-agents-and-mcp-servers-in-usage-metrics-api/"
+        },
+        {
+          "title": "Anthropic · LLMs are making formal software verification feasible at a much larger scale (2026-10-22)",
+          "url": "https://www.anthropic.com/research/formal-verification"
+        },
+        {
+          "title": "Trendar · 급상승 신규 GitHub 프로젝트 (2026-10-24 확인, 10-23 18:00 UTC 갱신)",
+          "url": "https://trendar.org/ko/trending"
+        },
+        {
+          "title": "aicodeking/leanrea · 공식 README와 벤치마크 제약 (2026-10-24 확인)",
+          "url": "https://github.com/aicodeking/leanrea"
+        },
+        {
+          "title": "Leonxlnx/earshot · 공식 README와 사용 제약 (2026-10-24 확인)",
+          "url": "https://github.com/Leonxlnx/earshot"
+        },
+        {
+          "title": "earshot · CHANGELOG v0.4.0 (2026-10-22)",
+          "url": "https://github.com/Leonxlnx/earshot/blob/main/CHANGELOG.md"
+        }
+      ]
+    },
+    {
       "id": "daily-2026-10-23",
       "type": "daily",
       "date": "2026-10-23",
