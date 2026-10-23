@@ -25,6 +25,7 @@ for (const post of data.posts) {
     assert.ok(Array.isArray(post.radar), `${post.id}: radar 배열 필요`);
     for (const repo of post.radar) {
       for (const key of ["label", "repo", "description", "signal", "why", "try", "limitation"]) requiredText(repo[key], `${post.id}: radar ${key}`);
+      if (repo.headline !== undefined) requiredText(repo.headline, `${post.id}: radar headline`);
       assert.match(repo.repo, /^[\w.-]+\/[\w.-]+$/, `${post.id}: repo 형식 오류`);
       https(repo.url, `${post.id}: radar url`); https(repo.sourceUrl, `${post.id}: radar sourceUrl`);
       assert.equal(new URL(repo.url).hostname, "github.com", `${post.id}: radar는 GitHub 저장소 URL 필요`);
@@ -45,7 +46,7 @@ for (const post of data.posts) {
   for (const section of post.sections) {
     assert.ok(typeof section.heading === "string" && section.heading.trim(), `${post.id}: heading 필요`);
     assert.equal(typeof section.body, "string", `${post.id}: body 필요`);
-    for (const key of ["label", "takeaway", "action"]) if (section[key] !== undefined) requiredText(section[key], `${post.id}: section ${key}`);
+    for (const key of ["label", "takeaway", "action", "summary", "relevance"]) if (section[key] !== undefined) requiredText(section[key], `${post.id}: section ${key}`);
     if (section.date !== undefined) validDate(section.date, `${post.id}: section date`);
     if (section.url !== undefined) https(section.url, `${post.id}: section url`);
     if (section.kind !== undefined) {

@@ -652,7 +652,9 @@
       ],
       "sections": [
         {
-          "heading": "Anthropic: Agent Skills 표준을 AAIF에 기증",
+          "heading": "공용 스킬 표준, 벤더 중립 재단으로 이동",
+          "summary": "Anthropic이 Agent Skills 표준을 AAIF에 기증했습니다. 여러 에이전트가 같은 스킬 형식을 공유하는 기반이 넓어집니다.",
+          "relevance": "공용 스킬의 코어와 제품별 실행 설정을 분리할 때 참고할 변화입니다.",
           "label": "표준 · 공용 스킬",
           "date": "2026-10-22",
           "body": "Anthropic은 Agent Skills의 이름·로고·GitHub 조직·도메인을 Linux Foundation 산하 Agentic AI Foundation(AAIF)에 기증했습니다. 공식 발표는 70개 이상 에이전트 플랫폼의 통합과 향후 버전 릴리스·제안 절차·보안 지침 마련 계획을 설명합니다.",
@@ -661,7 +663,9 @@
           "url": "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation"
         },
         {
-          "heading": "Google: Agents CLI를 ADK 밖 프레임워크로 확장",
+          "heading": "프레임워크가 달라도 배포·검증 절차는 공통으로",
+          "summary": "Google Agents CLI가 명령 확장 기능을 공개했습니다. LangChain·LangGraph도 같은 운영 흐름에 연결할 수 있으며, 아직 실험 기능입니다.",
+          "relevance": "여러 프레임워크를 쓰는 팀도 공통 검증 규칙을 운영할 수 있는 구조입니다.",
           "label": "운영 · 실험 기능",
           "date": "2026-10-21",
           "body": "Google은 agents-cli-extension.yaml로 명령을 추가·재정의하는 Extension System을 공개했습니다. 프로젝트·사용자 범위와 Git 커밋 SHA를 고정하는 lockfile을 지원하며, ADK 의존성 없이 LangChain·LangGraph를 연결하는 예제가 포함됩니다. v1.8.0 기준 실험 기능입니다.",
@@ -674,6 +678,7 @@
         {
           "label": "누적 인기 · 개발 워크플로 추천",
           "repo": "addyosmani/agent-skills",
+          "headline": "개발 단계별 스킬과 품질 기준을 한 번에 살펴보기",
           "url": "https://github.com/addyosmani/agent-skills",
           "description": "설계·구현·테스트·리뷰·배포의 절차와 품질 게이트를 담은 엔지니어링 스킬 팩입니다.",
           "signal": "GitHub 누적 Stars 약 10.9만 · 오늘 급상승 여부는 미확인",
@@ -686,6 +691,7 @@
         {
           "label": "공식 예제 · 스킬 구조 참고",
           "repo": "anthropics/skills",
+          "headline": "공식 예제로 익히는 SKILL.md 폴더 구성",
           "url": "https://github.com/anthropics/skills",
           "description": "SKILL.md와 스크립트·리소스를 함께 묶는 방법을 보여주는 Anthropic의 공개 예제 저장소입니다.",
           "signal": "GitHub 누적 Stars 약 18.3만 · 오늘 급상승 여부는 미확인",

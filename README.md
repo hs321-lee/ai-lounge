@@ -36,7 +36,7 @@
 작업공간에서 준 자료와 사용 경험을 정리해 월간 소개에 바로 반영합니다. 기존 아침 브리핑의 AI 부분은 준비 자료로 계속 누적하고, 월간 발표에 쓸 내용만 골라 올립니다.
 
 - 원본 데이터: `data/posts.json`
-- 데일리 화면: `type: daily` 최신 기록의 핵심 3줄 → AI 인사이트 → GitHub·스킬 레이더 → 실전 레시피·원문을 바로 표시
+- 데일리 화면: `type: daily` 최신 기록의 날짜·오늘 핵심 → 번호 목차 → AI 인사이트 → GitHub·스킬 발견 → 오늘의 실험을 표시. 모바일은 1열이며 기본 요약은 바로 읽고 상세·설치·주의점·집계 근거는 펼칩니다.
 - 월간 발표: `type: monthly` 항목만 별도로 표시
 - `type: guide`는 준비 자료로 보관
 - 같은 날짜의 데일리 기록은 중복 생성하지 않고 보완
@@ -52,6 +52,7 @@
 - **GitHub·스킬:** 실제 README·릴리스·커밋·라이선스를 확인합니다. 용도, 선정 이유, 시작 방법, 제약과 관찰 날짜를 적습니다. GitHub Trending 순위나 기간별 Stars 증가를 직접 확인한 경우에만 '급상승'이라 적고 근거·기간을 붙입니다. 누적 Stars는 날짜가 있는 스냅샷이며 증가량이 아닙니다. 근거가 없으면 '추천 저장소'로 표시합니다.
 - **레시피:** 오늘 자료와 연결되는 작은 실험, 단계, 요청 예시와 성공 조건을 적습니다. 실행하지 않았다면 활용 제안이라고 표시합니다.
 - **중복:** 같은 저장소를 매일 다시 추천하지 않습니다. 중요한 업데이트·새 활용·후속 검증이 있을 때 변경점을 설명합니다.
+- **모바일 편집:** `title`은 오늘의 핵심 한 문장, `sections[].heading`과 `radar[].headline`은 얻을 수 있는 변화·용도가 드러나는 짧은 제목으로 씁니다. 인사이트 `summary`는 사실 1–2문장, `relevance`는 의미·활용 대상 한 문장입니다. 요약은 CSS로 잘라 숨기지 않고 편집으로 짧게 유지합니다. 전체 `body`, 해석 `takeaway`, 실행 `action`은 상세에 보존합니다. 기존 기록에 새 필드가 없으면 본문을 그대로 보여 줍니다. 목차는 실제 항목에서 자동 생성되며, 레시피 프롬프트는 복사 버튼과 수동 선택을 지원합니다.
 - **월간 후보:** 데일리 중 소개할 만한 내용만 `monthlyCandidates`에 남깁니다. 후보 추가는 월간 발행이 아니며 월간 화면에 자동 노출하지 않습니다.
 
 ## 실행·검사
@@ -87,7 +88,8 @@ Node.js 20 이상에서 JavaScript 문법과 콘텐츠의 필수 필드·중복 
 | `sources` | `{ "title": "원문 이름", "url": "https://…" }` 배열 |
 | `highlights` | 선택: 첫 화면 핵심 문자열 최대 3개 |
 | 데일리 `sections[].label`, `date`, `takeaway`, `action`, `url` | 선택: 분류·발표 날짜·해석·활용 행동·공식 원문. 기존 `heading`, `body`와 함께 사용 |
-| `radar` | 선택: `{label, repo, url, description, signal, checkedAt, sourceUrl, why, try, limitation}` 배열. 검증된 GitHub 저장소, 선정 근거와 관찰 날짜 |
+| 데일리 `sections[].summary`, `relevance` | 선택: 기본 표시할 짧은 사실 요약·왜 중요한지 한 문장. `summary`가 있으면 전체 `body`·해석·실행은 native details로 펼쳐 읽기 |
+| `radar` | 선택: `{label, repo, url, description, signal, checkedAt, sourceUrl, why, try, limitation}` 배열. 검증된 GitHub 저장소, 선정 근거와 관찰 날짜. 선택 `headline`은 용도가 드러나는 짧은 제목 |
 | `recipe` | 선택: `{heading, description, steps:[], prompt, limitation}`. 실행해 볼 절차와 요청 예시 |
 | `monthlyCandidates` | 선택: `{title, reason, url}` 배열. 준비 데이터만 저장하며 월간 발표 자동 발행 금지 |
 

@@ -50,19 +50,46 @@ function setView(monthly) {
     ? '<span><strong>AI 라운지</strong> · 한 달에 한 번, 쓸 만한 경험을 나눕니다.</span><span>나는 이렇게 쓴다.</span>'
     : '<span><strong>AI 라운지</strong> · 매일 읽고, 쓸 만한 내용을 쌓습니다.</span>';
 }
+function renderInsight(section, index) {
+  const number = String(index + 1).padStart(2, "0");
+  const fullText = section.summary ? `<details class="daily-details"><summary>상세 내용 · 적용 방법</summary><p class="insight-body">${escape(section.body)}</p>${section.takeaway ? `<div class="insight-takeaway"><strong>해석</strong><p>${escape(section.takeaway)}</p></div>` : ""}${section.action ? `<div class="insight-action"><strong>써볼 지점</strong><p>${escape(section.action)}</p></div>` : ""}</details>` : "";
+  return `<section class="insight daily-item" id="daily-insight-${index}" tabindex="-1"><div class="insight-meta"><span class="item-number">${number}</span><span>${escape(section.label || "AI 인사이트")}</span>${section.date ? `<time datetime="${escape(section.date)}">${escape(section.date)}</time>` : ""}</div><h3>${escape(section.heading)}</h3><p class="insight-body">${escape(section.summary || section.body)}</p>${section.relevance ? `<p class="item-relevance"><strong>왜 중요한가</strong>${escape(section.relevance)}</p>` : ""}${fullText}${!section.summary && section.takeaway ? `<div class="insight-takeaway"><strong>왜 볼까</strong><p>${escape(section.takeaway)}</p></div>` : ""}${!section.summary && section.action ? `<div class="insight-action"><strong>써볼 지점</strong><p>${escape(section.action)}</p></div>` : ""}${section.url ? `<a class="daily-source-link" href="${safeUrl(section.url)}" target="_blank" rel="noopener">공식 원문 ↗</a>` : ""}</section>`;
+}
+function renderRadar(repo, index, offset) {
+  return `<section class="radar-entry daily-item" id="daily-repo-${index}" tabindex="-1"><div class="insight-meta"><span class="item-number">${String(offset + index + 1).padStart(2,"0")}</span><span>${escape(repo.label)}</span></div><h3>${escape(repo.headline || repo.repo)}</h3><a class="repo-name" href="${safeUrl(repo.url)}" target="_blank" rel="noopener">${escape(repo.repo)} ↗</a><p>${escape(repo.description)}</p><p class="item-relevance"><strong>써볼 이유</strong>${escape(repo.why)}</p><details class="daily-details"><summary>시작 방법 · 주의점 · 인기 근거</summary><dl><dt>먼저 해볼 것</dt><dd>${escape(repo.try)}</dd><dt>확인할 제약</dt><dd>${escape(repo.limitation)}</dd></dl><p class="radar-signal">${escape(repo.signal)}<small>확인 ${escape(repo.checkedAt)} · <a href="${safeUrl(repo.sourceUrl)}" target="_blank" rel="noopener">집계 근거 ↗</a></small></p></details></section>`;
+}
 function renderDaily(report) {
   document.title = "나의 AI 데일리 — AI 라운지";
   const history = dailyReports.length > 1 ? `<div class="daily-history"><label for="report-date">지난 데일리</label><select id="report-date">${dailyReports.map(item=>`<option value="${escape(item.id)}"${item.id===report?.id ? " selected" : ""}>${escape(item.date)}</option>`).join("")}</select></div>` : "";
-  main.innerHTML = `<header class="daily-masthead"><div><p class="eyebrow">AI INSIGHTS / GITHUB RADAR / HANDS-ON</p><h1>나의 AI 데일리</h1></div>${history}</header>
-    ${report ? `<article class="daily-edition"><header class="daily-lead"><div class="daily-edition-meta"><time datetime="${escape(report.date)}">${escape(report.date.replaceAll("-","."))}</time><span>매일 읽고, 하나씩 써봅니다</span></div><h2>${escape(report.title)}</h2><p>${escape(report.summary)}</p></header>
-    ${report.highlights?.length ? `<ul class="daily-highlights">${report.highlights.map((item,index)=>`<li><span>0${index+1}</span><strong>${escape(item)}</strong></li>`).join("")}</ul>` : ""}
-    <nav class="daily-contents" aria-label="이 데일리의 목차"><button data-scroll="daily-insights">AI 인사이트 ↓</button>${report.radar?.length ? '<button data-scroll="daily-radar">GitHub · 스킬 ↓</button>' : ""}${report.recipe ? '<button data-scroll="daily-recipe">오늘 해볼 것 ↓</button>' : ""}<button data-scroll="daily-sources">출처 ↓</button></nav>
-    <div class="daily-columns"><section class="daily-insights" id="daily-insights"><div class="daily-section-title"><p class="eyebrow">01 / WHAT CHANGED</p><h2>오늘의 AI 인사이트</h2></div>${report.sections.map((section,index)=>`<section class="insight"><div class="insight-meta"><span>${escape(section.label || `INSIGHT ${index+1}`)}</span>${section.date ? `<time datetime="${escape(section.date)}">발표 ${escape(section.date)}</time>` : ""}</div><h3>${escape(section.heading)}</h3><p class="insight-body">${escape(section.body)}</p>${section.takeaway ? `<div class="insight-takeaway"><strong>왜 볼까</strong><p>${escape(section.takeaway)}</p></div>` : ""}${section.action ? `<div class="insight-action"><strong>써볼 지점</strong><p>${escape(section.action)}</p></div>` : ""}${section.url ? `<a class="daily-source-link" href="${safeUrl(section.url)}" target="_blank" rel="noopener">공식 원문 ↗</a>` : ""}</section>`).join("")}</section>
-    ${report.radar?.length ? `<aside class="daily-radar" id="daily-radar"><div class="daily-section-title"><p class="eyebrow">02 / WORTH A LOOK</p><h2>GitHub · 스킬 레이더</h2><p>인기 수치와 선정 이유를 함께 봅니다.</p></div>${report.radar.map(repo=>`<section class="radar-entry"><span class="radar-label">${escape(repo.label)}</span><h3><a href="${safeUrl(repo.url)}" target="_blank" rel="noopener">${escape(repo.repo)} ↗</a></h3><p>${escape(repo.description)}</p><p class="radar-signal">${escape(repo.signal)}<small>확인 ${escape(repo.checkedAt)} · <a href="${safeUrl(repo.sourceUrl)}" target="_blank" rel="noopener">근거</a></small></p><dl><dt>주목할 이유</dt><dd>${escape(repo.why)}</dd><dt>먼저 해볼 것</dt><dd>${escape(repo.try)}</dd><dt>확인할 제약</dt><dd>${escape(repo.limitation)}</dd></dl></section>`).join("")}</aside>` : ""}</div>
-    ${report.recipe ? `<section class="daily-recipe" id="daily-recipe"><div class="daily-section-title"><p class="eyebrow">03 / TRY IT TODAY</p><h2>${escape(report.recipe.heading)}</h2><p>${escape(report.recipe.description)}</p></div><div class="recipe-grid"><ol>${report.recipe.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol><div><p class="recipe-prompt-label">에이전트에 이렇게 요청해 보세요</p><pre>${escape(report.recipe.prompt)}</pre><p class="recipe-limit">${escape(report.recipe.limitation)}</p></div></div></section>` : ""}
-    <section class="daily-sources" id="daily-sources"><h2>원문과 참고 자료</h2><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></section></article>` : '<section class="empty"><h2>첫 데일리를 준비하고 있어요.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
+  const contents = report ? [...report.sections.map((section,index)=>({id:`daily-insight-${index}`,title:section.heading,type:"AI"})),...(report.radar || []).map((repo,index)=>({id:`daily-repo-${index}`,title:repo.headline || repo.repo,type:"GitHub"})),...(report.recipe ? [{id:"daily-recipe",title:report.recipe.heading,type:"실전"}] : [])] : [];
+  main.innerHTML = `<header class="daily-masthead"><h1>나의 AI 데일리</h1>${history}</header>
+    ${report ? `<article class="daily-edition"><header class="daily-lead"><div class="daily-edition-meta"><time datetime="${escape(report.date)}">${escape(report.date.replaceAll("-","."))}</time><span>오늘의 핵심</span></div><h2>${escape(report.title)}</h2></header>
+    <nav class="daily-headlines" aria-label="오늘의 목차"><p class="eyebrow">오늘 읽을 ${contents.length}가지</p><ol>${contents.map((item,index)=>`<li><button type="button" data-scroll="${item.id}"><span class="toc-number">${String(index+1).padStart(2,"0")}</span><strong>${escape(item.title)}</strong><span class="toc-type">${item.type}</span></button></li>`).join("")}</ol></nav>
+    <details class="daily-details edition-overview"><summary>오늘의 브리핑 소개</summary><p>${escape(report.summary)}</p>${report.highlights?.length ? `<ul>${report.highlights.map(item=>`<li>${escape(item)}</li>`).join("")}</ul>` : ""}</details>
+    <div class="daily-columns"><section class="daily-insights" id="daily-insights"><div class="daily-section-title"><p class="eyebrow">WHAT CHANGED</p><h2>AI 인사이트</h2></div>${report.sections.map(renderInsight).join("")}</section>
+    ${report.radar?.length ? `<aside class="daily-radar" id="daily-radar"><div class="daily-section-title"><p class="eyebrow">WORTH A LOOK</p><h2>GitHub · 스킬 발견</h2></div>${report.radar.map((repo,index)=>renderRadar(repo,index,report.sections.length)).join("")}</aside>` : ""}</div>
+    ${report.recipe ? `<section class="daily-recipe daily-item" id="daily-recipe" tabindex="-1"><div class="daily-section-title"><p class="eyebrow">${String(contents.length).padStart(2,"0")} / TRY IT TODAY</p><h2>${escape(report.recipe.heading)}</h2><p>${escape(report.recipe.description)}</p></div><div class="recipe-grid"><ol>${report.recipe.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol><div><div class="recipe-prompt-header"><p class="recipe-prompt-label">에이전트에 이렇게 요청해 보세요</p><button type="button" class="copy-prompt">프롬프트 복사</button></div><pre class="recipe-prompt" tabindex="0" aria-label="복사할 프롬프트">${escape(report.recipe.prompt)}</pre><p class="copy-status" role="status"></p><p class="recipe-limit">${escape(report.recipe.limitation)}</p></div></div></section>` : ""}
+    <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details></article>` : '<section class="empty"><h2>첫 데일리를 준비하고 있어요.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
   document.querySelector("#report-date")?.addEventListener("change",event=>{location.hash=`post/${encodeURIComponent(event.target.value)}`;});
-  main.querySelectorAll("[data-scroll]").forEach(button=>button.addEventListener("click",()=>document.getElementById(button.dataset.scroll)?.scrollIntoView({block:"start"})));
+  main.querySelectorAll("[data-scroll]").forEach(button=>button.addEventListener("click",()=>{
+    const target = document.getElementById(button.dataset.scroll);
+    target?.focus({preventScroll:true});
+    target?.scrollIntoView({block:"start"});
+  }));
+  main.querySelector(".copy-prompt")?.addEventListener("click",async()=>{
+    const status = main.querySelector(".copy-status");
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+      await navigator.clipboard.writeText(report.recipe.prompt);
+      status.textContent = "프롬프트를 복사했습니다.";
+    } catch {
+      const prompt = main.querySelector(".recipe-prompt");
+      prompt.focus();
+      const range = document.createRange(); range.selectNodeContents(prompt);
+      const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range);
+      status.textContent = "자동 복사를 사용할 수 없어 텍스트를 선택했습니다. 복사 메뉴를 이용해 주세요.";
+    }
+  });
 }
 function route() {
   monthlyMotionCleanup();

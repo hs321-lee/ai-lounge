@@ -16,6 +16,8 @@
   "sections": [
     {
       "heading": "오늘의 변화",
+      "summary": "모바일에서 바로 읽을 짧은 사실 요약 1~2문장. CSS로 자르지 않습니다.",
+      "relevance": "왜 중요한지, 어느 작업에 유용한지 한 문장으로 적으세요.",
       "label": "도구 업데이트",
       "date": "YYYY-MM-DD",
       "body": "확인된 사실을 2~3문장으로 적으세요. 인사이트는 보통 2~3건을 선정합니다.",
@@ -32,6 +34,7 @@
     {
       "label": "추천 저장소",
       "repo": "owner/repository",
+      "headline": "이 저장소로 해결할 문제를 짧게 적으세요",
       "url": "https://github.com/owner/repository",
       "description": "무엇을 하는 저장소인지 한 문장",
       "signal": "선정 근거. Trending·기간별 증가를 직접 확인한 경우에만 인기 급상승이라 표시",
