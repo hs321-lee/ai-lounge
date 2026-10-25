@@ -634,6 +634,125 @@
       "sourceNote": "화면은 원문 1–3편에 실린 캡처를 그대로 사용했습니다. 검은 가림은 원문 작성자가 직접 한 것입니다. 수치는 작성자 보고이며 독립 검증한 값이 아닙니다. Herdr 이미지는 공식 저장소(Apache-2.0)의 스크린샷입니다."
     },
     {
+      "id": "daily-2026-10-26",
+      "type": "daily",
+      "date": "2026-10-26",
+      "title": "에이전트 사용량은 도구별로, Git 인증은 만료·갱신까지",
+      "summary": "Copilot 사용량의 클라이언트별 집계와 GitHub CLI의 만료형 인증을 확인합니다. GitHub 레이더는 공식 릴리스에서 작업·리뷰 현황 관리 도구와 코딩 에이전트의 보안 유지보수를 보완 선정했습니다.",
+      "author": "AI 라운지",
+      "tags": ["에이전트 운영", "사용량 측정", "GitHub CLI"],
+      "highlights": [
+        "후속 변화: 스킬 이름뿐 아니라 Copilot을 이용하는 도구별 모델 요청·토큰도 집계",
+        "추천 저장소: 작업별 워크트리·PR 상태 보드와 코딩 에이전트의 런타임 보안 수정",
+        "오늘의 실험: 도구별 사용량 표에 포함 범위와 누락 원인을 함께 기록"
+      ],
+      "sections": [
+        {
+          "heading": "OpenCode·Codex 등 도구별 Copilot 사용량을 확인",
+          "summary": "Copilot usage metrics API에 totals_by_client가 추가됐습니다. Copilot을 모델 제공자로 사용하는 도구의 요청·세션·토큰을 클라이언트별로 볼 수 있습니다.",
+          "relevance": "IDE 밖에서 실행되는 에이전트까지 포함해 도구 지원 범위와 사용 추세를 점검할 수 있습니다.",
+          "label": "사용량 측정 · 후속 변화",
+          "date": "2026-10-23",
+          "body": "GitHub는 기업·조직 및 사용자별 1일·28일 보고서에 totals_by_client를 추가했습니다. opencode, claude_code, codex, zed 등 Copilot을 사용하는 클라이언트를 구분하고 성공한 모델 요청 수, 세션 수, 입력·출력 토큰과 모델별 집계를 제공합니다. 10월 22일 발표한 맞춤 스킬 이름별 집계와 달리, 이번 변화는 IDE 텔레메트리 없이 발생하는 모델 트래픽의 집계 범위를 넓힙니다. Copilot을 사용하지 않는 다른 제공자의 전체 활동을 측정하는 기능은 아닙니다.",
+          "takeaway": "해석: 에이전트 도구를 여러 개 운영할 때 하나의 도구만 측정해서 전체 사용을 판단하는 오류를 줄일 수 있습니다. 요청 수는 사용 추세를 보여주는 지표이며 완료한 작업 수나 생산성의 인과적 증거가 아닙니다.",
+          "action": "사용 중인 도구별로 모델 제공자와 보고서 포함 여부를 먼저 적으세요. request_count는 프롬프트 수가 아니라 모델 호출 수이며, client는 요청에 실린 통합 ID를 이용한 best-effort 분류입니다. 보고서를 보려면 해당 권한과 Copilot usage metrics 정책 활성화가 필요합니다.",
+          "url": "https://github.blog/changelog/2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode/"
+        },
+        {
+          "heading": "Git 자동화 인증에 토큰 만료와 갱신 경로를 포함",
+          "summary": "GitHub CLI v2.103.0부터 만료형 액세스 토큰과 회전형 리프레시 토큰을 선택할 수 있습니다. gh가 필요할 때 인증정보를 갱신하는 공개 프리뷰입니다.",
+          "relevance": "에이전트가 Git을 오래 실행할 때 토큰을 한 번 추출해 재사용하는 스크립트의 호환성을 확인할 변화입니다.",
+          "label": "개발 자동화 · 인증",
+          "date": "2026-10-21",
+          "body": "GitHub CLI는 gh auth login --expiring으로 만료형 인증을 선택하는 공개 프리뷰를 발표했습니다. gh는 만료되는 액세스 토큰과 회전형 리프레시 토큰을 저장하고 필요할 때 갱신합니다. HTTPS Git에서는 gh auth setup-git으로 gh를 credential helper로 설정하는 경로와 Git 2.46 이상을 권장합니다. 선택하지 않으면 기존 로그인과 수동 제공 토큰의 동작은 유지됩니다.",
+          "takeaway": "해석: 장시간 개발 자동화는 유효한 토큰의 존재뿐 아니라 갱신을 누가 수행하는지도 설계해야 합니다. 이 기능은 에이전트의 도구 실행 승인 창이나 관리자가 정한 권한 정책을 바꾸지 않습니다.",
+          "action": "먼저 gh --version, git --version, gh auth status로 현재 환경을 확인하고 토큰을 한 번 복사해 보관하는 스크립트를 목록화하세요. 긴 수명의 토큰을 전제로 하는 작업은 호환성을 확인하기 전 전환을 보류하세요. 로그인·credential helper 변경은 도입을 결정한 사용자가 직접 수행할 예시이며 이번 브리핑에서 실행한 작업은 아닙니다.",
+          "url": "https://github.blog/changelog/2026-10-21-github-cli-opt-in-to-expiring-auto-refreshing-oauth-tokens/"
+        }
+      ],
+      "radar": [
+        {
+          "label": "공식 릴리스 기반 추천",
+          "repo": "OrchestratorInc/agent-orchestrator",
+          "headline": "에이전트·워크트리·리뷰 상태를 한 보드에서 관리",
+          "url": "https://github.com/OrchestratorInc/agent-orchestrator",
+          "description": "작업마다 에이전트·브랜치·워크트리를 두고 PR·CI·리뷰 상태를 모으는 개발 작업공간입니다.",
+          "signal": "v0.14.6 공식 릴리스: 2026-10-24 09:57 KST. 세션 중 에이전트 전환, native Hermes Agent TUI, 동일 데이터 디렉터리에 대한 독점 잠금이 추가됐습니다. Trendar 노출·급상승 근거는 확보하지 못해 공식 릴리스 추천으로 표시합니다.",
+          "checkedAt": "2026-10-26",
+          "sourceUrl": "https://github.com/OrchestratorInc/agent-orchestrator/releases/tag/v0.14.6",
+          "why": "해석: 작업이 여러 브랜치로 나뉠 때 현재 작업과 리뷰·CI에서 막힌 작업을 함께 확인하는 데 참고할 만합니다. CI 실패·리뷰 댓글·충돌을 해당 브랜치의 작업자로 돌리는 흐름도 제공합니다.",
+          "try": "공식 릴리스와 에이전트 지원표를 먼저 읽으세요. 도입을 결정하면 공개 샘플 저장소의 작은 분석 작업 하나로 작업별 격리와 상태 보드의 연결을 확인하세요. 이 브리핑에서는 설치하거나 에이전트를 실행하지 않았습니다.",
+          "limitation": "Apache-2.0입니다. Worker·Chat·reviewer 지원은 에이전트마다 다릅니다. 모델 제공자 사용에 따른 외부 전송과 비용을 확인하세요. 제품의 사용량 분석 설정은 Settings > General > Privacy > Share usage analytics에서 확인할 수 있습니다."
+        },
+        {
+          "label": "공식 보안 유지보수 릴리스",
+          "repo": "anomalyco/opencode",
+          "headline": "OpenCode 1.x 사용자는 번들 런타임 수정 확인",
+          "url": "https://github.com/anomalyco/opencode",
+          "description": "오픈소스 AI 코딩 에이전트 OpenCode의 1.x 유지보수 릴리스입니다.",
+          "signal": "v1.19.4 공식 릴리스: 2026-10-22 22:03 KST. 번들 Bun을 1.4.4로 올려 Brotli·TLS·HTTP·WebSocket·fetch 관련 보안 수정과 루트 인증서 갱신을 포함합니다. Trendar 급상승으로 선정한 항목은 아닙니다.",
+          "checkedAt": "2026-10-26",
+          "sourceUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.19.4",
+          "why": "해석: 코딩 에이전트의 기능 외에도 네트워크와 파일 처리를 담당하는 런타임의 유지보수 버전을 확인할 이유가 있습니다.",
+          "try": "현재 설치 버전과 배포 채널을 확인한 뒤, 1.x를 사용한다면 해당 태그의 릴리스 노트와 업데이트 경로를 검토하세요. 이번 자료는 버전 확인·업데이트 검토 제안이며 실제 설치나 보안 검증 결과가 아닙니다.",
+          "limitation": "MIT 라이선스입니다. 현재 기본 브랜치 README는 OpenCode 2를 안내하므로 2.x의 설치법과 기능을 1.x 릴리스에 섞지 마세요. 이번 보안 수정이 모든 취약점을 제거하거나 성능 향상을 보장한다는 뜻은 아닙니다."
+        }
+      ],
+      "recipe": {
+        "heading": "10분 안에 도구별 사용량의 빈칸 찾기",
+        "description": "활용 제안: 실제 사용량을 추출하기 전에 집계 대상과 비교 단위를 맞추는 작은 점검입니다. 실행 결과나 생산성 향상 실적은 아닙니다.",
+        "steps": [
+          "사용하는 코딩 도구 3개와 각 도구가 이용하는 모델 제공자를 적습니다.",
+          "공식 발표를 기준으로 Copilot 보고서에 포함될 도구와 별도 측정할 도구를 구분합니다.",
+          "표의 열을 요청 수·세션 수·입력 토큰·출력 토큰·측정 기간·누락 가능성으로 정합니다.",
+          "권한이 있는 기존 보고서가 있다면 같은 기간의 한 표본만 대조하고, 없으면 미확인으로 남깁니다."
+        ],
+        "prompt": "이 도구 목록의 사용량 측정 범위를 검토해줘. 도구별 모델 제공자, Copilot 보고서 포함 여부, 요청·세션·토큰의 단위, 누락 가능성을 표로 정리해줘. 공식 문서의 근거를 남기고, 미확인 수치를 만들지 마. 사용량을 생산성이나 완료 작업 수로 바꾸어 해석하지 마.",
+        "limitation": "로그인이나 새 권한 부여 없이 문서와 기존 자료로 시작합니다. 클라이언트 식별은 best-effort이며 다른 제공자의 사용량은 별도 자료가 필요합니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "에이전트 사용량 표를 만들기 전에 집계 범위를 맞추기",
+          "reason": "스킬 이름별 지표에 이어 도구별 모델 트래픽까지 구분하는 후속 변화입니다. 발표 전 실제 환경의 집계 누락과 단위를 확인할 사례를 추가할 후보입니다.",
+          "url": "https://github.blog/changelog/2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub · Usage metrics API adds usage from tools like OpenCode (2026-10-23)",
+          "url": "https://github.blog/changelog/2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode/"
+        },
+        {
+          "title": "GitHub · GitHub CLI: Opt in to expiring, auto-refreshing OAuth tokens (2026-10-21)",
+          "url": "https://github.blog/changelog/2026-10-21-github-cli-opt-in-to-expiring-auto-refreshing-oauth-tokens/"
+        },
+        {
+          "title": "Orchestrator.inc · README·지원 범위·사용량 분석 설정 (2026-10-26 확인)",
+          "url": "https://github.com/OrchestratorInc/agent-orchestrator/blob/main/README.md"
+        },
+        {
+          "title": "Orchestrator.inc · v0.14.6 공식 릴리스 (2026-10-24 KST)",
+          "url": "https://github.com/OrchestratorInc/agent-orchestrator/releases/tag/v0.14.6"
+        },
+        {
+          "title": "OpenCode · v1.19.4 공식 릴리스 (2026-10-22 KST)",
+          "url": "https://github.com/anomalyco/opencode/releases/tag/v1.19.4"
+        },
+        {
+          "title": "OpenCode · 현재 기본 브랜치 README (2.x 안내, 2026-10-26 확인)",
+          "url": "https://github.com/anomalyco/opencode/blob/dev/README.md"
+        },
+        {
+          "title": "Trendar · AI Agents 발굴 피드 (2026-10-25 18:00 UTC 갱신 자료 확인, 이번 추천 두 항목의 급상승 근거 아님)",
+          "url": "https://trendar.org/trending/topic/ai-agents"
+        },
+        {
+          "title": "Trendar · Developer Tools 발굴 피드 (2026-10-25 18:01 UTC 갱신 자료 확인, 이번 추천 두 항목의 급상승 근거 아님)",
+          "url": "https://trendar.org/trending/topic/developer-tools"
+        }
+      ]
+    },
+    {
       "id": "daily-2026-10-25",
       "type": "daily",
       "date": "2026-10-25",
