@@ -634,6 +634,100 @@
       "sourceNote": "화면은 원문 1–3편에 실린 캡처를 그대로 사용했습니다. 검은 가림은 원문 작성자가 직접 한 것입니다. 수치는 작성자 보고이며 독립 검증한 값이 아닙니다. Herdr 이미지는 공식 저장소(Apache-2.0)의 스크린샷입니다."
     },
     {
+      "id": "daily-2026-10-25",
+      "type": "daily",
+      "date": "2026-10-25",
+      "title": "에이전트 평가에는 오탐을, 운영에는 검토 지점을",
+      "summary": "패치 전후를 함께 평가하는 Agentic FAITH, Teams 알림에서 PR까지 이어지는 흐름과 로컬 에이전트 상태 대시보드를 살펴봅니다. 새 저장소는 운영 목적에 직접 맞고 검증된 한 건만 골랐습니다.",
+      "author": "AI 라운지",
+      "tags": ["AI 에이전트", "평가", "개발 도구", "GitHub"],
+      "highlights": [
+        "평가: 문제를 찾는 비율과 패치 후 오탐을 함께 보기",
+        "운영: 알림에서 PR로 연결하고 여러 에이전트 상태 살피기",
+        "오늘의 실험: 공개 패치 전후를 같은 조건으로 리뷰하기"
+      ],
+      "sections": [
+        {
+          "heading": "좋은 리뷰 에이전트는 고친 코드에도 경보를 울리지 않는다",
+          "summary": "Cisco가 Agentic FAITH를 공개했습니다. 첫 벤치마크 VulnLoc은 취약 파일 탐지와 패치된 코드의 오탐 방지를 함께 평가합니다.",
+          "relevance": "리뷰 결과의 개수보다 정답·오탐·실행 실패를 나눠 보는 평가에 참고할 수 있습니다.",
+          "label": "에이전트 평가",
+          "date": "2026-10-23",
+          "body": "확인된 사실: Agentic FAITH는 여러 단계와 도구 호출이 필요한 평가를 기존 FAITH 흐름에 통합합니다. VulnLoc은 수정 전 저장소에서 취약 파일 집합의 F1을, 대응하는 패치 후 저장소에서는 지정된 취약점이 없음을 판단하는 true-negative rate를 평가합니다. 저장소는 읽기 전용이며, 정상적인 ‘해당 취약점 없음’을 미제출·실행 실패와 구분합니다. 도구 호출·턴·시간 제한, 대화와 실행 오류·종료 이유를 기록하고 완료된 작업 경계에서 재개할 수 있습니다.",
+          "takeaway": "해석: 리뷰 에이전트의 성능은 많이 지적하는 능력만으로 설명되지 않습니다. 동일한 수정 전후 입력과 실행 조건으로 누락과 오탐을 함께 봐야 합니다. 특정 취약점이 없다는 판정은 코드 전체의 안전성 보증이 아닙니다.",
+          "action": "공개 프로젝트의 작은 보안 패치 한 쌍을 골라 같은 요청·도구·시간 예산으로 읽기 전용 리뷰를 요청하세요. 정답 파일, 패치 후 오탐, 실행 실패를 따로 적는 것부터 시작하면 됩니다.",
+          "url": "https://blogs.cisco.com/ai/introducing-agentic-evaluation-in-faith"
+        },
+        {
+          "heading": "Teams 알림에서 수정 PR까지, 검토는 팀이 이어받기",
+          "summary": "GitHub의 통합 Teams 앱이 알림과 Copilot을 연결합니다. 이슈 알림에서 GitHub를 언급해 조사·수정·PR 생성을 요청할 수 있습니다.",
+          "relevance": "요청 접수와 코드 작업을 잇되 PR 검토·테스트·병합의 책임을 명확히 하는 사례입니다.",
+          "label": "개발 워크플로",
+          "date": "2026-10-23",
+          "body": "확인된 사실: 통합 GitHub 앱은 Teams의 채널·그룹 채팅·개인 채팅 알림에서 @GitHub를 언급해 이슈 조사와 버그 수정, PR 생성을 이어가는 흐름을 제공합니다. 공식 예시는 팀이 PR을 검토·테스트·병합하는 단계로 끝납니다. 기존 GitHub notifications 사용자는 앱을 업데이트하면 기존 알림 기능을 유지할 수 있습니다. 별도의 레거시 GitHub 앱은 ‘GitHub (deprecated)’로 바뀌며 11월 16일 종료될 예정입니다.",
+          "takeaway": "해석: 메시지에서 에이전트를 부르는 기능보다 중요한 것은 목표·관련 저장소·완료 조건과 사람의 검토 지점을 함께 전달하는 일입니다. 실제 사용 가능 여부는 계정 연결·저장소 선택과 조직 정책을 확인해야 합니다.",
+          "action": "알림 기반 작업 요청의 입력을 ‘문제 재현 / 대상 revision / 완료 조건 / PR에서 확인할 테스트’ 네 항목으로 적어 보세요. 자동으로 병합된다고 가정하지 말고 기존 리뷰 절차에 연결하세요.",
+          "url": "https://github.blog/changelog/2026-10-23-turn-notifications-into-code-with-github-copilot-in-teams/"
+        }
+      ],
+      "radar": [
+        {
+          "label": "Trendar AI 에이전트 · 추정 집계",
+          "repo": "Charonyuu/whatsmyagentdoing",
+          "headline": "여러 코딩 에이전트의 작업·대기 상태를 한 화면에서",
+          "url": "https://github.com/Charonyuu/whatsmyagentdoing",
+          "description": "Claude Code·Codex·Gemini CLI의 로컬 세션 로그를 읽어 상태와 최근 작업을 브라우저에 보여주는 대시보드입니다.",
+          "signal": "Trendar AI 에이전트 주제 1위, Stars 140, 하루 +121 추정(est.). 페이지 갱신 2026-10-24 18:00 UTC(한국 10월 25일 03:00) 스냅샷이며, 직접 측정한 증가량이나 GitHub 공식 Trending 순위가 아닙니다.",
+          "checkedAt": "2026-10-25",
+          "sourceUrl": "https://trendar.org/trending/topic/ai-agents",
+          "why": "List 보기가 Needs you → Working → Finished로 묶여 있어 여러 세션 중 먼저 확인할 대상을 찾는 운영 사례로 볼 만합니다. 세션 상태 확인 도구이며 코드 리뷰나 병합의 완료를 보증하지는 않습니다.",
+          "try": "README와 소스를 먼저 읽은 뒤 별도 복제본에서 Node.js 18 이상을 확인하고 node bin/cli.js --demo로 가상 세션을 살펴보세요. README 기준 npm install은 필요 없습니다. 실제 로그를 연결하기 전에 --private의 표시 범위도 확인하세요.",
+          "limitation": "MIT 코드. Antigravity는 지원하지 않습니다. Claude Code 승인 창은 로그에 남지 않아 승인 대기를 Running으로 표시할 수 있고, 비공개 로그 형식 변경에 따라 상태 판정이 달라질 수 있습니다. 로그 처리는 로컬 읽기 전용이며 127.0.0.1에 바인딩하지만 업데이트 확인과 선택한 3D 장면 다운로드에는 네트워크를 사용합니다. --private는 표시를 숨기는 옵션이며 로그 접근 자체를 없애지는 않습니다."
+        }
+      ],
+      "recipe": {
+        "heading": "공개 패치 전후로 리뷰의 오탐을 비교하기",
+        "description": "활용 제안 · 10~15분 동안 작은 패치 한 쌍의 평가 조건을 정하는 실험입니다. FAITH를 직접 실행하거나 검증한 성과 보고가 아닙니다.",
+        "steps": [
+          "신뢰할 수 있는 공개 프로젝트에서 설명과 정답 파일이 명확한 작은 보안 패치 한 쌍을 고릅니다.",
+          "수정 전후 revision을 나누고 동일한 요청·읽기 전용 도구·시간 또는 호출 예산을 사용합니다.",
+          "취약점이 있는 버전의 정답 파일 탐지, 패치 후 동일 취약점에 대한 오탐, 미제출·실행 실패를 별도로 적습니다.",
+          "최종 답변만 비교하지 말고 어떤 파일을 읽었고 어떤 근거로 종료했는지 확인합니다."
+        ],
+        "prompt": "이 공개 저장소 revision을 읽기 전용으로 검토해줘. 지정한 취약점 유형과 관련된 파일을 근거 위치와 함께 제출하고, 해당 문제가 없으면 없다고 명시해줘. 허용 도구와 실행 예산은 두 버전에서 동일하게 적용해줘. 실행 실패·예산 소진·조사 미완료를 ‘문제 없음’으로 바꾸지 말고, 읽은 파일과 종료 이유를 남겨줘. 코드는 수정하지 마.",
+        "limitation": "작은 한 쌍의 비교는 점검 방식의 예시입니다. 종합 안전성·일반 성능을 입증하지 않으며, AI 판정은 패치 설명과 사람이 확인한 정답 근거로 대조해야 합니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "리뷰 에이전트는 오탐도 평가한다",
+          "reason": "패치 전후의 대응 입력과 실행 실패 분리라는 평가 관점을 짧게 소개할 수 있습니다. 발표 전 공개 패치 실험과 원문 벤치마크의 차이를 명시해야 합니다.",
+          "url": "https://blogs.cisco.com/ai/introducing-agentic-evaluation-in-faith"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Cisco · Introducing Agentic Evaluation in FAITH (2026-10-23)",
+          "url": "https://blogs.cisco.com/ai/introducing-agentic-evaluation-in-faith"
+        },
+        {
+          "title": "GitHub · Turn notifications into code with GitHub Copilot in Teams (2026-10-23)",
+          "url": "https://github.blog/changelog/2026-10-23-turn-notifications-into-code-with-github-copilot-in-teams/"
+        },
+        {
+          "title": "whatsmyagentdoing · README (2026-10-25 확인)",
+          "url": "https://github.com/Charonyuu/whatsmyagentdoing/blob/main/README.md"
+        },
+        {
+          "title": "whatsmyagentdoing · MIT LICENSE (2026-10-25 확인)",
+          "url": "https://github.com/Charonyuu/whatsmyagentdoing/blob/main/LICENSE"
+        },
+        {
+          "title": "Trendar · AI Agents (2026-10-24 18:00 UTC 갱신)",
+          "url": "https://trendar.org/trending/topic/ai-agents"
+        }
+      ]
+    },
+    {
       "id": "daily-2026-10-24",
       "type": "daily",
       "date": "2026-10-24",
