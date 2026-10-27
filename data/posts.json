@@ -634,6 +634,130 @@
       "sourceNote": "화면은 원문 1–3편에 실린 캡처를 그대로 사용했습니다. 검은 가림은 원문 작성자가 직접 한 것입니다. 수치는 작성자 보고이며 독립 검증한 값이 아닙니다. Herdr 이미지는 공식 저장소(Apache-2.0)의 스크린샷입니다."
     },
     {
+      "id": "daily-2026-10-28",
+      "type": "daily",
+      "date": "2026-10-28",
+      "title": "스킬은 작업 경로에서 확인하고, 에이전트 인증은 실행 주체별로 분리",
+      "summary": "Claude Code의 스킬 탐색 수정과 Copilot SDK의 조직 인증을 확인합니다. ThinkRail의 워크트리·설계 기록과 BAMA의 화면별 완료 기준을 살펴보고, 공개 예제로 스킬 발견 범위를 점검합니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "Agent Skills",
+        "에이전트 운영",
+        "워크트리",
+        "인증"
+      ],
+      "highlights": [
+        "Claude Code는 하위 폴더 이동 뒤 스킬 탐색과 큰 지침 파일의 덮어쓰기를 보완했습니다.",
+        "ThinkRail은 워크트리와 설계 기록을 연결하고, BAMA는 화면을 검증 가능한 작업으로 나눕니다.",
+        "오늘은 공개 예제에서 경로별 스킬 발견을 확인합니다."
+      ],
+      "sections": [
+        {
+          "heading": "Claude Code, 폴더 이동 뒤 스킬 탐색을 수정",
+          "summary": "2.1.312는 Bash로 저장소 안쪽에 이동한 뒤 경로별 스킬을 찾지 못하던 문제를 수정했습니다. 큰 지침 파일의 일부만 읽고 전체를 덮어쓰던 문제도 보완했습니다.",
+          "relevance": "공용 스킬을 여러 하위 폴더에서 쓰는 개발자는 설치 여부와 실제 발견 여부를 따로 점검할 수 있습니다.",
+          "label": "도구 업데이트",
+          "date": "2026-10-28",
+          "body": "공식 릴리스는 2026년 10월 27일 20:24 UTC, 한국 시간 10월 28일 05:24입니다. Claude Code 2.1.312는 Bash cd로 Git 저장소의 더 깊은 폴더에 이동했을 때 per-directory 및 paths: 스킬이 발견되지 않던 문제를 수정했습니다.\n큰 CLAUDE.md·rules·@ 포함 파일의 앞부분만 본 상태에서 전체 파일을 덮어쓰는 문제도 수정했습니다. Write는 전체를 읽거나 부분 편집하도록 요청합니다. Code Review가 늦게 도착한 push 이벤트 때문에 이전 커밋을 검토하던 문제도 현재 PR 커밋을 검토하도록 보완했습니다.",
+          "takeaway": "스킬이 저장소에 있다는 사실만으로 모든 작업 경로에서 적용된다고 가정하면 안 됩니다. 발견 경로와 수정 대상 커밋을 실행 기록에 남기는 것이 유용합니다. 이번 수정은 모든 스킬이 항상 올바르게 선택된다는 보장이 아닙니다.",
+          "action": "10분 활용 제안: 공개 샘플 저장소에서 루트·하위 폴더·루트 복귀의 세 위치를 비교합니다. 같은 요청에 어떤 스킬 파일을 실제 읽었는지 기록하고, 긴 지침 파일은 앞부분 밖의 표식이 보존되는지 diff로 확인합니다. 설치나 권한 변경은 이 실험에 포함하지 않습니다.",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.312"
+        },
+        {
+          "heading": "Copilot SDK, 개인 대신 조직 앱으로 인증",
+          "summary": "GitHub는 10월 27일 Copilot의 서버 간 인증을 공개 미리보기로 발표했습니다. 조직에 설치한 GitHub App으로 서비스를 인증하고 사용량을 조직에 귀속할 수 있습니다.",
+          "relevance": "공용 에이전트 서비스를 운영할 때 개인 로그인과 서비스의 실행 주체·과금 주체를 구분하는 데 관련된 변화입니다.",
+          "label": "에이전트 운영",
+          "date": "2026-10-27",
+          "body": "GitHub Copilot SDK를 사용하는 서비스가 조직에 설치한 GitHub App의 설치 액세스 토큰으로 요청할 수 있습니다. 개인 사용자의 자격 증명에 의존하지 않는 서버 간 인증이며 공개 미리보기입니다.\nGitHub Actions 밖의 서비스는 Copilot Requests 조직 권한을 Read-only로 설정한 앱과, 해당 설치 인증이 활성화된 조직이 필요합니다. 설치 토큰은 한 시간 후 만료되며 사용량과 과금은 설치를 소유한 조직에 귀속됩니다. useLoggedInUser: false는 환경 변수 토큰을 포함한 자동 자격 증명 탐색을 끄므로 SDK의 명시적 토큰 옵션을 사용해야 합니다.",
+          "takeaway": "10월 26일 데일리의 GitHub CLI 개인 OAuth 만료·갱신과 달리 이번 변화는 서비스가 누구를 대신해 실행되는지를 다룹니다. 개인 CLI 로그인이나 도구 실행 승인 요청을 없애는 기능은 아닙니다.",
+          "action": "10분 활용 제안: 앱 설치나 유료 요청 없이 현재 서비스의 인증 주체·토큰 만료·갱신 담당·과금 주체를 네 칸으로 정리합니다. SDK의 useLoggedInUser 설정과 명시적 토큰 전달 위치도 문서에서 대조합니다. 조직 인증을 실제 적용하려면 조직의 활성화 상태와 앱 권한을 먼저 확인해야 합니다.",
+          "url": "https://github.blog/changelog/2026-10-27-github-copilot-supports-server-to-server-authentication/"
+        }
+      ],
+      "radar": [
+        {
+          "label": "추천 저장소",
+          "repo": "JetBrains/thinkrail",
+          "headline": "워크트리와 설계 기록을 한 화면에서 관리",
+          "url": "https://github.com/JetBrains/thinkrail",
+          "description": "pi 코딩 에이전트에 IDE 화면을 붙이고, 작업을 Git 워크트리로 격리하며 SPEC.md와 재사용 스킬을 연결하는 도구입니다.",
+          "signal": "2026-10-28 원본 README·Apache-2.0 라이선스와 공식 릴리스를 확인했습니다. v0.3.0-nightly.7은 10월 27일 11:11 UTC(20:11 KST)의 사전 릴리스입니다. Windows 경로 해석의 무한 재귀, 하위 에이전트 비용 집계와 호스트 충돌 후 복구를 보완했습니다. Trendar를 발굴 소스로 확인했지만 이 항목은 공식 릴리스 기반 추천입니다. GitHub 공식 Trending 근거를 확보하지 못해 인기 순위·증가량을 쓰지 않습니다.",
+          "checkedAt": "2026-10-28",
+          "sourceUrl": "https://github.com/JetBrains/thinkrail/releases/tag/v0.3.0-nightly.7",
+          "why": "여러 작업의 브랜치·변경 코드·설계 의도를 함께 봐야 하는 개발자에게 맞습니다. 별 수보다 워크트리와 살아 있는 설계 기록의 연결이 선정 이유입니다.",
+          "try": "10분 활용 제안: 먼저 README의 Isolated workspaces와 Specs as ground truth를 읽습니다. 기존 설치가 있다면 공개 샘플 저장소에서 작업 공간 두 개를 분리하고 각 브랜치의 diff와 SPEC.md를 구분해 봅니다. 병합·원격 push는 이 실험에 포함하지 않습니다.",
+          "limitation": "Apache-2.0입니다. 소개한 버전은 안정판이 아닌 nightly이며 직접 실행해 평가한 후기는 아닙니다. 모델 제공자 인증과 비용은 별도입니다. 저장소가 정의한 MCP 서버는 승인 전 꺼져 있고, 읽기 전용으로 표시되지 않은 호출에는 확인이 필요합니다. Windows 지원 수정이 모든 환경의 정상 동작을 보장하지 않습니다."
+        },
+        {
+          "label": "추천 스킬",
+          "repo": "daveebbelaar/bama",
+          "headline": "화면을 완료 조건과 검증 단계로 나누기",
+          "url": "https://github.com/daveebbelaar/bama",
+          "description": "macOS 앱의 조사·화면 기록·사용자 스토리·SwiftUI 구현·시각 검증을 이어 주는 Agent Skills 모음입니다.",
+          "signal": "Trendar AI Agents 피드의 2026-10-27 18:01 UTC(10월 28일 03:01 KST) 갱신 자료에서 발견했습니다. 원본 README·MIT 라이선스·최근 활동을 대조했습니다. 10월 24일 생성된 초기 저장소이며 10월 27일 문서 커밋을 확인했습니다. 정식 릴리스는 확인하지 못했습니다. Trendar 노출은 품질 보증이나 GitHub 공식 Trending 근거가 아닙니다. 순위·stars/day 추정치는 옮기지 않습니다.",
+          "checkedAt": "2026-10-28",
+          "sourceUrl": "https://trendar.org/trending/topic/ai-agents",
+          "why": "화면을 모호한 구현 요청으로 넘기지 않고 화면 목록·확인 가능한 완료 조건·밝은 테마와 어두운 테마 검증으로 나누는 구조를 참고할 수 있습니다.",
+          "try": "10분 활용 제안: 설치 없이 skills/plan/user-stories/SKILL.md와 skills/ship/build-and-verify/SKILL.md를 읽습니다. 공개 샘플 화면 하나의 동작을 완료 조건으로 적고, 원문처럼 [snap]·[unit]·[self]·[manual] 중 검증 방법을 표시합니다. 설치를 선택할 경우 README의 npx skills@latest add daveebbelaar/bama가 제공되지만 오늘 실험에서는 실행하지 않습니다.",
+          "limitation": "MIT이며 macOS 26·Xcode 26·Swift 6.2 환경을 전제로 합니다. Android/Wear OS에 바로 실행할 스킬이 아닙니다. 화면 수집에는 컴퓨터 사용 도구가 필요할 수 있습니다. 실제 앱 복제·빌드·검증은 수행하지 않았고, README의 개발 절차가 모든 앱에서 성공한다는 뜻은 아닙니다."
+        }
+      ],
+      "recipe": {
+        "heading": "10분 실험: 작업 경로별 스킬 발견을 확인",
+        "description": "공용 스킬이 설치돼 있다는 사실과 현재 경로에서 발견된다는 사실을 구분하는 실험 제안입니다. 실제 실행 결과가 아니라 복사해 사용할 점검 요청입니다.",
+        "steps": [
+          "공개 샘플 저장소와 무해한 스킬 하나를 고릅니다. 스킬의 이름·저장 위치·기대 적용 경로를 먼저 기록합니다.",
+          "루트, 하위 폴더로 cd한 뒤, 루트로 돌아온 뒤의 세 상태에서 같은 작은 읽기 전용 요청을 보냅니다.",
+          "실제로 읽은 스킬 경로와 적용 근거를 기록합니다. 확인하지 못한 경우는 미검증으로 남깁니다.",
+          "설정 변경·설치·파일 수정 없이 결과를 비교합니다. 경로별 발견 차이가 있으면 버전과 재현 절차를 기록합니다."
+        ],
+        "prompt": "공개 샘플 저장소에서 경로별 스킬 발견을 점검해 줘.\n1. 먼저 도구 버전, 저장소 revision, 스킬 이름과 위치, 기대 적용 경로를 기록해.\n2. 루트, 하위 폴더로 cd한 상태, 루트로 복귀한 상태에서 같은 작은 읽기 전용 요청을 비교해.\n3. 각 상태에서 실제 읽은 스킬 파일 경로와 관찰 근거를 표로 써 줘. 이름을 안다는 이유만으로 적용됐다고 판정하지 마.\n4. 확인하지 못한 상태는 미검증으로 적어 줘.\n5. 파일 수정, 스킬 설치, 권한 변경, 외부 서비스 호출, commit과 push는 하지 마.\n성공 조건: 세 상태의 관찰 결과와 발견 차이의 재현 절차를 남기는 것.",
+        "limitation": "10분 동안 발견 경로를 점검하는 실험이며 스킬 선택의 정확도나 개발 생산성을 입증하지 않습니다. 호스트가 실제 스킬 읽기 근거를 노출하지 않으면 미검증으로 남겨야 합니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "워크트리마다 설계 의도를 이어 가는 ThinkRail",
+          "reason": "독립 작업 공간·SPEC.md·재사용 스킬을 연결하는 방식을 공개 샘플로 설명할 수 있습니다. 발표 전 실제 작업 공간 두 개의 전환·diff·설계 기록 유지와 안정판 동작을 검증해야 합니다. 후보 누적이며 월간 발행은 아닙니다.",
+          "url": "https://github.com/JetBrains/thinkrail"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Claude Code v2.1.312 — 2026-10-27 UTC / 10-28 KST",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.312"
+        },
+        {
+          "title": "GitHub Copilot supports server-to-server authentication — 2026-10-27",
+          "url": "https://github.blog/changelog/2026-10-27-github-copilot-supports-server-to-server-authentication/"
+        },
+        {
+          "title": "GitHub Docs: Server-to-server authentication — 2026-10-28 확인",
+          "url": "https://docs.github.com/en/copilot/how-tos/copilot-sdk/auth/server-to-server-tokens"
+        },
+        {
+          "title": "ThinkRail 공식 README·Apache-2.0 라이선스 — 2026-10-28 확인",
+          "url": "https://github.com/JetBrains/thinkrail"
+        },
+        {
+          "title": "ThinkRail v0.3.0-nightly.7 — 2026-10-27",
+          "url": "https://github.com/JetBrains/thinkrail/releases/tag/v0.3.0-nightly.7"
+        },
+        {
+          "title": "BAMA 공식 README·MIT 라이선스 — 2026-10-28 확인",
+          "url": "https://github.com/daveebbelaar/bama"
+        },
+        {
+          "title": "Trendar AI Agents — 2026-10-27 18:01 UTC 갱신",
+          "url": "https://trendar.org/trending/topic/ai-agents"
+        },
+        {
+          "title": "Trendar 한국어 발굴 목록 — 2026-10-28 확인",
+          "url": "https://trendar.org/ko/trending"
+        }
+      ]
+    },
+    {
       "id": "daily-2026-10-27",
       "type": "daily",
       "date": "2026-10-27",
