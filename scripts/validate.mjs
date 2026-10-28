@@ -21,6 +21,16 @@ for (const post of data.posts) {
   assert.ok(!Number.isNaN(date.valueOf()) && date.toISOString().slice(0,10) === post.date, `잘못된 날짜: ${post.id}`);
   assert.ok(Array.isArray(post.tags) && post.tags.every(tag=>typeof tag === "string" && tag.trim()), `${post.id}: tags 오류`);
   if (post.published !== undefined) assert.equal(typeof post.published, "boolean", `${post.id}: published는 boolean 필요`);
+  if (post.coverImage !== undefined) {
+    const cover = post.coverImage;
+    assert.equal(post.type, "daily", `${post.id}: coverImage는 daily 전용`);
+    assert.ok(cover && typeof cover === "object" && !Array.isArray(cover), `${post.id}: coverImage 객체 필요`);
+    assert.equal(cover.date, post.date, `${post.id}: 이미지 날짜 불일치`);
+    assert.equal(cover.src, `assets/daily/${post.date}.webp`, `${post.id}: 날짜별 이미지 경로 필요`);
+    requiredText(cover.alt, `${post.id}: 이미지 alt`);
+    for (const key of ["width", "height"]) assert.ok(Number.isInteger(cover[key]) && cover[key] > 0, `${post.id}: 이미지 ${key} 필요`);
+    assert.ok((await readFile(new URL(`../${cover.src}`, import.meta.url))).length > 0, `${post.id}: 빈 이미지`);
+  }
   if (post.highlights !== undefined) assert.ok(Array.isArray(post.highlights) && post.highlights.length <= 3 && post.highlights.every(item=>typeof item === "string" && item.trim()), `${post.id}: highlights 오류`);
   if (post.radar !== undefined) {
     assert.ok(Array.isArray(post.radar), `${post.id}: radar 배열 필요`);

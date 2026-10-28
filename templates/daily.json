@@ -8,6 +8,13 @@
   "tags": [
     "AI 활용"
   ],
+  "coverImage": {
+    "src": "assets/daily/YYYY-MM-DD.webp",
+    "date": "YYYY-MM-DD",
+    "alt": "오늘 확정한 핵심 내용을 텍스트로 요약하세요. 이미지 생성에 실패한 날은 coverImage 전체를 생략합니다.",
+    "width": 1122,
+    "height": 1402
+  },
   "highlights": [
     "핵심 변화와 오늘 볼 이유",
     "주목할 저장소와 쓰임새",

@@ -173,3 +173,10 @@ html,body{overflow-x:clip}
 .guide-list h2{font-size:1.5rem;line-height:1.45;margin:.5rem 0}
 .guide-list p{margin:.75rem 0 0;color:var(--muted)}
 @media(max-width:600px){.guide-article{padding-top:2rem}.guide-heading h1{font-size:2rem}.guide-section{padding:1.5rem 0}.guide-deck{font-size:1rem}.site-header nav{gap:.75rem;flex-wrap:wrap}.site-header nav a{font-size:.8rem}}
+
+.daily-cover{margin:0 0 1.5rem;max-width:900px}
+.daily-cover[hidden]{display:none}
+.daily-cover>a{display:block}
+.daily-cover img{display:block;width:100%;height:auto;max-width:100%;background:#fff}
+.daily-cover figcaption{font-size:.8rem;color:var(--muted);line-height:1.6;margin-top:.5rem}
+.daily-cover figcaption span{display:block}

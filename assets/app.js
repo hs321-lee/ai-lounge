@@ -61,18 +61,30 @@ function renderInsight(section, index) {
 function renderRadar(repo, index, offset) {
   return `<section class="radar-entry daily-item" id="daily-repo-${index}" tabindex="-1"><div class="insight-meta"><span class="item-number">${String(offset + index + 1).padStart(2,"0")}</span><span>${escape(repo.label)}</span></div><h3>${escape(repo.headline || repo.repo)}</h3><a class="repo-name" href="${safeUrl(repo.url)}" target="_blank" rel="noopener">${escape(repo.repo)} ↗</a><p>${escape(repo.description)}</p><p class="item-relevance"><strong>써볼 이유</strong>${escape(repo.why)}</p><details class="daily-details"><summary>시작 방법 · 주의점 · 인기 근거</summary><dl><dt>먼저 해볼 것</dt><dd>${escape(repo.try)}</dd><dt>확인할 제약</dt><dd>${escape(repo.limitation)}</dd></dl><p class="radar-signal">${escape(repo.signal)}<small>확인 ${escape(repo.checkedAt)} · <a href="${safeUrl(repo.sourceUrl)}" target="_blank" rel="noopener">집계 근거 ↗</a></small></p></details></section>`;
 }
+function renderDailyCover(report) {
+  const cover = report.coverImage;
+  if (!cover || cover.date !== report.date || cover.src !== `assets/daily/${report.date}.webp`) return "";
+  return `<figure class="daily-cover"><a href="${escape(cover.src)}" target="_blank" rel="noopener" aria-label="${escape(report.date)} AI 데일리 요약 이미지 크게 보기"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" loading="eager" fetchpriority="high" decoding="async"></a><figcaption>AI로 만든 오늘의 요약 이미지 · <a href="${escape(cover.src)}" target="_blank" rel="noopener">크게 보기 ↗</a><span>이미지 속 표현과 작은 글씨는 아래 본문·원문 링크로 확인하세요.</span></figcaption></figure>`;
+}
 function renderDaily(report) {
   document.title = "나의 AI 데일리 — AI 라운지";
   const history = dailyReports.length > 1 ? `<div class="daily-history"><label for="report-date">지난 데일리</label><select id="report-date">${dailyReports.map(item=>`<option value="${escape(item.id)}"${item.id===report?.id ? " selected" : ""}>${escape(item.date)}</option>`).join("")}</select></div>` : "";
   const contents = report ? [...report.sections.map((section,index)=>({id:`daily-insight-${index}`,title:section.heading,type:"AI"})),...(report.radar || []).map((repo,index)=>({id:`daily-repo-${index}`,title:repo.headline || repo.repo,type:"GitHub"})),...(report.recipe ? [{id:"daily-recipe",title:report.recipe.heading,type:"실전"}] : [])] : [];
   main.innerHTML = `<header class="daily-masthead"><h1>나의 AI 데일리</h1>${history}</header>
     ${report ? `<article class="daily-edition"><header class="daily-lead"><div class="daily-edition-meta"><time datetime="${escape(report.date)}">${escape(report.date.replaceAll("-","."))}</time><span>오늘의 핵심</span></div><h2>${escape(report.title)}</h2></header>
+    ${renderDailyCover(report)}
     <nav class="daily-headlines" aria-label="오늘의 목차"><p class="eyebrow">오늘 읽을 ${contents.length}가지</p><ol>${contents.map((item,index)=>`<li><button type="button" data-scroll="${item.id}"><span class="toc-number">${String(index+1).padStart(2,"0")}</span><strong>${escape(item.title)}</strong><span class="toc-type">${item.type}</span></button></li>`).join("")}</ol></nav>
     <details class="daily-details edition-overview"><summary>오늘의 브리핑 소개</summary><p>${escape(report.summary)}</p>${report.highlights?.length ? `<ul>${report.highlights.map(item=>`<li>${escape(item)}</li>`).join("")}</ul>` : ""}</details>
     <div class="daily-columns"><section class="daily-insights" id="daily-insights"><div class="daily-section-title"><p class="eyebrow">WHAT CHANGED</p><h2>AI 인사이트</h2></div>${report.sections.map(renderInsight).join("")}</section>
     ${report.radar?.length ? `<aside class="daily-radar" id="daily-radar"><div class="daily-section-title"><p class="eyebrow">WORTH A LOOK</p><h2>GitHub · 스킬 발견</h2></div>${report.radar.map((repo,index)=>renderRadar(repo,index,report.sections.length)).join("")}</aside>` : ""}</div>
     ${report.recipe ? `<section class="daily-recipe daily-item" id="daily-recipe" tabindex="-1"><div class="daily-section-title"><p class="eyebrow">${String(contents.length).padStart(2,"0")} / TRY IT TODAY</p><h2>${escape(report.recipe.heading)}</h2><p>${escape(report.recipe.description)}</p></div><div class="recipe-grid"><ol>${report.recipe.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol><div><div class="recipe-prompt-header"><p class="recipe-prompt-label">에이전트에 이렇게 요청해 보세요</p><button type="button" class="copy-prompt">프롬프트 복사</button></div><pre class="recipe-prompt" tabindex="0" aria-label="복사할 프롬프트">${escape(report.recipe.prompt)}</pre><p class="copy-status" role="status"></p><p class="recipe-limit">${escape(report.recipe.limitation)}</p></div></div></section>` : ""}
     <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details></article>` : '<section class="empty"><h2>첫 데일리를 준비하고 있어요.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
+  const coverImage = main.querySelector(".daily-cover img");
+  if (coverImage) {
+    const hideBrokenCover = () => { coverImage.closest("figure").hidden = true; };
+    coverImage.addEventListener("error", hideBrokenCover, { once: true });
+    if (coverImage.complete && !coverImage.naturalWidth) hideBrokenCover();
+  }
   document.querySelector("#report-date")?.addEventListener("change",event=>{location.hash=`post/${encodeURIComponent(event.target.value)}`;});
   main.querySelectorAll("[data-scroll]").forEach(button=>button.addEventListener("click",()=>{
     const target = document.getElementById(button.dataset.scroll);
