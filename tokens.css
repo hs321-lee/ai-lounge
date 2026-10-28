@@ -17,3 +17,27 @@
   --story-ease-out: cubic-bezier(.16, 1, .3, 1);
   --story-duration: 800ms;
 }
+
+/* Editorial landing: existing paper, ink and accent; Nanum selected by the owner. */
+:root {
+  --lounge-paper: var(--story-paper);
+  --lounge-ink: var(--story-ink);
+  --lounge-muted: var(--story-muted);
+  --lounge-rule: var(--story-rule);
+  --lounge-accent: var(--story-accent);
+  --lounge-cover: oklch(29% 0.035 155);
+  --lounge-cover-muted: oklch(85% 0.014 155);
+  --lounge-cover-rule: oklch(65% 0.018 155);
+  --lounge-font: "NanumSquareNeo", system-ui, -apple-system, sans-serif;
+  --lounge-space-xs: .5rem;
+  --lounge-space-sm: 1rem;
+  --lounge-space-md: 1.5rem;
+  --lounge-space-lg: 2rem;
+  --lounge-space-xl: 3rem;
+  --lounge-space-2xl: 4rem;
+  --lounge-space-3xl: 6rem;
+  --lounge-text-display: clamp(2.5rem, 5.8vw, 5rem);
+  --lounge-text-title: clamp(1.6rem, 3vw, 2.5rem);
+  --lounge-text-body: 1rem;
+  --lounge-rule-width: 1px;
+}
