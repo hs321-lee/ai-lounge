@@ -20,6 +20,7 @@ for (const post of data.posts) {
   const date = new Date(`${post.date}T00:00:00Z`);
   assert.ok(!Number.isNaN(date.valueOf()) && date.toISOString().slice(0,10) === post.date, `잘못된 날짜: ${post.id}`);
   assert.ok(Array.isArray(post.tags) && post.tags.every(tag=>typeof tag === "string" && tag.trim()), `${post.id}: tags 오류`);
+  if (post.published !== undefined) assert.equal(typeof post.published, "boolean", `${post.id}: published는 boolean 필요`);
   if (post.highlights !== undefined) assert.ok(Array.isArray(post.highlights) && post.highlights.length <= 3 && post.highlights.every(item=>typeof item === "string" && item.trim()), `${post.id}: highlights 오류`);
   if (post.radar !== undefined) {
     assert.ok(Array.isArray(post.radar), `${post.id}: radar 배열 필요`);

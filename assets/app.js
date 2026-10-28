@@ -8,6 +8,7 @@ document.querySelector(".skip")?.addEventListener("click", event => {
 });
 let issues = [];
 let dailyReports = [];
+let guides = [];
 const escape = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
 const safeUrl = value => { try { const url = new URL(value); return url.protocol === "https:" ? escape(url.href) : "#"; } catch { return "#"; } };
 let monthlyMotionCleanup = () => {};
@@ -41,11 +42,13 @@ function renderIssue(issue) {
   const disposeMedia = window.MonthlyMedia?.mount(main, issue.sections) || (() => {});
   monthlyMotionCleanup = () => { disposeMedia(); disposeMotion(); };
 }
-function setView(monthly) {
+function setView(monthly, library = false) {
   document.body.classList.toggle("monthly-view", monthly);
   const target = monthly ? "monthly" : "home";
   document.querySelector(".brand").href = `#${target}`;
-  document.querySelector("nav").innerHTML = `<a href="#${target}" aria-current="page">${monthly ? "월간 소개" : "데일리 읽기"}</a>`;
+  document.querySelector("nav").innerHTML = monthly
+    ? '<a href="#monthly" aria-current="page">월간 소개</a>'
+    : `<a href="#home"${library ? "" : ' aria-current="page"'}>데일리 읽기</a><a href="#library"${library ? ' aria-current="page"' : ""}>인사이트 모음</a>`;
   document.querySelector("footer").innerHTML = monthly
     ? '<span><strong>AI 라운지</strong> · 한 달에 한 번, 쓸 만한 경험을 나눕니다.</span><span>나는 이렇게 쓴다.</span>'
     : '<span><strong>AI 라운지</strong> · 매일 읽고, 쓸 만한 내용을 쌓습니다.</span>';
@@ -91,17 +94,30 @@ function renderDaily(report) {
     }
   });
 }
+function renderLibrary() {
+  document.title = "인사이트 모음 — AI 라운지";
+  main.innerHTML = `<header class="page-heading"><p class="eyebrow">AI LOUNGE / INSIGHTS</p><h1>인사이트 모음</h1><p class="lede">다시 읽고, 업무에 적용할 관점을 쌓습니다.</p></header><div class="guide-list">${guides.map(guide=>`<article><time datetime="${escape(guide.date)}">${escape(guide.date)}</time><h2><a href="#post/${encodeURIComponent(guide.id)}">${escape(guide.title)}</a></h2><p>${escape(guide.summary)}</p></article>`).join("") || '<p>첫 인사이트를 준비하고 있습니다.</p>'}</div>`;
+}
+function renderGuide(guide) {
+  document.title = `${guide.title} — AI 라운지`;
+  main.innerHTML = `<article class="guide-article"><header class="guide-heading"><a href="#library">← 인사이트 모음</a><p class="eyebrow"><time datetime="${escape(guide.date)}">${escape(guide.date)}</time> · AI 라운지 인사이트</p><h1>${escape(guide.title)}</h1><p class="guide-deck">${escape(guide.summary)}</p></header>
+    ${guide.highlights?.length ? `<aside class="guide-highlights" aria-label="핵심 세 줄"><h2>먼저 읽을 세 줄</h2><ul>${guide.highlights.map(line=>`<li>${escape(line)}</li>`).join("")}</ul></aside>` : ""}
+    ${guide.sections.map((section,index)=>`<section class="guide-section"><p class="eyebrow">${String(index+1).padStart(2,"0")} / ${escape(section.label || "INSIGHT")}</p><h2>${escape(section.heading)}</h2><p class="guide-body">${escape(section.body)}</p>${section.takeaway ? `<div class="guide-interpretation"><h3>업무에 연결하면</h3><p>${escape(section.takeaway)}</p></div>` : ""}${section.action ? `<div class="guide-action"><h3>적용 예시</h3><p>${escape(section.action)}</p></div>` : ""}${section.url ? `<a class="daily-source-link" href="${safeUrl(section.url)}" target="_blank" rel="noopener">강연 자료에서 확인 ↗</a>` : ""}</section>`).join("")}
+    <section class="guide-sources"><h2>출처와 읽는 기준</h2>${guide.sourceNote ? `<p>${escape(guide.sourceNote)}</p>` : ""}<ul>${guide.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></section></article>`;
+}
 function route() {
   monthlyMotionCleanup();
   monthlyMotionCleanup = () => {};
   const hash = location.hash.slice(1) || "home";
   let selected;
   if (hash.startsWith("post/")) {
-    try { const id=decodeURIComponent(hash.slice(5)); selected=issues.find(item=>item.id===id)||dailyReports.find(item=>item.id===id); } catch {}
+    try { const id=decodeURIComponent(hash.slice(5)); selected=issues.find(item=>item.id===id)||dailyReports.find(item=>item.id===id)||guides.find(item=>item.id===id); } catch {}
   }
   const monthly = hash === "monthly" || selected?.type === "monthly";
-  setView(monthly);
-  if (monthly) {
+  setView(monthly, hash === "library" || selected?.type === "guide");
+  if (hash === "library") renderLibrary();
+  else if (selected?.type === "guide") renderGuide(selected);
+  else if (monthly) {
     const issue=selected||issues[0];
     if (issue) renderIssue(issue);
     else main.innerHTML='<section class="page-heading"><p class="eyebrow">MONTHLY AI LOUNGE</p><h1>첫 월간 소개를 준비하고 있어요.</h1><p class="lede">함께 나누고 싶은 사용 경험과 작은 팁을 골라 곧 소개하겠습니다.</p></section>';
@@ -111,6 +127,7 @@ fetch("data/posts.json", { cache: "no-cache" }).then(response=>{if(!response.ok)
   // Daily reading and monthly presentations are independent views, sharing one content source.
   issues = data.posts.filter(post=>post.type==="monthly").sort((a,b)=>b.date.localeCompare(a.date));
   dailyReports = data.posts.filter(post=>post.type==="daily").sort((a,b)=>b.date.localeCompare(a.date));
+  guides = data.posts.filter(post=>post.type==="guide" && post.published === true).sort((a,b)=>b.date.localeCompare(a.date));
   route();
   window.addEventListener("hashchange",()=>{route();main.focus();window.scrollTo(0,0);});
 }).catch(()=>{
