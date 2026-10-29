@@ -1,0 +1,115 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import vm from "node:vm";
+import test from "node:test";
+
+const code = await readFile(new URL("../assets/app.js", import.meta.url), "utf8");
+const data = JSON.parse(await readFile(new URL("../data/posts.json", import.meta.url), "utf8"));
+const actualIssue = data.posts.find(post => post.type === "monthly");
+
+async function open(hash, posts = data.posts) {
+  const classes = new Set();
+  const listeners = {};
+  const stats = { mounts: 0, cleanups: 0, mediaMounts: 0, mediaCleanups: 0 };
+  const node = () => ({ innerHTML: "", addEventListener() {}, querySelector() { return null; }, querySelectorAll() { return []; }, focus() {}, scrollIntoView() {} });
+  const main = node();
+  const nav = node();
+  const brand = node();
+  const footer = node();
+  const document = { title: "", body: { classList: { toggle(name, enabled) { if (enabled) classes.add(name); else classes.delete(name); } } }, querySelector(selector) { return selector === "main" ? main : selector === ".site-header nav" ? nav : selector === ".brand" ? brand : selector === "footer" ? footer : null; } };
+  const location = { hash };
+  const window = {
+    addEventListener(name, callback) { listeners[name] = callback; },
+    scrollTo() {}, matchMedia() { return { matches: true }; },
+    MonthlyMotion: { mount() { stats.mounts++; return () => stats.cleanups++; } },
+    MonthlyMedia: { mount() { stats.mediaMounts++; return () => stats.mediaCleanups++; } }
+  };
+  vm.runInNewContext(code, { document, window, location, URL, fetch: async () => ({ ok: true, json: async () => ({ posts }) }) });
+  await new Promise(resolve => setImmediate(resolve));
+  return { main, nav, classes, stats, go(next) { location.hash = next; listeners.hashchange(); } };
+}
+
+test("월간 탭은 실제 발행 월을 모으고 발표 동작을 시작하지 않는다", async () => {
+  const page = await open("#monthly");
+  assert.match(page.main.innerHTML, /<h1>함께 보기<\/h1>/);
+  assert.match(page.main.innerHTML, /href="#monthly\/2026-10"/);
+  assert.doesNotMatch(page.main.innerHTML, /class="monthly-story"/);
+  assert(page.classes.has("monthly-archive-view"));
+  assert(!page.classes.has("monthly-view"));
+  assert.equal(page.stats.mounts, 0);
+  assert.match(page.nav.innerHTML, /href="#monthly" aria-current="page">함께 보기<\/a>/);
+});
+
+test("선택한 월과 기존 공유 주소가 동일한 발표와 원본 장면을 연다", async () => {
+  const canonical = await open("#monthly/2026-10");
+  const legacy = await open(`#post/${actualIssue.id}`);
+  assert.equal(canonical.main.innerHTML, legacy.main.innerHTML);
+  assert(canonical.classes.has("monthly-view"));
+  assert(!canonical.classes.has("monthly-archive-view"));
+  assert.equal((canonical.main.innerHTML.match(/id="scene-/g) || []).length, actualIssue.sections.length);
+  assert.match(canonical.main.innerHTML, /data-jump=/);
+  assert.match(canonical.main.innerHTML, /data-media=/);
+  assert.match(canonical.main.innerHTML, /class="story-viewer"/);
+  assert.match(canonical.main.innerHTML, /href="#monthly"/);
+});
+
+test("없는 월·잘못된 월은 최신 발표로 바뀌지 않는다", async () => {
+  for (const hash of ["#monthly/2025-12", "#monthly/2026-13", "#monthly/%E0%A4%A", "#monthly/2026-10/extra"]) {
+    const page = await open(hash);
+    assert.match(page.main.innerHTML, /해당 월의 자료가 없습니다/);
+    assert.doesNotMatch(page.main.innerHTML, /class="monthly-story"/);
+    assert.equal(page.stats.mounts, 0);
+    assert(!page.classes.has("monthly-view"));
+  }
+});
+
+test("목록은 실제 월만 누적하고 같은 달의 여러 자료도 남긴다", async () => {
+  const earlier = { ...actualIssue, id: "monthly-test-earlier", date: "2026-09-30", title: "테스트용 이전 월" };
+  const duplicate = { ...actualIssue, id: "monthly-test-same-month", date: "2026-10-01", title: "테스트용 같은 월" };
+  const page = await open("#monthly", [...data.posts, earlier, duplicate]);
+  assert.match(page.main.innerHTML, /테스트용 이전 월/);
+  assert.match(page.main.innerHTML, /테스트용 같은 월/);
+  assert.match(page.main.innerHTML, /href="#monthly\/2026-09"/);
+  assert.match(page.main.innerHTML, /href="#post\/monthly-test-same-month"/);
+  assert(page.main.innerHTML.indexOf(actualIssue.title) < page.main.innerHTML.indexOf(earlier.title));
+  page.go("#monthly/2026-10");
+  assert.match(page.main.innerHTML, new RegExp(actualIssue.title));
+  assert.doesNotMatch(page.main.innerHTML, /<h1>테스트용 같은 월/);
+});
+
+test("발표→목록→다른 탭→기존 공유 주소 전환 시 발표 상태를 정리한다", async () => {
+  const page = await open("#monthly/2026-10");
+  assert.equal(page.stats.mounts, 1);
+  page.go("#monthly");
+  assert.equal(page.stats.cleanups, 1);
+  assert.equal(page.stats.mediaCleanups, 1);
+  assert(!page.classes.has("monthly-view"));
+  page.go("#daily");
+  assert(!page.classes.has("monthly-archive-view"));
+  page.go(`#post/${actualIssue.id}`);
+  assert.equal(page.stats.mounts, 2);
+  assert.equal(page.stats.mediaMounts, 2);
+  page.go("#library");
+  assert.equal(page.stats.cleanups, 2);
+  assert.equal(page.stats.mediaCleanups, 2);
+});
+
+test("월간 자료가 없으면 빈 목록을 안내한다", async () => {
+  const page = await open("#monthly", data.posts.filter(post => post.type !== "monthly"));
+  assert.match(page.main.innerHTML, /첫 월간 자료를 준비하고 있습니다/);
+  assert.doesNotMatch(page.main.innerHTML, /undefined/);
+  assert.equal(page.stats.mounts, 0);
+});
+
+test("네 탭의 이름과 순서는 목록과 발표에서 같고 현재 탭만 달라진다", async () => {
+  const page = await open("#home");
+  const normalize = html => html.replaceAll(' aria-current="page"', "");
+  const navigation = normalize(page.nav.innerHTML);
+  assert.deepEqual([...navigation.matchAll(/href="#([^"]+)"/g)].map(match=>match[1]), ["home", "daily", "library", "monthly"]);
+  assert.deepEqual([...navigation.matchAll(/>([^<]+)<\/a>/g)].map(match=>match[1]), ["홈", "AI 소식", "인사이트", "함께 보기"]);
+  assert.match(page.main.innerHTML, /href="#monthly"/);
+  for (const hash of ["#daily", "#library", "#monthly", "#monthly/2026-10"]) {
+    page.go(hash);
+    assert.equal(normalize(page.nav.innerHTML), navigation);
+  }
+});

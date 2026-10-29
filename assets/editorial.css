@@ -300,3 +300,33 @@ body.monthly-view .site-header{box-shadow:0 0 0 100vmax var(--story-paper);clip-
 .home-insight .source-cover-card{height:100%}
 .home-insight-copy{padding-inline:var(--lounge-space-xs)}
 @media(max-width:47.999rem){.source-cover-card{padding:var(--lounge-space-sm)}.home-insight{grid-template-columns:minmax(0,1fr)}.source-cover-meta>strong{font-size:1.2rem}}
+
+/* Mobile header geometry stays the same on reading and Monthly routes. */
+@media(max-width:50rem){
+ body .site-header.wrap{padding-block:.75rem;gap:.75rem}
+ body .site-header.wrap nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+ body .site-header.wrap nav a{min-width:0;justify-content:center;font-size:.75rem;padding-block:.25rem}
+}
+
+/* Month index and presentation have separate reading surfaces. */
+.monthly-index{padding-block:var(--lounge-space-xl)}
+.monthly-index .editorial-masthead h1{font-family:var(--lounge-display)}
+.monthly-year{padding-top:var(--lounge-space-xl)}
+.monthly-year>h2{font-size:1.1rem;margin:0 0 var(--lounge-space-lg);font-weight:800}
+.monthly-entry-list{display:grid;gap:var(--lounge-space-xl)}
+.monthly-entry{display:grid;gap:var(--lounge-space-lg);padding-bottom:var(--lounge-space-xl);border-bottom:1px solid var(--lounge-rule);min-width:0}
+.monthly-entry figure{margin:0;min-width:0;max-width:28rem}
+.monthly-entry figure a{display:block}
+.monthly-entry img{display:block;width:100%;height:auto}
+.monthly-entry-text{min-width:0;align-self:center}
+.monthly-entry time{color:var(--lounge-accent);font-size:1rem;font-weight:800;font-variant-numeric:tabular-nums}
+.monthly-entry h3{font-family:var(--lounge-display);font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.45;margin:var(--lounge-space-sm) 0}
+.monthly-entry h3 a{text-decoration:none}
+.monthly-entry h3 a:hover{text-decoration:underline;text-underline-offset:.2em}
+.monthly-entry-text>p{font-size:.95rem;line-height:1.85;max-width:42rem;color:var(--lounge-muted);margin:0 0 var(--lounge-space-md)}
+.monthly-entry-text>.monthly-entry-topics{font-size:.75rem}
+.monthly-entry .editorial-read{color:var(--lounge-ink)}
+.monthly-detail-nav{display:flex;justify-content:space-between;align-items:center;gap:var(--lounge-space-md);padding-block:var(--lounge-space-sm);border-bottom:1px solid var(--lounge-rule);font-size:.8rem}
+.monthly-detail-nav a{display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}
+.monthly-detail-nav time{color:var(--lounge-muted)}
+@media(min-width:48rem){.monthly-entry.has-preview{grid-template-columns:minmax(0,.7fr) minmax(0,1fr);gap:var(--lounge-space-xl)}}

@@ -9,6 +9,8 @@ document.querySelector(".skip")?.addEventListener("click", event => {
 let issues = [];
 let dailyReports = [];
 let guides = [];
+// Display labels are kept here; route IDs stay stable for shared links.
+const navigationLabels = Object.freeze({ home: "홈", daily: "AI 소식", library: "인사이트", monthly: "함께 보기" });
 const escape = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
 const safeUrl = value => { try { const url = new URL(value); return url.protocol === "https:" ? escape(url.href) : "#"; } catch { return "#"; } };
 let monthlyMotionCleanup = () => {};
@@ -29,26 +31,51 @@ function renderScene(section, index) {
       ${section.code ? `<pre class="scene-code">${section.code.map(line=>`<span>$ </span>${escape(line)}`).join("\n")}</pre>` : ""}`;
   return `<section class="story-scene${section.kind === "chapter" ? " story-chapter" : ""}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
 }
+function monthlyIssueLink(issue) {
+  const month = issue.date.slice(0, 7);
+  return issues.filter(item => item.date.startsWith(month)).length > 1
+    ? `#post/${encodeURIComponent(issue.id)}` : `#monthly/${month}`;
+}
+function renderMonthlyArchive() {
+  document.title = `${navigationLabels.monthly} — AI 라운지`;
+  const years = [...new Set(issues.map(issue => issue.date.slice(0, 4)))];
+  main.innerHTML = `<div class="monthly-index"><header class="editorial-masthead"><h1>${escape(navigationLabels.monthly)}</h1><p>함께 본 자료를 월별로 쌓습니다.<br>원하는 달을 골라 발표 자료와 원문을 다시 살펴보세요.</p></header>${years.map(year=>`<section class="monthly-year" aria-labelledby="monthly-year-${year}"><h2 id="monthly-year-${year}">${escape(year)}년</h2><div class="monthly-entry-list">${issues.filter(issue=>issue.date.startsWith(year)).map(issue=>{
+    const preview = issue.sections.flatMap(section=>section.media || [])[0];
+    const url = monthlyIssueLink(issue);
+    const chapters = issue.sections.filter(section=>section.kind === "chapter");
+    return `<article class="monthly-entry${preview ? " has-preview" : ""}">${preview ? `<figure><a href="${url}" aria-label="${escape(issue.date.slice(0,7))} 월간 자료 보기"><img src="${escape(preview.src)}" width="${preview.width}" height="${preview.height}" alt="${escape(preview.alt)}" loading="lazy" decoding="async"></a></figure>` : ""}<div class="monthly-entry-text"><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time><h3><a href="${url}">${escape(issue.title)}</a></h3><p>${escape(issue.summary)}</p>${chapters.length ? `<p class="monthly-entry-topics">${chapters.map(section=>escape(section.part)).join(" · ")}</p>` : ""}<a class="editorial-read" href="${url}">발표 자료 보기 <span aria-hidden="true">↗</span></a></div></article>`;
+  }).join("")}</div></section>`).join("") || '<section class="empty"><h2>첫 월간 자료를 준비하고 있습니다.</h2><p>발행한 월의 자료를 이곳에 모읍니다.</p></section>'}</div>`;
+  main.querySelectorAll(".monthly-entry img").forEach(image=>{
+    const hideBrokenPreview = () => { image.closest("figure").hidden = true; image.closest(".monthly-entry").classList.remove("has-preview"); };
+    image.addEventListener("error", hideBrokenPreview, { once: true });
+    if (image.complete && !image.naturalWidth) hideBrokenPreview();
+  });
+}
+function renderMissingMonth() {
+  document.title = `${navigationLabels.monthly} 자료 안내 — AI 라운지`;
+  main.innerHTML = `<section class="page-heading"><h1>해당 월의 자료가 없습니다.</h1><p class="lede">발행한 월을 목록에서 다시 골라 주세요.</p><a class="editorial-read" href="#monthly">${escape(navigationLabels.monthly)} 목록으로 →</a></section>`;
+}
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
   const chapters = issue.sections.map((section,index)=>({ section, index })).filter(item=>item.section.kind === "chapter");
-  main.innerHTML = `<div class="monthly-story"><section class="story-scene story-cover" data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · 월간 AI 라운지</p><h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p><p class="monthly-public-note">PUBLIC CASE STUDY · 본문의 경험은 원문 작성자의 공개 보고입니다.</p>
+  main.innerHTML = `<div class="monthly-detail-nav"><a href="#monthly">← ${escape(navigationLabels.monthly)} 목록</a><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><div class="monthly-story"><section class="story-scene story-cover" data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · ${escape(navigationLabels.monthly)} · AI 라운지</p><h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p><p class="monthly-public-note">PUBLIC CASE STUDY · 본문의 경험은 원문 작성자의 공개 보고입니다.</p>
   ${chapters.length ? `<ol class="story-chapters">${chapters.map(({section,index})=>`<li><span class="chapter-part">${escape(section.part)}</span><strong>${escape(section.heading)}</strong><span class="chapter-actions"><button type="button" class="story-jump" data-jump="${index}">바로 가기</button><a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} ↗</a></span></li>`).join("")}</ol>` : ""}
   <p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p></section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
   ${issue.sections.map(renderScene).join("")}
   <section class="story-sources"><h2>출처</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></section>
   <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""></dialog>
-  ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 월간 소개</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="#post/${encodeURIComponent(item.id)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
+  ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 달의 자료</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="${monthlyIssueLink(item)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
   const disposeMotion = window.MonthlyMotion?.mount(main) || (() => {});
   const disposeMedia = window.MonthlyMedia?.mount(main, issue.sections) || (() => {});
   monthlyMotionCleanup = () => { disposeMedia(); disposeMotion(); };
 }
-function setView(view) {
-  document.body.classList.toggle("monthly-view", view === "monthly");
+function setView(view, presentation = false) {
+  document.body.classList.toggle("monthly-view", presentation);
+  document.body.classList.toggle("monthly-archive-view", view === "monthly" && !presentation);
   document.body.classList.toggle("home-view", view === "home");
   document.querySelector(".brand").href = "#home";
-  document.querySelector(".site-header nav").innerHTML = [["home", "홈"], ["daily", "데일리"], ["library", "인사이트"], ["monthly", "Monthly"]]
+  document.querySelector(".site-header nav").innerHTML = Object.entries(navigationLabels)
     .map(([id, label]) => `<a href="#${id}"${view === id ? ' aria-current="page"' : ""}>${label}</a>`).join("");
   document.querySelector("footer").innerHTML = '<span><strong>AI 라운지</strong> · 공개 자료를 읽고 정리하는 개인 프로젝트</span><span>원문 · 직접 작성한 요약 · AI 생성 삽화</span>';
 }
@@ -61,10 +88,10 @@ function renderHome() {
   const hasCover = cover && cover.date === daily.date && cover.src === `assets/daily/${daily.date}.webp`;
   main.innerHTML = `<div class="editorial-lounge lounge-home"><header class="lounge-intro" data-reveal><p class="eyebrow">A PERSONAL AI JOURNAL</p><p>읽고, 이해하고, 써보는 AI.<br>공개 자료에서 발견한 관점을 그림과 글로 남깁니다.</p></header>
     ${feature ? `<section class="home-feature" aria-labelledby="home-feature-title"><div class="home-feature-copy" data-reveal><p class="editorial-story-meta"><span>이번에 함께 읽을 자료</span><time datetime="${escape(feature.sourceMonth || feature.date)}">${escape((feature.sourceMonth || feature.date).replaceAll("-", "."))}</time></p><p class="home-feature-byline">김덕진 · AI 2027 강연</p><h1 id="home-feature-title">AI에 맡기고,<br>핵심은 이해하기</h1><p class="home-feature-deck">AI에 무엇을 맡기고, 사람은 무엇을 이해해야 할까요?<br>공개 강연에서 고른 세 가지 관점으로 읽습니다.</p><ol class="home-feature-points">${feature.highlights.map((point,index)=>`<li><span>${String(index+1).padStart(2,"0")}</span>${escape(point)}</li>`).join("")}</ol><div class="source-story-actions"><a class="signature-button" href="#post/${encodeURIComponent(feature.id)}">핵심 요약 읽기 <span aria-hidden="true">↗</span></a><a class="source-original-link" href="${safeUrl(feature.sources[0]?.url)}" target="_blank" rel="noopener">강연 원문 보기 ↗</a></div><p class="home-feature-credit">원자료 · 김덕진, 2026.10.28 교보문고 강연<br>대표 표지 · 원자료의 실제 첫 장 축소본</p></div><div class="home-feature-art" data-reveal>${renderSourcePreview(feature,true)}</div></section>` : '<header class="editorial-masthead"><h1>AI 라운지</h1><p>첫 인사이트를 준비하고 있습니다.</p></header>'}
-    <section class="home-daily" aria-labelledby="home-daily-title" data-reveal><div class="home-section-heading"><div><p class="eyebrow">THE DAILY</p><h2 id="home-daily-title">오늘의 AI, 한 장으로.</h2></div><a href="#daily">지난 데일리까지 보기 →</a></div>
-    ${daily ? `<article class="home-daily-feature${hasCover ? " has-cover" : ""}">${hasCover ? `<a class="home-daily-art" href="#post/${encodeURIComponent(daily.id)}" aria-label="${escape(daily.title)} · 데일리 읽기"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" loading="lazy" decoding="async"></a>` : ""}<div class="home-daily-text"><p class="editorial-story-meta"><span>DAILY</span><time datetime="${escape(daily.date)}">${escape(daily.date.replaceAll("-", "."))}</time></p><h3><a href="#post/${encodeURIComponent(daily.id)}">${escape(daily.title)}</a></h3><p>${escape(daily.summary)}</p><a class="editorial-read" href="#post/${encodeURIComponent(daily.id)}">그림과 함께 읽기 <span aria-hidden="true">↗</span></a><p class="home-small-note">날짜별 원문과 요약을 함께 보관합니다.</p></div></article>` : '<p class="empty">첫 데일리를 준비하고 있습니다.</p>'}</section>
+    <section class="home-daily" aria-labelledby="home-daily-title" data-reveal><div class="home-section-heading"><div><p class="eyebrow">${escape(navigationLabels.daily)}</p><h2 id="home-daily-title">오늘의 AI, 한 장으로.</h2></div><a href="#daily">지난 ${escape(navigationLabels.daily)}까지 보기 →</a></div>
+    ${daily ? `<article class="home-daily-feature${hasCover ? " has-cover" : ""}">${hasCover ? `<a class="home-daily-art" href="#post/${encodeURIComponent(daily.id)}" aria-label="${escape(daily.title)} · 데일리 읽기"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" loading="lazy" decoding="async"></a>` : ""}<div class="home-daily-text"><p class="editorial-story-meta"><span>${escape(navigationLabels.daily)}</span><time datetime="${escape(daily.date)}">${escape(daily.date.replaceAll("-", "."))}</time></p><h3><a href="#post/${encodeURIComponent(daily.id)}">${escape(daily.title)}</a></h3><p>${escape(daily.summary)}</p><a class="editorial-read" href="#post/${encodeURIComponent(daily.id)}">그림과 함께 읽기 <span aria-hidden="true">↗</span></a><p class="home-small-note">날짜별 원문과 요약을 함께 보관합니다.</p></div></article>` : '<p class="empty">첫 AI 소식을 준비하고 있습니다.</p>'}</section>
     <section class="home-insights" aria-labelledby="home-insights-title"><div class="home-section-heading" data-reveal><div><p class="eyebrow">MORE TO READ</p><h2 id="home-insights-title">다른 관점도 펼쳐보세요.</h2></div><a href="#library">인사이트 모두 보기 →</a></div><div class="home-insight-list">${guides.filter(guide=>guide.id!==feature?.id).slice(0,2).map(guide=>`<article class="home-insight" data-reveal>${renderSourcePreview(guide)}<div class="home-insight-copy"><p class="editorial-story-meta"><span>${escape(guide.sourceLabel || "공개 자료")}</span></p><h3><a href="#post/${encodeURIComponent(guide.id)}">${escape(guide.title)}</a></h3><p>${escape(guide.highlights?.[0] || guide.summary)}</p><a class="editorial-read" href="#post/${encodeURIComponent(guide.id)}">핵심 세 가지 <span aria-hidden="true">↗</span></a></div></article>`).join("")}</div></section>
-    <section class="home-monthly" aria-labelledby="home-monthly-title" data-reveal><div><p class="eyebrow">MONTHLY${issue ? ` · ${escape(issue.date.slice(0,7).replace("-", "."))}` : ""}</p><h2 id="home-monthly-title">${issue ? escape(issue.title) : "한 달의 자료를 함께 읽습니다"}</h2><p>${issue ? escape(issue.summary) : "첫 월간 소개를 준비하고 있습니다."}</p></div><a href="#monthly">Monthly 자료 보기 <span aria-hidden="true">↗</span></a></section><div class="editorial-close"><p>AI 라운지</p><span>공개 자료를 읽고 정리하는 개인 프로젝트입니다.<br>원문, 직접 작성한 요약, AI 생성 삽화를 구분해 표시합니다.</span></div></div>`;
+    <section class="home-monthly" aria-labelledby="home-monthly-title" data-reveal><div><p class="eyebrow">${escape(navigationLabels.monthly)}${issue ? ` · ${escape(issue.date.slice(0,7).replace("-", "."))}` : ""}</p><h2 id="home-monthly-title">${issue ? escape(issue.title) : "한 달의 자료를 함께 읽습니다"}</h2><p>${issue ? escape(issue.summary) : "첫 월간 소개를 준비하고 있습니다."}</p></div><a href="#monthly">${escape(navigationLabels.monthly)} 목록 <span aria-hidden="true">↗</span></a></section><div class="editorial-close"><p>AI 라운지</p><span>공개 자료를 읽고 정리하는 개인 프로젝트입니다.<br>원문, 직접 작성한 요약, AI 생성 삽화를 구분해 표시합니다.</span></div></div>`;
   bindGuideNoteErrors();
   bindSourcePreviewErrors();
   const dailyImage = main.querySelector(".home-daily-art img");
@@ -110,10 +137,10 @@ function renderDailyCover(report) {
   return `<figure class="daily-cover"><a href="${escape(cover.src)}" target="_blank" rel="noopener" aria-label="${escape(report.date)} AI 데일리 요약 이미지 크게 보기"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" loading="eager" fetchpriority="high" decoding="async"></a><figcaption>AI로 만든 ${escape(report.date)} 요약 이미지 · <a href="${escape(cover.src)}" target="_blank" rel="noopener">크게 보기 ↗</a><span>이미지 속 표현과 작은 글씨는 아래 본문·원문 링크로 확인하세요.</span></figcaption></figure>`;
 }
 function renderDaily(report) {
-  document.title = "나의 AI 데일리 — AI 라운지";
-  const history = dailyReports.length > 1 ? `<div class="daily-history"><label for="report-date">지난 데일리</label><select id="report-date">${dailyReports.map(item=>`<option value="${escape(item.id)}"${item.id===report?.id ? " selected" : ""}>${escape(item.date)}</option>`).join("")}</select></div>` : "";
+  document.title = `${navigationLabels.daily} — AI 라운지`;
+  const history = dailyReports.length > 1 ? `<div class="daily-history"><label for="report-date">지난 ${escape(navigationLabels.daily)}</label><select id="report-date">${dailyReports.map(item=>`<option value="${escape(item.id)}"${item.id===report?.id ? " selected" : ""}>${escape(item.date)}</option>`).join("")}</select></div>` : "";
   const contents = report ? [...report.sections.map((section,index)=>({id:`daily-insight-${index}`,title:section.heading,type:"AI"})),...(report.radar || []).map((repo,index)=>({id:`daily-repo-${index}`,title:repo.headline || repo.repo,type:"GitHub"})),...(report.recipe ? [{id:"daily-recipe",title:report.recipe.heading,type:"실전"}] : [])] : [];
-  main.innerHTML = `<header class="daily-masthead"><h1>나의 AI 데일리</h1>${history}</header>
+  main.innerHTML = `<header class="daily-masthead"><h1>${escape(navigationLabels.daily)}</h1>${history}</header>
     ${report ? `<article class="daily-edition"><header class="daily-lead"><div class="daily-edition-meta"><time datetime="${escape(report.date)}">${escape(report.date.replaceAll("-","."))}</time><span>이날의 핵심</span></div><h2>${escape(report.title)}</h2></header>
     ${renderDailyCover(report)}
     <nav class="daily-headlines" aria-label="선택한 날짜의 목차"><p class="eyebrow">함께 읽을 ${contents.length}가지</p><ol>${contents.map((item,index)=>`<li><button type="button" data-scroll="${item.id}"><span class="toc-number">${String(index+1).padStart(2,"0")}</span><strong>${escape(item.title)}</strong><span class="toc-type">${item.type}</span></button></li>`).join("")}</ol></nav>
@@ -121,7 +148,7 @@ function renderDaily(report) {
     <div class="daily-columns"><section class="daily-insights" id="daily-insights"><div class="daily-section-title"><p class="eyebrow">WHAT CHANGED</p><h2>AI 인사이트</h2></div>${report.sections.map(renderInsight).join("")}</section>
     ${report.radar?.length ? `<aside class="daily-radar" id="daily-radar"><div class="daily-section-title"><p class="eyebrow">WORTH A LOOK</p><h2>GitHub · 스킬 발견</h2></div>${report.radar.map((repo,index)=>renderRadar(repo,index,report.sections.length)).join("")}</aside>` : ""}</div>
     ${report.recipe ? `<section class="daily-recipe daily-item" id="daily-recipe" tabindex="-1"><div class="daily-section-title"><p class="eyebrow">${String(contents.length).padStart(2,"0")} / TRY IT TODAY</p><h2>${escape(report.recipe.heading)}</h2><p>${escape(report.recipe.description)}</p></div><div class="recipe-grid"><ol>${report.recipe.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol><div><div class="recipe-prompt-header"><p class="recipe-prompt-label">에이전트에 이렇게 요청해 보세요</p><button type="button" class="copy-prompt">프롬프트 복사</button></div><pre class="recipe-prompt" tabindex="0" aria-label="복사할 프롬프트">${escape(report.recipe.prompt)}</pre><p class="copy-status" role="status"></p><p class="recipe-limit">${escape(report.recipe.limitation)}</p></div></div></section>` : ""}
-    <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details></article>` : '<section class="empty"><h2>첫 데일리를 준비하고 있어요.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
+    <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details></article>` : '<section class="empty"><h2>첫 AI 소식을 준비하고 있습니다.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
   const coverImage = main.querySelector(".daily-cover img");
   if (coverImage) {
     const hideBrokenCover = () => { coverImage.closest("figure").hidden = true; };
@@ -207,18 +234,20 @@ function route() {
   if (hash.startsWith("post/")) {
     try { const id=decodeURIComponent(hash.slice(5)); selected=issues.find(item=>item.id===id)||dailyReports.find(item=>item.id===id)||guides.find(item=>item.id===id); } catch {}
   }
-  const monthly = hash === "monthly" || selected?.type === "monthly";
+  const monthPath = hash.startsWith("monthly/");
+  const month = monthPath ? hash.slice("monthly/".length) : "";
+  const issue = selected?.type === "monthly" ? selected : /^\d{4}-(0[1-9]|1[0-2])$/.test(month) ? issues.find(item=>item.date.startsWith(month)) : undefined;
+  const monthly = hash === "monthly" || monthPath || selected?.type === "monthly";
   const view = monthly ? "monthly" : hash === "library" || selected?.type === "guide" ? "library" : hash === "daily" || selected?.type === "daily" ? "daily" : "home";
-  setView(view);
+  setView(view, Boolean(issue));
   if (view === "home") renderHome();
   else if (hash === "library") renderLibrary();
   else if (selected?.type === "guide") renderGuide(selected);
-  else if (monthly) {
-    const issue=selected||issues[0];
-    if (issue) renderIssue(issue);
-    else main.innerHTML='<section class="page-heading"><p class="eyebrow">MONTHLY AI LOUNGE</p><h1>첫 월간 소개를 준비하고 있어요.</h1><p class="lede">함께 나누고 싶은 사용 경험과 작은 팁을 골라 곧 소개하겠습니다.</p></section>';
-  } else renderDaily(selected||dailyReports[0]);
-  if (!monthly) editorialMotionCleanup = mountEditorialMotion();
+  else if (hash === "monthly") renderMonthlyArchive();
+  else if (issue) renderIssue(issue);
+  else if (monthly) renderMissingMonth();
+  else renderDaily(selected||dailyReports[0]);
+  if (!issue) editorialMotionCleanup = mountEditorialMotion();
 }
 fetch("data/posts.json", { cache: "no-cache" }).then(response=>{if(!response.ok) throw new Error("Content unavailable");return response.json();}).then(data=>{
   // Daily reading and monthly presentations are independent views, sharing one content source.
