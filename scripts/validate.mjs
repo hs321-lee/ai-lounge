@@ -21,6 +21,10 @@ for (const post of data.posts) {
   assert.ok(!Number.isNaN(date.valueOf()) && date.toISOString().slice(0,10) === post.date, `잘못된 날짜: ${post.id}`);
   assert.ok(Array.isArray(post.tags) && post.tags.every(tag=>typeof tag === "string" && tag.trim()), `${post.id}: tags 오류`);
   if (post.published !== undefined) assert.equal(typeof post.published, "boolean", `${post.id}: published는 boolean 필요`);
+  if (post.sourceMonth !== undefined) {
+    assert.equal(post.type, "guide", `${post.id}: sourceMonth는 guide 전용`);
+    assert.match(post.sourceMonth, /^\d{4}-(?:0[1-9]|1[0-2])$/, `${post.id}: 원자료 월 YYYY-MM 필요`);
+  }
   if (post.sourceLabel !== undefined) requiredText(post.sourceLabel, `${post.id}: sourceLabel`);
   if (post.noteImage !== undefined) {
     const note = post.noteImage;

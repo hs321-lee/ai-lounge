@@ -8,6 +8,7 @@
       "date": "2026-10-29",
       "title": "AI의 해결 과정을 살피는 개발",
       "sourceLabel": "하용호 자료 · 개발 과정",
+      "sourceMonth": "2025-07",
       "summary": "AI가 코드를 만드는 과정에서 사람이 무엇을 확인하고 남겨야 할까요? 공개 강연 자료에서 해결 과정 관찰, 규칙의 축적, 선택의 기준을 골랐습니다.",
       "author": "AI 라운지",
       "tags": [
@@ -240,6 +241,7 @@
       ],
       "published": true,
       "sourceLabel": "김덕진 강연 · 위임과 이해",
+      "sourceMonth": "2026-10",
       "noteImage": {
         "src": "assets/insights/ai2027-delegation-2026-10-29.webp",
         "alt": "AI가 할 일과 사람이 확인할 지점을 함께 정합니다. 핵심 로직의 이유를 내 말로 설명해봅니다. 요구사항·설계 이유·확인 방법을 다음 작업에 남깁니다.",
