@@ -21,6 +21,16 @@ for (const post of data.posts) {
   assert.ok(!Number.isNaN(date.valueOf()) && date.toISOString().slice(0,10) === post.date, `잘못된 날짜: ${post.id}`);
   assert.ok(Array.isArray(post.tags) && post.tags.every(tag=>typeof tag === "string" && tag.trim()), `${post.id}: tags 오류`);
   if (post.published !== undefined) assert.equal(typeof post.published, "boolean", `${post.id}: published는 boolean 필요`);
+  if (post.sourceLabel !== undefined) requiredText(post.sourceLabel, `${post.id}: sourceLabel`);
+  if (post.noteImage !== undefined) {
+    const note = post.noteImage;
+    assert.equal(post.type, "guide", `${post.id}: noteImage는 guide 전용`);
+    assert.ok(note && typeof note === "object" && !Array.isArray(note), `${post.id}: noteImage 객체 필요`);
+    assert.equal(note.src, `assets/insights/${post.id}.webp`, `${post.id}: 글별 노트 이미지 경로 필요`);
+    for (const key of ["alt", "caption"]) requiredText(note[key], `${post.id}: noteImage ${key}`);
+    for (const key of ["width", "height"]) assert.ok(Number.isInteger(note[key]) && note[key] > 0, `${post.id}: noteImage ${key} 필요`);
+    assert.ok((await readFile(new URL(`../${note.src}`, import.meta.url))).length > 0, `${post.id}: 빈 노트 이미지`);
+  }
   if (post.coverImage !== undefined) {
     const cover = post.coverImage;
     assert.equal(post.type, "daily", `${post.id}: coverImage는 daily 전용`);

@@ -87,3 +87,22 @@
  .editorial-monthly{min-height:28rem}
  .editorial-masthead p br{display:none}
 }
+
+/* Handwritten notes stay whole; each article keeps its own shareable detail. */
+.guide-note-image{margin:0 0 var(--lounge-space-lg);min-width:0}
+.guide-note-image[hidden]{display:none}
+.guide-note-image>a{display:block}
+.guide-note-image img{display:block;width:100%;max-width:100%;height:auto}
+.guide-note-image figcaption{font-size:.8rem;line-height:1.7;color:var(--lounge-muted);margin-top:var(--lounge-space-xs)}
+.editorial-feature .guide-note-image{width:100%;max-width:32rem}
+.editorial-spread .editorial-monthly{align-self:start}
+.editorial-note-text{min-width:0}
+.editorial-note-text h3{margin:var(--lounge-space-sm) 0}
+.editorial-note-text>p:not(.editorial-story-meta){font-size:.95rem;line-height:1.9;color:var(--lounge-muted);margin:0 0 var(--lounge-space-md);max-width:38rem}
+.guide-article{font-family:var(--lounge-font)}
+.guide-article>.guide-note-image{margin-top:var(--lounge-space-lg)}
+@media(min-width:60rem){
+ .editorial-note.has-note{grid-template-columns:minmax(0,.8fr) minmax(0,1fr);align-items:start}
+ .editorial-note.has-note .guide-note-image{margin:0}
+ .editorial-note:not(.has-note) .editorial-note-text{grid-column:1/-1}
+}
