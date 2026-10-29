@@ -40,16 +40,11 @@ function renderMonthlyArchive() {
   document.title = `${navigationLabels.monthly} — AI 라운지`;
   const years = [...new Set(issues.map(issue => issue.date.slice(0, 4)))];
   main.innerHTML = `<div class="monthly-index"><header class="editorial-masthead"><h1>${escape(navigationLabels.monthly)}</h1><p>함께 본 자료를 월별로 쌓습니다.<br>원하는 달을 골라 발표 자료와 원문을 다시 살펴보세요.</p></header>${years.map(year=>`<section class="monthly-year" aria-labelledby="monthly-year-${year}"><h2 id="monthly-year-${year}">${escape(year)}년</h2><div class="monthly-entry-list">${issues.filter(issue=>issue.date.startsWith(year)).map(issue=>{
-    const preview = issue.sections.flatMap(section=>section.media || [])[0];
     const url = monthlyIssueLink(issue);
     const chapters = issue.sections.filter(section=>section.kind === "chapter");
-    return `<article class="monthly-entry${preview ? " has-preview" : ""}">${preview ? `<figure><a href="${url}" aria-label="${escape(issue.date.slice(0,7))} 월간 자료 보기"><img src="${escape(preview.src)}" width="${preview.width}" height="${preview.height}" alt="${escape(preview.alt)}" loading="lazy" decoding="async"></a></figure>` : ""}<div class="monthly-entry-text"><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time><h3><a href="${url}">${escape(issue.title)}</a></h3><p>${escape(issue.summary)}</p>${chapters.length ? `<p class="monthly-entry-topics">${chapters.map(section=>escape(section.part)).join(" · ")}</p>` : ""}<a class="editorial-read" href="${url}">발표 자료 보기 <span aria-hidden="true">↗</span></a></div></article>`;
+    const coverTopics = chapters.map(section=>section.part === "다음 소개" ? `${section.part} ${section.heading}` : section.part).join(" · ");
+    return `<article class="monthly-entry"><a class="monthly-cover" href="${url}" aria-label="${escape(issue.date.slice(0,7).replace("-","."))} ${escape(issue.title)} 발표 자료 보기"><span class="monthly-cover-month" aria-hidden="true">${escape(issue.date.slice(0,7).replace("-","."))}</span><strong class="monthly-cover-title" aria-hidden="true">${escape(issue.title)}</strong>${coverTopics ? `<span class="monthly-cover-topics" aria-hidden="true">${escape(coverTopics)}</span>` : ""}</a><div class="monthly-entry-text"><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time><h3><a href="${url}">${escape(issue.title)}</a></h3><p>${escape(issue.summary)}</p>${chapters.length ? `<p class="monthly-entry-topics">${chapters.map(section=>escape(section.part)).join(" · ")}</p>` : ""}<a class="editorial-read" href="${url}">발표 자료 보기 <span aria-hidden="true">↗</span></a></div></article>`;
   }).join("")}</div></section>`).join("") || '<section class="empty"><h2>첫 월간 자료를 준비하고 있습니다.</h2><p>발행한 월의 자료를 이곳에 모읍니다.</p></section>'}</div>`;
-  main.querySelectorAll(".monthly-entry img").forEach(image=>{
-    const hideBrokenPreview = () => { image.closest("figure").hidden = true; image.closest(".monthly-entry").classList.remove("has-preview"); };
-    image.addEventListener("error", hideBrokenPreview, { once: true });
-    if (image.complete && !image.naturalWidth) hideBrokenPreview();
-  });
 }
 function renderMissingMonth() {
   document.title = `${navigationLabels.monthly} 자료 안내 — AI 라운지`;
