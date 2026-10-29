@@ -281,3 +281,22 @@ body .site-header{border-color:var(--lounge-rule)}
 body.monthly-view .site-header{width:min(1160px,calc(100% - 4rem));box-shadow:0 0 0 100vmax var(--story-paper);clip-path:inset(0 -100vmax)}
 .daily-masthead h1,.daily-lead h2,.daily-section-title h2,.guide-section h2{font-family:var(--lounge-display);font-weight:800;font-style:normal}
 @media(max-width:50rem){body.monthly-view .site-header{width:calc(100% - 2rem)}}
+
+/* Actual source artwork shares one editorial frame; summary notes remain in the article. */
+.source-cover-card{padding:var(--lounge-space-md);border:1px solid var(--lounge-rule);background:var(--lounge-surface);width:100%;max-width:none}
+.source-cover-card .source-preview{max-width:none}
+.source-cover-header{display:flex;align-items:center;justify-content:space-between;gap:var(--lounge-space-sm);padding-bottom:var(--lounge-space-sm);margin-bottom:var(--lounge-space-md);border-bottom:1px solid var(--lounge-rule);font-size:.7rem;font-weight:750}
+.source-cover-header>span:last-child{color:var(--lounge-accent)}
+.source-cover-card .source-preview-art{aspect-ratio:16/10;min-height:0;background:var(--lounge-soft);border:0}
+.source-cover-card .source-preview-art>img{object-fit:contain;background:var(--lounge-soft)}
+.source-cover-card .source-preview-art:not(.has-image){min-height:13rem;background:var(--lounge-cover)}
+.source-cover-card figcaption{min-height:2.9em;font-size:.65rem;margin-top:var(--lounge-space-xs)}
+.source-cover-meta{display:flex;flex-direction:column;align-items:flex-start;gap:var(--lounge-space-sm);margin-top:var(--lounge-space-md);min-width:0}
+.source-cover-category{display:inline-block;padding:.3rem .65rem;background:var(--lounge-accent);color:var(--lounge-surface);font-size:.65rem;font-weight:750;white-space:nowrap}
+.source-cover-meta>strong{font-size:clamp(1.1rem,2.1vw,1.5rem);font-weight:850;line-height:1.5;overflow-wrap:anywhere}
+.source-cover-meta>small{font-size:.75rem;line-height:1.7;color:var(--lounge-muted)}
+.source-story-cover{min-width:0;width:100%}
+.home-insight{grid-template-columns:minmax(0,1fr);align-content:start;align-items:start}
+.home-insight .source-cover-card{height:100%}
+.home-insight-copy{padding-inline:var(--lounge-space-xs)}
+@media(max-width:47.999rem){.source-cover-card{padding:var(--lounge-space-sm)}.home-insight{grid-template-columns:minmax(0,1fr)}.source-cover-meta>strong{font-size:1.2rem}}
