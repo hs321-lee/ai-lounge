@@ -26,6 +26,18 @@ for (const post of data.posts) {
     assert.match(post.sourceMonth, /^\d{4}-(?:0[1-9]|1[0-2])$/, `${post.id}: 원자료 월 YYYY-MM 필요`);
   }
   if (post.sourceLabel !== undefined) requiredText(post.sourceLabel, `${post.id}: sourceLabel`);
+  if (post.sourcePreview !== undefined) {
+    const preview = post.sourcePreview;
+    assert.equal(post.type, "guide", `${post.id}: sourcePreview는 guide 전용`);
+    assert.ok(preview && typeof preview === "object" && !Array.isArray(preview), `${post.id}: sourcePreview 객체 필요`);
+    for (const key of ["title", "byline"]) requiredText(preview[key], `${post.id}: sourcePreview ${key}`);
+    if (preview.src !== undefined) {
+      assert.match(preview.src, /^assets\/(?:dental|sources)\/[a-z0-9-]+\.webp$/, `${post.id}: 원자료 대표 이미지 경로 오류`);
+      for (const key of ["alt", "caption"]) requiredText(preview[key], `${post.id}: sourcePreview ${key}`);
+      for (const key of ["width", "height"]) assert.ok(Number.isInteger(preview[key]) && preview[key] > 0, `${post.id}: sourcePreview ${key} 필요`);
+      assert.ok((await readFile(new URL(`../${preview.src}`, import.meta.url))).length > 0, `${post.id}: 빈 원자료 이미지`);
+    }
+  }
   if (post.noteImage !== undefined) {
     const note = post.noteImage;
     assert.equal(post.type, "guide", `${post.id}: noteImage는 guide 전용`);

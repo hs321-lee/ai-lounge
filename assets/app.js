@@ -48,7 +48,7 @@ function setView(monthly, library = false) {
   document.querySelector(".brand").href = `#${target}`;
   document.querySelector("nav").innerHTML = monthly
     ? '<a href="#monthly" aria-current="page">월간 소개</a>'
-    : `<a href="#home"${library ? "" : ' aria-current="page"'}>데일리 읽기</a><a href="#library"${library ? ' aria-current="page"' : ""}>인사이트 모음</a>`;
+    : `<a href="#home"${library ? "" : ' aria-current="page"'}>데일리 읽기</a><a href="#library"${library ? ' aria-current="page"' : ""}>인사이트 모음</a><a href="#monthly">Monthly</a>`;
   document.querySelector("footer").innerHTML = monthly
     ? '<span><strong>AI 라운지</strong> · 한 달에 한 번, 쓸 만한 경험을 나눕니다.</span><span>나는 이렇게 쓴다.</span>'
     : '<span><strong>AI 라운지</strong> · 매일 읽고, 쓸 만한 내용을 쌓습니다.</span>';
@@ -121,22 +121,32 @@ function bindGuideNoteErrors() {
 }
 function renderLibrary() {
   document.title = "인사이트 모음 — AI 라운지";
-  const [featured, ...moreGuides] = guides;
-  const issue = issues[0];
   const guideLink = guide => `#post/${encodeURIComponent(guide.id)}`;
   const dateText = date => escape(date.replaceAll("-", "."));
-  const featuredStory = featured ? `<article class="editorial-feature"><div class="editorial-story-meta"><span>${escape(featured.sourceLabel || "먼저 읽을 인사이트")}</span><time datetime="${escape(featured.sourceMonth || featured.date)}">${dateText(featured.sourceMonth || featured.date)}</time></div><h2><a href="${guideLink(featured)}">${escape(featured.title)}</a></h2>${renderGuideNote(featured, false, true)}<p class="editorial-feature-deck">${escape(featured.summary)}</p><a class="editorial-read" href="${guideLink(featured)}">인사이트 읽기 <span aria-hidden="true">↗</span></a></article>` : `<section class="editorial-feature editorial-empty"><h2>첫 인사이트를 준비하고 있습니다.</h2></section>`;
-  const monthlyCover = issue ? `<aside class="editorial-monthly" aria-labelledby="editorial-monthly-title"><div class="editorial-cover-top"><span>함께 나누는 월간 소개</span><time datetime="${escape(issue.date)}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><p class="editorial-cover-name" aria-hidden="true">Monthly</p><h2 id="editorial-monthly-title">${escape(issue.title)}</h2><p class="editorial-cover-deck">${escape(issue.summary)}</p><a class="editorial-cover-link" href="#monthly">월간 소개 보기 <span aria-hidden="true">↗</span></a></aside>` : "";
-  const otherStories = moreGuides.length ? `<section class="editorial-more" aria-labelledby="editorial-more-title"><h2 id="editorial-more-title">함께 볼 이야기</h2>${moreGuides.map(guide=>`<article class="editorial-note${guide.noteImage ? " has-note" : ""}">${renderGuideNote(guide)}<div class="editorial-note-text"><p class="editorial-story-meta">${guide.sourceLabel ? `<span>${escape(guide.sourceLabel)}</span>` : ""}<time datetime="${escape(guide.sourceMonth || guide.date)}">${dateText(guide.sourceMonth || guide.date)}</time></p><h3><a href="${guideLink(guide)}">${escape(guide.title)}</a></h3><p>${escape(guide.summary)}</p><a class="editorial-read" href="${guideLink(guide)}">이야기 읽기 <span aria-hidden="true">↗</span></a></div></article>`).join("")}</section>` : "";
-  main.innerHTML = `<div class="editorial-lounge"><header class="editorial-masthead"><h1>인사이트 모음</h1><p>AI 크루 활동으로 시작한 개인 사이드 프로젝트입니다.<br>매일 읽고, 함께 볼 이야기를 조금씩 모읍니다.</p></header><div class="editorial-spread${issue ? "" : " without-monthly"}">${featuredStory}${monthlyCover}</div>${otherStories}<div class="editorial-close"><p>AI 라운지</p><span>다시 보는 인사이트 · 함께 나누는 Monthly</span></div></div>`;
-  bindGuideNoteErrors();
+  const stories = guides.map((guide,index)=>`<article class="source-story" aria-labelledby="source-title-${index}">${renderSourcePreview(guide,index === 0)}<div class="source-story-text"><p class="editorial-story-meta"><span>${escape(guide.sourceLabel || "공개 자료")}</span><time datetime="${escape(guide.sourceMonth || guide.date)}">${dateText(guide.sourceMonth || guide.date)}</time></p><h2 id="source-title-${index}"><a href="${guideLink(guide)}">${escape(guide.title)}</a></h2><p class="source-story-deck">${escape(guide.summary)}</p><p class="source-original-title">원자료 · ${escape(guide.sourcePreview?.title || guide.sources[0]?.title || guide.title)}</p><div class="source-story-actions"><a class="editorial-read" href="${guideLink(guide)}">핵심 요약 <span aria-hidden="true">↗</span></a><a class="source-original-link" href="${safeUrl(guide.sources[0]?.url)}" target="_blank" rel="noopener">원문 보기 ↗</a></div></div></article>`).join("");
+  main.innerHTML = `<div class="editorial-lounge"><header class="editorial-masthead"><h1>인사이트 모음</h1><p>AI 크루 활동으로 시작한 개인 사이드 프로젝트입니다.<br>원자료로 살펴보고, 핵심 세 가지로 다시 읽습니다.</p></header><section class="source-index" aria-label="원자료와 핵심 요약">${stories || '<p class="empty">첫 인사이트를 준비하고 있습니다.</p>'}</section><div class="editorial-close"><p>AI 라운지</p><span>원자료로 읽기 · 핵심 요약으로 읽기</span></div></div>`;
+  bindSourcePreviewErrors();
+}
+function renderSourcePreview(guide, eager = false) {
+  const preview = guide.sourcePreview;
+  const title = preview?.title || guide.sources[0]?.title || guide.title;
+  const byline = preview?.byline || guide.sourceLabel || "공개 원자료";
+  const image = preview?.src && /^assets\/(?:dental|sources)\/[a-z0-9-]+\.webp$/.test(preview.src);
+  return `<figure class="source-preview"><a href="${safeUrl(guide.sources[0]?.url)}" target="_blank" rel="noopener" aria-label="${escape(title)} · 원문 보기"><div class="source-preview-art${image ? " has-image" : ""}">${image ? `<img src="${escape(preview.src)}" width="${preview.width}" height="${preview.height}" alt="${escape(preview.alt)}" loading="${eager ? "eager" : "lazy"}" decoding="async">` : ""}<div class="source-text-cover"${image ? " hidden" : ""}><span>원자료 안내</span><strong>${escape(title)}</strong><small>${escape(byline)}</small><span class="source-cover-arrow" aria-hidden="true">↗</span></div></div></a><figcaption>${escape(image ? preview.caption : "원자료 제목으로 구성한 안내 표지 · 원문에서 실제 표지를 볼 수 있습니다.")}</figcaption></figure>`;
+}
+function bindSourcePreviewErrors() {
+  main.querySelectorAll(".source-preview img").forEach(image => {
+    const showTextCover = () => { image.hidden = true; image.parentElement.querySelector(".source-text-cover").hidden = false; image.parentElement.classList.remove("has-image"); image.closest("figure").querySelector("figcaption").textContent = "대표 이미지를 불러오지 못했습니다. 제목을 눌러 원문을 볼 수 있습니다."; };
+    image.addEventListener("error", showTextCover, { once: true });
+    if (image.complete && !image.naturalWidth) showTextCover();
+  });
 }
 function renderGuide(guide) {
   document.title = `${guide.title} — AI 라운지`;
-  main.innerHTML = `<article class="guide-article"><header class="guide-heading"><a href="#library">← 인사이트 모음</a><p class="eyebrow"><time datetime="${escape(guide.date)}">${escape(guide.date)}</time> · AI 라운지 인사이트</p><h1>${escape(guide.title)}</h1><p class="guide-deck">${escape(guide.summary)}</p></header>
+  main.innerHTML = `<article class="guide-article"><header class="guide-heading"><a href="#library">← 인사이트 모음</a><p class="eyebrow"><time datetime="${escape(guide.date)}">${escape(guide.date)}</time> · AI 라운지 인사이트</p><h1>${escape(guide.title)}</h1><p class="guide-deck">${escape(guide.summary)}</p><a class="daily-source-link" href="${safeUrl(guide.sources[0]?.url)}" target="_blank" rel="noopener">원자료 보기 ↗</a></header>
     ${renderGuideNote(guide, true)}
     ${guide.highlights?.length ? `<aside class="guide-highlights" aria-label="핵심 세 줄"><h2>먼저 읽을 세 줄</h2><ul>${guide.highlights.map(line=>`<li>${escape(line)}</li>`).join("")}</ul></aside>` : ""}
-    ${guide.sections.map((section,index)=>`<section class="guide-section"><p class="eyebrow">${String(index+1).padStart(2,"0")} / ${escape(section.label || "INSIGHT")}</p><h2>${escape(section.heading)}</h2><p class="guide-body">${escape(section.body)}</p>${section.takeaway ? `<div class="guide-interpretation"><h3>업무에 연결하면</h3><p>${escape(section.takeaway)}</p></div>` : ""}${section.action ? `<div class="guide-action"><h3>적용 예시</h3><p>${escape(section.action)}</p></div>` : ""}${section.url ? `<a class="daily-source-link" href="${safeUrl(section.url)}" target="_blank" rel="noopener">강연 자료에서 확인 ↗</a>` : ""}</section>`).join("")}
+    ${guide.sections.map((section,index)=>`<section class="guide-section"><p class="eyebrow">${String(index+1).padStart(2,"0")} / ${escape(section.label || "INSIGHT")}</p><h2>${escape(section.heading)}</h2><p class="guide-body">${escape(section.body)}</p>${section.takeaway ? `<div class="guide-interpretation"><h3>업무에 연결하면</h3><p>${escape(section.takeaway)}</p></div>` : ""}${section.action ? `<div class="guide-action"><h3>적용 예시</h3><p>${escape(section.action)}</p></div>` : ""}${section.url ? `<a class="daily-source-link" href="${safeUrl(section.url)}" target="_blank" rel="noopener">원자료에서 확인 ↗</a>` : ""}</section>`).join("")}
     <section class="guide-sources"><h2>출처와 읽는 기준</h2>${guide.sourceNote ? `<p>${escape(guide.sourceNote)}</p>` : ""}<ul>${guide.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></section></article>`;
   bindGuideNoteErrors();
 }
