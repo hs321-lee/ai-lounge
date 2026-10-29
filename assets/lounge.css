@@ -27,14 +27,14 @@
 .menu-inner a:hover{color:var(--l-ink);background:oklch(24% 0.023 55 / .05)}
 .menu-inner a[aria-current="page"]{background:var(--l-ink);color:#fff}
 
-/* Home canvas: warm white with fixed apricot, peach and butter light behind the content. */
-body.home-view{--lounge-display:var(--l-sans);--lounge-font:var(--l-sans);background:var(--l-bg);font-family:var(--l-sans)}
-body.home-view::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1;pointer-events:none;filter:blur(28px);
+/* Lounge canvas (home, AI news, insights): warm white with fixed apricot, peach and butter light behind the content. */
+body.lounge-theme{--lounge-display:var(--l-sans);--lounge-font:var(--l-sans);--ink:var(--l-ink);--muted:var(--l-muted);--line:var(--l-line);--accent:var(--l-orange-text);--surface:#fff;--soft:var(--l-orange-soft);background:var(--l-bg);font-family:var(--l-sans)}
+body.lounge-theme::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1;pointer-events:none;filter:blur(28px);
   background:
     radial-gradient(40vmax 32vmax at 6% 8%,oklch(88% 0.08 55 / .55),transparent 70%),
     radial-gradient(36vmax 30vmax at 96% 30%,oklch(93% 0.07 95 / .6),transparent 70%),
     radial-gradient(42vmax 30vmax at 40% 96%,oklch(90% 0.06 20 / .45),transparent 70%)}
-.home-view main.wrap{width:var(--l-shell)}
+.lounge-theme main.wrap{width:var(--l-shell)}
 
 /* Hero: badge, two-line headline with a gradient second line, actions, stats, cover card. */
 .lounge-home .home-feature{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:var(--lounge-space-2xl);padding-block:var(--lounge-space-2xl) var(--lounge-space-xl);border-bottom:0}
@@ -93,7 +93,57 @@ body.home-view::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1;po
 .lounge-home .home-monthly>a{border:0;border-radius:999px;background:var(--l-gradient);color:#fff;padding:0 1.3rem;font-weight:700}
 .lounge-home .home-monthly a:focus-visible{outline-color:#fff}
 .lounge-home .editorial-close{border-top:1px solid var(--l-line)}
-.home-view>footer{border-top:1px solid var(--l-line)}
+.lounge-theme>footer{border-top:1px solid var(--l-line)}
+
+/* Shared pieces on AI news and insights. */
+.lounge-theme .eyebrow{color:var(--l-orange-text);font-weight:800;letter-spacing:.1em}
+.lounge-theme .daily-source-link,.lounge-theme .guide-heading>a{color:var(--l-orange-text);font-weight:700;text-decoration:none}
+.lounge-theme .daily-source-link:hover,.lounge-theme .guide-heading>a:hover{text-decoration:underline}
+
+/* AI news: page title row, lead, a headline card, insight lists and the dark recipe card. */
+.lounge-theme .daily-masthead{border-bottom:1px solid var(--l-line);padding-block:var(--lounge-space-lg) var(--lounge-space-md)}
+.lounge-theme .daily-masthead h1{font-weight:800;letter-spacing:-.04em}
+.lounge-theme .daily-history select{border-radius:999px;border:1px solid var(--l-line);background:var(--l-card);padding-inline:.9rem;font-weight:600}
+.lounge-theme .daily-lead h2{font-weight:800;letter-spacing:-.04em}
+.lounge-theme .daily-lead img{border-radius:var(--l-radius);box-shadow:var(--l-shadow)}
+.lounge-theme .daily-edition-meta time{color:var(--l-orange-text)}
+.lounge-theme .daily-headlines{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);padding:var(--lounge-space-sm) var(--lounge-space-xs)}
+.lounge-theme .daily-headlines button{border-radius:12px}
+.lounge-theme .daily-headlines button:hover{background:var(--l-orange-soft)}
+.lounge-theme .daily-section-title h2{font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+.lounge-theme .insight h3,.lounge-theme .radar-entry h3{font-weight:800;letter-spacing:-.03em}
+.lounge-theme .insight-meta .item-number{background:var(--l-gradient);color:#fff}
+.lounge-theme .daily-recipe{background:var(--l-ink);border-radius:var(--l-radius);box-shadow:var(--l-shadow)}
+.lounge-theme .daily-recipe .eyebrow{color:var(--l-amber)}
+.lounge-theme .copy-prompt{border-radius:999px;border-color:oklch(70% 0.03 60);color:#fff}
+.lounge-theme .copy-prompt:hover{background:oklch(32% 0.025 55)}
+.lounge-theme .recipe-prompt{border-radius:12px}
+
+/* Insights list: title row, then each source as a frosted card. */
+.lounge-theme .editorial-masthead{border-bottom:1px solid var(--l-line);padding-top:var(--lounge-space-xl)}
+.lounge-theme .editorial-masthead h1{font-weight:800;letter-spacing:-.045em}
+.lounge-theme .source-story{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);padding:var(--lounge-space-lg);margin-block:var(--lounge-space-lg)}
+.lounge-theme .source-story h2,.lounge-theme .source-story h3{font-weight:800;letter-spacing:-.04em}
+.lounge-theme .source-cover-card{border-radius:14px;border-color:var(--l-line);background:#fff}
+.lounge-theme .source-cover-card .source-preview-art{border-radius:10px}
+.lounge-theme .source-cover-category{border-radius:999px;background:var(--l-orange-soft);color:var(--l-orange-text)}
+.lounge-theme .editorial-story-meta span{color:var(--l-orange-text)}
+.lounge-theme .editorial-read{border:0;border-radius:999px;background:var(--l-gradient);color:#fff;padding:0 1.1rem;gap:.5rem}
+.lounge-theme .editorial-read:hover{color:#fff;filter:brightness(1.05)}
+.lounge-theme .editorial-read span{font-size:1rem}
+.lounge-theme .source-original-link{border-radius:999px;border:1px solid var(--l-line);background:var(--l-card);padding:0 1.1rem;color:var(--l-ink)}
+.lounge-theme .editorial-close{border-top:1px solid var(--l-line)}
+.lounge-theme .editorial-close>p{font-weight:800}
+
+/* Insight article: highlights card and rounded note boxes. */
+.lounge-theme .guide-heading h1{font-weight:800;letter-spacing:-.045em}
+.lounge-theme .guide-article .guide-note-image img,.lounge-theme .guide-article figure img{border-radius:var(--l-radius)}
+.lounge-theme .guide-highlights{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-orange-soft);padding:var(--lounge-space-lg)}
+.lounge-theme .guide-section{border-bottom:1px solid var(--l-line)}
+.lounge-theme .guide-section h2,.lounge-theme .guide-sources h2{font-weight:800}
+.lounge-theme .guide-interpretation,.lounge-theme .guide-action{border:1px solid var(--l-line);border-radius:14px;background:var(--l-card);padding:var(--lounge-space-md) var(--lounge-space-lg)}
+.lounge-theme .guide-action{border-left:4px solid var(--l-orange)}
+.lounge-theme .guide-section h3{color:var(--l-orange-text);font-size:.8rem}
 
 @media(max-width:60rem){
   .lounge-home .home-feature{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-xl);padding-top:var(--lounge-space-xl)}
@@ -104,9 +154,10 @@ body.home-view::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1;po
   .menu-shell{width:calc(100% - 2rem);flex-wrap:wrap;gap:0;padding-block:.5rem;min-height:0}
   .menu-inner{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:.4rem}
   .menu-inner a{justify-content:center;padding:0;font-size:.8rem;min-height:36px}
-  .home-view main.wrap{width:calc(100% - 2rem)}
+  .lounge-theme main.wrap{width:calc(100% - 2rem)}
   .lounge-home .home-feature-deck br{display:none}
   .lounge-home .home-daily-feature{padding:var(--lounge-space-md)}
   .lounge-home .home-monthly{padding:var(--lounge-space-lg)}
+  .lounge-theme .source-story{padding:var(--lounge-space-md)}
 }
 @media(prefers-reduced-motion:reduce){.home-feature-points a{transition:none}.home-feature-points a:hover{transform:none}}

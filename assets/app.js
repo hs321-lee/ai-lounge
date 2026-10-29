@@ -70,6 +70,7 @@ function setView(view, presentation = false) {
   document.body.classList.toggle("monthly-view", presentation);
   document.body.classList.toggle("monthly-archive-view", view === "monthly" && !presentation);
   document.body.classList.toggle("home-view", view === "home");
+  document.body.classList.toggle("lounge-theme", !presentation && view !== "monthly");
   document.querySelector(".wordmark").href = "#home";
   document.querySelector(".menu-bar nav").innerHTML = Object.entries(navigationLabels)
     .map(([id, label]) => `<a href="#${id}"${view === id ? ' aria-current="page"' : ""}>${label}</a>`).join("");
@@ -190,7 +191,7 @@ function renderLibrary() {
   const guideLink = guide => `#post/${encodeURIComponent(guide.id)}`;
   const dateText = date => escape(date.replaceAll("-", "."));
   const stories = guides.map((guide,index)=>`<article class="source-story" aria-labelledby="source-title-${index}"><div class="source-story-cover" data-reveal>${renderSourcePreview(guide,index === 0)}</div><div class="source-story-text" data-reveal><p class="editorial-story-meta"><span>${escape(guide.sourceLabel || "공개 자료")}</span><time datetime="${escape(guide.sourceMonth || guide.date)}">${dateText(guide.sourceMonth || guide.date)}</time></p><h2 id="source-title-${index}"><a href="${guideLink(guide)}">${escape(guide.title)}</a></h2><p class="source-story-deck">${escape(guide.summary)}</p><p class="source-original-title">원자료 · ${escape(guide.sourcePreview?.title || guide.sources[0]?.title || guide.title)}</p><div class="source-story-actions"><a class="editorial-read" href="${guideLink(guide)}">핵심 요약 <span aria-hidden="true">↗</span></a><a class="source-original-link" href="${safeUrl(guide.sources[0]?.url)}" target="_blank" rel="noopener">원문 보기 ↗</a></div></div></article>`).join("");
-  main.innerHTML = `<div class="editorial-lounge"><header class="editorial-masthead"><h1>인사이트 모음</h1><p>공개 자료를 읽고 정리하는 개인 프로젝트입니다.<br>대표 표지로 자료를 살펴보고, 상세 페이지에서 핵심 세 가지를 읽습니다.</p></header><section class="source-index" aria-label="원자료와 핵심 요약">${stories || '<p class="empty">첫 인사이트를 준비하고 있습니다.</p>'}</section><div class="editorial-close"><p>AI 라운지</p><span>원자료로 읽기 · 핵심 요약으로 읽기</span></div></div>`;
+  main.innerHTML = `<div class="editorial-lounge"><header class="editorial-masthead"><h1>인사이트 모음</h1><p>공개 자료를 읽고 정리하는 개인 프로젝트입니다. <br>대표 표지로 자료를 살펴보고, 상세 페이지에서 핵심 세 가지를 읽습니다.</p></header><section class="source-index" aria-label="원자료와 핵심 요약">${stories || '<p class="empty">첫 인사이트를 준비하고 있습니다.</p>'}</section><div class="editorial-close"><p>AI 라운지</p><span>원자료로 읽기 · 핵심 요약으로 읽기</span></div></div>`;
   bindSourcePreviewErrors();
   bindGuideNoteErrors();
 }
