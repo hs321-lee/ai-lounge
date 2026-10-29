@@ -278,9 +278,9 @@ body .site-header{border-color:var(--lounge-rule)}
 @media(max-width:25rem){.home-insight{grid-template-columns:minmax(0,1fr)}.home-insight .guide-note-image{max-width:none}.home-feature .source-story-actions{gap:var(--lounge-space-sm)}.signature-button{padding-inline:.75rem;gap:var(--lounge-space-sm)}.source-original-link{font-size:.75rem}}
 @media(prefers-reduced-motion:reduce){.home-feature-art a{transition:none}.home-feature-art a:hover{transform:none}}
 .monthly-public-note{font-size:.8rem;line-height:1.8;color:var(--lounge-muted);margin:var(--lounge-space-sm) 0 0}
-body.monthly-view .site-header{width:min(1160px,calc(100% - 4rem));box-shadow:0 0 0 100vmax var(--story-paper);clip-path:inset(0 -100vmax)}
+/* Header and main share the responsive .monthly-view .wrap width. */
+body.monthly-view .site-header{box-shadow:0 0 0 100vmax var(--story-paper);clip-path:inset(0 -100vmax)}
 .daily-masthead h1,.daily-lead h2,.daily-section-title h2,.guide-section h2{font-family:var(--lounge-display);font-weight:800;font-style:normal}
-@media(max-width:50rem){body.monthly-view .site-header{width:calc(100% - 2rem)}}
 
 /* Actual source artwork shares one editorial frame; summary notes remain in the article. */
 .source-cover-card{padding:var(--lounge-space-md);border:1px solid var(--lounge-rule);background:var(--lounge-surface);width:100%;max-width:none}
