@@ -239,9 +239,16 @@ body.lounge-theme.monthly-view{--story-paper:var(--l-bg);--story-display:var(--l
   .lounge-home .home-feature-copy>:nth-child(6){animation-delay:.38s}
   .hero-badge .season-dot{animation:lounge-ping 2.4s ease-out 1s 3}
   .home-feature-points a,.lounge-home .home-insight,.lounge-theme .story-chapters li{transition:transform .35s var(--l-spring),box-shadow .35s var(--l-ease-out)}
-  .home-feature-points a:hover,.lounge-home .home-insight:hover,.lounge-theme .story-chapters li:hover{transform:translateY(-4px);box-shadow:0 1px 2px oklch(40% 0.05 50 / .06),0 18px 40px oklch(40% 0.05 50 / .12)}
   .lounge-theme .signature-button span,.lounge-theme .editorial-read span,.lounge-home .home-monthly>a span{display:inline-block;transition:transform .3s var(--l-spring)}
-  .lounge-theme .signature-button:hover span,.lounge-theme .editorial-read:hover span,.lounge-home .home-monthly>a:hover span{transform:translate(3px,-1px)}
   .lounge-theme .menu-inner a{transition:background-color .25s var(--l-ease-out),color .25s var(--l-ease-out)}
+  /* Lift only where a real pointer hovers; touch screens get a short press instead,
+     so a tapped card does not stay raised. */
+  @media(hover:hover){
+    .home-feature-points a:hover,.lounge-home .home-insight:hover,.lounge-theme .story-chapters li:hover{transform:translateY(-4px);box-shadow:0 1px 2px oklch(40% 0.05 50 / .06),0 18px 40px oklch(40% 0.05 50 / .12)}
+    .lounge-theme .signature-button:hover span,.lounge-theme .editorial-read:hover span,.lounge-home .home-monthly>a:hover span{transform:translate(3px,-1px)}
+  }
+  @media(hover:none){
+    .home-feature-points a:active,.lounge-home .home-insight:active,.lounge-theme .story-chapters li:active{transform:scale(.98);transition-duration:.12s}
+  }
 }
 @media(prefers-reduced-motion:reduce){.home-feature-points a,.lounge-home .home-insight{transition:none}.home-feature-points a:hover,.lounge-home .home-insight:hover{transform:none}}
