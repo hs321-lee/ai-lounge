@@ -86,6 +86,16 @@ body.lounge-theme::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1
 .lounge-home .editorial-read span{font-size:1rem}
 .lounge-home .editorial-story-meta span{color:var(--l-orange-text)}
 
+/* Home insight items: one card per item, the source cover and the copy together. */
+.lounge-home .home-insight{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);padding:var(--lounge-space-md);gap:var(--lounge-space-md);align-content:start}
+.lounge-home .home-insight .source-cover-card{border:0;box-shadow:none;background:transparent;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+.lounge-home .home-insight .source-cover-header,.lounge-home .home-insight .source-cover-meta{display:none}
+.lounge-home .home-insight-copy{padding:0 0 var(--lounge-space-xs)}
+.lounge-home .home-insight .editorial-read{margin-top:var(--lounge-space-xs)}
+
+/* Small print stays readable: captions, tags and credits no smaller than 12px. */
+.lounge-theme .source-preview figcaption,.lounge-theme .source-cover-card figcaption,.lounge-theme .source-cover-category,.lounge-theme .source-cover-meta small,.lounge-theme .home-feature-credit,.lounge-theme .home-small-note,.lounge-theme .home-insight-copy .editorial-story-meta,.lounge-theme .source-text-cover span,.lounge-theme .source-cover-header{font-size:.75rem!important}
+
 /* Monthly call-out: the dark card from the preview's closing row, with an orange pill. */
 .lounge-home .home-monthly{border:0;border-radius:var(--l-radius);background:var(--l-ink);color:#fff;padding:var(--lounge-space-xl);box-shadow:var(--l-shadow)}
 .lounge-home .home-monthly .eyebrow{color:var(--l-amber);font-size:.7rem;font-weight:800;letter-spacing:.12em}
