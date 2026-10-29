@@ -134,3 +134,42 @@
  .source-story h2{font-size:1.8rem}
  .source-preview-art{aspect-ratio:4/3}
 }
+
+/* One front door, with the same four destinations on every reading surface. */
+.home-view{background:var(--lounge-paper);color:var(--lounge-ink);font-family:var(--lounge-font)}
+body .site-header{width:min(1160px,calc(100% - 4rem));padding-block:var(--lounge-space-md);font-family:var(--lounge-font)}
+body .site-header nav{display:flex;flex-wrap:nowrap;gap:var(--lounge-space-lg);margin-left:auto;width:auto}
+body .site-header nav a{white-space:nowrap;min-height:44px;display:inline-flex;align-items:center}
+.home-section-heading{display:flex;justify-content:space-between;align-items:baseline;gap:var(--lounge-space-sm);margin-bottom:var(--lounge-space-md)}
+.home-section-heading h2{font-size:1.1rem;letter-spacing:-.035em;margin:0;font-weight:800}
+.home-section-heading>a{font-size:.8rem;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap}
+.home-daily{padding-block:var(--lounge-space-lg);border-bottom:1px solid var(--lounge-rule)}
+.home-daily-feature{display:grid;gap:var(--lounge-space-lg);align-items:center}
+.home-daily-art{display:block;width:100%;max-width:18rem;justify-self:center}
+.home-daily-art[hidden]{display:none}
+.home-daily-art img{display:block;width:100%;height:auto}
+.home-daily-text{min-width:0}
+.home-daily-text h3{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.35;letter-spacing:-.055em;font-weight:850;margin:var(--lounge-space-sm) 0}
+.home-daily-text>p:not(.editorial-story-meta){font-size:.95rem;color:var(--lounge-muted);line-height:1.9;margin:0 0 var(--lounge-space-sm);max-width:40rem}
+.home-insights{padding-block:var(--lounge-space-lg)}
+.home-insight-list{display:grid;gap:var(--lounge-space-lg)}
+.home-insight{display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding-top:var(--lounge-space-md);border-top:1px solid var(--lounge-rule)}
+.home-insight h3{font-size:1.35rem;font-weight:800;line-height:1.5;letter-spacing:-.04em;margin:var(--lounge-space-sm) 0}
+.home-insight>p:not(.editorial-story-meta){font-size:.85rem;line-height:1.8;color:var(--lounge-muted);margin:0 0 var(--lounge-space-sm)}
+.home-insight .editorial-read{margin-top:auto;font-size:.8rem}
+.home-monthly{display:grid;gap:var(--lounge-space-md);background:var(--lounge-cover);color:var(--lounge-paper);padding:var(--lounge-space-lg);margin-block:var(--lounge-space-sm) var(--lounge-space-xl)}
+.home-monthly .eyebrow{color:var(--lounge-cover-muted);margin-bottom:var(--lounge-space-sm)}
+.home-monthly h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.4;letter-spacing:-.04em;margin:0 0 var(--lounge-space-sm)}
+.home-monthly p:not(.eyebrow){font-size:.85rem;line-height:1.8;color:var(--lounge-cover-muted);max-width:44rem;margin:0}
+.home-monthly>a{display:inline-flex;align-items:center;justify-content:space-between;gap:var(--lounge-space-lg);min-height:44px;align-self:end;font-size:.85rem;font-weight:700;text-decoration:none;border-bottom:1px solid var(--lounge-cover-rule)}
+.lounge-home .home-monthly a:focus-visible{outline-color:var(--lounge-paper)}
+@media(min-width:48rem){
+ .home-daily-feature.has-cover{grid-template-columns:14rem minmax(0,1fr);gap:var(--lounge-space-xl)}
+ .home-insight-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--lounge-space-lg)}
+ .home-monthly{grid-template-columns:minmax(0,1fr) auto;gap:var(--lounge-space-xl)}
+}
+@media(max-width:50rem){
+ body .site-header{width:calc(100% - 2rem);flex-wrap:wrap;gap:var(--lounge-space-xs);padding-block:var(--lounge-space-sm)}
+ body .site-header nav{width:100%;margin:0;justify-content:space-between;gap:var(--lounge-space-sm)}
+ body .site-header nav a{font-size:.8rem}
+}

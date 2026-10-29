@@ -6,12 +6,13 @@
 
 | 용도 | 바로가기 | 동작 |
 | --- | --- | --- |
-| 나의 데일리 읽기 | https://hs321-lee.github.io/ai-lounge/#home | 최신 AI 브리핑 본문과 원문을 바로 표시 |
+| 라운지 홈 | https://hs321-lee.github.io/ai-lounge/#home | 최신 데일리·인사이트·Monthly를 둘러보기 |
+| 나의 데일리 읽기 | https://hs321-lee.github.io/ai-lounge/#daily | 최신 AI 브리핑 본문과 원문을 바로 표시 |
 | 인사이트 모음 | https://hs321-lee.github.io/ai-lounge/#library | 원자료와 핵심 세 가지 요약을 각각 열기 |
 | 월간 발표·소개 | https://hs321-lee.github.io/ai-lounge/#monthly | 추린 월간 주제만 보여주는 별도 발표 화면 |
 | 10월 소개 | https://hs321-lee.github.io/ai-lounge/#post/monthly-2026-10 | 이번 달 소개 초안 |
 
-기본 주소와 `#daily`도 데일리 읽기를 엽니다. 여러 메뉴를 거쳐 들어가는 허브 대신, 각 주소에서 바로 내용을 읽습니다. 발표 화면에는 데일리·대시보드 메뉴를 표시하지 않습니다.
+기본 주소와 `#home`은 라운지 홈을 엽니다. 홈 / 데일리 / 인사이트 / Monthly 탭은 모든 화면에서 같은 순서로 표시하며, AI 라운지 로고는 홈으로 이동합니다. 데일리는 `#daily`와 기존 `#post/아이디` 주소에서 읽습니다. Monthly는 기존 35장 발표를 유지합니다. 알 수 없는 주소는 홈으로 안내합니다.
 
 모든 화면과 저장소는 공개 상태입니다. 용도별 화면 분리는 접근 제한이나 비공개 처리가 아니므로 비공개 자료는 저장하지 않습니다.
 

@@ -42,16 +42,31 @@ function renderIssue(issue) {
   const disposeMedia = window.MonthlyMedia?.mount(main, issue.sections) || (() => {});
   monthlyMotionCleanup = () => { disposeMedia(); disposeMotion(); };
 }
-function setView(monthly, library = false) {
-  document.body.classList.toggle("monthly-view", monthly);
-  const target = monthly ? "monthly" : "home";
-  document.querySelector(".brand").href = `#${target}`;
-  document.querySelector("nav").innerHTML = monthly
-    ? '<a href="#monthly" aria-current="page">월간 소개</a>'
-    : `<a href="#home"${library ? "" : ' aria-current="page"'}>데일리 읽기</a><a href="#library"${library ? ' aria-current="page"' : ""}>인사이트 모음</a><a href="#monthly">Monthly</a>`;
-  document.querySelector("footer").innerHTML = monthly
-    ? '<span><strong>AI 라운지</strong> · 한 달에 한 번, 쓸 만한 경험을 나눕니다.</span><span>나는 이렇게 쓴다.</span>'
-    : '<span><strong>AI 라운지</strong> · 매일 읽고, 쓸 만한 내용을 쌓습니다.</span>';
+function setView(view) {
+  document.body.classList.toggle("monthly-view", view === "monthly");
+  document.body.classList.toggle("home-view", view === "home");
+  document.querySelector(".brand").href = "#home";
+  document.querySelector(".site-header nav").innerHTML = [["home", "홈"], ["daily", "데일리"], ["library", "인사이트"], ["monthly", "Monthly"]]
+    .map(([id, label]) => `<a href="#${id}"${view === id ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  document.querySelector("footer").innerHTML = '<span><strong>AI 라운지</strong> · 매일 읽고, 쓸 만한 내용을 쌓습니다.</span>';
+}
+function renderHome() {
+  document.title = "AI 라운지 — 함께 읽고 쌓는 AI 이야기";
+  const daily = dailyReports[0];
+  const issue = issues[0];
+  const cover = daily?.coverImage;
+  const hasCover = cover && cover.date === daily.date && cover.src === `assets/daily/${daily.date}.webp`;
+  main.innerHTML = `<div class="editorial-lounge lounge-home"><header class="editorial-masthead"><h1>함께 읽고 쌓는<br>AI 이야기</h1><p>매일의 AI 소식부터 깊이 읽을 자료까지.<br>원문을 살펴보고, 핵심을 정리해 나눕니다.</p></header>
+    <section class="home-daily" aria-labelledby="home-daily-title"><div class="home-section-heading"><h2 id="home-daily-title">최신 데일리</h2><a href="#daily">데일리 읽기 →</a></div>
+    ${daily ? `<article class="home-daily-feature${hasCover ? " has-cover" : ""}">${hasCover ? `<a class="home-daily-art" href="#post/${encodeURIComponent(daily.id)}" aria-label="${escape(daily.title)} · 데일리 읽기"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" loading="eager" decoding="async"></a>` : ""}<div class="home-daily-text"><p class="editorial-story-meta"><span>DAILY</span><time datetime="${escape(daily.date)}">${escape(daily.date.replaceAll("-", "."))}</time></p><h3><a href="#post/${encodeURIComponent(daily.id)}">${escape(daily.title)}</a></h3><p>${escape(daily.summary)}</p><a class="editorial-read" href="#post/${encodeURIComponent(daily.id)}">오늘의 요약 읽기 <span aria-hidden="true">↗</span></a></div></article>` : '<p class="empty">첫 데일리를 준비하고 있습니다.</p>'}</section>
+    <section class="home-insights" aria-labelledby="home-insights-title"><div class="home-section-heading"><h2 id="home-insights-title">깊이 읽을 인사이트</h2><a href="#library">인사이트 모두 보기 →</a></div><div class="home-insight-list">${guides.slice(0,3).map(guide => `<article class="home-insight"><p class="editorial-story-meta"><span>${escape(guide.sourceLabel || "공개 자료")}</span><time datetime="${escape(guide.sourceMonth || guide.date)}">${escape((guide.sourceMonth || guide.date).replaceAll("-", "."))}</time></p><h3><a href="#post/${encodeURIComponent(guide.id)}">${escape(guide.title)}</a></h3><p>${escape(guide.highlights?.[0] || guide.summary)}</p><a class="editorial-read" href="#post/${encodeURIComponent(guide.id)}">핵심 세 가지 <span aria-hidden="true">↗</span></a></article>`).join("") || '<p class="empty">첫 인사이트를 준비하고 있습니다.</p>'}</div></section>
+    <section class="home-monthly" aria-labelledby="home-monthly-title"><div><p class="eyebrow">MONTHLY${issue ? ` · ${escape(issue.date.slice(0,7).replace("-", "."))}` : ""}</p><h2 id="home-monthly-title">${issue ? escape(issue.title) : "한 달의 경험을 함께 나눕니다"}</h2><p>${issue ? escape(issue.summary) : "첫 월간 소개를 준비하고 있습니다."}</p></div><a href="#monthly">Monthly 자료 보기 <span aria-hidden="true">↗</span></a></section></div>`;
+  const dailyImage = main.querySelector(".home-daily-art img");
+  if (dailyImage) {
+    const hideBrokenCover = () => { dailyImage.closest("a").hidden = true; dailyImage.closest("article").classList.remove("has-cover"); };
+    dailyImage.addEventListener("error", hideBrokenCover, { once: true });
+    if (dailyImage.complete && !dailyImage.naturalWidth) hideBrokenCover();
+  }
 }
 function renderInsight(section, index) {
   const number = String(index + 1).padStart(2, "0");
@@ -160,8 +175,10 @@ function route() {
     try { const id=decodeURIComponent(hash.slice(5)); selected=issues.find(item=>item.id===id)||dailyReports.find(item=>item.id===id)||guides.find(item=>item.id===id); } catch {}
   }
   const monthly = hash === "monthly" || selected?.type === "monthly";
-  setView(monthly, hash === "library" || selected?.type === "guide");
-  if (hash === "library") renderLibrary();
+  const view = monthly ? "monthly" : hash === "library" || selected?.type === "guide" ? "library" : hash === "daily" || selected?.type === "daily" ? "daily" : "home";
+  setView(view);
+  if (view === "home") renderHome();
+  else if (hash === "library") renderLibrary();
   else if (selected?.type === "guide") renderGuide(selected);
   else if (monthly) {
     const issue=selected||issues[0];
