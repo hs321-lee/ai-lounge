@@ -1,0 +1,50 @@
+/* Sibling of Book Club (책 사이): same masthead, tabs, cards and stats; AI Lounge keeps
+ * its own grid-paper background, monospace labels, ink-blue tags and a blinking cursor dot. */
+:root{--lounge-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--lounge-ink-blue:oklch(42% 0.09 245);--lounge-rule-strong:oklch(55% 0.025 60);--menu-width:min(1160px,calc(100% - 4rem))}
+
+/* Grid paper behind every page, fading toward the edges; content scrolls over it. */
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(oklch(24% 0.023 55 / .05) 1px,transparent 1px),linear-gradient(90deg,oklch(24% 0.023 55 / .05) 1px,transparent 1px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 30%,#000 30%,transparent 85%);mask-image:radial-gradient(ellipse 80% 70% at 50% 30%,#000 30%,transparent 85%)}
+
+/* Masthead: centered wordmark with the season dot, as in Book Club. */
+.masthead{text-align:center;padding-top:var(--lounge-space-lg);font-family:var(--lounge-font)}
+.masthead .edition{margin:0;color:var(--lounge-muted);font-size:.75rem;letter-spacing:.08em}
+.season-dot{display:inline-block;width:.45em;height:.45em;border-radius:50%;background:var(--lounge-season);margin-inline-end:.5em;vertical-align:.12em}
+.wordmark{display:inline-block;font-family:var(--lounge-display);font-size:2.75rem;line-height:1.4;font-weight:700;letter-spacing:-.06em;text-decoration:none;color:var(--lounge-ink)}
+.wordmark-dot{color:var(--lounge-season);animation:lounge-cursor 1.2s step-end infinite}
+@keyframes lounge-cursor{50%{opacity:0}}
+.mast-description{margin:.25rem 0 0;font-size:.875rem;color:var(--lounge-muted)}
+
+/* Tabs: hairline above, double rule below, sticky while reading. */
+.menu-bar{position:sticky;top:0;z-index:20;margin-top:var(--lounge-space-md);background:oklch(96% 0.015 85 / .9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.menu-inner{width:var(--menu-width);margin-inline:auto;display:flex;justify-content:center;gap:var(--lounge-space-lg);border-top:1px solid var(--lounge-rule);border-bottom:3px double var(--lounge-rule-strong);font-family:var(--lounge-font)}
+.menu-inner a{display:inline-flex;align-items:center;min-height:44px;padding:.25rem .5rem;font-size:.875rem;color:var(--lounge-ink);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.menu-inner a[aria-current="page"]{color:var(--lounge-accent);font-weight:700;border-bottom-color:var(--lounge-accent)}
+
+/* Home hero: the source card becomes Book Club's "now reading" panel. */
+.home-feature-art .source-cover-card{background:var(--lounge-soft);border:0;border-top:3px solid var(--lounge-season)}
+.home-feature-art .source-cover-header{border-bottom:0}
+.now-label{color:var(--lounge-accent);font-weight:700;font-size:.875rem;letter-spacing:0}
+.home-stats{display:flex;flex-wrap:wrap;gap:var(--lounge-space-sm) var(--lounge-space-xl);margin:var(--lounge-space-lg) 0 0;padding-top:var(--lounge-space-md);border-top:1px solid var(--lounge-rule)}
+.home-stats div{min-width:0}
+.home-stats dt{color:var(--lounge-muted);font-size:.75rem}
+.home-stats dd{margin:0;font-size:.875rem;color:var(--lounge-muted)}
+.stat-value{font-family:var(--lounge-display);font-size:clamp(2rem,4vw,2.75rem);font-weight:700;line-height:1.2;letter-spacing:-.04em;color:var(--lounge-accent);margin-inline-end:.15em;font-variant-numeric:tabular-nums}
+
+/* AI Lounge's own accents: monospace dates and ink-blue category tags. */
+.editorial-story-meta time,.source-cover-header>span:last-child{font-family:var(--lounge-mono);letter-spacing:.02em}
+.source-cover-category{background:var(--lounge-ink-blue)}
+
+body>footer{border-top:3px double var(--lounge-rule-strong)}
+
+@media(max-width:50rem){
+  .masthead{padding-top:var(--lounge-space-md)}
+  .wordmark{font-size:2.1rem}
+  .mast-description{font-size:.8rem}
+  .menu-bar{margin-top:var(--lounge-space-sm)}
+  .menu-inner{width:calc(100% - 2rem);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+  .menu-inner a{justify-content:center;font-size:.8rem;padding-inline:0}
+}
+@media(prefers-reduced-motion:reduce){.wordmark-dot{animation:none}}

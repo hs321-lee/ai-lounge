@@ -16,7 +16,7 @@ async function open(hash, posts = data.posts) {
   const nav = node();
   const brand = node();
   const footer = node();
-  const document = { title: "", body: { classList: { toggle(name, enabled) { if (enabled) classes.add(name); else classes.delete(name); } } }, querySelector(selector) { return selector === "main" ? main : selector === ".site-header nav" ? nav : selector === ".brand" ? brand : selector === "footer" ? footer : null; } };
+  const document = { title: "", body: { classList: { toggle(name, enabled) { if (enabled) classes.add(name); else classes.delete(name); } } }, querySelector(selector) { return selector === "main" ? main : selector === ".menu-bar nav" ? nav : selector === ".wordmark" ? brand : selector === "footer" ? footer : null; } };
   const location = { hash };
   const window = {
     addEventListener(name, callback) { listeners[name] = callback; },

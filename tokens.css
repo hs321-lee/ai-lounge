@@ -8,8 +8,8 @@
   --story-muted: oklch(45% 0.02 55);
   --story-accent: oklch(52% 0.16 42);
   --story-rule: oklch(82% 0.022 75);
-  --story-display: "Nanum Myeongjo", "Batang", serif;
-  --story-body: "NanumSquareNeo", -apple-system, "Apple SD Gothic Neo", sans-serif;
+  --story-display: "Noto Serif KR", "Batang", serif;
+  --story-body: "Pretendard", "NanumSquareNeo", -apple-system, "Apple SD Gothic Neo", sans-serif;
   --story-display-size: clamp(2.75rem, 7.6vw, 6.5rem);
   --story-heading-size: clamp(2.1rem, 5.8vw, 4.8rem);
   --story-body-size: clamp(1.1rem, 2.15vw, 1.5rem);
@@ -30,7 +30,7 @@
   --lounge-cover: oklch(27% 0.027 55);
   --lounge-cover-muted: oklch(88% 0.016 75);
   --lounge-cover-rule: oklch(57% 0.025 60);
-  --lounge-font: "NanumSquareNeo", -apple-system, "Apple SD Gothic Neo", sans-serif;
+  --lounge-font: "Pretendard", "NanumSquareNeo", -apple-system, "Apple SD Gothic Neo", sans-serif;
   --lounge-display: var(--story-display);
   --lounge-space-xs: .5rem;
   --lounge-space-sm: 1rem;
