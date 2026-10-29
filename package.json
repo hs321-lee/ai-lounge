@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "check": "node --check assets/app.js && node --check assets/monthly-motion.js && node --check assets/monthly-media.js && node scripts/validate.mjs"
+    "test": "node --test scripts/routes.test.mjs",
+    "check": "node --check assets/app.js && node --check assets/monthly-motion.js && node --check assets/monthly-media.js && node scripts/validate.mjs && node --test scripts/routes.test.mjs"
   },
   "engines": {
     "node": ">=20"
