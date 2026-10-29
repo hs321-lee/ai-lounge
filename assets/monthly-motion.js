@@ -6,7 +6,7 @@ window.MonthlyMotion = {
     const scenes = [...root.querySelectorAll("[data-scene]")];
     const story = root.querySelector(".monthly-story");
     const rail = root.querySelector(".story-progress span");
-    const header = document.querySelector(".site-header");
+    const header = document.querySelector(".menu-bar");
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     let observer;
     let frame = 0;

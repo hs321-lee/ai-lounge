@@ -1,0 +1,163 @@
+/* AI Lounge theme: AI 2027 preview's page structure with Filee's soft light,
+ * recolored from violet to apricot and orange. Book Club keeps the serif paper look. */
+:root{
+  --l-sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  --l-bg:oklch(98.6% 0.006 75);
+  --l-ink:oklch(24% 0.023 55);
+  --l-muted:oklch(47% 0.02 55);
+  --l-line:oklch(91% 0.014 70);
+  --l-card:oklch(100% 0 0 / .78);
+  --l-orange:oklch(66% 0.19 45);
+  --l-amber:oklch(78% 0.15 72);
+  --l-orange-text:oklch(52% 0.16 42);
+  --l-orange-soft:oklch(95% 0.035 65);
+  --l-gradient:linear-gradient(100deg,var(--l-orange) 10%,var(--l-amber) 90%);
+  --l-radius:18px;
+  --l-shadow:0 1px 2px oklch(40% 0.05 50 / .06),0 12px 32px oklch(40% 0.05 50 / .08);
+  --l-shell:min(1160px,calc(100% - 4rem));
+}
+
+/* Top bar: small pill logo on the left, tabs on the right, the current tab as a dark pill. */
+.menu-bar{position:sticky;top:0;z-index:20;background:oklch(99% 0.004 75 / .78);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--l-line);font-family:var(--l-sans)}
+.menu-shell{width:var(--l-shell);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:var(--lounge-space-lg);min-height:64px}
+.wordmark{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--l-ink);font-weight:800;font-size:1rem;letter-spacing:-.02em;white-space:nowrap}
+.logo-pill{display:inline-flex;align-items:center;padding:.2rem .55rem;border-radius:999px;background:var(--l-gradient);color:#fff;font-size:.8rem;font-weight:800;letter-spacing:-.01em}
+.menu-inner{display:flex;align-items:center;gap:.25rem}
+.menu-inner a{display:inline-flex;align-items:center;min-height:40px;padding:0 .9rem;border-radius:999px;font-size:.875rem;font-weight:600;color:var(--l-muted);text-decoration:none;white-space:nowrap}
+.menu-inner a:hover{color:var(--l-ink);background:oklch(24% 0.023 55 / .05)}
+.menu-inner a[aria-current="page"]{background:var(--l-ink);color:#fff}
+
+/* Lounge canvas (home, AI news, insights): warm white with fixed apricot, peach and butter light behind the content. */
+body.lounge-theme{--lounge-display:var(--l-sans);--lounge-font:var(--l-sans);--ink:var(--l-ink);--muted:var(--l-muted);--line:var(--l-line);--accent:var(--l-orange-text);--surface:#fff;--soft:var(--l-orange-soft);background:var(--l-bg);font-family:var(--l-sans)}
+body.lounge-theme::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1;pointer-events:none;filter:blur(28px);
+  background:
+    radial-gradient(40vmax 32vmax at 6% 8%,oklch(88% 0.08 55 / .55),transparent 70%),
+    radial-gradient(36vmax 30vmax at 96% 30%,oklch(93% 0.07 95 / .6),transparent 70%),
+    radial-gradient(42vmax 30vmax at 40% 96%,oklch(90% 0.06 20 / .45),transparent 70%)}
+.lounge-theme main.wrap{width:var(--l-shell)}
+
+/* Hero: badge, two-line headline with a gradient second line, actions, stats, cover card. */
+.lounge-home .home-feature{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:var(--lounge-space-2xl);padding-block:var(--lounge-space-2xl) var(--lounge-space-xl);border-bottom:0}
+.hero-badge{display:inline-flex;align-items:center;gap:.15rem;margin:0;padding:.35rem .8rem;border-radius:999px;background:var(--l-card);border:1px solid var(--l-line);font-size:.75rem;font-weight:600;color:var(--l-orange-text)}
+.hero-badge time{font-variant-numeric:tabular-nums}
+.season-dot{display:inline-block;width:.45rem;height:.45rem;border-radius:50%;background:var(--l-orange);margin-inline-end:.45rem}
+.lounge-home .home-feature-byline{margin:var(--lounge-space-md) 0 var(--lounge-space-xs);font-size:.85rem;font-weight:600;color:var(--l-muted)}
+.lounge-home .home-feature h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1.18;letter-spacing:-.045em;font-weight:800}
+.lounge-home .home-feature h1 em{font-style:normal;background:var(--l-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lounge-home .home-feature-deck{font-size:1rem;line-height:1.8;margin:var(--lounge-space-md) 0 var(--lounge-space-lg)}
+.lounge-home .source-story-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+.lounge-home .signature-button{border:0;border-radius:999px;background:var(--l-gradient);color:#fff!important;padding:.7rem 1.3rem;font-size:.9rem;font-weight:700;gap:.6rem;box-shadow:0 8px 20px oklch(66% 0.19 45 / .28)}
+.lounge-home .signature-button:hover{background:var(--l-gradient);filter:brightness(1.05)}
+.lounge-home .source-original-link{border-radius:999px;background:var(--l-card);border:1px solid var(--l-line);padding:0 1.2rem;font-size:.9rem;font-weight:700;color:var(--l-ink)}
+.home-stats{display:flex;flex-wrap:wrap;gap:var(--lounge-space-md) var(--lounge-space-xl);margin:var(--lounge-space-xl) 0 0}
+.home-stats div{min-width:0}
+.home-stats dt{font-size:.75rem;color:var(--l-muted)}
+.home-stats div{display:flex;flex-direction:column-reverse}
+.home-stats dd{margin:0;font-size:.85rem;font-weight:600;color:var(--l-muted)}
+.stat-value{font-size:clamp(1.75rem,3vw,2.25rem);font-weight:800;letter-spacing:-.03em;color:var(--l-ink);margin-inline-end:.15em;font-variant-numeric:tabular-nums}
+.lounge-home .home-feature-art{max-width:30rem}
+.lounge-home .home-feature-credit{margin-top:var(--lounge-space-sm);text-align:center}
+
+/* Cards: frosted white, rounded, soft shadow. */
+.lounge-home .source-cover-card{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);overflow:hidden}
+.lounge-home .source-cover-header{border-bottom:0;margin-bottom:var(--lounge-space-sm)}
+.lounge-home .source-cover-card .source-preview-art{border-radius:12px}
+.now-label{display:inline-flex;align-items:center;color:var(--l-orange-text);font-weight:700;font-size:.8rem}
+.lounge-home .source-cover-category{border-radius:999px;background:var(--l-orange-soft);color:var(--l-orange-text)}
+
+/* Three viewpoints as numbered shortcut cards, like the preview's 01/02/03 row. */
+.home-feature-points{list-style:none;margin:0 0 var(--lounge-space-2xl);padding:0;border:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--lounge-space-md)}
+.home-feature-points li{display:block;min-width:0;padding:0;border:0}
+.home-feature-points a{display:block;height:100%;padding:var(--lounge-space-md) var(--lounge-space-lg);border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);text-decoration:none;transition:transform 220ms var(--story-ease-out)}
+.home-feature-points a:hover{transform:translateY(-3px)}
+.home-feature-points span{display:block;font-size:.75rem;font-weight:800;color:var(--l-orange-text);letter-spacing:.04em}
+.home-feature-points p{margin:.4rem 0 0;font-size:.95rem;font-weight:600;line-height:1.6;color:var(--l-ink)}
+
+/* Sections: small uppercase eyebrow over a bold heading. */
+.lounge-home .home-daily,.lounge-home .home-insights{border:0;padding-block:var(--lounge-space-xl)}
+.lounge-home .home-section-heading .eyebrow{font-size:.7rem;font-weight:800;letter-spacing:.12em;color:var(--l-orange-text);text-transform:uppercase}
+.lounge-home .home-section-heading h2{font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.04em}
+.lounge-home .home-section-heading>a{font-weight:700;color:var(--l-ink);text-decoration:none;border-radius:999px;border:1px solid var(--l-line);background:var(--l-card);padding:0 1rem;min-height:40px}
+.lounge-home .home-daily-feature{padding:var(--lounge-space-lg);border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow)}
+.lounge-home .home-daily-art img{border-radius:12px}
+.lounge-home .home-daily-text h3{font-weight:800;letter-spacing:-.04em}
+.lounge-home .home-insight h3{font-weight:800}
+.lounge-home .editorial-read{border:0;color:var(--l-orange-text);padding:0;gap:.4rem}
+.lounge-home .editorial-read span{font-size:1rem}
+.lounge-home .editorial-story-meta span{color:var(--l-orange-text)}
+
+/* Monthly call-out: the dark card from the preview's closing row, with an orange pill. */
+.lounge-home .home-monthly{border:0;border-radius:var(--l-radius);background:var(--l-ink);color:#fff;padding:var(--lounge-space-xl);box-shadow:var(--l-shadow)}
+.lounge-home .home-monthly .eyebrow{color:var(--l-amber);font-size:.7rem;font-weight:800;letter-spacing:.12em}
+.lounge-home .home-monthly p:not(.eyebrow){color:oklch(86% 0.015 75)}
+.lounge-home .home-monthly>a{border:0;border-radius:999px;background:var(--l-gradient);color:#fff;padding:0 1.3rem;font-weight:700}
+.lounge-home .home-monthly a:focus-visible{outline-color:#fff}
+.lounge-home .editorial-close{border-top:1px solid var(--l-line)}
+.lounge-theme>footer{border-top:1px solid var(--l-line)}
+
+/* Shared pieces on AI news and insights. */
+.lounge-theme .eyebrow{color:var(--l-orange-text);font-weight:800;letter-spacing:.1em}
+.lounge-theme .daily-source-link,.lounge-theme .guide-heading>a{color:var(--l-orange-text);font-weight:700;text-decoration:none}
+.lounge-theme .daily-source-link:hover,.lounge-theme .guide-heading>a:hover{text-decoration:underline}
+
+/* AI news: page title row, lead, a headline card, insight lists and the dark recipe card. */
+.lounge-theme .daily-masthead{border-bottom:1px solid var(--l-line);padding-block:var(--lounge-space-lg) var(--lounge-space-md)}
+.lounge-theme .daily-masthead h1{font-weight:800;letter-spacing:-.04em}
+.lounge-theme .daily-history select{border-radius:999px;border:1px solid var(--l-line);background:var(--l-card);padding-inline:.9rem;font-weight:600}
+.lounge-theme .daily-lead h2{font-weight:800;letter-spacing:-.04em}
+.lounge-theme .daily-lead img{border-radius:var(--l-radius);box-shadow:var(--l-shadow)}
+.lounge-theme .daily-edition-meta time{color:var(--l-orange-text)}
+.lounge-theme .daily-headlines{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);padding:var(--lounge-space-sm) var(--lounge-space-xs)}
+.lounge-theme .daily-headlines button{border-radius:12px}
+.lounge-theme .daily-headlines button:hover{background:var(--l-orange-soft)}
+.lounge-theme .daily-section-title h2{font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+.lounge-theme .insight h3,.lounge-theme .radar-entry h3{font-weight:800;letter-spacing:-.03em}
+.lounge-theme .insight-meta .item-number{background:var(--l-gradient);color:#fff}
+.lounge-theme .daily-recipe{background:var(--l-ink);border-radius:var(--l-radius);box-shadow:var(--l-shadow)}
+.lounge-theme .daily-recipe .eyebrow{color:var(--l-amber)}
+.lounge-theme .copy-prompt{border-radius:999px;border-color:oklch(70% 0.03 60);color:#fff}
+.lounge-theme .copy-prompt:hover{background:oklch(32% 0.025 55)}
+.lounge-theme .recipe-prompt{border-radius:12px}
+
+/* Insights list: title row, then each source as a frosted card. */
+.lounge-theme .editorial-masthead{border-bottom:1px solid var(--l-line);padding-top:var(--lounge-space-xl)}
+.lounge-theme .editorial-masthead h1{font-weight:800;letter-spacing:-.045em}
+.lounge-theme .source-story{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);padding:var(--lounge-space-lg);margin-block:var(--lounge-space-lg)}
+.lounge-theme .source-story h2,.lounge-theme .source-story h3{font-weight:800;letter-spacing:-.04em}
+.lounge-theme .source-cover-card{border-radius:14px;border-color:var(--l-line);background:#fff}
+.lounge-theme .source-cover-card .source-preview-art{border-radius:10px}
+.lounge-theme .source-cover-category{border-radius:999px;background:var(--l-orange-soft);color:var(--l-orange-text)}
+.lounge-theme .editorial-story-meta span{color:var(--l-orange-text)}
+.lounge-theme .editorial-read{border:0;border-radius:999px;background:var(--l-gradient);color:#fff;padding:0 1.1rem;gap:.5rem}
+.lounge-theme .editorial-read:hover{color:#fff;filter:brightness(1.05)}
+.lounge-theme .editorial-read span{font-size:1rem}
+.lounge-theme .source-original-link{border-radius:999px;border:1px solid var(--l-line);background:var(--l-card);padding:0 1.1rem;color:var(--l-ink)}
+.lounge-theme .editorial-close{border-top:1px solid var(--l-line)}
+.lounge-theme .editorial-close>p{font-weight:800}
+
+/* Insight article: highlights card and rounded note boxes. */
+.lounge-theme .guide-heading h1{font-weight:800;letter-spacing:-.045em}
+.lounge-theme .guide-article .guide-note-image img,.lounge-theme .guide-article figure img{border-radius:var(--l-radius)}
+.lounge-theme .guide-highlights{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-orange-soft);padding:var(--lounge-space-lg)}
+.lounge-theme .guide-section{border-bottom:1px solid var(--l-line)}
+.lounge-theme .guide-section h2,.lounge-theme .guide-sources h2{font-weight:800}
+.lounge-theme .guide-interpretation,.lounge-theme .guide-action{border:1px solid var(--l-line);border-radius:14px;background:var(--l-card);padding:var(--lounge-space-md) var(--lounge-space-lg)}
+.lounge-theme .guide-action{border-left:4px solid var(--l-orange)}
+.lounge-theme .guide-section h3{color:var(--l-orange-text);font-size:.8rem}
+
+@media(max-width:60rem){
+  .lounge-home .home-feature{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-xl);padding-top:var(--lounge-space-xl)}
+  .lounge-home .home-feature-art{justify-self:center}
+  .home-feature-points{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-sm)}
+}
+@media(max-width:50rem){
+  .menu-shell{width:calc(100% - 2rem);flex-wrap:wrap;gap:0;padding-block:.5rem;min-height:0}
+  .menu-inner{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:.4rem}
+  .menu-inner a{justify-content:center;padding:0;font-size:.8rem;min-height:36px}
+  .lounge-theme main.wrap{width:calc(100% - 2rem)}
+  .lounge-home .home-feature-deck br{display:none}
+  .lounge-home .home-daily-feature{padding:var(--lounge-space-md)}
+  .lounge-home .home-monthly{padding:var(--lounge-space-lg)}
+  .lounge-theme .source-story{padding:var(--lounge-space-md)}
+}
+@media(prefers-reduced-motion:reduce){.home-feature-points a{transition:none}.home-feature-points a:hover{transform:none}}
