@@ -184,6 +184,38 @@ body.lounge-theme::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1
 .lounge-theme .guide-action{border-left:4px solid var(--l-orange)}
 .lounge-theme .guide-section h3{color:var(--l-orange-text);font-size:.8rem}
 
+/* Home: a slow marquee of recent topics, reading principles, and a centered closing. */
+.topic-marquee{margin:0 0 var(--lounge-space-xl);min-width:0}
+.topic-marquee .eyebrow{margin:0 0 var(--lounge-space-sm);font-size:.7rem;text-transform:none}
+.topic-marquee-window{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.topic-marquee-track{display:flex;width:max-content}
+.topic-marquee ul{display:flex;gap:.6rem;list-style:none;margin:0;padding:0 .6rem 0 0}
+.topic-marquee a{display:inline-flex;align-items:center;min-height:40px;padding:0 1rem;border:1px solid var(--l-line);border-radius:999px;background:var(--l-card);font-size:.875rem;font-weight:600;color:var(--l-ink);text-decoration:none;white-space:nowrap}
+.topic-marquee a:hover{border-color:var(--l-orange);color:var(--l-orange-text)}
+.topic-marquee ul[aria-hidden="true"]{display:none}
+@keyframes lounge-marquee{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:no-preference){
+  .topic-marquee ul[aria-hidden="true"]{display:flex}
+  .topic-marquee-track{animation:lounge-marquee 60s linear infinite}
+  .topic-marquee:hover .topic-marquee-track,.topic-marquee:focus-within .topic-marquee-track{animation-play-state:paused}
+}
+@media(prefers-reduced-motion:reduce){.topic-marquee-window{overflow-x:auto;-webkit-mask-image:none;mask-image:none}}
+
+.reading-principles{padding-block:var(--lounge-space-xl) 0}
+.principle-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--lounge-space-md)}
+.principle-grid li{padding:var(--lounge-space-lg);border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow);min-width:0}
+.principle-grid svg{width:2.25rem;height:2.25rem;padding:.45rem;border-radius:10px;background:var(--l-orange-soft);fill:none;stroke:var(--l-orange-text);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.principle-grid h3{margin:var(--lounge-space-sm) 0 .35rem;font-size:1.05rem;font-weight:800;letter-spacing:-.02em}
+.principle-grid p{margin:0;font-size:.875rem;line-height:1.75;color:var(--l-muted)}
+
+.home-closing{display:grid;justify-items:center;text-align:center;gap:var(--lounge-space-sm);padding-block:var(--lounge-space-3xl) var(--lounge-space-2xl)}
+.home-closing .closing-pill{font-size:1.4rem;padding:.4rem 1rem;box-shadow:0 10px 24px oklch(66% 0.19 45 / .28)}
+.lounge-home .home-closing h2{margin:var(--lounge-space-sm) 0 0;font-size:clamp(1.8rem,3.6vw,2.75rem);line-height:1.3;font-weight:800;letter-spacing:-.045em}
+.home-closing>p{margin:0;max-width:30rem;font-size:.95rem;line-height:1.8;color:var(--l-muted)}
+.closing-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:var(--lounge-space-md)}
+.lounge-theme .closing-actions .signature-button{border:0;border-radius:999px;background:var(--l-gradient);color:#fff!important;padding:.7rem 1.3rem;font-size:.9rem;font-weight:700;gap:.6rem;box-shadow:0 8px 20px oklch(66% 0.19 45 / .28)}
+.lounge-theme .closing-actions .source-original-link{border-radius:999px;background:var(--l-card);border:1px solid var(--l-line);padding:0 1.2rem;font-size:.9rem;font-weight:700;color:var(--l-ink)}
+
 /* Monthly: the archive and the presentation share the lounge canvas and sans type. */
 body.lounge-theme.monthly-view{--story-paper:var(--l-bg);--story-display:var(--l-sans);--story-body:var(--l-sans);--story-accent:var(--l-orange-text);--story-rule:var(--l-line);background:var(--l-bg);color:var(--l-ink)}
 .lounge-theme .monthly-cover{border-radius:var(--l-radius);box-shadow:var(--l-shadow);overflow:hidden}
@@ -206,6 +238,7 @@ body.lounge-theme.monthly-view{--story-paper:var(--l-bg);--story-display:var(--l
 .lounge-theme .story-progress span{background:var(--l-gradient)}
 
 @media(max-width:60rem){
+  .principle-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .lounge-home .home-feature{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-xl);padding-top:var(--lounge-space-xl)}
   .lounge-home .home-feature-art{justify-self:center}
   .home-feature-points{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-sm)}
@@ -222,6 +255,12 @@ body.lounge-theme.monthly-view{--story-paper:var(--l-bg);--story-display:var(--l
   .lounge-theme .daily-feature{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-md);padding:var(--lounge-space-md)}
   .lounge-theme .daily-page-head .daily-page-side{justify-items:start;text-align:left}
   .lounge-theme .daily-page-head{margin-top:var(--lounge-space-xl)}
+  .principle-grid{grid-template-columns:minmax(0,1fr)}
+  .principle-grid{gap:var(--lounge-space-sm)}
+  .principle-grid li{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:var(--lounge-space-md);padding:var(--lounge-space-md)}
+  .principle-grid svg{grid-row:span 2}
+  .principle-grid h3{margin:0 0 .2rem}
+  .home-closing{padding-block:var(--lounge-space-2xl) var(--lounge-space-xl)}
 }
 /* Signature motion, kept small: light that drifts slowly, a hero that settles in
  * line by line, cards that lift on a soft spring and arrows that lean forward. */

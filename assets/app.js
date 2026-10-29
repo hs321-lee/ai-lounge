@@ -75,6 +75,37 @@ function setView(view, presentation = false) {
     .map(([id, label]) => `<a href="#${id}"${view === id ? ' aria-current="page"' : ""}>${label}</a>`).join("");
   document.querySelector("footer").innerHTML = '<span><strong>AI 라운지</strong> · 공개 자료를 읽고 정리하는 개인 프로젝트</span><span>원문 · 직접 작성한 요약 · AI 생성 삽화</span>';
 }
+function topicLabel(text) {
+  const label = String(text || "").split(/[:：,，]/)[0].trim();
+  return label.length > 24 ? `${label.slice(0, 23)}…` : label;
+}
+function renderTopicMarquee() {
+  const seen = new Set();
+  const topics = [];
+  const add = (text, id) => { const label = topicLabel(text); if (label && !seen.has(label)) { seen.add(label); topics.push({ label, id }); } };
+  dailyReports.slice(0, 5).forEach(report => {
+    report.sections.forEach(section => add(section.heading, report.id));
+    (report.radar || []).forEach(repo => add(repo.headline || repo.repo, report.id));
+  });
+  guides.forEach(guide => add(guide.title, guide.id));
+  if (topics.length < 4) return "";
+  const chips = topics.slice(0, 18).map(topic => `<li><a href="#post/${encodeURIComponent(topic.id)}">${escape(topic.label)}</a></li>`).join("");
+  return `<section class="topic-marquee" aria-labelledby="topic-marquee-title" data-reveal><h2 id="topic-marquee-title" class="eyebrow">최근 읽은 주제</h2><div class="topic-marquee-window"><div class="topic-marquee-track"><ul>${chips}</ul><ul aria-hidden="true">${chips.replaceAll('<a ', '<a tabindex="-1" ')}</ul></div></div></section>`;
+}
+const readingPrinciples = Object.freeze([
+  { icon: "M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18", title: "공개 자료만", body: "누구나 볼 수 있는 강연·발표·공식 문서만 읽고, 회사나 비공개 자료는 담지 않습니다." },
+  { icon: "M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7", title: "원문 링크", body: "모든 글에 원문과 날짜를 남겨, 직접 확인할 수 있게 합니다." },
+  { icon: "M5 5h6v14H5zM13 5h6v6h-6zM13 13h6v6h-6z", title: "요약과 삽화 구분", body: "직접 쓴 요약·활용 해석과 AI로 만든 삽화를 따로 표시합니다." },
+  { icon: "M6 18V10M12 18V6M18 18v-5", title: "수치는 작성자 보고", body: "자료 속 숫자는 원문 작성자의 보고로 옮기고, 따로 검증한 값처럼 쓰지 않습니다." },
+  { icon: "M7 4h7l4 4v12H7zM14 4v4h4", title: "원본 파일은 링크로", body: "PDF 같은 원본 파일은 올리지 않고 원문 위치로 연결합니다." },
+  { icon: "M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7z", title: "개인정보는 빼고", body: "이름·소속 같은 개인 정보와 비밀 값은 공개 저장소에 남기지 않습니다." }
+]);
+function renderReadingPrinciples() {
+  return `<section class="reading-principles" aria-labelledby="reading-principles-title"><div class="home-section-heading" data-reveal><div><p class="eyebrow">읽는 기준</p><h2 id="reading-principles-title">AI 라운지는 이렇게 읽습니다.</h2></div></div><ul class="principle-grid" data-reveal>${readingPrinciples.map(item=>`<li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${item.icon}"/></svg><h3>${escape(item.title)}</h3><p>${escape(item.body)}</p></li>`).join("")}</ul></section>`;
+}
+function renderHomeClosing() {
+  return `<section class="home-closing" aria-labelledby="home-closing-title" data-reveal><span class="logo-pill closing-pill" aria-hidden="true">ai.</span><h2 id="home-closing-title">다음 자료가 올라오면<br>여기서 만나요.</h2><p>매일의 AI 소식, 깊이 읽은 인사이트, 한 달에 한 번 함께 보는 자료를 모읍니다.</p><nav class="closing-actions" aria-label="AI 라운지 둘러보기"><a class="signature-button" href="#daily">${escape(navigationLabels.daily)} <span aria-hidden="true">→</span></a><a class="source-original-link" href="#library">${escape(navigationLabels.library)}</a><a class="source-original-link" href="#monthly">${escape(navigationLabels.monthly)}</a></nav></section>`;
+}
 function renderHome() {
   document.title = "AI 라운지 — 읽고, 이해하고, 써보는 AI";
   const feature = guides.find(guide => guide.id === "ai2027-delegation-2026-10-29");
@@ -84,10 +115,11 @@ function renderHome() {
   const hasCover = cover && cover.date === daily.date && cover.src === `assets/daily/${daily.date}.webp`;
   main.innerHTML = `<div class="editorial-lounge lounge-home">
     ${feature ? `<section class="home-feature" aria-labelledby="home-feature-title"><div class="home-feature-copy"><p class="hero-badge"><span class="season-dot" aria-hidden="true"></span>이번에 함께 읽을 자료 · <time datetime="${escape(feature.sourceMonth || feature.date)}">${escape((feature.sourceMonth || feature.date).replaceAll("-", "."))}</time></p><p class="home-feature-byline">김덕진 · AI 2027 강연</p><h1 id="home-feature-title">AI에 맡기고,<br><em>핵심은 이해하기</em></h1><p class="home-feature-deck">AI에 무엇을 맡기고, 사람은 무엇을 이해해야 할까요? <br>공개 강연에서 고른 세 가지 관점으로 읽습니다.</p><div class="source-story-actions"><a class="signature-button" href="#post/${encodeURIComponent(feature.id)}">핵심 요약 읽기 <span aria-hidden="true">→</span></a><a class="source-original-link" href="${safeUrl(feature.sources[0]?.url)}" target="_blank" rel="noopener">강연 원문 보기 ↗</a></div><dl class="home-stats"><div><dt>AI 소식</dt><dd><span class="stat-value">${dailyReports.length}</span>편</dd></div><div><dt>인사이트</dt><dd><span class="stat-value">${guides.length}</span>개</dd></div><div><dt>함께 보기</dt><dd><span class="stat-value">${issues.length}</span>회</dd></div></dl></div><div class="home-feature-art" data-reveal>${renderSourcePreview(feature,true,"이번에 읽는 자료")}<p class="home-feature-credit">원자료 · 김덕진, 2026.10.28 교보문고 강연 · 대표 표지는 원자료의 실제 첫 장 축소본</p></div></section><ol class="home-feature-points" data-reveal aria-label="세 가지 관점">${feature.highlights.map((point,index)=>`<li><a href="#post/${encodeURIComponent(feature.id)}"><span>${String(index+1).padStart(2,"0")}</span><p>${escape(point)}</p></a></li>`).join("")}</ol>` : '<header class="editorial-masthead"><h1>AI 라운지</h1><p>첫 인사이트를 준비하고 있습니다.</p></header>'}
+    ${renderTopicMarquee()}
     <section class="home-daily" aria-labelledby="home-daily-title" data-reveal><div class="home-section-heading"><div><p class="eyebrow">${escape(navigationLabels.daily)}</p><h2 id="home-daily-title">오늘의 AI, 한 장으로.</h2></div><a href="#daily">지난 ${escape(navigationLabels.daily)}까지 보기 →</a></div>
     ${daily ? `<article class="home-daily-feature${hasCover ? " has-cover" : ""}">${hasCover ? `<a class="home-daily-art" href="#post/${encodeURIComponent(daily.id)}" aria-label="${escape(daily.title)} · 데일리 읽기"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" loading="lazy" decoding="async"></a>` : ""}<div class="home-daily-text"><p class="editorial-story-meta"><span>${escape(navigationLabels.daily)}</span><time datetime="${escape(daily.date)}">${escape(daily.date.replaceAll("-", "."))}</time></p><h3><a href="#post/${encodeURIComponent(daily.id)}">${escape(daily.title)}</a></h3><p>${escape(daily.summary)}</p><a class="editorial-read" href="#post/${encodeURIComponent(daily.id)}">그림과 함께 읽기 <span aria-hidden="true">↗</span></a><p class="home-small-note">날짜별 원문과 요약을 함께 보관합니다.</p></div></article>` : '<p class="empty">첫 AI 소식을 준비하고 있습니다.</p>'}</section>
     <section class="home-insights" aria-labelledby="home-insights-title"><div class="home-section-heading" data-reveal><div><p class="eyebrow">${escape(navigationLabels.library)}</p><h2 id="home-insights-title">다른 관점도 펼쳐보세요.</h2></div><a href="#library">인사이트 모두 보기 →</a></div><div class="home-insight-list">${guides.filter(guide=>guide.id!==feature?.id).slice(0,2).map(guide=>`<article class="home-insight" data-reveal>${renderSourcePreview(guide)}<div class="home-insight-copy"><p class="editorial-story-meta"><span>${escape(guide.sourceLabel || "공개 자료")}</span></p><h3><a href="#post/${encodeURIComponent(guide.id)}">${escape(guide.title)}</a></h3><p>${escape(guide.highlights?.[0] || guide.summary)}</p><a class="editorial-read" href="#post/${encodeURIComponent(guide.id)}">핵심 세 가지 <span aria-hidden="true">↗</span></a></div></article>`).join("")}</div></section>
-    <section class="home-monthly" aria-labelledby="home-monthly-title" data-reveal><div><p class="eyebrow">${escape(navigationLabels.monthly)}${issue ? ` · ${escape(issue.date.slice(0,7).replace("-", "."))}` : ""}</p><h2 id="home-monthly-title">${issue ? escape(issue.title) : "한 달의 자료를 함께 읽습니다"}</h2><p>${issue ? escape(issue.summary) : "첫 월간 소개를 준비하고 있습니다."}</p></div><a href="#monthly">${escape(navigationLabels.monthly)} 목록 <span aria-hidden="true">↗</span></a></section></div>`;
+    <section class="home-monthly" aria-labelledby="home-monthly-title" data-reveal><div><p class="eyebrow">${escape(navigationLabels.monthly)}${issue ? ` · ${escape(issue.date.slice(0,7).replace("-", "."))}` : ""}</p><h2 id="home-monthly-title">${issue ? escape(issue.title) : "한 달의 자료를 함께 읽습니다"}</h2><p>${issue ? escape(issue.summary) : "첫 월간 소개를 준비하고 있습니다."}</p></div><a href="#monthly">${escape(navigationLabels.monthly)} 목록 <span aria-hidden="true">↗</span></a></section>${renderReadingPrinciples()}${renderHomeClosing()}</div>`;
   bindGuideNoteErrors();
   bindSourcePreviewErrors();
   const dailyImage = main.querySelector(".home-daily-art img");
