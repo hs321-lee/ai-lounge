@@ -163,3 +163,56 @@ test("4편은 후속 소개 한 장에서 기존 인사이트와 원문으로 �
   const fallback = await open("#monthly/2026-10", data.posts.map(post => post.id === actualIssue.id ? invalid : post));
   assert.doesNotMatch(fallback.main.innerHTML, /href="#post\/unpublished-or-missing"/);
 });
+
+test("홈과 인사이트 대표 표지는 상세 글을 열고 원문 버튼은 별도로 남긴다", async () => {
+  const published = data.posts.filter(post => post.type === "guide" && post.published);
+  for (const hash of ["#home", "#library"]) {
+    const page = await open(hash);
+    const covers = [...page.main.innerHTML.matchAll(/<figure class="source-preview"><a ([^>]+)>/g)];
+    assert.equal(covers.length, hash === "#home" ? Math.min(3, published.length) : published.length);
+    for (const [, attributes] of covers) {
+      assert.match(attributes, /href="#post\/[^"]+"/);
+      assert.match(attributes, /aria-label="[^"]+ · 상세보기"/);
+      assert.doesNotMatch(attributes, /target=|https:/);
+    }
+    assert.doesNotMatch(page.main.innerHTML, /· 원문에서 보기/);
+    for (const guide of published) {
+      if (hash === "#library") assert(page.main.innerHTML.includes(`href="#post/${guide.id}"`));
+      if (hash === "#library" || guide.id === "ai2027-delegation-2026-10-29") {
+        assert(page.main.innerHTML.includes(`href="${guide.sources[0].url}" target="_blank" rel="noopener"`));
+      }
+    }
+  }
+});
+
+test("모든 날짜의 선택값·목차 대상·확대 이미지가 실제 기록과 연결된다", async () => {
+  const reports = data.posts.filter(post => post.type === "daily");
+  for (const report of reports) {
+    const page = await open(`#post/${report.id}`);
+    assert(page.main.innerHTML.includes(`<option value="${report.id}" selected>${report.date}</option>`));
+    for (const [, target] of page.main.innerHTML.matchAll(/data-scroll="([^"]+)"/g)) {
+      assert(page.main.innerHTML.includes(`id="${target}"`), `${report.id}: ${target}`);
+    }
+    assert(page.main.innerHTML.includes(`href="assets/daily/${report.date}.webp" target="_blank" rel="noopener"`));
+    assert.equal(page.main.innerHTML.includes('class="daily-columns has-radar"'), Boolean(report.radar?.length));
+    assert.match(page.main.innerHTML, /class="copy-prompt">프롬프트 복사/);
+  }
+});
+
+test("각 화면의 내부 글 링크는 공개된 글로 연결되고 외부 링크는 새 탭을 명시한다", async () => {
+  const publicPosts = data.posts.filter(post => post.type !== "guide" || post.published);
+  for (const hash of ["#home", "#library", "#monthly", ...publicPosts.map(post => `#post/${post.id}`)]) {
+    const page = await open(hash);
+    for (const [, attributes] of page.main.innerHTML.matchAll(/<a\b([^>]+)>/g)) {
+      const href = attributes.match(/href="([^"]+)"/)?.[1];
+      if (href?.startsWith("#post/")) {
+        assert(publicPosts.some(post => post.id === decodeURIComponent(href.slice(6))), `${hash}: ${href}`);
+        assert.doesNotMatch(attributes, /target="_blank"/);
+      }
+      if (href?.startsWith("https:")) {
+        assert.match(attributes, /target="_blank"/);
+        assert.match(attributes, /rel="noopener"/);
+      }
+    }
+  }
+});

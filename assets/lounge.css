@@ -141,6 +141,23 @@ body.lounge-theme::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1
 .lounge-theme .daily-feature .daily-lead h2{font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.35;margin:var(--lounge-space-sm) 0}
 .lounge-theme .daily-lead-summary{margin:0;font-size:.95rem;line-height:1.85;color:var(--l-muted)}
 .lounge-theme .daily-feature .daily-edition-meta span{display:inline}
+.lounge-theme .daily-columns:not(.has-radar){grid-template-columns:minmax(0,1fr);max-width:56rem}
+.lounge-theme .daily-item{scroll-margin-top:7rem}
+
+/* Desktop reading scale: give news the same legibility as the home page. */
+@media(min-width:64rem){
+  .lounge-theme .daily-page-head p{font-size:1.125rem;line-height:1.8}
+  .lounge-theme .daily-lead-summary{font-size:1.25rem;line-height:1.8}
+  .lounge-theme .daily-section-title h2{font-size:1.75rem;line-height:1.45}
+  .lounge-theme .insight h3,.lounge-theme .radar-entry h3{font-size:1.625rem;line-height:1.45}
+  .lounge-theme .insight-body,.lounge-theme .radar-entry>p,.lounge-theme .item-relevance{font-size:1.125rem!important;line-height:1.8}
+  .lounge-theme .daily-details,.lounge-theme .daily-details .insight-body,.lounge-theme .radar-entry dl,.lounge-theme .recipe-grid ol,.lounge-theme .daily-recipe .daily-section-title>p{font-size:1.125rem;line-height:1.8}
+  .lounge-theme .daily-details summary,.lounge-theme .daily-edition .daily-source-link,.lounge-theme .radar-entry .repo-name,.lounge-theme .daily-headlines strong,.lounge-theme .daily-history select{font-size:1rem}
+  .lounge-theme .daily-headlines button{padding-block:.875rem}
+  .lounge-theme .recipe-grid pre{font-size:1.0625rem;line-height:1.8}
+  .lounge-theme .recipe-prompt-label,.lounge-theme .recipe-limit,.lounge-theme .copy-status,.lounge-theme .copy-prompt{font-size:.9375rem}
+  .lounge-theme .daily-item{scroll-margin-top:6rem}
+}
 
 /* Insights list: title row, then each source as a frosted card. */
 .lounge-theme .editorial-masthead{border-bottom:1px solid var(--l-line);padding-top:var(--lounge-space-xl)}
