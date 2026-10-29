@@ -189,7 +189,8 @@ test("모든 날짜의 선택값·목차 대상·확대 이미지가 실제 기�
   const reports = data.posts.filter(post => post.type === "daily");
   for (const report of reports) {
     const page = await open(`#post/${report.id}`);
-    assert(page.main.innerHTML.includes(`<option value="${report.id}" selected>${report.date}</option>`));
+    assert(page.main.innerHTML.includes(`href="#post/${report.id}" aria-current="page"`));
+    assert.equal(page.main.innerHTML.match(/aria-current="page"/g)?.length, 1);
     for (const [, target] of page.main.innerHTML.matchAll(/data-scroll="([^"]+)"/g)) {
       assert(page.main.innerHTML.includes(`id="${target}"`), `${report.id}: ${target}`);
     }
