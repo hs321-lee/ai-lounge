@@ -145,6 +145,27 @@ body.lounge-theme::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1
 .lounge-theme .guide-action{border-left:4px solid var(--l-orange)}
 .lounge-theme .guide-section h3{color:var(--l-orange-text);font-size:.8rem}
 
+/* Monthly: the archive and the presentation share the lounge canvas and sans type. */
+body.lounge-theme.monthly-view{--story-paper:var(--l-bg);--story-display:var(--l-sans);--story-body:var(--l-sans);--story-accent:var(--l-orange-text);--story-rule:var(--l-line);background:var(--l-bg);color:var(--l-ink)}
+.lounge-theme .monthly-cover{border-radius:var(--l-radius);box-shadow:var(--l-shadow);overflow:hidden}
+.lounge-theme .monthly-cover-month{color:var(--l-amber)}
+.lounge-theme .monthly-cover-title,.lounge-theme .monthly-entry h2,.lounge-theme .monthly-entry h3{font-weight:800;letter-spacing:-.04em}
+.lounge-theme .story-chapters li{border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow)}
+.lounge-theme .story-chapters strong{font-weight:800}
+.lounge-theme .story-jump{border-radius:999px;background:var(--l-gradient);color:#fff;font-weight:700;padding:.55rem 1.1rem}
+.lounge-theme .story-chapter h2{font-weight:800;letter-spacing:-.045em}
+.lounge-theme .story-chapter .chapter-part{color:var(--l-amber)}
+.lounge-theme .story-chapter .chapter-meta a{border-radius:999px;background:var(--l-gradient);color:#fff}
+.lounge-theme .story-scene h2{font-weight:800;letter-spacing:-.045em}
+.lounge-theme .story-media-open{border-radius:14px;overflow:hidden;border-color:var(--l-line);box-shadow:var(--l-shadow)}
+.lounge-theme .scene-stats li{border-top:0;padding:var(--lounge-space-md) var(--lounge-space-lg);border-radius:14px;background:var(--l-card);border:1px solid var(--l-line)}
+.lounge-theme .scene-stats strong{font-weight:800;background:var(--l-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lounge-theme .scene-points li::before{border-radius:50%;background:var(--l-orange)}
+.lounge-theme .scene-steps li{border-radius:14px;font-weight:800}
+.lounge-theme .scene-steps li::before{color:var(--l-amber)}
+.lounge-theme .scene-steps li:not(:last-child)::after{background:var(--l-bg);color:var(--l-orange)}
+.lounge-theme .story-progress span{background:var(--l-gradient)}
+
 @media(max-width:60rem){
   .lounge-home .home-feature{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-xl);padding-top:var(--lounge-space-xl)}
   .lounge-home .home-feature-art{justify-self:center}
