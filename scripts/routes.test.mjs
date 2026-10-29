@@ -113,3 +113,16 @@ test("네 탭의 이름과 순서는 목록과 발표에서 같고 현재 탭만
     assert.equal(normalize(page.nav.innerHTML), navigation);
   }
 });
+
+test("월별 표지는 사진 대신 실제 월·제목·목차를 타이포로 표시한다", async () => {
+  const page = await open("#monthly");
+  assert.match(page.main.innerHTML, /class="monthly-cover"/);
+  assert.match(page.main.innerHTML, /class="monthly-cover-month" aria-hidden="true">2026.10/);
+  assert.match(page.main.innerHTML, /class="monthly-cover-title" aria-hidden="true">동네 치과의 AX 전환기/);
+  assert.match(page.main.innerHTML, /다음 소개 Herdr/);
+  assert.doesNotMatch(page.main.innerHTML, /<img|<figure|has-preview/);
+  const textOnly = { ...actualIssue, title: "사진 없는 새 월의 긴 제목", sections: [] };
+  const fallback = await open("#monthly", [textOnly]);
+  assert.match(fallback.main.innerHTML, /사진 없는 새 월의 긴 제목/);
+  assert.doesNotMatch(fallback.main.innerHTML, /undefined|<img/);
+});

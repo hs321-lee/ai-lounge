@@ -315,9 +315,11 @@ body.monthly-view .site-header{box-shadow:0 0 0 100vmax var(--story-paper);clip-
 .monthly-year>h2{font-size:1.1rem;margin:0 0 var(--lounge-space-lg);font-weight:800}
 .monthly-entry-list{display:grid;gap:var(--lounge-space-xl)}
 .monthly-entry{display:grid;gap:var(--lounge-space-lg);padding-bottom:var(--lounge-space-xl);border-bottom:1px solid var(--lounge-rule);min-width:0}
-.monthly-entry figure{margin:0;min-width:0;max-width:28rem}
-.monthly-entry figure a{display:block}
-.monthly-entry img{display:block;width:100%;height:auto}
+.monthly-cover{display:flex;flex-direction:column;align-items:flex-start;gap:var(--lounge-space-lg);min-width:0;max-width:28rem;min-height:22rem;padding:clamp(1.5rem,4vw,2.5rem);background:var(--lounge-cover);color:var(--lounge-paper);text-decoration:none}
+.monthly-cover-month{color:var(--lounge-season);font-size:.85rem;font-weight:800;font-variant-numeric:tabular-nums}
+.monthly-cover-title{font-family:var(--lounge-display);font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.5;letter-spacing:-.04em;overflow-wrap:anywhere;word-break:keep-all;text-wrap:balance}
+.monthly-cover-topics{margin-top:auto;padding-top:var(--lounge-space-lg);color:var(--lounge-cover-muted);font-size:.7rem;line-height:1.8;overflow-wrap:anywhere}
+.monthly-cover:hover .monthly-cover-title{text-decoration:underline;text-underline-offset:.15em;text-decoration-thickness:1px}
 .monthly-entry-text{min-width:0;align-self:center}
 .monthly-entry time{color:var(--lounge-accent);font-size:1rem;font-weight:800;font-variant-numeric:tabular-nums}
 .monthly-entry h3{font-family:var(--lounge-display);font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.45;margin:var(--lounge-space-sm) 0}
@@ -329,4 +331,4 @@ body.monthly-view .site-header{box-shadow:0 0 0 100vmax var(--story-paper);clip-
 .monthly-detail-nav{display:flex;justify-content:space-between;align-items:center;gap:var(--lounge-space-md);padding-block:var(--lounge-space-sm);border-bottom:1px solid var(--lounge-rule);font-size:.8rem}
 .monthly-detail-nav a{display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}
 .monthly-detail-nav time{color:var(--lounge-muted)}
-@media(min-width:48rem){.monthly-entry.has-preview{grid-template-columns:minmax(0,.7fr) minmax(0,1fr);gap:var(--lounge-space-xl)}}
+@media(min-width:48rem){.monthly-entry{grid-template-columns:minmax(0,.7fr) minmax(0,1fr);gap:var(--lounge-space-xl)}}
