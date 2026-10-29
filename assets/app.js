@@ -164,11 +164,35 @@ function renderDailyCover(report) {
   if (!cover || cover.date !== report.date || cover.src !== `assets/daily/${report.date}.webp`) return "";
   return `<figure class="daily-cover"><a href="${escape(cover.src)}" target="_blank" rel="noopener" aria-label="${escape(report.date)} AI 데일리 요약 이미지 크게 보기"><img src="${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" loading="eager" fetchpriority="high" decoding="async"></a><figcaption>AI로 만든 ${escape(report.date)} 요약 이미지 · <a href="${escape(cover.src)}" target="_blank" rel="noopener">크게 보기 ↗</a><span>이미지 속 표현과 작은 글씨는 아래 본문·원문 링크로 확인하세요.</span></figcaption></figure>`;
 }
+const weekdays = Object.freeze(["일", "월", "화", "수", "목", "금", "토"]);
+function dailyDateParts(date) {
+  const [year, month, day] = date.split("-").map(Number);
+  return { short: `${month}.${String(day).padStart(2, "0")}`, weekday: weekdays[new Date(Date.UTC(year, month - 1, day)).getUTCDay()] };
+}
+function renderDailyDates(report) {
+  if (dailyReports.length < 2) return "";
+  return `<nav class="daily-dates" aria-label="날짜별 ${escape(navigationLabels.daily)}"><ol>${dailyReports.map((item, index) => {
+    const parts = dailyDateParts(item.date);
+    const current = item.id === report?.id;
+    return `<li><a href="#post/${encodeURIComponent(item.id)}"${current ? ' aria-current="page"' : ""} title="${escape(item.title)}"><span class="date-day">${parts.short}</span><span class="date-week">${parts.weekday}</span>${index === 0 ? '<span class="date-latest">최신</span>' : ""}<span class="visually-hidden"> · ${escape(item.title)}</span></a></li>`;
+  }).join("")}</ol></nav>`;
+}
+function renderDailyPager(report) {
+  const index = dailyReports.findIndex(item => item.id === report.id);
+  const newer = dailyReports[index - 1];
+  const older = dailyReports[index + 1];
+  if (!newer && !older) return "";
+  const link = (item, direction) => {
+    const parts = dailyDateParts(item.date);
+    return `<a class="daily-pager-${direction}" href="#post/${encodeURIComponent(item.id)}" rel="${direction === "older" ? "prev" : "next"}"><span class="daily-pager-label">${direction === "older" ? `← 이전 소식 · ${parts.short} ${parts.weekday}` : `${parts.short} ${parts.weekday} · 다음 소식 →`}</span><strong>${escape(item.title)}</strong></a>`;
+  };
+  return `<nav class="daily-pager" aria-label="이전·다음 ${escape(navigationLabels.daily)}">${older ? link(older, "older") : "<span></span>"}${newer ? link(newer, "newer") : ""}</nav>`;
+}
 function renderDaily(report) {
   document.title = `${navigationLabels.daily} — AI 라운지`;
-  const history = dailyReports.length > 1 ? `<div class="daily-history"><label for="report-date">지난 ${escape(navigationLabels.daily)}</label><select id="report-date">${dailyReports.map(item=>`<option value="${escape(item.id)}"${item.id===report?.id ? " selected" : ""}>${escape(item.date)}</option>`).join("")}</select></div>` : "";
+  const history = renderDailyDates(report);
   const contents = report ? [...report.sections.map((section,index)=>({id:`daily-insight-${index}`,title:section.heading,type:"AI"})),...(report.radar || []).map((repo,index)=>({id:`daily-repo-${index}`,title:repo.headline || repo.repo,type:"GitHub"})),...(report.recipe ? [{id:"daily-recipe",title:report.recipe.heading,type:"실전"}] : [])] : [];
-  main.innerHTML = `<header class="editorial-masthead daily-page-head"><h1>${escape(navigationLabels.daily)}</h1><div class="daily-page-side"><p>매일 아침 AI 소식을 그림 한 장과 글로 정리합니다. <br>날짜를 골라 지난 소식도 다시 볼 수 있어요.</p>${history}</div></header>
+  main.innerHTML = `<header class="editorial-masthead daily-page-head"><h1>${escape(navigationLabels.daily)}</h1><div class="daily-page-side"><p>매일 아침 AI 소식을 그림 한 장과 글로 정리합니다. <br>아래 날짜를 눌러 지난 소식도 다시 볼 수 있어요.</p></div></header>${history}
     ${report ? `<article class="daily-edition"><div class="daily-feature"><header class="daily-lead"><div class="daily-edition-meta"><time datetime="${escape(report.date)}">${escape(report.date.replaceAll("-","."))}</time><span>이날의 핵심</span></div><h2>${escape(report.title)}</h2><p class="daily-lead-summary">${escape(report.summary)}</p></header>
     ${renderDailyCover(report)}</div>
     <nav class="daily-headlines" aria-label="선택한 날짜의 목차"><p class="eyebrow">함께 읽을 ${contents.length}가지</p><ol>${contents.map((item,index)=>`<li><button type="button" data-scroll="${item.id}"><span class="toc-number">${String(index+1).padStart(2,"0")}</span><strong>${escape(item.title)}</strong><span class="toc-type">${item.type}</span></button></li>`).join("")}</ol></nav>
@@ -176,14 +200,16 @@ function renderDaily(report) {
     <div class="daily-columns${report.radar?.length ? " has-radar" : ""}"><section class="daily-insights" id="daily-insights"><div class="daily-section-title"><p class="eyebrow">WHAT CHANGED</p><h2>AI 인사이트</h2></div>${report.sections.map(renderInsight).join("")}</section>
     ${report.radar?.length ? `<aside class="daily-radar" id="daily-radar"><div class="daily-section-title"><p class="eyebrow">WORTH A LOOK</p><h2>GitHub · 스킬 발견</h2></div>${report.radar.map((repo,index)=>renderRadar(repo,index,report.sections.length)).join("")}</aside>` : ""}</div>
     ${report.recipe ? `<section class="daily-recipe daily-item" id="daily-recipe" tabindex="-1"><div class="daily-section-title"><p class="eyebrow">${String(contents.length).padStart(2,"0")} / TRY IT TODAY</p><h2>${escape(report.recipe.heading)}</h2><p>${escape(report.recipe.description)}</p></div><div class="recipe-grid"><ol>${report.recipe.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol><div><div class="recipe-prompt-header"><p class="recipe-prompt-label">에이전트에 이렇게 요청해 보세요</p><button type="button" class="copy-prompt">프롬프트 복사</button></div><pre class="recipe-prompt" tabindex="0" aria-label="복사할 프롬프트">${escape(report.recipe.prompt)}</pre><p class="copy-status" role="status"></p><p class="recipe-limit">${escape(report.recipe.limitation)}</p></div></div></section>` : ""}
-    <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details></article>` : '<section class="empty"><h2>첫 AI 소식을 준비하고 있습니다.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
+    <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details>${renderDailyPager(report)}</article>` : '<section class="empty"><h2>첫 AI 소식을 준비하고 있습니다.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
   const coverImage = main.querySelector(".daily-cover img");
   if (coverImage) {
     const hideBrokenCover = () => { coverImage.closest("figure").hidden = true; };
     coverImage.addEventListener("error", hideBrokenCover, { once: true });
     if (coverImage.complete && !coverImage.naturalWidth) hideBrokenCover();
   }
-  document.querySelector("#report-date")?.addEventListener("change",event=>{location.hash=`post/${encodeURIComponent(event.target.value)}`;});
+  const dateStrip = main.querySelector(".daily-dates ol");
+  const currentDate = dateStrip?.querySelector('[aria-current="page"]');
+  if (dateStrip && currentDate) dateStrip.scrollLeft = currentDate.offsetLeft - (dateStrip.clientWidth - currentDate.offsetWidth) / 2;
   main.querySelectorAll("[data-scroll]").forEach(button=>button.addEventListener("click",()=>{
     const target = document.getElementById(button.dataset.scroll);
     target?.focus({preventScroll:true});
