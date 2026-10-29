@@ -181,7 +181,7 @@ body{font-family:var(--lounge-font);color:var(--lounge-ink);background:var(--lou
 html,body{overflow-x:clip}
 h1,h2,h3{font-style:normal;overflow-wrap:anywhere;min-width:0}
 .site-header .brand{font-family:var(--lounge-display);font-weight:800;letter-spacing:-.045em}
-.site-header .brand-mark{background:transparent;color:var(--lounge-season);padding:0;font-size:2.35rem;letter-spacing:-.12em;border-radius:0;font-family:var(--lounge-display)}
+.site-header .brand-mark{background:transparent;color:var(--lounge-season);padding:0;font-size:2.35rem;line-height:1;letter-spacing:-.02em;border-radius:0;font-family:var(--lounge-display)}
 .site-header .brand small{font-family:var(--lounge-font);letter-spacing:.18em;font-weight:500}
 .site-header nav a[aria-current="page"]{color:var(--lounge-accent)}
 body .site-header{border-color:var(--lounge-rule)}
@@ -278,6 +278,6 @@ body .site-header{border-color:var(--lounge-rule)}
 @media(max-width:25rem){.home-insight{grid-template-columns:minmax(0,1fr)}.home-insight .guide-note-image{max-width:none}.home-feature .source-story-actions{gap:var(--lounge-space-sm)}.signature-button{padding-inline:.75rem;gap:var(--lounge-space-sm)}.source-original-link{font-size:.75rem}}
 @media(prefers-reduced-motion:reduce){.home-feature-art a{transition:none}.home-feature-art a:hover{transform:none}}
 .monthly-public-note{font-size:.8rem;line-height:1.8;color:var(--lounge-muted);margin:var(--lounge-space-sm) 0 0}
-body.monthly-view .site-header{width:min(1160px,calc(100% - 4rem))}
+body.monthly-view .site-header{width:min(1160px,calc(100% - 4rem));box-shadow:0 0 0 100vmax var(--story-paper);clip-path:inset(0 -100vmax)}
 .daily-masthead h1,.daily-lead h2,.daily-section-title h2,.guide-section h2{font-family:var(--lounge-display);font-weight:800;font-style:normal}
 @media(max-width:50rem){body.monthly-view .site-header{width:calc(100% - 2rem)}}
