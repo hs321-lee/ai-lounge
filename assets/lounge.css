@@ -119,6 +119,19 @@ body.lounge-theme::before{content:'';position:fixed;inset:-10vh -10vw;z-index:-1
 .lounge-theme .copy-prompt:hover{background:oklch(32% 0.025 55)}
 .lounge-theme .recipe-prompt{border-radius:12px}
 
+/* AI news page head and lead card follow the insights and Monthly pages. */
+.lounge-theme .daily-page-head .daily-page-side{display:grid;gap:var(--lounge-space-sm);justify-items:end;text-align:right}
+.lounge-theme .daily-page-head .daily-history{padding:0;display:flex;align-items:center;gap:.6rem}
+.lounge-theme .daily-page-head .daily-history label{margin:0;font-size:.75rem;font-weight:700;color:var(--l-muted);white-space:nowrap}
+.lounge-theme .daily-page-head .daily-history select{width:auto}
+.lounge-theme .daily-feature{display:grid;grid-template-columns:minmax(0,22rem) minmax(0,1fr);gap:var(--lounge-space-xl);align-items:center;margin-block:var(--lounge-space-xl) var(--lounge-space-lg);padding:var(--lounge-space-lg);border:1px solid var(--l-line);border-radius:var(--l-radius);background:var(--l-card);box-shadow:var(--l-shadow)}
+.lounge-theme .daily-feature .daily-cover{order:-1;margin:0;min-width:0}
+.lounge-theme .daily-feature .daily-cover img{width:100%;height:auto;border-radius:12px}
+.lounge-theme .daily-feature .daily-lead{padding:0}
+.lounge-theme .daily-feature .daily-lead h2{font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.35;margin:var(--lounge-space-sm) 0}
+.lounge-theme .daily-lead-summary{margin:0;font-size:.95rem;line-height:1.85;color:var(--l-muted)}
+.lounge-theme .daily-feature .daily-edition-meta span{display:inline}
+
 /* Insights list: title row, then each source as a frosted card. */
 .lounge-theme .editorial-masthead{border-bottom:1px solid var(--l-line);padding-top:var(--lounge-space-xl)}
 .lounge-theme .editorial-masthead h1{font-weight:800;letter-spacing:-.045em}
@@ -180,5 +193,8 @@ body.lounge-theme.monthly-view{--story-paper:var(--l-bg);--story-display:var(--l
   .lounge-home .home-daily-feature{padding:var(--lounge-space-md)}
   .lounge-home .home-monthly{padding:var(--lounge-space-lg)}
   .lounge-theme .source-story{padding:var(--lounge-space-md)}
+  .lounge-theme .daily-feature{grid-template-columns:minmax(0,1fr);gap:var(--lounge-space-md);padding:var(--lounge-space-md)}
+  .lounge-theme .daily-page-head .daily-page-side{justify-items:start;text-align:left}
+  .lounge-theme .daily-page-head{margin-top:var(--lounge-space-xl)}
 }
 @media(prefers-reduced-motion:reduce){.home-feature-points a{transition:none}.home-feature-points a:hover{transform:none}}
