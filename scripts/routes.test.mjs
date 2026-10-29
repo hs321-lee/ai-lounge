@@ -126,3 +126,40 @@ test("월별 표지는 사진 대신 실제 월·제목·목차를 타이포로 
   assert.match(fallback.main.innerHTML, /사진 없는 새 월의 긴 제목/);
   assert.doesNotMatch(fallback.main.innerHTML, /undefined|<img/);
 });
+
+test("치과 원문은 편 번호와 다른 이전 주소를 정확히 연결한다", async () => {
+  const originals = ["https://dentaldev.tistory.com/3", "https://dentaldev.tistory.com/4", "https://dentaldev.tistory.com/5", "https://dentaldev.tistory.com/1"];
+  const dental = data.posts.find(post => post.id === "dental-ax-workflow-2026-10-29");
+  for (const post of [dental, actualIssue]) {
+    assert.deepEqual(post.sources.filter(source => source.url.startsWith("https://dentaldev.tistory.com/")).map(source => source.url), originals);
+  }
+  const page = await open("#monthly/2026-10");
+  const noScript = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  for (const url of originals) {
+    assert(page.main.innerHTML.includes(`href="${url}"`));
+    assert(noScript.includes(`href="${url}"`));
+  }
+  assert.doesNotMatch(JSON.stringify(data), /https:\/\/arca\.live\/b\/aihomelab\/(?:185810092|186115260|186465322)/);
+});
+
+test("4편은 후속 소개 한 장에서 기존 인사이트와 원문으로 연결한다", async () => {
+  const followups = actualIssue.sections.filter(section => section.insightId !== undefined);
+  assert.equal(followups.length, 1);
+  assert.equal(followups[0].part, "4편 · 후속 소개");
+  assert.equal(followups[0].insightId, "dental-ax-workflow-2026-10-29");
+  assert.equal(followups[0].url, "https://dentaldev.tistory.com/1");
+  const sceneIndex = actualIssue.sections.indexOf(followups[0]);
+  assert.equal(actualIssue.sections[sceneIndex + 1].part, "다음 소개");
+  const page = await open("#monthly/2026-10");
+  const scene = page.main.innerHTML.split(`id="scene-${sceneIndex}"`)[1].split('</section>')[0];
+  assert.match(scene, /href="#post\/dental-ax-workflow-2026-10-29">인사이트 보기/);
+  assert.match(scene, /href="https:\/\/dentaldev\.tistory\.com\/1" target="_blank" rel="noopener">원문 보기/);
+  page.go("#post/dental-ax-workflow-2026-10-29");
+  assert.match(page.main.innerHTML, /4편 부록/);
+  assert(!page.classes.has("monthly-view"));
+  assert.equal(page.stats.cleanups, 1);
+  const invalid = structuredClone(actualIssue);
+  invalid.sections[sceneIndex].insightId = "unpublished-or-missing";
+  const fallback = await open("#monthly/2026-10", data.posts.map(post => post.id === actualIssue.id ? invalid : post));
+  assert.doesNotMatch(fallback.main.innerHTML, /href="#post\/unpublished-or-missing"/);
+});
