@@ -158,106 +158,86 @@
       "id": "daily-2026-10-29",
       "type": "daily",
       "date": "2026-10-29",
-      "title": "모델 선택은 자동으로, 권한과 완료 기준은 명확하게",
-      "summary": "10월 28일 발표한 Copilot Fusion과 JetBrains Copilot 로컬 샌드박스를 살펴봅니다. ThinkRail과 BAMA는 전날 소개한 자료를 작업 분리·설계 기록·완료 기준이라는 관점에서 다시 골랐습니다. 마지막 실험은 실행 결과가 아닌 활용 제안입니다.",
+      "title": "Copilot Fusion 정식 출시와 로컬 모델 라우팅 프리뷰",
+      "summary": "GitHub의 10월 28일 발표에서 Copilot Fusion 정식 제공, JetBrains의 다음 편집 제안 정식 제공, 로컬 모델 자동 라우팅 실험 프리뷰를 골랐습니다. 2026-10-30 재점검에서 전날과 같은 ThinkRail·BAMA 재소개를 제외하고 새 변화에 집중했습니다.",
       "author": "AI 라운지",
       "tags": [
-        "AI 코딩 도구",
-        "모델 선택",
-        "실행 권한",
-        "완료 기준"
+        "Copilot Fusion",
+        "로컬 모델",
+        "JetBrains",
+        "프리뷰"
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-29.webp",
         "date": "2026-10-29",
-        "alt": "2026년 10월 29일 AI 라운지 데일리. Copilot Fusion 모델 선택 자동화, JetBrains Copilot 실행 권한 제한, ThinkRail 작업 공간과 설계 기록, BAMA 화면 기록과 완료 조건, 오늘의 10분 실험을 요약한 손그림 신문.",
         "width": 1122,
-        "height": 1402
+        "height": 1402,
+        "alt": "Copilot Fusion 정식 출시와 로컬 모델 라우팅 프리뷰. GitHub의 10월 28일 발표에서 Copilot Fusion 정식 제공, JetBrains의 다음 편집 제안 정식 제공, 로컬 모델 자동 라우팅 실험 프리뷰를 골랐습니다. 2026-10-30 재점검에서 전날과 같은 ThinkRail·BAMA 재소개를 제외하고 새 변화에 집중했습니다."
       },
       "highlights": [
-        "새 소식: Copilot Fusion의 모델 선택·조합과 Standard·High·Max 설정",
-        "새 소식: JetBrains Copilot 로컬 샌드박스의 파일·네트워크 접근 정책",
-        "활용 제안: AI가 할 일·확인 지점·완료 기준을 먼저 기록"
+        "Copilot Fusion 정식 제공: Standard·High·Max로 모델 선택·조합",
+        "JetBrains: 다음 편집 제안과 로컬 샌드박스 정식 제공",
+        "로컬 모델 자동 라우팅은 별도의 실험 프리뷰이며 오프라인 기능이 아님"
       ],
       "sections": [
         {
-          "label": "도구 업데이트",
+          "label": "모델·도구 업데이트",
           "date": "2026-10-28",
-          "heading": "Copilot Fusion: 작업에 맞는 모델 선택·조합",
-          "summary": "GitHub는 10월 28일 Copilot Fusion 정식 제공을 발표했습니다. 작업에 따라 모델을 선택·조합하고 Standard·High·Max로 실행 강도를 설정하는 방향입니다.",
-          "relevance": "모델을 매번 직접 고르는 과정과 실제 작업의 요구 수준을 함께 살펴볼 수 있습니다.",
-          "body": "Copilot Fusion은 작업에 맞춰 모델을 라우팅하고 조율합니다. Standard·High·Max로 강도를 정하고 Single·Cascade·Critique 방식으로 모델을 활용합니다. 조직·기업 계정에서는 허용된 모델 정책이 적용됩니다. JetBrains에서는 점진적으로 제공되므로 자신의 환경에서 제공 여부를 확인해야 합니다.",
-          "takeaway": "모델 선택이 자동화되어도 결과가 요구사항을 충족하는지 확인할 책임은 남습니다. 어떤 모델을 쓰는가와 어떤 결과를 완료로 보는가를 함께 정하는 편이 좋겠습니다.",
-          "action": "사용 중인 환경에서 제공 여부와 비용·제약을 먼저 확인합니다. 지원한다면 같은 공개 샘플 작업을 설정별로 비교하고, 실행 시간과 사람이 수정한 부분을 기록해봅니다. 오늘 실제 비교를 수행한 결과는 아닙니다.",
+          "heading": "Copilot Fusion 정식 제공: 모델 선택과 조합을 자동화",
+          "summary": "모델 하나를 직접 고르는 대신 작업에 맞춰 선택·조합하는 Copilot Fusion이 정식 제공됩니다. 사용자는 Standard·High·Max 실행 강도를 정합니다.",
+          "relevance": "모델 전환 부담을 줄이는 방향이며, 모델별 품질과 비용을 함께 보려는 개발자에게 의미가 있습니다.",
+          "body": "작업에 따라 단일 모델, 초안 뒤 상위 모델로 넘기는 방식, 모델 간 검토를 사용합니다. VS Code·Copilot 앱·CLI·JetBrains의 모든 Copilot 요금제에 제공된다고 발표했습니다. 사용한 각 모델의 요율로 청구되며 조직 모델 정책이 적용됩니다. JetBrains 제공은 점진 배포입니다.",
+          "takeaway": "자동 라우팅은 특정 모델의 고정 선택과 다릅니다. 공식 발표의 벤치마크·절감 수치를 직접 검증한 성과로 옮기지 않았습니다.",
+          "action": "같은 공개 예제와 완료 조건으로 기존 모델 선택과 Fusion 설정을 비교해 볼 수 있습니다. 실제 제공 여부와 사용량은 계정에서 확인합니다.",
           "url": "https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion/"
         },
         {
           "label": "도구 업데이트",
           "date": "2026-10-28",
-          "heading": "JetBrains Copilot: 파일·네트워크 접근을 정책으로 제한",
-          "summary": "GitHub의 10월 28일 JetBrains Copilot 업데이트는 로컬 샌드박스 정식 제공을 소개합니다. 파일과 네트워크 접근을 정책으로 제한하는 기능입니다.",
-          "relevance": "에이전트가 할 일을 늘릴 때 어떤 자원에 접근할 수 있는지도 함께 정해야 합니다.",
-          "body": "로컬 샌드박스는 에이전트가 실행하는 작업의 파일·네트워크 접근을 제한하는 경계를 제공합니다. 지원 환경과 정책 설정은 공식 안내를 확인해야 합니다. 샌드박스 사용만으로 결과의 정확성까지 보장되는 것은 아닙니다.",
-          "takeaway": "위임 범위를 작업 내용으로만 정의하지 않고 읽기·쓰기 대상과 네트워크 접근 범위까지 구체화할 수 있습니다.",
-          "action": "공개 샘플 저장소에서 에이전트가 읽을 경로, 쓸 경로, 필요한 네트워크 목적지를 먼저 적어봅니다. 실행 허용 범위와 사람이 확인할 지점을 따로 기록합니다. 실제 설정·실행은 수행하지 않은 활용 제안입니다.",
+          "heading": "JetBrains Copilot, 다음 편집 제안·로컬 샌드박스 정식 제공",
+          "summary": "JetBrains IDE에서 다음 편집 제안(NES)과 로컬 샌드박스가 정식 제공됩니다. Fusion도 기존 Auto 옵션을 대체하며 점진 배포됩니다.",
+          "relevance": "IDE 안의 후속 코드 편집과 에이전트 실행 환경을 함께 바꾸는 업데이트입니다.",
+          "body": "NES는 작업 흐름에 맞는 다음 편집을 제안합니다. 샌드박스는 정책에 따라 파일·네트워크·자격 증명 등 자원의 접근 범위를 제한합니다. 기본 세션 권한 설정과 나란히 세션을 여는 UI도 발표했습니다.",
+          "takeaway": "편집 제안과 실행 경계는 별개의 기능입니다. 사용 가능한 플러그인과 계정 환경을 공식 안내에서 확인합니다.",
+          "action": "기존 IDE 설정과 지원 기능을 대조한 뒤 공개 예제에서 편집 제안의 적합성을 확인하는 방법을 검토할 수 있습니다. 실제 설치·실행한 결과가 아닙니다.",
           "url": "https://github.blog/changelog/2026-10-28-github-copilot-in-jetbrains-universe-releases/"
-        }
-      ],
-      "radar": [
-        {
-          "label": "재소개 · 추천 저장소",
-          "repo": "JetBrains/thinkrail",
-          "headline": "ThinkRail: 작업 공간과 설계 의도를 함께 남기기",
-          "url": "https://github.com/JetBrains/thinkrail",
-          "description": "pi 코딩 에이전트에 IDE 화면을 붙이고, 작업을 Git 워크트리로 격리하며 SPEC.md와 재사용 스킬을 연결하는 도구입니다.",
-          "signal": "10월 28일 소개한 저장소를 오늘의 ‘위임과 완료 기준’ 관점에서 다시 골랐습니다. 10월 29일 원본 README의 Isolated workspaces와 Specs as ground truth를 다시 확인했습니다. 새로운 릴리스 소식이나 인기 급상승으로 소개하는 항목이 아닙니다.",
-          "checkedAt": "2026-10-29",
-          "sourceUrl": "https://github.com/JetBrains/thinkrail/blob/main/README.md",
-          "why": "여러 작업의 브랜치·변경 코드·설계 의도를 함께 봐야 하는 개발자에게 맞습니다. 별 수보다 워크트리와 살아 있는 설계 기록의 연결이 선정 이유입니다.",
-          "try": "설치 없이 README를 읽고, 공개 샘플 작업 두 개를 각각 독립된 워크트리와 SPEC.md로 구분하는 방법을 적어봅니다. 무엇을 바꿀지뿐 아니라 무엇을 완료로 볼지도 기록합니다.",
-          "limitation": "Apache-2.0입니다. 모델 제공자 인증·비용과 실행 환경은 별도입니다. 소개한 설계 관점을 참고하는 항목이며 ThinkRail을 직접 설치·실행해 검증한 후기는 아닙니다."
         },
         {
-          "label": "재소개 · 추천 스킬",
-          "repo": "daveebbelaar/bama",
-          "headline": "BAMA: 화면 기록을 검증 가능한 작업으로 바꾸기",
-          "url": "https://github.com/daveebbelaar/bama",
-          "description": "macOS 앱의 조사·화면 기록·사용자 스토리·SwiftUI 구현·시각 검증을 이어 주는 Agent Skills 모음입니다.",
-          "signal": "10월 28일 소개한 스킬을 오늘의 완료 기준 실험과 연결해 다시 골랐습니다. 10월 29일 원본 README의 Clone → Plan → Build와 Requirements를 다시 확인했습니다. 새로운 출시나 순위 상승을 의미하지 않습니다.",
-          "checkedAt": "2026-10-29",
-          "sourceUrl": "https://github.com/daveebbelaar/bama/blob/main/README.md",
-          "why": "화면을 기록한 뒤 사용자 스토리와 확인 가능한 완료 조건으로 나누는 순서를 업무에 참고할 수 있습니다. 오늘은 설치보다 이 절차에 주목합니다.",
-          "try": "설치 없이 README의 How it works를 읽습니다. 공개 샘플 화면 하나를 골라 화면 상태, 기대 동작, 확인 방법을 각각 한 줄로 적고 구현 전에 완료 조건을 먼저 정해봅니다.",
-          "limitation": "MIT이며 macOS 26·Xcode 26·Swift 6.2 환경을 전제로 합니다. Android/Wear OS에 바로 실행할 스킬이 아닙니다. 화면 수집에는 컴퓨터 사용 도구가 필요할 수 있습니다. 실제 앱 복제·빌드·검증은 수행하지 않았고, README의 개발 절차가 모든 앱에서 성공한다는 뜻은 아닙니다."
+          "label": "실험 프리뷰",
+          "date": "2026-10-28",
+          "heading": "Copilot Fusion, 로컬·클라우드 모델 자동 라우팅 시험 제공",
+          "summary": "Copilot CLI·앱·VS Code에 로컬 모델 자동 선택이 실험 프리뷰로 제공됩니다. 일반 Fusion 정식 제공과 구분해야 합니다.",
+          "relevance": "기기 연산을 활용하면서 요청마다 로컬·클라우드 모델을 직접 전환하지 않는 방식입니다.",
+          "body": "지원 Windows 기기에서는 Windows ML로 MAI Code 1.1 Flash를 구성할 수 있습니다. CLI는 Windows·macOS·Linux에서 지원 로컬 모델을 직접 설정하는 경로도 제공합니다. 앱의 자동 라우팅은 현재 관리형 Windows ML 모델만 지원합니다. 로컬 추론을 사용해도 라우팅 판단은 클라우드에서 이뤄져 오프라인 세션이 되지는 않습니다.",
+          "takeaway": "이 발표는 로컬 모델 출시 자체나 완전 오프라인 제공 소식이 아닙니다. 실험 기능이며 장치 자원과 지원 클라이언트 조건이 있습니다.",
+          "action": "장치·클라이언트·모델 제공자 조건을 공식 문서와 대조하고 소규모 시험 여부를 결정합니다. 자동 다운로드나 유료 설정은 수행하지 않았습니다.",
+          "url": "https://github.blog/changelog/2026-10-28-github-copilot-fusion-now-supports-selection-of-local-models/"
         }
       ],
+      "radar": [],
       "recipe": {
-        "heading": "오늘의 10분 실험: 완료 기준부터 정하기",
-        "description": "반복 업무 하나를 골라 AI가 할 일·사람의 확인 지점·완료 기준을 적어봅니다. 도구 설치 없이 할 수 있는 활용 제안입니다.",
+        "heading": "활용 프롬프트: Fusion 비교용 Kotlin 과제 만들기",
+        "description": "같은 입력과 완료 조건으로 모델 설정을 비교할 수 있는 작은 과제를 준비합니다. 모델 성능을 측정한 결과가 아닙니다.",
         "steps": [
-          "반복 업무 하나와 사용할 자료를 고릅니다.",
-          "AI가 할 일과 멈추고 질문할 지점을 각각 한 줄로 적습니다.",
-          "완료 기준을 먼저 정한 뒤 결과에서 누락·추정·수정할 부분을 확인합니다."
+          "공개 Kotlin 함수 또는 버그 설명 하나를 고릅니다.",
+          "동일한 수정 범위와 테스트 조건을 정합니다.",
+          "사용 가능한 모델 설정별 결과를 같은 표로 기록합니다."
         ],
-        "prompt": "아래 반복 업무를 실행하기 전에 작업 기준부터 정리해 주세요.\n업무: [반복 업무 하나]\n사용할 자료: [확인 가능한 자료]\n\n1. AI가 할 일\n2. 정보가 부족할 때 멈추고 질문할 지점\n3. 사람이 확인할 지점\n4. 확인 가능한 완료 기준\n\n자료에 없는 사실은 추정하지 말고 질문으로 남겨 주세요. 실행하지 않은 검사는 실행했다고 쓰지 마세요.",
-        "limitation": "실행 결과가 아닌 활용 제안입니다. 완료 기준을 적은 뒤 결과가 이를 충족하는지 사람이 확인해야 합니다. 비공개 자료를 공개 저장소에 올리지 않습니다."
+        "prompt": "다음 공개 Kotlin 예제로 모델 설정 비교 과제를 만들어 주세요.\n예제: [함수 코드 또는 버그 설명]\n요구사항: [기대 동작]\n1. 수정 범위가 작은 과제로 한정해 주세요.\n2. 공통 입력·완료 기준·실패 사례 3개를 정해 주세요.\n3. 비교 기록표를 설정 / 정답 여부 / 변경 범위 / 실행 시간 / 사용량 / 사람이 수정할 부분으로 만들어 주세요.\n실행하지 않은 값은 빈칸으로 남기고, 성능이나 비용을 추정해 채우지 마세요.",
+        "limitation": "활용 제안이며 실행·성능 측정 결과가 아닙니다. 실제 사용 가능한 모델 설정과 사용량 공개 범위는 계정별로 확인해야 합니다."
       },
       "sources": [
         {
-          "title": "GitHub Changelog · Copilot Fusion (2026.10.28)",
+          "title": "Copilot Fusion 정식 제공: 모델 선택과 조합을 자동화 · 2026-10-28 공식 발표",
           "url": "https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion/"
         },
         {
-          "title": "GitHub Changelog · Copilot in JetBrains (2026.10.28)",
+          "title": "JetBrains Copilot, 다음 편집 제안·로컬 샌드박스 정식 제공 · 2026-10-28 공식 발표",
           "url": "https://github.blog/changelog/2026-10-28-github-copilot-in-jetbrains-universe-releases/"
         },
         {
-          "title": "ThinkRail · 원본 README",
-          "url": "https://github.com/JetBrains/thinkrail/blob/main/README.md"
-        },
-        {
-          "title": "BAMA · 원본 README (daveebbelaar/bama)",
-          "url": "https://github.com/daveebbelaar/bama/blob/main/README.md"
+          "title": "Copilot Fusion, 로컬·클라우드 모델 자동 라우팅 시험 제공 · 2026-10-28 공식 발표",
+          "url": "https://github.blog/changelog/2026-10-28-github-copilot-fusion-now-supports-selection-of-local-models/"
         }
       ]
     },
@@ -1000,83 +980,71 @@
       "id": "daily-2026-10-28",
       "type": "daily",
       "date": "2026-10-28",
-      "title": "스킬은 작업 경로에서 확인하고, 에이전트 인증은 실행 주체별로 분리",
-      "summary": "Claude Code의 스킬 탐색 수정과 Copilot SDK의 조직 인증을 확인합니다. ThinkRail의 워크트리·설계 기록과 BAMA의 화면별 완료 기준을 살펴보고, 공개 예제로 스킬 발견 범위를 점검합니다.",
+      "title": "Copilot SDK 조직 인증 프리뷰와 ThinkRail·BAMA",
+      "summary": "Copilot SDK에 개인 로그인 없이 조직을 대신해 요청하는 인증 방식이 공개됐습니다. ThinkRail의 독립 작업 공간과 BAMA의 Mac 앱 개발 스킬도 소개합니다. 2026-10-30 재점검에서 사소한 버그 수정의 비중을 줄였으며, 아래 저장소는 급등 순위가 아닌 기능 기반 발굴입니다.",
       "author": "AI 라운지",
       "tags": [
+        "Copilot SDK",
         "Agent Skills",
-        "에이전트 운영",
-        "워크트리",
-        "인증"
+        "ThinkRail",
+        "BAMA"
       ],
       "highlights": [
-        "Claude Code는 하위 폴더 이동 뒤 스킬 탐색과 큰 지침 파일의 덮어쓰기를 보완했습니다.",
-        "ThinkRail은 워크트리와 설계 기록을 연결하고, BAMA는 화면을 검증 가능한 작업으로 나눕니다.",
-        "오늘은 공개 예제에서 경로별 스킬 발견을 확인합니다."
+        "Copilot SDK: 조직 GitHub App 인증을 공개 프리뷰로 제공",
+        "ThinkRail: Git 워크트리와 SPEC.md를 연결하는 에이전트 IDE",
+        "BAMA: 화면 조사부터 SwiftUI 구현·검증까지 이어지는 스킬 모음"
       ],
       "sections": [
         {
-          "heading": "Claude Code, 폴더 이동 뒤 스킬 탐색을 수정",
-          "summary": "2.1.312는 Bash로 저장소 안쪽에 이동한 뒤 경로별 스킬을 찾지 못하던 문제를 수정했습니다. 큰 지침 파일의 일부만 읽고 전체를 덮어쓰던 문제도 보완했습니다.",
-          "relevance": "공용 스킬을 여러 하위 폴더에서 쓰는 개발자는 설치 여부와 실제 발견 여부를 따로 점검할 수 있습니다.",
-          "label": "도구 업데이트",
-          "date": "2026-10-28",
-          "body": "공식 릴리스는 2026년 10월 27일 20:24 UTC, 한국 시간 10월 28일 05:24입니다. Claude Code 2.1.312는 Bash cd로 Git 저장소의 더 깊은 폴더에 이동했을 때 per-directory 및 paths: 스킬이 발견되지 않던 문제를 수정했습니다.\n큰 CLAUDE.md·rules·@ 포함 파일의 앞부분만 본 상태에서 전체 파일을 덮어쓰는 문제도 수정했습니다. Write는 전체를 읽거나 부분 편집하도록 요청합니다. Code Review가 늦게 도착한 push 이벤트 때문에 이전 커밋을 검토하던 문제도 현재 PR 커밋을 검토하도록 보완했습니다.",
-          "takeaway": "스킬이 저장소에 있다는 사실만으로 모든 작업 경로에서 적용된다고 가정하면 안 됩니다. 발견 경로와 수정 대상 커밋을 실행 기록에 남기는 것이 유용합니다. 이번 수정은 모든 스킬이 항상 올바르게 선택된다는 보장이 아닙니다.",
-          "action": "10분 활용 제안: 공개 샘플 저장소에서 루트·하위 폴더·루트 복귀의 세 위치를 비교합니다. 같은 요청에 어떤 스킬 파일을 실제 읽었는지 기록하고, 긴 지침 파일은 앞부분 밖의 표식이 보존되는지 diff로 확인합니다. 설치나 권한 변경은 이 실험에 포함하지 않습니다.",
-          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.312"
-        },
-        {
-          "heading": "Copilot SDK, 개인 대신 조직 앱으로 인증",
-          "summary": "GitHub는 10월 27일 Copilot의 서버 간 인증을 공개 미리보기로 발표했습니다. 조직에 설치한 GitHub App으로 서비스를 인증하고 사용량을 조직에 귀속할 수 있습니다.",
-          "relevance": "공용 에이전트 서비스를 운영할 때 개인 로그인과 서비스의 실행 주체·과금 주체를 구분하는 데 관련된 변화입니다.",
+          "heading": "Copilot SDK, 조직 GitHub App 인증 공개 프리뷰",
+          "summary": "GitHub는 10월 27일 서버 간 인증의 공개 프리뷰를 발표했습니다. SDK로 만든 서비스가 개인 로그인 대신 조직에 설치한 GitHub App으로 요청할 수 있습니다.",
+          "relevance": "공용 에이전트 서비스의 인증과 사용량을 개인 계정에서 조직 단위로 옮길 수 있는 변화입니다.",
           "label": "에이전트 운영",
           "date": "2026-10-27",
-          "body": "GitHub Copilot SDK를 사용하는 서비스가 조직에 설치한 GitHub App의 설치 액세스 토큰으로 요청할 수 있습니다. 개인 사용자의 자격 증명에 의존하지 않는 서버 간 인증이며 공개 미리보기입니다.\nGitHub Actions 밖의 서비스는 Copilot Requests 조직 권한을 Read-only로 설정한 앱과, 해당 설치 인증이 활성화된 조직이 필요합니다. 설치 토큰은 한 시간 후 만료되며 사용량과 과금은 설치를 소유한 조직에 귀속됩니다. useLoggedInUser: false는 환경 변수 토큰을 포함한 자동 자격 증명 탐색을 끄므로 SDK의 명시적 토큰 옵션을 사용해야 합니다.",
-          "takeaway": "10월 26일 데일리의 GitHub CLI 개인 OAuth 만료·갱신과 달리 이번 변화는 서비스가 누구를 대신해 실행되는지를 다룹니다. 개인 CLI 로그인이나 도구 실행 승인 요청을 없애는 기능은 아닙니다.",
-          "action": "10분 활용 제안: 앱 설치나 유료 요청 없이 현재 서비스의 인증 주체·토큰 만료·갱신 담당·과금 주체를 네 칸으로 정리합니다. SDK의 useLoggedInUser 설정과 명시적 토큰 전달 위치도 문서에서 대조합니다. 조직 인증을 실제 적용하려면 조직의 활성화 상태와 앱 권한을 먼저 확인해야 합니다.",
+          "body": "GitHub App의 Copilot Requests 조직 권한과 설치 액세스 토큰을 사용합니다. 사용량과 청구는 앱을 설치한 조직에 귀속되며 조직의 모델 정책·예산·지출 제어가 적용됩니다. 10월 28일 기준 정식 제공이 아닌 공개 프리뷰입니다.",
+          "takeaway": "사람이 쓰는 개인 도구와 조직을 대신하는 서비스를 구분할 수 있습니다. 공개 프리뷰의 도입 여부는 조직의 정책과 지원 환경을 확인한 뒤 판단합니다.",
+          "action": "먼저 SDK 서비스의 인증·청구 주체를 확인하고 공식 안내와 대조합니다. 이 소개는 실제 조직 설정이나 서비스 실행 결과가 아닙니다.",
           "url": "https://github.blog/changelog/2026-10-27-github-copilot-supports-server-to-server-authentication/"
         }
       ],
       "radar": [
         {
-          "label": "추천 저장소",
+          "label": "주목할 저장소",
           "repo": "JetBrains/thinkrail",
-          "headline": "워크트리와 설계 기록을 한 화면에서 관리",
+          "headline": "ThinkRail: 워크트리와 설계 기록을 묶는 에이전트 IDE",
           "url": "https://github.com/JetBrains/thinkrail",
-          "description": "pi 코딩 에이전트에 IDE 화면을 붙이고, 작업을 Git 워크트리로 격리하며 SPEC.md와 재사용 스킬을 연결하는 도구입니다.",
-          "signal": "2026-10-28 원본 README·Apache-2.0 라이선스와 공식 릴리스를 확인했습니다. v0.3.0-nightly.7은 10월 27일 11:11 UTC(20:11 KST)의 사전 릴리스입니다. Windows 경로 해석의 무한 재귀, 하위 에이전트 비용 집계와 호스트 충돌 후 복구를 보완했습니다. Trendar를 발굴 소스로 확인했지만 이 항목은 공식 릴리스 기반 추천입니다. GitHub 공식 Trending 근거를 확보하지 못해 인기 순위·증가량을 쓰지 않습니다.",
+          "description": "pi 에이전트에 IDE를 붙이고 작업을 Git 워크트리로 격리합니다. SPEC.md와 재사용 스킬로 프로젝트 지식을 연결합니다.",
+          "signal": "10월 28일 이전 커밋의 원본 README를 고정해 기능과 설치 조건을 다시 확인했습니다. 당시 순위·증가량 근거를 보존하지 못했으므로 급등으로 판정하지 않습니다.",
           "checkedAt": "2026-10-28",
-          "sourceUrl": "https://github.com/JetBrains/thinkrail/releases/tag/v0.3.0-nightly.7",
+          "sourceUrl": "https://github.com/JetBrains/thinkrail/blob/7b07d5c5f489ae0daa9888ad10c6d518771c0d73/README.md",
           "why": "여러 작업의 브랜치·변경 코드·설계 의도를 함께 봐야 하는 개발자에게 맞습니다. 별 수보다 워크트리와 살아 있는 설계 기록의 연결이 선정 이유입니다.",
           "try": "10분 활용 제안: 먼저 README의 Isolated workspaces와 Specs as ground truth를 읽습니다. 기존 설치가 있다면 공개 샘플 저장소에서 작업 공간 두 개를 분리하고 각 브랜치의 diff와 SPEC.md를 구분해 봅니다. 병합·원격 push는 이 실험에 포함하지 않습니다.",
-          "limitation": "Apache-2.0입니다. 소개한 버전은 안정판이 아닌 nightly이며 직접 실행해 평가한 후기는 아닙니다. 모델 제공자 인증과 비용은 별도입니다. 저장소가 정의한 MCP 서버는 승인 전 꺼져 있고, 읽기 전용으로 표시되지 않은 호출에는 확인이 필요합니다. Windows 지원 수정이 모든 환경의 정상 동작을 보장하지 않습니다."
+          "limitation": "Apache-2.0입니다. 모델 제공자 인증과 비용은 별도입니다. 직접 설치·실행한 성능 평가가 아니며, 저장소 소개를 10월 28일의 신규 출시로 단정하지 않습니다."
         },
         {
-          "label": "추천 스킬",
+          "label": "주목할 스킬",
           "repo": "daveebbelaar/bama",
-          "headline": "화면을 완료 조건과 검증 단계로 나누기",
+          "headline": "BAMA: Mac 앱의 화면 조사·구현·검증을 잇는 스킬",
           "url": "https://github.com/daveebbelaar/bama",
-          "description": "macOS 앱의 조사·화면 기록·사용자 스토리·SwiftUI 구현·시각 검증을 이어 주는 Agent Skills 모음입니다.",
-          "signal": "Trendar AI Agents 피드의 2026-10-27 18:01 UTC(10월 28일 03:01 KST) 갱신 자료에서 발견했습니다. 원본 README·MIT 라이선스·최근 활동을 대조했습니다. 10월 24일 생성된 초기 저장소이며 10월 27일 문서 커밋을 확인했습니다. 정식 릴리스는 확인하지 못했습니다. Trendar 노출은 품질 보증이나 GitHub 공식 Trending 근거가 아닙니다. 순위·stars/day 추정치는 옮기지 않습니다.",
+          "description": "화면 조사, 검증 가능한 사용자 스토리, SwiftUI 구현과 스냅샷·테스트를 연결하는 Agent Skills 모음입니다.",
+          "signal": "10월 28일 이전 커밋의 원본 README를 고정해 기능과 설치 조건을 다시 확인했습니다. 당시 순위·증가량 근거를 보존하지 못했으므로 급등으로 판정하지 않습니다.",
           "checkedAt": "2026-10-28",
-          "sourceUrl": "https://trendar.org/trending/topic/ai-agents",
+          "sourceUrl": "https://github.com/daveebbelaar/bama/blob/15356bd8ebff408222ad21395aea09bd74b15310/README.md",
           "why": "화면을 모호한 구현 요청으로 넘기지 않고 화면 목록·확인 가능한 완료 조건·밝은 테마와 어두운 테마 검증으로 나누는 구조를 참고할 수 있습니다.",
           "try": "10분 활용 제안: 설치 없이 skills/plan/user-stories/SKILL.md와 skills/ship/build-and-verify/SKILL.md를 읽습니다. 공개 샘플 화면 하나의 동작을 완료 조건으로 적고, 원문처럼 [snap]·[unit]·[self]·[manual] 중 검증 방법을 표시합니다. 설치를 선택할 경우 README의 npx skills@latest add daveebbelaar/bama가 제공되지만 오늘 실험에서는 실행하지 않습니다.",
-          "limitation": "MIT이며 macOS 26·Xcode 26·Swift 6.2 환경을 전제로 합니다. Android/Wear OS에 바로 실행할 스킬이 아닙니다. 화면 수집에는 컴퓨터 사용 도구가 필요할 수 있습니다. 실제 앱 복제·빌드·검증은 수행하지 않았고, README의 개발 절차가 모든 앱에서 성공한다는 뜻은 아닙니다."
+          "limitation": "MIT이며 macOS 26·Xcode 26·Swift 6.2가 필요합니다. Android용 실행 스킬이 아닙니다. 원문이 설명하는 절차이며 앱 복제 성공이나 효과를 직접 검증한 후기는 아닙니다."
         }
       ],
       "recipe": {
-        "heading": "10분 실험: 작업 경로별 스킬 발견을 확인",
-        "description": "공용 스킬이 설치돼 있다는 사실과 현재 경로에서 발견된다는 사실을 구분하는 실험 제안입니다. 실제 실행 결과가 아니라 복사해 사용할 점검 요청입니다.",
+        "heading": "활용 프롬프트: BAMA의 화면 계획 방식을 내 화면에 적용",
+        "description": "BAMA의 화면 목록과 완료 조건 구분을 일반 UI 기획에 연결하는 제안입니다. Mac 전용 스킬이 Android에서 실행된다는 뜻은 아닙니다.",
         "steps": [
-          "공개 샘플 저장소와 무해한 스킬 하나를 고릅니다. 스킬의 이름·저장 위치·기대 적용 경로를 먼저 기록합니다.",
-          "루트, 하위 폴더로 cd한 뒤, 루트로 돌아온 뒤의 세 상태에서 같은 작은 읽기 전용 요청을 보냅니다.",
-          "실제로 읽은 스킬 경로와 적용 근거를 기록합니다. 확인하지 못한 경우는 미검증으로 남깁니다.",
-          "설정 변경·설치·파일 수정 없이 결과를 비교합니다. 경로별 발견 차이가 있으면 버전과 재현 절차를 기록합니다."
+          "공유 가능한 화면 설명 하나를 준비합니다.",
+          "화면 상태·사용자 행동·완료 조건을 표로 나눕니다.",
+          "모호한 조건을 확인 질문으로 남깁니다."
         ],
-        "prompt": "공개 샘플 저장소에서 경로별 스킬 발견을 점검해 줘.\n1. 먼저 도구 버전, 저장소 revision, 스킬 이름과 위치, 기대 적용 경로를 기록해.\n2. 루트, 하위 폴더로 cd한 상태, 루트로 복귀한 상태에서 같은 작은 읽기 전용 요청을 비교해.\n3. 각 상태에서 실제 읽은 스킬 파일 경로와 관찰 근거를 표로 써 줘. 이름을 안다는 이유만으로 적용됐다고 판정하지 마.\n4. 확인하지 못한 상태는 미검증으로 적어 줘.\n5. 파일 수정, 스킬 설치, 권한 변경, 외부 서비스 호출, commit과 push는 하지 마.\n성공 조건: 세 상태의 관찰 결과와 발견 차이의 재현 절차를 남기는 것.",
-        "limitation": "10분 동안 발견 경로를 점검하는 실험이며 스킬 선택의 정확도나 개발 생산성을 입증하지 않습니다. 호스트가 실제 스킬 읽기 근거를 노출하지 않으면 미검증으로 남겨야 합니다."
+        "prompt": "다음 화면 설명을 구현 전에 검토해 주세요.\n화면 설명: [공개 가능한 화면과 기대 동작]\n1. 화면 상태와 사용자 행동을 나눠 주세요.\n2. 각 행동의 완료 조건을 관찰 가능한 문장으로 써 주세요.\n3. 스냅샷·단위 테스트·수동 확인 중 적절한 검증 방법을 제안해 주세요.\n결과는 상태 / 행동 / 완료 조건 / 확인 방법 표로 작성해 주세요. 자료에 없는 동작은 질문으로 남겨 주세요. 코드를 실행하거나 결과를 검증했다고 쓰지 마세요.",
+        "limitation": "활용 제안이며 실행 결과가 아닙니다. 화면 설명과 개인정보를 공개 저장소에 넣지 않습니다."
       },
       "monthlyCandidates": [
         {
@@ -1087,118 +1055,73 @@
       ],
       "sources": [
         {
-          "title": "Claude Code v2.1.312 — 2026-10-27 UTC / 10-28 KST",
-          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.312"
-        },
-        {
-          "title": "GitHub Copilot supports server-to-server authentication — 2026-10-27",
+          "title": "GitHub Copilot SDK 서버 간 인증 · 2026-10-27 공개 프리뷰",
           "url": "https://github.blog/changelog/2026-10-27-github-copilot-supports-server-to-server-authentication/"
         },
         {
-          "title": "GitHub Docs: Server-to-server authentication — 2026-10-28 확인",
-          "url": "https://docs.github.com/en/copilot/how-tos/copilot-sdk/auth/server-to-server-tokens"
+          "title": "JetBrains/thinkrail · 2026-10-28 이전 README",
+          "url": "https://github.com/JetBrains/thinkrail/blob/7b07d5c5f489ae0daa9888ad10c6d518771c0d73/README.md"
         },
         {
-          "title": "ThinkRail 공식 README·Apache-2.0 라이선스 — 2026-10-28 확인",
-          "url": "https://github.com/JetBrains/thinkrail"
-        },
-        {
-          "title": "ThinkRail v0.3.0-nightly.7 — 2026-10-27",
-          "url": "https://github.com/JetBrains/thinkrail/releases/tag/v0.3.0-nightly.7"
-        },
-        {
-          "title": "BAMA 공식 README·MIT 라이선스 — 2026-10-28 확인",
-          "url": "https://github.com/daveebbelaar/bama"
-        },
-        {
-          "title": "Trendar AI Agents — 2026-10-27 18:01 UTC 갱신",
-          "url": "https://trendar.org/trending/topic/ai-agents"
-        },
-        {
-          "title": "Trendar 한국어 발굴 목록 — 2026-10-28 확인",
-          "url": "https://trendar.org/ko/trending"
+          "title": "daveebbelaar/bama · 2026-10-28 이전 README",
+          "url": "https://github.com/daveebbelaar/bama/blob/15356bd8ebff408222ad21395aea09bd74b15310/README.md"
         }
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-28.webp",
         "date": "2026-10-28",
-        "alt": "2026-10-28 AI 라운지 데일리. Claude Code 경로별 스킬 탐색 보완, Copilot SDK 서버 간 인증 공개 미리보기, ThinkRail 설계 기록·BAMA 완료 조건 내용을 오렌지·크림·브라운 손그림으로 요약한 AI 일러스트.",
         "width": 1122,
-        "height": 1402
+        "height": 1402,
+        "alt": "Copilot SDK 조직 인증 프리뷰와 ThinkRail·BAMA. Copilot SDK에 개인 로그인 없이 조직을 대신해 요청하는 인증 방식이 공개됐습니다. ThinkRail의 독립 작업 공간과 BAMA의 Mac 앱 개발 스킬도 소개합니다. 2026-10-30 재점검에서 사소한 버그 수정의 비중을 줄였으며, 아래 저장소는 급등 순위가 아닌 기능 기반 발굴입니다."
       }
     },
     {
       "id": "daily-2026-10-27",
       "type": "daily",
       "date": "2026-10-27",
-      "title": "새 모델은 같은 과제로 비교하고, 브라우저 권한은 별도로 검증",
-      "summary": "Copilot의 GPT-6.1 Terra 정식 제공과 agent-browser의 권한·회귀 수정을 확인합니다. 새로 살펴볼 저장소는 에이전트를 함수로 연결하는 Chaos와 저장소 자동화를 Markdown으로 정의하는 GitHub Agentic Workflows입니다. 최근 24시간의 발표를 우선하고, 저장소 발굴은 10월 24~26일 활동까지 확인했습니다.",
+      "title": "GPT-6.1 Terra, Copilot 정식 제공 · 에이전트 언어 Chaos 소개",
+      "summary": "10월 26일 발표된 GPT-6.1 Terra의 Copilot 정식 제공이 핵심입니다. 10월 24일 릴리스를 확인한 Chaos Intelligence는 급상승 순위 대신 새로 살펴볼 저장소로 구분합니다.",
       "author": "AI 라운지",
       "tags": [
-        "AI 코딩",
-        "에이전트 운영",
-        "도구 검증",
-        "GitHub 레이더"
+        "AI 모델",
+        "Copilot",
+        "에이전트 개발"
       ],
       "highlights": [
-        "새 모델: GPT-6.1 Terra가 Copilot에 정식 제공되며 점진적으로 노출됩니다.",
-        "운영 점검: 브라우저 에이전트의 다운로드·캡처·세션 경계와 MCP 권한 수정을 확인합니다.",
-        "오늘의 실험: 같은 Kotlin 함수와 완료 조건으로 모델 두 개의 결과를 비교합니다."
+        "GPT-6.1 Terra가 Copilot 유료 개인·조직 요금제에 점진적으로 정식 제공됩니다.",
+        "Chaos Intelligence는 에이전트를 함수처럼 연결하는 실험적 언어·CLI입니다.",
+        "활용 프롬프트: 같은 공개 Kotlin 함수와 테스트로 모델을 비교합니다."
       ],
       "sections": [
         {
-          "heading": "Copilot의 새 Terra, 작은 과제로 먼저 비교",
-          "summary": "GPT-6.1 Terra가 GitHub Copilot에 정식 제공됩니다. JetBrains IDE와 Copilot CLI 등에서 점진적으로 사용할 수 있습니다.",
-          "relevance": "공용 스킬을 유지하면서 모델을 바꿀 때, 같은 입력과 완료 조건으로 호환성을 확인할 기회입니다.",
+          "heading": "GPT-6.1 Terra, GitHub Copilot에 정식 제공",
+          "summary": "GitHub가 10월 26일 GPT-6.1 Terra의 Copilot 정식 제공을 발표했습니다. 일상적인 에이전트 코딩과 터미널 작업을 대상으로 합니다.",
+          "relevance": "새 모델을 기존 코딩 작업과 비교할 선택지가 추가됐습니다. 실제 Kotlin 성능은 별도 시험이 필요합니다.",
           "label": "모델 업데이트",
           "date": "2026-10-26",
-          "body": "GitHub는 GPT-6.1 Terra를 Copilot Pro·Pro+·Max·Business·Enterprise에 정식 제공한다고 발표했습니다. 일상적인 에이전트 코딩·터미널 작업과 범위가 명확한 과제를 대상으로 소개하며, JetBrains IDE·Copilot CLI·클라우드 에이전트 등을 지원합니다. 출시는 점진적이며 Business·Enterprise 관리자는 모델 정책으로 접근을 제어합니다. GitHub는 초기 시험에서 GPT-5.6 Terra보다 터미널·C# 과제를 더 많이 해결하고 GPT-6.1 Sol보다 비용이 낮다고 설명하지만, 이는 제공자의 주장으로 독립 검증한 Kotlin 성능이나 구체적 절감률이 아닙니다.",
-          "takeaway": "해석: 공용 스킬의 절차와 모델 선택을 분리하면 새 모델을 기존 과제에 대조하기 쉽습니다. 지원 목록에 JetBrains가 있다는 사실만으로 Android 프로젝트 전체에서 더 좋은 결과를 보장하지 않습니다.",
-          "action": "5~15분 안에 공개 Kotlin 순수 함수 하나를 골라 같은 revision·요청·테스트를 기존 모델과 Terra에 전달하세요. 테스트 통과와 수정 횟수·사용량을 기록하고, 모델이 보이지 않으면 점진 배포와 조직 정책을 먼저 확인하세요. 사용량 기반 과금은 제공자 표시 가격을 따르며 여기서는 비용 수치를 추정하거나 모델을 실행하지 않았습니다.",
+          "body": "Copilot Pro·Pro+·Max·Business·Enterprise 사용자가 대상입니다. VS Code·Visual Studio·Copilot CLI·클라우드 에이전트·GitHub 앱·JetBrains IDE 등에서 점진적으로 제공합니다. Business·Enterprise 관리자는 모델 정책으로 접근을 제어합니다. GitHub는 GPT-6.1 Sol보다 낮은 비용과 이전 Terra보다 개선된 터미널·C# 과제 해결을 소개했으나, 이는 제공자의 초기 시험 주장입니다. 구체적인 가격·한도와 Kotlin 성능 수치를 이 글에서 확정하지 않습니다.",
+          "takeaway": "해석: 모델 선택지가 늘었다는 변화가 핵심입니다. 비용·정답률·수정량의 실제 차이는 동일한 작은 과제로 대조할 수 있습니다.",
+          "action": "활용 제안: 아래 프롬프트로 공개 Kotlin 함수 하나의 입력·완료 조건을 고정해 비교합니다. 모델이 표시되지 않으면 점진 배포와 조직 정책을 확인합니다. 이 글은 모델 실행·비용 측정 결과가 아닙니다.",
           "url": "https://github.blog/changelog/2026-10-26-gpt-6-1-terra-in-github-copilot/"
-        },
-        {
-          "heading": "브라우저 에이전트의 권한·캡처 회귀를 점검",
-          "summary": "agent-browser v0.39.4는 다운로드 대기·고해상도 캡처·탭 격리 오류를 수정했습니다. 전날 v0.39.3은 MCP 호출 인자가 서버의 접근 제한을 덮어쓰지 못하도록 보완했습니다.",
-          "relevance": "여러 에이전트가 브라우저를 공유하거나 웹 UI를 검증할 때, 결과의 신뢰성과 세션 경계를 함께 점검할 변화입니다.",
-          "label": "브라우저 자동화 · 유지보수",
-          "date": "2026-10-26",
-          "body": "공식 변경 이력에 따르면 10월 26일 v0.39.4는 wait --download보다 먼저 다운로드가 끝나면 대기가 시간 초과되는 문제, 고해상도 전체 페이지와 화면 밖 요소의 캡처 오류, 다른 세션이 고정된 탭을 가져가는 문제를 수정했습니다. 10월 25일 v0.39.3은 MCP 도구 인자가 서버의 네트워크·파일·정책·호스트 접근 설정을 덮어쓰지 못하도록 했으며 자동 탐색한 프로젝트 설정에서 실행 경로·브라우저 인자·플러그인을 지정하지 못하게 보완했습니다. CLI와 MCP를 제공하는 웹 브라우저 자동화 도구이며 Android 네이티브 UI 자동화 기능을 발표한 것은 아닙니다.",
-          "takeaway": "해석: 에이전트의 클릭 성공 메시지뿐 아니라 파일 생성·캡처 내용·세션 소유권이 기대대로 유지되는지 확인해야 합니다. 변경 이력의 수정은 모든 환경의 안전성이나 회귀 부재를 증명하지 않습니다.",
-          "action": "기존 사용자는 공개 로컬 테스트 페이지에서 '다운로드 완료 후 대기'와 '화면 밖 요소 캡처' 두 사례를 10분 동안 확인하세요. 파일 경로와 비어 있지 않은 이미지를 성공 조건으로 삼고 버전·DPI·실패 로그를 남기세요. 도메인 허용 목록·행동 정책·확인 기능은 별도 설정이며 업데이트만으로 자동 활성화되지 않습니다. 이번 브리핑에서는 설치·실행하지 않았습니다.",
-          "url": "https://agent-browser.dev/changelog"
         }
       ],
       "radar": [
         {
-          "label": "Trendar 발견 · 주목할 저장소",
+          "label": "주목할 저장소 · 공식 릴리스 확인",
           "repo": "Cattmonkey/ChaosIntelligence",
-          "headline": "계획·실행·리뷰를 함수처럼 연결",
+          "headline": "Chaos Intelligence, 에이전트를 호출 가능한 값으로",
           "url": "https://github.com/Cattmonkey/ChaosIntelligence",
-          "description": "에이전트를 호출 가능한 값으로 다루는 언어와 CLI·웹 IDE·Python SDK를 함께 제공하는 프로젝트입니다.",
-          "signal": "Trendar AI Agents·Developer Tools 피드의 2026-10-26 18:01 UTC(10월 27일 03:01 KST) 갱신 자료에서 발견했습니다. GitHub 공식 Trending 순위가 아닙니다. v0.154.4 릴리스는 10월 24일이며 10월 24일 README 재현 예제 활동을 확인했습니다. 일별 증가 추정치와 누적 Stars는 추천 근거로 옮기지 않았습니다.",
+          "description": "에이전트를 함수처럼 연결하는 언어와 CLI를 제공하는 실험적 개발 도구입니다.",
+          "signal": "공식 v0.154.4는 2026-10-24 10:11 UTC에 게시됐습니다. CLI 진입점과 Python 3.9 이상 실행 조건을 확인했습니다. Trendar 급상승·순위 근거는 이번 점검에서 확보하지 못해 주목할 저장소로만 표시합니다.",
           "checkedAt": "2026-10-27",
-          "sourceUrl": "https://trendar.org/trending/topic/ai-agents",
-          "why": "계획·실행·리뷰를 명시적으로 연결하고 선언된 관계와 실제 실행 이벤트를 구분하는 구조를 살펴볼 만합니다. 여러 에이전트의 단계별 입력·결과를 설명할 때 참고할 후보입니다.",
-          "try": "설치 없이 10분 동안 examples/learning-models/pipeline.chaos와 parallel.chaos를 읽어 입력·모델 호출·검토 단계를 표로 정리하세요. 직접 실행을 선택한다면 공식 릴리스의 Chaos-Project.zip을 새 폴더에 풀고 README의 ./chaos run 예제부터 확인할 수 있습니다. 기본 예제는 API 키 없이 42를 반환한다고 문서에 명시돼 있으며 여기서는 실행하지 않았습니다.",
-          "limitation": "Python 3.9+가 필요합니다. setup은 의존성을 설치하고 설정을 저장하며 모델 호출에는 비용이 생길 수 있습니다. 주로 중국어 문서이며 물리 기기 검증은 macOS 중심입니다. Chaos No-AI-Training License 1.0의 source-available 프로젝트로 OSI 승인 오픈소스가 아니며, 모델 학습 사용 제한과 별도 플랫폼 약관을 확인해야 합니다."
-        },
-        {
-          "label": "공식 릴리스 기반 추천",
-          "repo": "github/gh-aw",
-          "headline": "저장소 자동화의 쓰기 권한을 단계로 분리",
-          "url": "https://github.com/github/gh-aw",
-          "description": "Markdown과 YAML 설정을 GitHub Actions 워크플로로 컴파일하는 GitHub Agentic Workflows입니다.",
-          "signal": "v1.0.0은 2026-10-26 22:33 KST에 공개됐지만 GitHub 릴리스 표시는 Pre-release입니다. 디버그 로그·work-queue-policy 스키마 예제·Safe Outputs 적합성 검사 갱신 등 유지보수 릴리스입니다. Trendar 자동화 피드를 보완 확인했으며 이 저장소의 급상승 근거를 확보한 것은 아닙니다.",
-          "checkedAt": "2026-10-27",
-          "sourceUrl": "https://github.com/github/gh-aw/releases/tag/v1.0.0",
-          "why": "이슈 분류·CI 실패 분석·문서 관리처럼 판단이 필요한 작업을 자동화하되, 읽기 중심 에이전트 작업과 검증된 쓰기 출력을 분리하는 설계를 참고할 만합니다.",
-          "try": "10분 동안 공개 예제 하나를 골라 트리거·permissions·네트워크·safe-outputs를 네 칸으로 정리하세요. README에서 gh extension install github/gh-aw와 gh aw compile을 확인할 수 있으나 설치·컴파일·배포는 이번 브리핑에서 실행하지 않았습니다. 도입 시 생성된 .lock.yml까지 검토하세요.",
-          "limitation": "MIT 라이선스입니다. 지원 경로의 에이전트 작업은 기본 읽기 전용·샌드박스이며 쓰기는 보통 제한된 별도 Safe Outputs 작업으로 적용하지만 설정에 따라 달라집니다. 모델 인증·Actions 사용량·네트워크·생성 파일 검토가 필요합니다. 버전 이름 1.0.0만으로 안정판 전환이나 기존 CI 대체를 뜻하지 않습니다."
+          "sourceUrl": "https://github.com/Cattmonkey/ChaosIntelligence/releases/tag/v0.154.4",
+          "why": "계획·실행·검토 단계를 명시적인 호출로 연결하는 접근을 살펴볼 후보입니다. 일반 업무에서 성능·안전성을 입증한 결과는 아닙니다.",
+          "try": "활용 제안: 설치 전에 고정 태그의 언어 예제와 라이선스를 읽습니다. 직접 시험한다면 공식 릴리스의 기본 산술 예제부터 별도 폴더에서 확인합니다.",
+          "limitation": "실험적 도구입니다. Python 3.9 이상이 필요하며 모델 호출에는 인증과 비용이 따를 수 있습니다. Chaos No-AI-Training License를 따르는 source-available 프로젝트로, OSI 승인 오픈소스로 단정하지 않습니다. 공식 릴리스는 macOS 시험과 Windows 실기 미검증을 구분합니다."
         }
       ],
       "recipe": {
-        "heading": "10분 실험: 같은 Kotlin 과제로 모델 비교",
+        "heading": "활용 프롬프트: 같은 Kotlin 과제로 새 모델 비교",
         "description": "활용 제안입니다. 새 모델의 홍보 수치 대신, 공용 스킬과 완료 조건을 고정한 작은 비교를 준비합니다.",
         "steps": [
           "공개 예제의 작은 Kotlin 순수 함수 하나와 revision을 고르고, 실패하는 테스트 또는 명확한 경계 조건 하나를 정합니다.",
@@ -1218,133 +1141,80 @@
       ],
       "sources": [
         {
-          "title": "GitHub · GPT-6.1 Terra in GitHub Copilot (2026-10-26)",
+          "title": "GitHub · GPT-6.1 Terra in GitHub Copilot · 2026-10-26",
           "url": "https://github.blog/changelog/2026-10-26-gpt-6-1-terra-in-github-copilot/"
         },
         {
-          "title": "agent-browser · v0.39.4 (2026-10-26)·v0.39.3 (2026-10-25) 공식 변경 이력",
-          "url": "https://agent-browser.dev/changelog"
-        },
-        {
-          "title": "Vercel Labs · agent-browser README·설치·보안 설정 (2026-10-27 확인)",
-          "url": "https://github.com/vercel-labs/agent-browser"
-        },
-        {
-          "title": "Trendar · 한국어 발굴 페이지 (2026-10-27 확인)",
-          "url": "https://trendar.org/ko/trending"
-        },
-        {
-          "title": "Trendar · AI Agents 피드 (2026-10-26 18:01 UTC 갱신 자료)",
-          "url": "https://trendar.org/trending/topic/ai-agents"
-        },
-        {
-          "title": "Trendar · Automation 발굴 피드 (2026-10-27 확인, gh-aw 급상승 근거 아님)",
-          "url": "https://trendar.org/trending/topic/automation"
-        },
-        {
-          "title": "Chaos Intelligence · 영어 README·권한·실행 경계 (2026-10-27 확인)",
-          "url": "https://github.com/Cattmonkey/ChaosIntelligence/blob/main/README.en.md"
-        },
-        {
-          "title": "Chaos Intelligence · v0.154.4 릴리스 (2026-10-24)",
+          "title": "Chaos Intelligence · v0.154.4 릴리스 · 2026-10-24",
           "url": "https://github.com/Cattmonkey/ChaosIntelligence/releases/tag/v0.154.4"
-        },
-        {
-          "title": "Chaos Intelligence · Chaos No-AI-Training License 1.0 (2026-10-27 확인)",
-          "url": "https://github.com/Cattmonkey/ChaosIntelligence/blob/main/LICENSE"
-        },
-        {
-          "title": "GitHub Agentic Workflows · README·기본 권한·설치 (2026-10-27 확인)",
-          "url": "https://github.com/github/gh-aw/blob/main/README.md"
-        },
-        {
-          "title": "GitHub Agentic Workflows · v1.0.0 Pre-release (2026-10-26)",
-          "url": "https://github.com/github/gh-aw/releases/tag/v1.0.0"
-        },
-        {
-          "title": "GitHub Agentic Workflows · MIT LICENSE (2026-10-27 확인)",
-          "url": "https://github.com/github/gh-aw/blob/main/LICENSE"
         }
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-27.webp",
         "date": "2026-10-27",
-        "alt": "2026-10-27 AI 라운지 데일리. GPT-6.1 Terra의 Copilot 정식 제공, agent-browser 권한·캡처 보완, 단계별 권한 분리·같은 Kotlin 과제 비교 제안 내용을 오렌지·크림·브라운 손그림으로 요약한 AI 일러스트.",
         "width": 1122,
-        "height": 1402
+        "height": 1402,
+        "alt": "GPT-6.1 Terra, Copilot 정식 제공 · 에이전트 언어 Chaos 소개. 10월 26일 발표된 GPT-6.1 Terra의 Copilot 정식 제공이 핵심입니다. 10월 24일 릴리스를 확인한 Chaos Intelligence는 급상승 순위 대신 새로 살펴볼 저장소로 구분합니다."
       }
     },
     {
       "id": "daily-2026-10-26",
       "type": "daily",
       "date": "2026-10-26",
-      "title": "에이전트 사용량은 도구별로, Git 인증은 만료·갱신까지",
-      "summary": "Copilot 사용량의 클라이언트별 집계와 GitHub CLI의 만료형 인증을 확인합니다. GitHub 레이더는 공식 릴리스에서 작업·리뷰 현황 관리 도구와 코딩 에이전트의 보안 유지보수를 보완 선정했습니다.",
+      "title": "Visual Studio BYOM 모드 전환 · Copilot의 도구별 사용량 집계",
+      "summary": "Visual Studio의 자체 모델 연결 프리뷰 변경과 Copilot API의 클라이언트별 집계를 살펴봅니다. agent-orchestrator v0.14.6의 에이전트 전환 기능도 소개합니다. 10월 22~24일 공식 발표 중 선별했습니다.",
       "author": "AI 라운지",
       "tags": [
-        "에이전트 운영",
-        "사용량 측정",
-        "GitHub CLI"
+        "모델 연결",
+        "Copilot",
+        "개발 도구"
       ],
       "highlights": [
-        "후속 변화: 스킬 이름뿐 아니라 Copilot을 이용하는 도구별 모델 요청·토큰도 집계",
-        "추천 저장소: 작업별 워크트리·PR 상태 보드와 코딩 에이전트의 런타임 보안 수정",
-        "오늘의 실험: 도구별 사용량 표에 포함 범위와 누락 원인을 함께 기록"
+        "Visual Studio BYOM은 새 Agent (Preview)가 필요하고 Ollama 모델을 다시 등록해야 합니다.",
+        "Copilot API는 OpenCode·Claude Code·Codex 등 도구의 요청·세션·토큰을 구분합니다.",
+        "agent-orchestrator v0.14.6은 세션 중 에이전트 전환과 Hermes Agent TUI 통합을 추가했습니다."
       ],
       "sections": [
         {
-          "heading": "OpenCode·Codex 등 도구별 Copilot 사용량을 확인",
-          "summary": "Copilot usage metrics API에 totals_by_client가 추가됐습니다. Copilot을 모델 제공자로 사용하는 도구의 요청·세션·토큰을 클라이언트별로 볼 수 있습니다.",
-          "relevance": "IDE 밖에서 실행되는 에이전트까지 포함해 도구 지원 범위와 사용 추세를 점검할 수 있습니다.",
+          "heading": "Copilot API, OpenCode·Codex의 모델 사용량도 집계",
+          "summary": "10월 23일 Copilot usage metrics API에 totals_by_client가 추가됐습니다. IDE 밖 도구가 Copilot을 통해 호출한 요청·세션·토큰을 구분합니다.",
+          "relevance": "Copilot을 여러 도구의 모델 제공자로 쓰는 조직은 집계 누락을 줄일 수 있습니다.",
           "label": "사용량 측정 · 후속 변화",
           "date": "2026-10-23",
-          "body": "GitHub는 기업·조직 및 사용자별 1일·28일 보고서에 totals_by_client를 추가했습니다. opencode, claude_code, codex, zed 등 Copilot을 사용하는 클라이언트를 구분하고 성공한 모델 요청 수, 세션 수, 입력·출력 토큰과 모델별 집계를 제공합니다. 10월 22일 발표한 맞춤 스킬 이름별 집계와 달리, 이번 변화는 IDE 텔레메트리 없이 발생하는 모델 트래픽의 집계 범위를 넓힙니다. Copilot을 사용하지 않는 다른 제공자의 전체 활동을 측정하는 기능은 아닙니다.",
-          "takeaway": "해석: 에이전트 도구를 여러 개 운영할 때 하나의 도구만 측정해서 전체 사용을 판단하는 오류를 줄일 수 있습니다. 요청 수는 사용 추세를 보여주는 지표이며 완료한 작업 수나 생산성의 인과적 증거가 아닙니다.",
-          "action": "사용 중인 도구별로 모델 제공자와 보고서 포함 여부를 먼저 적으세요. request_count는 프롬프트 수가 아니라 모델 호출 수이며, client는 요청에 실린 통합 ID를 이용한 best-effort 분류입니다. 보고서를 보려면 해당 권한과 Copilot usage metrics 정책 활성화가 필요합니다.",
+          "body": "기업·조직과 사용자별 1일·28일 보고서에 클라이언트별 사용량을 추가했습니다. OpenCode·Claude Code·Codex·Zed 등 Copilot으로 보내는 성공한 모델 요청, 세션, 입력·출력 토큰과 모델별 집계를 포함합니다. 다른 모델 제공자의 전체 사용량은 포함하지 않습니다.",
+          "takeaway": "해석: 도구 지원 범위를 실제 모델 트래픽에 맞춰 판단할 수 있습니다. 요청 수는 프롬프트 수나 완료 작업 수가 아닙니다.",
+          "action": "활용 제안: 도구별 모델 제공자와 집계 포함 여부를 아래 프롬프트로 정리합니다. 보고서 접근 권한과 Copilot usage metrics 정책 활성화가 필요합니다.",
           "url": "https://github.blog/changelog/2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode/"
         },
         {
-          "heading": "Git 자동화 인증에 토큰 만료와 갱신 경로를 포함",
-          "summary": "GitHub CLI v2.103.0부터 만료형 액세스 토큰과 회전형 리프레시 토큰을 선택할 수 있습니다. gh가 필요할 때 인증정보를 갱신하는 공개 프리뷰입니다.",
-          "relevance": "에이전트가 Git을 오래 실행할 때 토큰을 한 번 추출해 재사용하는 스크립트의 호환성을 확인할 변화입니다.",
-          "label": "개발 자동화 · 인증",
-          "date": "2026-10-21",
-          "body": "GitHub CLI는 gh auth login --expiring으로 만료형 인증을 선택하는 공개 프리뷰를 발표했습니다. gh는 만료되는 액세스 토큰과 회전형 리프레시 토큰을 저장하고 필요할 때 갱신합니다. HTTPS Git에서는 gh auth setup-git으로 gh를 credential helper로 설정하는 경로와 Git 2.46 이상을 권장합니다. 선택하지 않으면 기존 로그인과 수동 제공 토큰의 동작은 유지됩니다.",
-          "takeaway": "해석: 장시간 개발 자동화는 유효한 토큰의 존재뿐 아니라 갱신을 누가 수행하는지도 설계해야 합니다. 이 기능은 에이전트의 도구 실행 승인 창이나 관리자가 정한 권한 정책을 바꾸지 않습니다.",
-          "action": "먼저 gh --version, git --version, gh auth status로 현재 환경을 확인하고 토큰을 한 번 복사해 보관하는 스크립트를 목록화하세요. 긴 수명의 토큰을 전제로 하는 작업은 호환성을 확인하기 전 전환을 보류하세요. 로그인·credential helper 변경은 도입을 결정한 사용자가 직접 수행할 예시이며 이번 브리핑에서 실행한 작업은 아닙니다.",
-          "url": "https://github.blog/changelog/2026-10-21-github-cli-opt-in-to-expiring-auto-refreshing-oauth-tokens/"
+          "heading": "Visual Studio BYOM 프리뷰, 새 Agent 모드로 전환",
+          "summary": "10월 22일 발표한 Visual Studio 2026 업데이트는 BYOM에 새 Agent (Preview)를 요구합니다. 기존 Ask·Agent 모드에서는 더 이상 BYOM을 지원하지 않습니다.",
+          "relevance": "자체 배포 모델이나 Ollama를 Visual Studio에 연결한 사용자는 업데이트 전 호환성을 확인해야 합니다.",
+          "label": "모델 연결 · 프리뷰 · 호환성 변경",
+          "date": "2026-10-22",
+          "body": "공식 발표는 BYOM을 프리뷰로 안내합니다. 새 GitHub Copilot SDK 기반 Agent (Preview)가 필요하며, 기존에 구성한 Ollama 모델은 업데이트 후 다시 추가해야 합니다. Microsoft Foundry·OpenAI·Anthropic·Ollama를 지원 제공자로 명시했습니다. 이 소식은 Visual Studio 2026 대상이며 VS Code나 JetBrains에 그대로 적용되는 발표가 아닙니다.",
+          "takeaway": "해석: 모델을 직접 선택하는 기능의 확대와 기존 연결의 전환 조건을 함께 봐야 합니다. 특정 모델의 성능 개선을 발표한 것은 아닙니다.",
+          "action": "활용 제안: Visual Studio BYOM 사용자는 현재 모드와 제공자·모델 설정을 기록하고 새 Agent (Preview) 지원 여부를 확인합니다. Ollama 재등록이 필요한 경우 실제 설정 변경은 사용자가 검토 후 진행합니다.",
+          "url": "https://github.blog/changelog/2026-10-22-github-copilot-in-visual-studio-september-update-2/"
         }
       ],
       "radar": [
         {
           "label": "공식 릴리스 기반 추천",
           "repo": "OrchestratorInc/agent-orchestrator",
-          "headline": "에이전트·워크트리·리뷰 상태를 한 보드에서 관리",
+          "headline": "agent-orchestrator v0.14.6, 세션 중 에이전트 전환",
           "url": "https://github.com/OrchestratorInc/agent-orchestrator",
-          "description": "작업마다 에이전트·브랜치·워크트리를 두고 PR·CI·리뷰 상태를 모으는 개발 작업공간입니다.",
-          "signal": "v0.14.6 공식 릴리스: 2026-10-24 09:57 KST. 세션 중 에이전트 전환, native Hermes Agent TUI, 동일 데이터 디렉터리에 대한 독점 잠금이 추가됐습니다. Trendar 노출·급상승 근거는 확보하지 못해 공식 릴리스 추천으로 표시합니다.",
+          "description": "작업·브랜치·리뷰 상태를 모으는 agent-orchestrator의 기능 릴리스입니다.",
+          "signal": "공식 v0.14.6 릴리스는 2026-10-24 00:57 UTC입니다. 세션 중 에이전트 전환, Hermes Agent TUI 통합, 동일 데이터 디렉터리 독점 잠금을 명시했습니다. 급상승 근거는 없어 릴리스 소개로 구분합니다.",
           "checkedAt": "2026-10-26",
           "sourceUrl": "https://github.com/OrchestratorInc/agent-orchestrator/releases/tag/v0.14.6",
-          "why": "해석: 작업이 여러 브랜치로 나뉠 때 현재 작업과 리뷰·CI에서 막힌 작업을 함께 확인하는 데 참고할 만합니다. CI 실패·리뷰 댓글·충돌을 해당 브랜치의 작업자로 돌리는 흐름도 제공합니다.",
-          "try": "공식 릴리스와 에이전트 지원표를 먼저 읽으세요. 도입을 결정하면 공개 샘플 저장소의 작은 분석 작업 하나로 작업별 격리와 상태 보드의 연결을 확인하세요. 이 브리핑에서는 설치하거나 에이전트를 실행하지 않았습니다.",
-          "limitation": "Apache-2.0입니다. Worker·Chat·reviewer 지원은 에이전트마다 다릅니다. 모델 제공자 사용에 따른 외부 전송과 비용을 확인하세요. 제품의 사용량 분석 설정은 Settings > General > Privacy > Share usage analytics에서 확인할 수 있습니다."
-        },
-        {
-          "label": "공식 보안 유지보수 릴리스",
-          "repo": "anomalyco/opencode",
-          "headline": "OpenCode 1.x 사용자는 번들 런타임 수정 확인",
-          "url": "https://github.com/anomalyco/opencode",
-          "description": "오픈소스 AI 코딩 에이전트 OpenCode의 1.x 유지보수 릴리스입니다.",
-          "signal": "v1.19.4 공식 릴리스: 2026-10-22 22:03 KST. 번들 Bun을 1.4.4로 올려 Brotli·TLS·HTTP·WebSocket·fetch 관련 보안 수정과 루트 인증서 갱신을 포함합니다. Trendar 급상승으로 선정한 항목은 아닙니다.",
-          "checkedAt": "2026-10-26",
-          "sourceUrl": "https://github.com/anomalyco/opencode/releases/tag/v1.19.4",
-          "why": "해석: 코딩 에이전트의 기능 외에도 네트워크와 파일 처리를 담당하는 런타임의 유지보수 버전을 확인할 이유가 있습니다.",
-          "try": "현재 설치 버전과 배포 채널을 확인한 뒤, 1.x를 사용한다면 해당 태그의 릴리스 노트와 업데이트 경로를 검토하세요. 이번 자료는 버전 확인·업데이트 검토 제안이며 실제 설치나 보안 검증 결과가 아닙니다.",
-          "limitation": "MIT 라이선스입니다. 현재 기본 브랜치 README는 OpenCode 2를 안내하므로 2.x의 설치법과 기능을 1.x 릴리스에 섞지 마세요. 이번 보안 수정이 모든 취약점을 제거하거나 성능 향상을 보장한다는 뜻은 아닙니다."
+          "why": "여러 에이전트의 작업을 이어가거나 리뷰가 밀린 작업을 파악하는 도구 후보입니다. 이번 글에서 실행 성능을 검증한 것은 아닙니다.",
+          "try": "활용 제안: 릴리스의 에이전트 전환과 지원 목록을 먼저 확인합니다. 도입을 결정한 경우 공개 샘플 작업 하나로 상태 보드 연결을 시험합니다.",
+          "limitation": "Apache-2.0입니다. 에이전트별 지원 기능이 다르며 모델 사용 비용·외부 전송·작업 디렉터리 접근 범위를 확인해야 합니다."
         }
       ],
       "recipe": {
-        "heading": "10분 안에 도구별 사용량의 빈칸 찾기",
+        "heading": "활용 프롬프트: Copilot 사용량의 집계 범위 확인",
         "description": "활용 제안: 실제 사용량을 추출하기 전에 집계 대상과 비교 단위를 맞추는 작은 점검입니다. 실행 결과나 생산성 향상 실적은 아닙니다.",
         "steps": [
           "사용하는 코딩 도구 3개와 각 도구가 이용하는 모델 제공자를 적습니다.",
@@ -1352,7 +1222,7 @@
           "표의 열을 요청 수·세션 수·입력 토큰·출력 토큰·측정 기간·누락 가능성으로 정합니다.",
           "권한이 있는 기존 보고서가 있다면 같은 기간의 한 표본만 대조하고, 없으면 미확인으로 남깁니다."
         ],
-        "prompt": "이 도구 목록의 사용량 측정 범위를 검토해줘. 도구별 모델 제공자, Copilot 보고서 포함 여부, 요청·세션·토큰의 단위, 누락 가능성을 표로 정리해줘. 공식 문서의 근거를 남기고, 미확인 수치를 만들지 마. 사용량을 생산성이나 완료 작업 수로 바꾸어 해석하지 마.",
+        "prompt": "다음 개발 도구 목록의 모델 사용량 집계 범위를 검토해줘. 도구별 모델 제공자, Copilot 보고서 포함 여부, 요청·세션·토큰의 단위와 누락 가능성을 표로 작성해줘. 공식 문서의 근거를 남기고 미확인 수치는 만들지 마. 사용량을 생산성이나 완료 작업 수로 해석하지 마.\n\n도구·제공자: [목록]\n보고서 기간: [기간]\n기존 보고서: [공개 가능한 집계 자료 또는 없음]",
         "limitation": "로그인이나 새 권한 부여 없이 문서와 기존 자료로 시작합니다. 클라이언트 식별은 best-effort이며 다른 제공자의 사용량은 별도 자료가 필요합니다."
       },
       "monthlyCandidates": [
@@ -1364,114 +1234,93 @@
       ],
       "sources": [
         {
-          "title": "GitHub · Usage metrics API adds usage from tools like OpenCode (2026-10-23)",
+          "title": "GitHub · Visual Studio BYOM 프리뷰 변경 · 2026-10-22",
+          "url": "https://github.blog/changelog/2026-10-22-github-copilot-in-visual-studio-september-update-2/"
+        },
+        {
+          "title": "GitHub · 도구별 Copilot 사용량 집계 · 2026-10-23",
           "url": "https://github.blog/changelog/2026-10-23-usage-metrics-api-adds-usage-from-tools-like-opencode/"
         },
         {
-          "title": "GitHub · GitHub CLI: Opt in to expiring, auto-refreshing OAuth tokens (2026-10-21)",
-          "url": "https://github.blog/changelog/2026-10-21-github-cli-opt-in-to-expiring-auto-refreshing-oauth-tokens/"
-        },
-        {
-          "title": "Orchestrator.inc · README·지원 범위·사용량 분석 설정 (2026-10-26 확인)",
-          "url": "https://github.com/OrchestratorInc/agent-orchestrator/blob/main/README.md"
-        },
-        {
-          "title": "Orchestrator.inc · v0.14.6 공식 릴리스 (2026-10-24 KST)",
+          "title": "agent-orchestrator · v0.14.6 공식 릴리스 · 2026-10-24",
           "url": "https://github.com/OrchestratorInc/agent-orchestrator/releases/tag/v0.14.6"
-        },
-        {
-          "title": "OpenCode · v1.19.4 공식 릴리스 (2026-10-22 KST)",
-          "url": "https://github.com/anomalyco/opencode/releases/tag/v1.19.4"
-        },
-        {
-          "title": "OpenCode · 현재 기본 브랜치 README (2.x 안내, 2026-10-26 확인)",
-          "url": "https://github.com/anomalyco/opencode/blob/dev/README.md"
-        },
-        {
-          "title": "Trendar · AI Agents 발굴 피드 (2026-10-25 18:00 UTC 갱신 자료 확인, 이번 추천 두 항목의 급상승 근거 아님)",
-          "url": "https://trendar.org/trending/topic/ai-agents"
-        },
-        {
-          "title": "Trendar · Developer Tools 발굴 피드 (2026-10-25 18:01 UTC 갱신 자료 확인, 이번 추천 두 항목의 급상승 근거 아님)",
-          "url": "https://trendar.org/trending/topic/developer-tools"
         }
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-26.webp",
         "date": "2026-10-26",
-        "alt": "2026-10-26 AI 라운지 데일리. 클라이언트별 Copilot 사용 지표, GitHub CLI 만료형 토큰 공개 프리뷰, 작업 보드와 집계 빈칸 점검 제안 내용을 오렌지·크림·브라운 손그림으로 요약한 AI 일러스트.",
         "width": 1122,
-        "height": 1402
+        "height": 1402,
+        "alt": "Visual Studio BYOM 모드 전환 · Copilot의 도구별 사용량 집계. Visual Studio의 자체 모델 연결 프리뷰 변경과 Copilot API의 클라이언트별 집계를 살펴봅니다. agent-orchestrator v0.14.6의 에이전트 전환 기능도 소개합니다. 10월 22~24일 공식 발표 중 선별했습니다."
       }
     },
     {
       "id": "daily-2026-10-25",
       "type": "daily",
       "date": "2026-10-25",
-      "title": "에이전트 평가에는 오탐을, 운영에는 검토 지점을",
-      "summary": "패치 전후를 함께 평가하는 Agentic FAITH, Teams 알림에서 PR까지 이어지는 흐름과 로컬 에이전트 상태 대시보드를 살펴봅니다. 새 저장소는 운영 목적에 직접 맞고 검증된 한 건만 골랐습니다.",
+      "title": "Copilot in Teams, 알림에서 PR까지 · 레거시 앱은 11월 16일 종료 예정",
+      "summary": "10월 23일 발표된 Copilot in Teams의 이슈 조사·PR 생성 흐름과 레거시 앱 종료 일정을 확인합니다. Cisco Agentic FAITH와 로컬 에이전트 상태 스킬도 함께 살펴봅니다.",
       "author": "AI 라운지",
       "tags": [
-        "AI 에이전트",
-        "평가",
-        "개발 도구",
-        "GitHub"
+        "Copilot",
+        "공식 예정",
+        "Agent Skills",
+        "에이전트 평가"
       ],
       "highlights": [
-        "평가: 문제를 찾는 비율과 패치 후 오탐을 함께 보기",
-        "운영: 알림에서 PR로 연결하고 여러 에이전트 상태 살피기",
-        "오늘의 실험: 공개 패치 전후를 같은 조건으로 리뷰하기"
+        "GitHub 앱을 Teams에서 호출해 이슈 조사·수정·PR 생성을 요청할 수 있습니다.",
+        "공식 예정: 레거시 GitHub Teams 앱은 2026년 11월 16일 종료됩니다.",
+        "주목할 스킬: whatsmyagentdoing은 여러 에이전트의 작업·대기 상태를 보여줍니다."
       ],
       "sections": [
         {
-          "heading": "좋은 리뷰 에이전트는 고친 코드에도 경보를 울리지 않는다",
-          "summary": "Cisco가 Agentic FAITH를 공개했습니다. 첫 벤치마크 VulnLoc은 취약 파일 탐지와 패치된 코드의 오탐 방지를 함께 평가합니다.",
-          "relevance": "리뷰 결과의 개수보다 정답·오탐·실행 실패를 나눠 보는 평가에 참고할 수 있습니다.",
-          "label": "에이전트 평가",
+          "heading": "Copilot in Teams: 이슈 알림에서 수정 PR 생성",
+          "summary": "통합 GitHub Teams 앱에서 @GitHub를 호출해 이슈 조사·수정·PR 생성을 요청합니다. 레거시 앱의 11월 16일 종료도 공식 예고했습니다.",
+          "relevance": "Teams를 사용하는 개발팀은 대화에서 작업을 시작하고 PR 검토로 이어갈 수 있습니다.",
+          "label": "도구 업데이트 · 공식 종료 예정",
           "date": "2026-10-23",
-          "body": "확인된 사실: Agentic FAITH는 여러 단계와 도구 호출이 필요한 평가를 기존 FAITH 흐름에 통합합니다. VulnLoc은 수정 전 저장소에서 취약 파일 집합의 F1을, 대응하는 패치 후 저장소에서는 지정된 취약점이 없음을 판단하는 true-negative rate를 평가합니다. 저장소는 읽기 전용이며, 정상적인 ‘해당 취약점 없음’을 미제출·실행 실패와 구분합니다. 도구 호출·턴·시간 제한, 대화와 실행 오류·종료 이유를 기록하고 완료된 작업 경계에서 재개할 수 있습니다.",
-          "takeaway": "해석: 리뷰 에이전트의 성능은 많이 지적하는 능력만으로 설명되지 않습니다. 동일한 수정 전후 입력과 실행 조건으로 누락과 오탐을 함께 봐야 합니다. 특정 취약점이 없다는 판정은 코드 전체의 안전성 보증이 아닙니다.",
-          "action": "공개 프로젝트의 작은 보안 패치 한 쌍을 골라 같은 요청·도구·시간 예산으로 읽기 전용 리뷰를 요청하세요. 정답 파일, 패치 후 오탐, 실행 실패를 따로 적는 것부터 시작하면 됩니다.",
-          "url": "https://blogs.cisco.com/ai/introducing-agentic-evaluation-in-faith"
+          "body": "GitHub의 10월 23일 발표입니다. 채널·그룹 채팅·개인 채팅의 이슈 알림에서 @GitHub로 조사와 수정 PR 생성을 요청합니다. PR 검토·테스트·병합은 팀이 수행합니다. 기존 GitHub notifications 앱은 업데이트하면 알림 기능을 유지합니다. 별도의 레거시 GitHub 앱은 GitHub (deprecated)로 바뀌고 2026년 11월 16일 종료될 예정이므로 통합 앱으로 전환해야 합니다.",
+          "takeaway": "해석: 알림 확인과 코드 작업 시작 사이의 이동을 줄이는 변화입니다. 전체 개발 과정의 자동 완료나 자동 병합을 뜻하지 않습니다.",
+          "action": "활용 제안: Teams에서 사용할 이슈 조사 요청문을 아래 복사형 프롬프트로 준비합니다. 계정 연결과 저장소 선택, 조직의 허용 여부는 실제 도입 전에 확인합니다.",
+          "url": "https://github.blog/changelog/2026-10-23-turn-notifications-into-code-with-github-copilot-in-teams/"
         },
         {
-          "heading": "Teams 알림에서 수정 PR까지, 검토는 팀이 이어받기",
-          "summary": "GitHub의 통합 Teams 앱이 알림과 Copilot을 연결합니다. 이슈 알림에서 GitHub를 언급해 조사·수정·PR 생성을 요청할 수 있습니다.",
-          "relevance": "요청 접수와 코드 작업을 잇되 PR 검토·테스트·병합의 책임을 명확히 하는 사례입니다.",
-          "label": "개발 워크플로",
+          "heading": "Cisco Agentic FAITH, 패치 전후 에이전트 평가 지원",
+          "summary": "Cisco가 다단계 도구 사용 평가를 FAITH에 추가했습니다. 첫 통합 벤치마크 VLoc은 취약 파일 탐지와 패치 후 오탐을 함께 평가합니다.",
+          "relevance": "보안 리뷰 에이전트의 탐지 능력과 잘못된 경고를 함께 비교할 수 있는 평가 도구입니다.",
+          "label": "에이전트 평가",
           "date": "2026-10-23",
-          "body": "확인된 사실: 통합 GitHub 앱은 Teams의 채널·그룹 채팅·개인 채팅 알림에서 @GitHub를 언급해 이슈 조사와 버그 수정, PR 생성을 이어가는 흐름을 제공합니다. 공식 예시는 팀이 PR을 검토·테스트·병합하는 단계로 끝납니다. 기존 GitHub notifications 사용자는 앱을 업데이트하면 기존 알림 기능을 유지할 수 있습니다. 별도의 레거시 GitHub 앱은 ‘GitHub (deprecated)’로 바뀌며 11월 16일 종료될 예정입니다.",
-          "takeaway": "해석: 메시지에서 에이전트를 부르는 기능보다 중요한 것은 목표·관련 저장소·완료 조건과 사람의 검토 지점을 함께 전달하는 일입니다. 실제 사용 가능 여부는 계정 연결·저장소 선택과 조직 정책을 확인해야 합니다.",
-          "action": "알림 기반 작업 요청의 입력을 ‘문제 재현 / 대상 revision / 완료 조건 / PR에서 확인할 테스트’ 네 항목으로 적어 보세요. 자동으로 병합된다고 가정하지 말고 기존 리뷰 절차에 연결하세요.",
-          "url": "https://github.blog/changelog/2026-10-23-turn-notifications-into-code-with-github-copilot-in-teams/"
+          "body": "Cisco가 10월 23일 Agentic FAITH를 소개했습니다. VLoc은 수정 전 저장소의 취약 파일 집합을 F1으로, 패치 후 해당 취약점이 없다는 판정을 true-negative rate로 평가합니다. 읽기 전용 저장소에서 도구를 실행하며, 정상적인 문제 없음과 실행 실패를 구분합니다. 기존 원고의 VulnLoc 표기는 공식 명칭 VLoc으로 정정했습니다.",
+          "takeaway": "해석: 많이 지적하는 에이전트가 항상 좋은 리뷰어는 아닙니다. 탐지와 오탐, 실행 실패를 분리해 비교할 도구가 추가됐습니다.",
+          "action": "활용 제안: 공식 문서의 작은 VLoc 예제를 읽고, 정답 파일·패치 후 오탐·실행 실패를 어떤 항목으로 기록하는지 확인합니다. 이 글은 벤치마크 실행 결과가 아닙니다.",
+          "url": "https://blogs.cisco.com/ai/introducing-agentic-evaluation-in-faith"
         }
       ],
       "radar": [
         {
-          "label": "Trendar AI 에이전트 · 추정 집계",
+          "label": "주목할 스킬 · 당시 README 확인",
           "repo": "Charonyuu/whatsmyagentdoing",
-          "headline": "여러 코딩 에이전트의 작업·대기 상태를 한 화면에서",
+          "headline": "whatsmyagentdoing: 에이전트 작업·대기 상태를 한눈에",
           "url": "https://github.com/Charonyuu/whatsmyagentdoing",
-          "description": "Claude Code·Codex·Gemini CLI의 로컬 세션 로그를 읽어 상태와 최근 작업을 브라우저에 보여주는 대시보드입니다.",
-          "signal": "Trendar AI 에이전트 주제 1위, Stars 140, 하루 +121 추정(est.). 페이지 갱신 2026-10-24 18:00 UTC(한국 10월 25일 03:00) 스냅샷이며, 직접 측정한 증가량이나 GitHub 공식 Trending 순위가 아닙니다.",
+          "description": "Claude Code·Codex·Gemini CLI의 로컬 세션 로그를 읽어 상태를 브라우저에 보여주는 myoffice 스킬입니다.",
+          "signal": "2026년 10월 24일 커밋 7bc2706의 README로 당시 기능을 확인했습니다. 이전 원고의 Trendar 1위·하루 +121 추정치는 당시 집계 원본을 다시 확보하지 못해 삭제했습니다. 급상승 순위를 주장하지 않습니다.",
           "checkedAt": "2026-10-25",
-          "sourceUrl": "https://trendar.org/trending/topic/ai-agents",
-          "why": "List 보기가 Needs you → Working → Finished로 묶여 있어 여러 세션 중 먼저 확인할 대상을 찾는 운영 사례로 볼 만합니다. 세션 상태 확인 도구이며 코드 리뷰나 병합의 완료를 보증하지는 않습니다.",
-          "try": "README와 소스를 먼저 읽은 뒤 별도 복제본에서 Node.js 18 이상을 확인하고 node bin/cli.js --demo로 가상 세션을 살펴보세요. README 기준 npm install은 필요 없습니다. 실제 로그를 연결하기 전에 --private의 표시 범위도 확인하세요.",
-          "limitation": "MIT 코드. Antigravity는 지원하지 않습니다. Claude Code 승인 창은 로그에 남지 않아 승인 대기를 Running으로 표시할 수 있고, 비공개 로그 형식 변경에 따라 상태 판정이 달라질 수 있습니다. 로그 처리는 로컬 읽기 전용이며 127.0.0.1에 바인딩하지만 업데이트 확인과 선택한 3D 장면 다운로드에는 네트워크를 사용합니다. --private는 표시를 숨기는 옵션이며 로그 접근 자체를 없애지는 않습니다."
+          "sourceUrl": "https://github.com/Charonyuu/whatsmyagentdoing/blob/7bc2706fa71d5d89c04eee2c208e596ee9d3e641/README.md",
+          "why": "여러 작업 중 사람의 확인이 필요한 세션을 찾는 데 참고할 수 있습니다. 상태 표시는 실제 코드의 검증·병합 완료를 뜻하지 않습니다.",
+          "try": "활용 제안: 설치 전에 고정한 당시 README의 List 보기와 로그 읽기 범위를 확인합니다. 직접 시험한다면 Node.js 18 이상에서 README의 --demo 예제를 사용해 가상 세션부터 봅니다.",
+          "limitation": "MIT입니다. 비공개 로그 형식이 바뀌면 상태 판정이 달라질 수 있습니다. Claude Code의 승인 대기는 로그에 남지 않아 Running으로 보일 수 있으며 Antigravity는 지원하지 않습니다. 3D 장면 다운로드와 업데이트 확인에는 네트워크를 사용합니다."
         }
       ],
       "recipe": {
-        "heading": "공개 패치 전후로 리뷰의 오탐을 비교하기",
-        "description": "활용 제안 · 10~15분 동안 작은 패치 한 쌍의 평가 조건을 정하는 실험입니다. FAITH를 직접 실행하거나 검증한 성과 보고가 아닙니다.",
+        "heading": "활용 프롬프트: Teams 이슈를 PR 작업 요청으로",
+        "description": "Copilot in Teams에 전달할 입력을 준비하는 활용 제안입니다. 실행 결과가 아닙니다.",
         "steps": [
-          "신뢰할 수 있는 공개 프로젝트에서 설명과 정답 파일이 명확한 작은 보안 패치 한 쌍을 고릅니다.",
-          "수정 전후 revision을 나누고 동일한 요청·읽기 전용 도구·시간 또는 호출 예산을 사용합니다.",
-          "취약점이 있는 버전의 정답 파일 탐지, 패치 후 동일 취약점에 대한 오탐, 미제출·실행 실패를 별도로 적습니다.",
-          "최종 답변만 비교하지 말고 어떤 파일을 읽었고 어떤 근거로 종료했는지 확인합니다."
+          "공개 이슈 URL과 대상 저장소를 준비합니다.",
+          "재현 조건과 원하는 결과를 적습니다.",
+          "아래 프롬프트를 환경에 맞게 채우고 검토한 뒤 사용합니다."
         ],
-        "prompt": "이 공개 저장소 revision을 읽기 전용으로 검토해줘. 지정한 취약점 유형과 관련된 파일을 근거 위치와 함께 제출하고, 해당 문제가 없으면 없다고 명시해줘. 허용 도구와 실행 예산은 두 버전에서 동일하게 적용해줘. 실행 실패·예산 소진·조사 미완료를 ‘문제 없음’으로 바꾸지 말고, 읽은 파일과 종료 이유를 남겨줘. 코드는 수정하지 마.",
-        "limitation": "작은 한 쌍의 비교는 점검 방식의 예시입니다. 종합 안전성·일반 성능을 입증하지 않으며, AI 판정은 패치 설명과 사람이 확인한 정답 근거로 대조해야 합니다."
+        "prompt": "다음 공개 이슈를 조사해줘. 재현 조건과 관련 코드를 근거와 함께 정리하고, 최소 수정안을 제안해줘. 작업이 허용된 저장소에서만 수정 PR을 만들고 실행한 테스트와 미검증 항목을 PR에 적어줘. 병합하지 마.\n\n저장소: [URL]\n이슈: [URL]\n재현 조건: [입력·환경]\n완료 조건: [기대 동작·테스트]",
+        "limitation": "실제 조사·수정·PR 생성은 계정과 저장소 권한이 있는 환경에서 수행합니다. 이 프롬프트가 실행됐다고 주장하지 않습니다."
       },
       "monthlyCandidates": [
         {
@@ -1482,40 +1331,32 @@
       ],
       "sources": [
         {
-          "title": "Cisco · Introducing Agentic Evaluation in FAITH (2026-10-23)",
-          "url": "https://blogs.cisco.com/ai/introducing-agentic-evaluation-in-faith"
-        },
-        {
-          "title": "GitHub · Turn notifications into code with GitHub Copilot in Teams (2026-10-23)",
+          "title": "GitHub · Copilot in Teams · 2026-10-23 발표와 11월 16일 종료 예정",
           "url": "https://github.blog/changelog/2026-10-23-turn-notifications-into-code-with-github-copilot-in-teams/"
         },
         {
-          "title": "whatsmyagentdoing · README (2026-10-25 확인)",
-          "url": "https://github.com/Charonyuu/whatsmyagentdoing/blob/main/README.md"
+          "title": "Cisco · Agentic FAITH와 VLoc · 2026-10-23",
+          "url": "https://blogs.cisco.com/ai/introducing-agentic-evaluation-in-faith"
         },
         {
-          "title": "whatsmyagentdoing · MIT LICENSE (2026-10-25 확인)",
-          "url": "https://github.com/Charonyuu/whatsmyagentdoing/blob/main/LICENSE"
-        },
-        {
-          "title": "Trendar · AI Agents (2026-10-24 18:00 UTC 갱신)",
-          "url": "https://trendar.org/trending/topic/ai-agents"
+          "title": "whatsmyagentdoing · 2026-10-24 커밋의 README",
+          "url": "https://github.com/Charonyuu/whatsmyagentdoing/blob/7bc2706fa71d5d89c04eee2c208e596ee9d3e641/README.md"
         }
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-25.webp",
         "date": "2026-10-25",
-        "alt": "2026-10-25 AI 라운지 데일리. Agentic FAITH 패치 전후 탐지·오탐, Teams 알림→PR과 사람 검토, 에이전트 작업·대기 상태 내용을 오렌지·크림·브라운 손그림으로 요약한 AI 일러스트.",
         "width": 1122,
-        "height": 1402
+        "height": 1402,
+        "alt": "Copilot in Teams, 알림에서 PR까지 · 레거시 앱은 11월 16일 종료 예정. 10월 23일 발표된 Copilot in Teams의 이슈 조사·PR 생성 흐름과 레거시 앱 종료 일정을 확인합니다. Cisco Agentic FAITH와 로컬 에이전트 상태 스킬도 함께 살펴봅니다."
       }
     },
     {
       "id": "daily-2026-10-24",
       "type": "daily",
       "date": "2026-10-24",
-      "title": "스킬은 사용을 측정하고, 코드는 검증 조건을 명확히",
-      "summary": "공용 스킬의 실제 사용을 구별하는 Copilot 지표와, 코드의 검증 범위를 명시하는 형식 검증 연구를 살펴봅니다. Trendar에서 발견한 도구는 원본 저장소와 제약을 대조해 소개합니다.",
+      "title": "Claude 형식 검증 연구와 Copilot 맞춤 스킬 지표",
+      "summary": "Anthropic과 Theorem이 Claude로 공개 라이브러리의 보안 속성을 증명한 연구를 발표했습니다. Copilot은 커스텀 스킬·MCP 이름별 지표를 제공합니다. 분석·오디오 도구 두 곳은 급등 수치를 제외한 참고 자료로 살펴봅니다.",
       "author": "AI 라운지",
       "tags": [
         "AI 동향",
@@ -1524,13 +1365,24 @@
         "GitHub 레이더"
       ],
       "highlights": [
-        "공용 스킬: 이름별 사용 추세와 성공 작업을 함께 보기",
-        "검증: 증명한 조건과 실제 실행 환경의 차이를 명시하기",
-        "실전: 작은 함수 하나에 입력 조건·불변식·반례 붙이기"
+        "Claude·Theorem: 조건을 명시한 형식 검증 연구",
+        "Copilot: 맞춤 스킬·에이전트·MCP 이름별 지표",
+        "leanrea·earshot: 급등 수치 없는 참고 저장소"
       ],
       "sections": [
         {
-          "heading": "어떤 공용 스킬을 쓰는지 이름별로 확인",
+          "heading": "Claude·Theorem, 123개 라이브러리에 형식 검증 연구",
+          "summary": "Claude가 작성한 증명을 외부 검사기로 확인한 연구입니다. 지정한 실행 조건 아래의 보안 속성이며 전체 제품의 안전성 보장은 아닙니다.",
+          "relevance": "개발 에이전트에 검증을 맡길 때도 입력·실행 환경·확인할 속성을 먼저 고정해야 합니다.",
+          "label": "연구 · 형식 검증",
+          "date": "2026-10-22",
+          "body": "발표에 따르면 Claude가 작성한 증명을 외부 Rocq 검사기로 확인해, 123개 OSS-Fuzz 라이브러리의 239개 진입점에서 지정한 무충돌 속성을 증명했습니다. 대상은 Linux의 단일 스레드·정적 RISC-V 바이너리, 고정 메모리 예산과 64MB 미만 입력 등의 가정 아래 실행됩니다. 일부 증명과 기계·OS 의미 모델을 공개했습니다.",
+          "takeaway": "테스트 성공을 넘어 명세와 증명 검사를 연결하는 방향입니다. 다만 모델이 실제 ARM·동적 링크·동시성 환경과 다를 수 있고, 미검증 진입점과 명세 밖 결함은 남습니다. 연구 결과를 제품 전체의 안전성 보장으로 확대할 수 없습니다.",
+          "action": "작은 파서나 순수 함수 하나를 골라 허용 입력, 반환 조건, 실패 조건과 반례를 먼저 적어 보세요. 아래 실험은 명세를 다듬는 활용 제안이며 형식 증명 도구를 실행했다는 뜻은 아닙니다.",
+          "url": "https://www.anthropic.com/research/formal-verification"
+        },
+        {
+          "heading": "Copilot 지표 API, 맞춤 스킬·MCP 이름 표시",
           "summary": "Copilot 사용 지표에 커스텀 스킬·에이전트·MCP 등의 이름이 표시됩니다. 항목별 목록도 최대 5개에서 25개로 늘었습니다.",
           "relevance": "공용 스킬의 배포 후 채택 추세를 볼 수 있지만, 사용 횟수가 작업 품질을 증명하지는 않습니다.",
           "label": "운영 · 사용 지표",
@@ -1539,45 +1391,34 @@
           "takeaway": "채택률과 성공률을 구분해 운영할 근거입니다. 클라이언트 텔레메트리는 누락될 수 있어 정밀 회계보다 추세 관찰에 적합합니다. IDE의 내장 채팅 텔레메트리는 이름 보고 대상이 아닙니다.",
           "action": "관리 권한과 지표 정책이 있는 환경에서 스킬 식별자 목록을 정리하고 7일 사용 추세에 성공 작업 표본을 붙여 보세요. 앱·프롬프트 모드·ACP는 CLI 1.0.97 이상, SDK는 1.0.21 이상인지 확인합니다. 경로 형태 이름은 이름별로 분리되지 않고 other/custom으로 묶이므로 이름 규칙도 확인하세요.",
           "url": "https://github.blog/changelog/2026-10-22-custom-skills-agents-and-mcp-servers-in-usage-metrics-api/"
-        },
-        {
-          "heading": "AI 코드 검증, 안전하다는 답보다 증명 조건부터",
-          "summary": "Anthropic과 Theorem이 123개 오픈소스 라이브러리의 일부 실행 진입점에 형식 검증을 적용한 연구를 공개했습니다. 제한된 실행 조건의 보장이며 전체 코드의 무결함 선언은 아닙니다.",
-          "relevance": "개발 에이전트에 검증을 맡길 때도 입력·실행 환경·확인할 속성을 먼저 고정해야 합니다.",
-          "label": "연구 · 형식 검증",
-          "date": "2026-10-22",
-          "body": "발표에 따르면 Claude가 작성한 증명을 외부 Rocq 검사기로 확인해, 123개 OSS-Fuzz 라이브러리의 239개 진입점에서 지정한 무충돌 속성을 증명했습니다. 대상은 Linux의 단일 스레드·정적 RISC-V 바이너리, 고정 메모리 예산과 64MB 미만 입력 등의 가정 아래 실행됩니다. 일부 증명과 기계·OS 의미 모델을 공개했습니다.",
-          "takeaway": "테스트 성공을 넘어 명세와 증명 검사를 연결하는 방향입니다. 다만 모델이 실제 ARM·동적 링크·동시성 환경과 다를 수 있고, 미검증 진입점과 명세 밖 결함은 남습니다. 연구 결과를 제품 전체의 안전성 보장으로 확대할 수 없습니다.",
-          "action": "작은 파서나 순수 함수 하나를 골라 허용 입력, 반환 조건, 실패 조건과 반례를 먼저 적어 보세요. 아래 실험은 명세를 다듬는 활용 제안이며 형식 증명 도구를 실행했다는 뜻은 아닙니다.",
-          "url": "https://www.anthropic.com/research/formal-verification"
         }
       ],
       "radar": [
         {
-          "label": "Trendar 급상승 · 분석 스킬",
+          "label": "참고 · 분석 스킬",
           "repo": "aicodeking/leanrea",
-          "headline": "짧은 스킬로 기존 분석 도구를 바로 연결",
+          "headline": "leanrea: 기존 CLI를 고르는 분석 스킬",
           "url": "https://github.com/aicodeking/leanrea",
           "description": "약 8KB SKILL.md가 대상 파일에 맞춰 Bash와 jadx·apktool 등 기존 분석 도구를 고르는 경량 스킬입니다.",
-          "signal": "Trendar 집계 13위 · 약 1.7천 Stars · +366/일. 페이지 갱신 2026-10-23 18:00 UTC(10월 24일 03:00 KST), 최근 24시간 스냅샷 기준. GitHub 공식 Trending 순위가 아닙니다.",
+          "signal": "재점검(2026-10-30): 당시 Trendar 순위·Stars 증가량을 재현할 보존 근거가 없어 급등 수치를 제외했습니다. 게시일 이전 revision의 기능만 참고로 소개합니다.",
           "checkedAt": "2026-10-24",
-          "sourceUrl": "https://trendar.org/ko/trending",
+          "sourceUrl": "https://github.com/aicodeking/leanrea/blob/09ba4aa0217f82cd880f855a60b877f59f39b22b/README.md",
           "why": "별도 MCP 서버를 늘리기 전에 기존 CLI와 짧은 작업 지침으로 해결할 수 있는지 비교할 사례입니다. Android APK 분석 경로도 안내합니다.",
           "try": "원본 leanrea/SKILL.md의 도구 선택 규칙을 먼저 읽고, 직접 만든 공개 예제 APK 사본을 읽기 전용으로 조사해 근거 위치를 남겨 보세요. README의 설치 예시는 npx skills add aicodeking/leanrea 입니다. 여기서는 실행하지 않았습니다.",
-          "limitation": "MIT. 최신 push는 2026-10-19 UTC로 확인했습니다. 성능 수치는 한 모델·한 macOS 머신의 소규모 작성자 벤치마크이며 jadx는 설치되지 않아 Android 효과를 입증하지 않습니다. 필요한 CLI는 별도로 준비해야 합니다."
+          "limitation": "MIT. 10월 17일 revision 기준입니다. 작성자 벤치마크는 한 모델·한 macOS 머신의 소규모 실험이며 Android 성능을 입증하지 않습니다. 필요한 CLI는 별도입니다."
         },
         {
-          "label": "Trendar 급상승 · 오디오 검사",
+          "label": "참고 · 오디오 도구",
           "repo": "Leonxlnx/earshot",
-          "headline": "UI 소리의 음량·타이밍을 측정해 피드백",
+          "headline": "earshot: 에이전트용 소리 측정·분석",
           "url": "https://github.com/Leonxlnx/earshot",
           "description": "코딩 에이전트가 소리를 측정·분류하도록 돕는 로컬 CPU 도구로, CLI·Python·MCP와 스킬 두 개를 제공합니다.",
-          "signal": "Trendar 집계 16위 · 약 2.4천 Stars · +287/일. 페이지 갱신 2026-10-23 18:00 UTC(10월 24일 03:00 KST), 최근 24시간 스냅샷 기준. GitHub 공식 Trending 순위가 아닙니다.",
+          "signal": "재점검(2026-10-30): 당시 Trendar 순위·Stars 증가량을 재현할 보존 근거가 없어 급등 수치를 제외했습니다. 게시일 이전 revision의 기능만 참고로 소개합니다.",
           "checkedAt": "2026-10-24",
-          "sourceUrl": "https://trendar.org/ko/trending",
-          "why": "UI 클릭·알림 소리나 제품 시연의 음량과 화면 동기화를 수치로 검토할 수 있습니다. 10월 22일 v0.4.0에는 새 사운드와 영상용 믹스 프리셋이 추가됐습니다.",
+          "sourceUrl": "https://github.com/Leonxlnx/earshot/blob/591fa3e028032e6dce56620a20e932e35667e8d8/README.md",
+          "why": "10월 22일 revision은 0.4의 사운드·믹스 프리셋과 CLI·Python·MCP 도구를 설명합니다. 화면뿐 아니라 소리를 검토하는 활용을 살펴볼 수 있습니다.",
           "try": "README의 Python 3.10+·ffmpeg 설치 조건을 확인한 뒤 직접 만든 짧은 UI 사운드에 earshot measure click.wav를 실행하는 실험부터 시작하세요. 이 명령은 모델을 로드하지 않으며 LUFS·피크·길이 등을 사람이 들은 결과와 비교합니다. 여기서는 실행하지 않았습니다.",
-          "limitation": "코드는 MIT이며 모델은 별도 라이선스입니다. 모델 사용은 초기 다운로드와 로딩 비용이 있고, 취향·발화 내용·음원의 라이선스를 판정하지 못합니다. 선택형 llm 기능은 명시적 동의로 Gemini에 업로드하므로 로컬 측정과 구분해야 합니다."
+          "limitation": "코드는 MIT이며 모델은 별도 라이선스입니다. 로컬 측정과 선택형 Gemini 업로드를 구분해야 합니다. 취향이나 음원 사용 권한을 보장하지 않습니다."
         }
       ],
       "recipe": {
@@ -1609,41 +1450,33 @@
           "url": "https://www.anthropic.com/research/formal-verification"
         },
         {
-          "title": "Trendar · 급상승 신규 GitHub 프로젝트 (2026-10-24 확인, 10-23 18:00 UTC 갱신)",
-          "url": "https://trendar.org/ko/trending"
+          "title": "aicodeking/leanrea · 게시일 이전 revision README",
+          "url": "https://github.com/aicodeking/leanrea/blob/09ba4aa0217f82cd880f855a60b877f59f39b22b/README.md"
         },
         {
-          "title": "aicodeking/leanrea · 공식 README와 벤치마크 제약 (2026-10-24 확인)",
-          "url": "https://github.com/aicodeking/leanrea"
-        },
-        {
-          "title": "Leonxlnx/earshot · 공식 README와 사용 제약 (2026-10-24 확인)",
-          "url": "https://github.com/Leonxlnx/earshot"
-        },
-        {
-          "title": "earshot · CHANGELOG v0.4.0 (2026-10-22)",
-          "url": "https://github.com/Leonxlnx/earshot/blob/main/CHANGELOG.md"
+          "title": "Leonxlnx/earshot · 게시일 이전 revision README",
+          "url": "https://github.com/Leonxlnx/earshot/blob/591fa3e028032e6dce56620a20e932e35667e8d8/README.md"
         }
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-24.webp",
         "date": "2026-10-24",
-        "alt": "2026-10-24 AI 라운지 데일리. 스킬 이름별 사용 지표·성공률 구분, 조건부 형식 검증, leanrea·earshot 내용을 오렌지·크림·브라운 손그림으로 요약한 AI 일러스트.",
         "width": 1122,
-        "height": 1402
+        "height": 1402,
+        "alt": "Claude 형식 검증 연구와 Copilot 맞춤 스킬 지표. Anthropic과 Theorem이 Claude로 공개 라이브러리의 보안 속성을 증명한 연구를 발표했습니다. Copilot은 커스텀 스킬·MCP 이름별 지표를 제공합니다. 분석·오디오 도구 두 곳은 급등 수치를 제외한 참고 자료로 살펴봅니다."
       }
     },
     {
       "id": "daily-2026-10-23",
       "type": "daily",
       "date": "2026-10-23",
-      "title": "스킬은 공용 자산으로, 운영은 프레임워크 밖으로",
-      "summary": "Agent Skills의 표준화와 Google Agents CLI 확장을 읽고, 공용 스킬을 만들 때 참고할 GitHub 저장소 두 곳을 살펴봅니다. 오늘은 스킬 하나의 이식성을 확인하는 작은 실험까지 이어갑니다.",
+      "title": "Agent Skills, AAIF로 이동…Google Agents CLI는 확장 지원",
+      "summary": "Anthropic이 Agent Skills 표준을 AAIF에 기증했습니다. Google은 Agents CLI의 프레임워크 확장을 소개했습니다. 두 변화와 연결해 공용 스킬 저장소를 참고 자료로 구분합니다.",
       "author": "AI 라운지",
       "highlights": [
-        "표준화: 스킬의 코어와 제품별 설정을 분리할 시점",
-        "GitHub: 개발 절차 팩과 공식 예제 팩, 용도부터 구별",
-        "오늘의 실험: 스킬 하나를 두 에이전트에서 비교"
+        "Agent Skills: AAIF로 표준 운영 이관",
+        "Google Agents CLI: LangChain까지 확장 · 실험 기능",
+        "저장소 두 곳은 신규 출시·급등이 아닌 형식 참고"
       ],
       "tags": [
         "AI 동향",
@@ -1652,7 +1485,7 @@
       ],
       "sections": [
         {
-          "heading": "공용 스킬 표준, 벤더 중립 재단으로 이동",
+          "heading": "Anthropic, Agent Skills 표준을 AAIF에 기증",
           "summary": "Anthropic이 Agent Skills 표준을 AAIF에 기증했습니다. 여러 에이전트가 같은 스킬 형식을 공유하는 기반이 넓어집니다.",
           "relevance": "공용 스킬의 코어와 제품별 실행 설정을 분리할 때 참고할 변화입니다.",
           "label": "표준 · 공용 스킬",
@@ -1663,12 +1496,12 @@
           "url": "https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation"
         },
         {
-          "heading": "프레임워크가 달라도 배포·검증 절차는 공통으로",
+          "heading": "Google Agents CLI, LangChain 확장 공개",
           "summary": "Google Agents CLI가 명령 확장 기능을 공개했습니다. LangChain·LangGraph도 같은 운영 흐름에 연결할 수 있으며, 아직 실험 기능입니다.",
           "relevance": "여러 프레임워크를 쓰는 팀도 공통 검증 규칙을 운영할 수 있는 구조입니다.",
           "label": "운영 · 실험 기능",
           "date": "2026-10-21",
-          "body": "Google은 agents-cli-extension.yaml로 명령을 추가·재정의하는 Extension System을 공개했습니다. 프로젝트·사용자 범위와 Git 커밋 SHA를 고정하는 lockfile을 지원하며, ADK 의존성 없이 LangChain·LangGraph를 연결하는 예제가 포함됩니다. v1.8.0 기준 실험 기능입니다.",
+          "body": "10월 21일 공개한 Extension System 소개입니다. v1.5.0부터 명령 추가·재정의를 지원하고, v1.8.0은 공식 LangChain 확장을 제공합니다. agents-cli-extension.yaml과 잠금 파일을 이용하며, 프레임워크와 배포·평가 절차를 분리하는 예제를 설명합니다. 문서는 실험 기능으로 안내합니다.",
           "takeaway": "해석: 프레임워크 선택과 배포·평가·관측 절차를 분리하면, 서로 다른 에이전트에도 공통 운영 규칙을 적용하기 쉬워집니다.",
           "action": "샌드박스에서 버전을 고정하고 배포 명령 앞에 검증 명령 하나를 붙여 보세요. 실험 기능이므로 운영 적용 전 호환성과 실패 시 동작을 확인해야 합니다.",
           "url": "https://developers.googleblog.com/powering-the-agent-development-lifecycle-with-any-framework-from-adk-to-langchain-and-beyond/"
@@ -1676,29 +1509,29 @@
       ],
       "radar": [
         {
-          "label": "누적 인기 · 개발 워크플로 추천",
+          "label": "참고 · 공용 스킬",
           "repo": "addyosmani/agent-skills",
           "headline": "개발 단계별 스킬과 품질 기준을 한 번에 살펴보기",
           "url": "https://github.com/addyosmani/agent-skills",
           "description": "설계·구현·테스트·리뷰·배포의 절차와 품질 게이트를 담은 엔지니어링 스킬 팩입니다.",
-          "signal": "GitHub 누적 Stars 약 10.9만 · 오늘 급상승 여부는 미확인",
+          "signal": "재점검(2026-10-30): 출시·급등 소식이 아닌 참고 저장소입니다. 당시 Stars 수와 증가량의 보존 근거가 없어 수치를 싣지 않습니다.",
           "checkedAt": "2026-10-23",
-          "sourceUrl": "https://api.github.com/repos/addyosmani/agent-skills",
-          "why": "README의 25개 스킬을 기능 목록보다 개발 단계별 운영 체계로 읽을 만합니다. 공용 스킬의 실행 조건과 종료 기준을 설계할 때 참고할 수 있습니다.",
-          "try": "README에서 code-review-and-quality 하나를 읽고 기존 리뷰 체크리스트와 빠진 항목을 비교하세요. 설치 전 목록 확인 명령은 npx skills add addyosmani/agent-skills --list 입니다.",
-          "limitation": "README는 개별 스킬 설치 시 저장소 최상위 references가 함께 복사되지 않는 이슈 #361을 안내합니다. 명령 지원 방식도 호스트마다 다릅니다."
+          "sourceUrl": "https://github.com/addyosmani/agent-skills/blob/0929438df717e836b5f1933fc8364011d52e4a25/README.md",
+          "why": "10월 19일 revision의 README에서 개발 단계별 스킬과 품질 게이트 구성을 확인했습니다. 공용 표준 소식과 연결한 참고 자료입니다.",
+          "try": "해당 revision의 code-review-and-quality를 읽고 기존 체크리스트와 비교하세요. 설치하지 않고도 구조를 살펴볼 수 있습니다.",
+          "limitation": "개별 스킬 설치 시 저장소 최상위 참고 자료가 함께 복사되지 않을 수 있습니다. 지원 방식은 호스트마다 다릅니다."
         },
         {
-          "label": "공식 예제 · 스킬 구조 참고",
+          "label": "참고 · 공용 스킬",
           "repo": "anthropics/skills",
           "headline": "공식 예제로 익히는 SKILL.md 폴더 구성",
           "url": "https://github.com/anthropics/skills",
           "description": "SKILL.md와 스크립트·리소스를 함께 묶는 방법을 보여주는 Anthropic의 공개 예제 저장소입니다.",
-          "signal": "GitHub 누적 Stars 약 18.3만 · 오늘 급상승 여부는 미확인",
+          "signal": "재점검(2026-10-30): 출시·급등 소식이 아닌 참고 저장소입니다. 당시 Stars 수와 증가량의 보존 근거가 없어 수치를 싣지 않습니다.",
           "checkedAt": "2026-10-23",
-          "sourceUrl": "https://api.github.com/repos/anthropics/skills",
-          "why": "개발 절차를 정하는 팩과 달리, 작업별 스킬을 실제 폴더로 어떻게 구성하는지 살펴보는 참고 자료입니다. 형식 표준은 별도 agentskills 저장소에서 관리합니다.",
-          "try": "template와 예제 한 개를 나란히 읽고, 필요한 입력·산출물·참고자료를 자신의 스킬 한 개에만 적용해 보세요.",
+          "sourceUrl": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/README.md",
+          "why": "10월 9일 revision의 README에서 SKILL.md와 참고자료를 묶는 예제를 확인했습니다. 형식 표준과 구현 예제 저장소를 구분해 읽을 수 있습니다.",
+          "try": "해당 revision의 template와 예제 하나를 나란히 읽고 입력·산출물·참고자료 구성을 비교하세요.",
           "limitation": "README는 교육·시연용 예제임을 명시합니다. 일부 문서 스킬은 오픈소스가 아닌 source-available이므로 항목별 라이선스를 확인해야 합니다."
         }
       ],
@@ -1731,33 +1564,33 @@
           "url": "https://developers.googleblog.com/powering-the-agent-development-lifecycle-with-any-framework-from-adk-to-langchain-and-beyond/"
         },
         {
-          "title": "Addy Osmani · agent-skills README (2026-10-23 확인)",
-          "url": "https://github.com/addyosmani/agent-skills/blob/main/README.md"
-        },
-        {
-          "title": "Anthropic · skills README (2026-10-23 확인)",
-          "url": "https://github.com/anthropics/skills/blob/main/README.md"
-        },
-        {
           "title": "Agent Skills · 공개 형식과 점진적 로딩 설명 (2026-10-23 확인)",
           "url": "https://github.com/agentskills/agentskills"
+        },
+        {
+          "title": "addyosmani/agent-skills · 게시일 이전 revision README",
+          "url": "https://github.com/addyosmani/agent-skills/blob/0929438df717e836b5f1933fc8364011d52e4a25/README.md"
+        },
+        {
+          "title": "anthropics/skills · 게시일 이전 revision README",
+          "url": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/README.md"
         }
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-23.webp",
         "date": "2026-10-23",
-        "alt": "2026-10-23 AI 라운지 데일리. Agent Skills 공용 자산, Google Agents CLI 확장(실험), 공식 스킬 예제와 두 에이전트 비교 제안 내용을 오렌지·크림·브라운 손그림으로 요약한 AI 일러스트.",
         "width": 1122,
-        "height": 1402
+        "height": 1402,
+        "alt": "Agent Skills, AAIF로 이동…Google Agents CLI는 확장 지원. Anthropic이 Agent Skills 표준을 AAIF에 기증했습니다. Google은 Agents CLI의 프레임워크 확장을 소개했습니다. 두 변화와 연결해 공용 스킬 저장소를 참고 자료로 구분합니다."
       }
     },
     {
       "id": "daily-2026-10-21",
       "type": "daily",
       "date": "2026-10-21",
-      "title": "10월 21일 AI 브리핑 — 모델 정책과 에이전트 권한 관리",
-      "summary": "기존 맞춤 아침 브리핑에서 AI 소식만 골랐습니다. GitHub의 모델 정책 API와 Microsoft의 에이전트 권한 제어 발표를 공식 원문으로 다시 확인했습니다.",
-      "author": "AI 라운지 · 아침 브리핑 발췌",
+      "title": "Copilot 모델 교체와 Claude의 코드 공격면 분석",
+      "summary": "Copilot의 10월 모델 지원 종료와 11월 예고를 구분하고, Claude가 불필요하게 노출된 코드를 찾는 연구를 살펴봅니다. 모델 정책 API는 조직 관리자를 위한 별도 변화입니다.",
+      "author": "AI 라운지",
       "tags": [
         "AI 동향",
         "GitHub Copilot",
@@ -1765,38 +1598,90 @@
       ],
       "sections": [
         {
-          "heading": "GitHub: Copilot 모델 정책을 API로 관리",
-          "body": "발표일: 2026-10-19. 기업·기업 팀·에이전트 앱·조직 수준의 Copilot 모델 정책을 조회·변경하는 GET/PATCH REST API가 정식 제공됐습니다.\n활용 제안: 관리 권한이 있는 환경이라면 모델 정책을 먼저 조회해 기록하고, 공용 도구에서 사용할 모델이 허용돼 있는지 확인해보세요. 이는 원문을 바탕으로 한 적용 아이디어이며 직접 사용한 후기는 아닙니다."
+          "heading": "Copilot, GPT-5.5 등 일부 모델 지원 종료",
+          "summary": "GitHub가 10월 19일부터 대부분의 Copilot 환경에서 6개 모델의 지원을 종료했습니다.",
+          "relevance": "모델을 고정한 개발 도구와 자동화는 대체 모델을 확인할 필요가 있습니다.",
+          "label": "모델 · 지원 종료 시행",
+          "date": "2026-10-19",
+          "body": "대상은 Gemini 3.7 Flash, GPT-5.5, GPT-5.4, GPT-5.4 mini, GPT-5 mini, Grok 4.5입니다. GitHub는 각각 Gemini 3.8 Flash, GPT-6.1 Sol, GPT-6 Luna, Grok 4.7 등을 대안으로 안내합니다. 9월 18일 예고했던 변경의 실제 시행이며, 모든 서비스에서 해당 모델 자체가 종료됐다는 뜻은 아닙니다.",
+          "takeaway": "활용 해석: 모델을 고정한 개발 도구와 자동화는 대체 모델을 확인할 필요가 있습니다.",
+          "action": "설정에 고정한 모델명과 Copilot의 지원 범위를 대조하세요.",
+          "url": "https://github.blog/changelog/2026-10-19-github-copilot-models-deprecated-on-october-19-2026/"
         },
         {
-          "heading": "GitHub: 종료 모델을 사용하는 설정 점검",
-          "body": "발표일: 2026-10-19. GitHub는 대부분의 Copilot 환경에서 Gemini 3.7 Flash, GPT-5.5, GPT-5.4, GPT-5.4 mini, GPT-5 mini, Grok 4.5의 지원 종료를 공지했습니다.\n활용 제안: 모델 이름을 고정한 설정과 워크플로를 검색해 지원 모델로 바꿔야 하는지 확인하세요. 대체 모델의 조직 정책 허용 여부도 함께 확인할 수 있습니다."
+          "heading": "Anthropic, Claude로 코드 공격면 줄이는 연구 공개",
+          "summary": "Claude가 외부에서 도달 가능한 코드를 분석하고 불필요한 노출을 줄이는 연구를 공개했습니다.",
+          "relevance": "버그 개수를 세는 방식에 더해 실제 노출 경로를 검토하는 개발 활용입니다.",
+          "label": "연구 · 코드 분석",
+          "date": "2026-10-20",
+          "body": "Anthropic은 Claude로 25개 공개 프로젝트를 조사한 초기 연구를 소개했습니다. 인증 전 기능을 인증 뒤로 옮기거나, 기본 활성화를 명시적 선택으로 바꾸는 방식 등을 다룹니다. 이는 연구 발표이며 모든 저장소에 즉시 적용되는 보안 보증이나 새 상용 모델 출시는 아닙니다.",
+          "takeaway": "활용 해석: 버그 개수를 세는 방식에 더해 실제 노출 경로를 검토하는 개발 활용입니다.",
+          "action": "공개 예제의 외부 입력 경로 하나를 읽기 전용으로 분석해 보세요.",
+          "url": "https://www.anthropic.com/research/attack-surface-reduction"
         },
         {
-          "heading": "Microsoft: 에이전트의 권한을 작업과 시간에 맞추기",
-          "body": "발표일: 2026-10-19. Microsoft는 Project Perception 확장과 함께 작업·시간 범위에 맞춘 권한, 위험 변화에 따른 동적 접근 제어를 소개했습니다. 지원하는 로컬 에이전트 탐지 유형은 60개로 확대됐으며 Claude Code, OpenAI Codex, GitHub Copilot이 포함됩니다.\n활용 제안: 공용 에이전트 목록에 소유자·목적·허용 도구·쓰기 범위·권한 만료·사람 승인 조건을 적어보세요. 제품 기능 도입 여부와 별개로 권한 현황을 점검하는 데 쓸 수 있는 제안입니다."
+          "heading": "Copilot 모델 정책 REST API 정식 제공",
+          "summary": "기업·팀·에이전트 앱·조직의 모델 정책을 REST API로 조회하고 변경할 수 있습니다.",
+          "relevance": "여러 조직에서 허용 모델을 관리하는 관리자에게 직접적인 변화입니다.",
+          "label": "도구 · 정식 제공",
+          "date": "2026-10-19",
+          "body": "GET·PATCH API가 네 범위에서 정식 제공됐습니다. 모델 지원 종료와 별개의 관리 기능이며, 일반 개인 사용자에게 새 모델을 제공한다는 소식은 아닙니다.",
+          "takeaway": "활용 해석: 여러 조직에서 허용 모델을 관리하는 관리자에게 직접적인 변화입니다.",
+          "action": "관리자라면 조회 결과와 실제 허용 모델을 먼저 비교하세요.",
+          "url": "https://github.blog/changelog/2026-10-19-copilot-model-policy-api-for-enterprise-orgs-and-teams/"
+        },
+        {
+          "heading": "예정: 11월 16일 Copilot 모델 지원 종료",
+          "summary": "GitHub가 Claude Opus 4.8·Opus 5·GPT-5.6 Terra의 11월 16일 지원 종료를 예고했습니다.",
+          "relevance": "미리 대체 모델을 시험할 시간이 필요한 사용자에게 해당합니다.",
+          "label": "예정 · 공식 확정",
+          "date": "2026-10-15",
+          "body": "10월 21일 기준 공식 발표된 예정 사항입니다. 권장 대안은 Claude Opus 5.5와 GPT-6.1 Sol 또는 GPT-6 Luna입니다. Opus 4.8은 개인 연간 구독자 예외가 있으므로 일괄 종료로 해석하지 않습니다. 이 기록에서 11월 실제 시행 여부를 미리 확정하지 않습니다.",
+          "takeaway": "활용 해석: 미리 대체 모델을 시험할 시간이 필요한 사용자에게 해당합니다.",
+          "action": "자신의 요금제 예외와 설정의 고정 모델을 확인하세요.",
+          "url": "https://github.blog/changelog/2026-10-15-upcoming-deprecation-of-selected-github-copilot-models-in-mid-november/"
         }
       ],
       "sources": [
         {
-          "title": "GitHub · Copilot model policy API for enterprise, orgs, and teams (2026-10-19)",
-          "url": "https://github.blog/changelog/2026-10-19-copilot-model-policy-api-for-enterprise-orgs-and-teams/"
-        },
-        {
-          "title": "GitHub · GitHub Copilot models deprecated on October 19, 2026",
+          "title": "GitHub · 10월 모델 지원 종료 시행 (2026-10-19)",
           "url": "https://github.blog/changelog/2026-10-19-github-copilot-models-deprecated-on-october-19-2026/"
         },
         {
-          "title": "Microsoft · Agents are your newest insiders. Security must move at their speed. (2026-10-19)",
-          "url": "https://www.microsoft.com/en-us/security/blog/2026/10/19/agents-are-your-newest-insiders-security-must-move-at-their-speed/"
+          "title": "Anthropic · Claude 코드 공격면 분석 연구 (2026-10-20)",
+          "url": "https://www.anthropic.com/research/attack-surface-reduction"
+        },
+        {
+          "title": "GitHub · 모델 정책 API 정식 제공 (2026-10-19)",
+          "url": "https://github.blog/changelog/2026-10-19-copilot-model-policy-api-for-enterprise-orgs-and-teams/"
+        },
+        {
+          "title": "GitHub · 11월 16일 모델 지원 종료 예고 (2026-10-15)",
+          "url": "https://github.blog/changelog/2026-10-15-upcoming-deprecation-of-selected-github-copilot-models-in-mid-november/"
         }
       ],
       "coverImage": {
         "src": "assets/daily/2026-10-21.webp",
         "date": "2026-10-21",
-        "alt": "2026-10-21 AI 라운지 데일리. Copilot 모델 정책 API, 종료 모델 설정 점검, 작업·시간별 권한 내용을 오렌지·크림·브라운 손그림으로 요약한 AI 일러스트.",
-        "width": 1121,
-        "height": 1403
+        "width": 1122,
+        "height": 1402,
+        "alt": "Copilot 모델 교체와 Claude의 코드 공격면 분석. Copilot의 10월 모델 지원 종료와 11월 예고를 구분하고, Claude가 불필요하게 노출된 코드를 찾는 연구를 살펴봅니다. 모델 정책 API는 조직 관리자를 위한 별도 변화입니다."
+      },
+      "highlights": [
+        "Copilot: 10월 19일 모델 지원 종료 시행",
+        "Claude 연구: 필요한 기능만 노출하는 공격면 분석",
+        "예정: 11월 16일 일부 Copilot 모델 지원 종료"
+      ],
+      "recipe": {
+        "heading": "Claude 연구를 따라 외부 입력 경로 살펴보기",
+        "description": "활용 제안 · 공개 예제에서 노출 경로 하나를 읽기 전용으로 점검합니다. 보안 검증 결과가 아닙니다.",
+        "steps": [
+          "공개 예제와 revision을 지정합니다.",
+          "외부 입력 진입점과 인증 경계를 찾습니다.",
+          "필요한 노출과 확인할 가정을 나눕니다."
+        ],
+        "prompt": "이 공개 예제의 지정 revision에서 외부 입력 진입점 하나를 읽기 전용으로 분석해줘. 입력이 도달하는 함수와 인증 경계를 파일 위치로 보여줘. 현재 목적에 필요한 노출과 줄일 수 있어 보이는 노출을 구분해줘. 확인한 사실과 가정을 나누고, 코드를 변경하거나 취약점이 확정됐다고 주장하지 마.",
+        "limitation": "코드 정적 분석만으로 실제 공격 가능성과 서비스 안전성을 확정할 수 없습니다."
       }
     },
     {
