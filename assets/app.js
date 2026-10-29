@@ -70,7 +70,6 @@ function setView(view, presentation = false) {
   document.body.classList.toggle("monthly-view", presentation);
   document.body.classList.toggle("monthly-archive-view", view === "monthly" && !presentation);
   document.body.classList.toggle("home-view", view === "home");
-  document.body.classList.toggle("lounge-theme", !presentation && view !== "monthly");
   document.querySelector(".wordmark").href = "#home";
   document.querySelector(".menu-bar nav").innerHTML = Object.entries(navigationLabels)
     .map(([id, label]) => `<a href="#${id}"${view === id ? ' aria-current="page"' : ""}>${label}</a>`).join("");
