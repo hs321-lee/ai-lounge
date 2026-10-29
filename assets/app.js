@@ -108,7 +108,24 @@ function renderDaily(report) {
 }
 function renderLibrary() {
   document.title = "인사이트 모음 — AI 라운지";
-  main.innerHTML = `<header class="page-heading"><p class="eyebrow">AI LOUNGE / INSIGHTS</p><h1>인사이트 모음</h1><p class="lede">다시 읽고, 업무에 적용할 관점을 쌓습니다.</p></header><div class="guide-list">${guides.map(guide=>`<article><time datetime="${escape(guide.date)}">${escape(guide.date)}</time><h2><a href="#post/${encodeURIComponent(guide.id)}">${escape(guide.title)}</a></h2><p>${escape(guide.summary)}</p></article>`).join("") || '<p>첫 인사이트를 준비하고 있습니다.</p>'}</div>`;
+  const [featured, ...moreGuides] = guides;
+  const issue = issues[0];
+  const daily = dailyReports[0];
+  const guideLink = guide => `#post/${encodeURIComponent(guide.id)}`;
+  const dateText = date => escape(date.replaceAll("-", "."));
+  const featuredStory = featured ? `<article class="editorial-feature"><div class="editorial-story-meta"><span>먼저 읽을 인사이트</span><time datetime="${escape(featured.date)}">${dateText(featured.date)}</time></div><h2><a href="${guideLink(featured)}">${escape(featured.title)}</a></h2><p class="editorial-feature-deck">${escape(featured.summary)}</p><a class="editorial-read" href="${guideLink(featured)}">인사이트 읽기 <span aria-hidden="true">↗</span></a></article>` : `<section class="editorial-feature editorial-empty"><h2>첫 인사이트를 준비하고 있습니다.</h2><a class="editorial-read" href="#home">데일리 읽기 <span aria-hidden="true">↗</span></a></section>`;
+  const monthlyCover = issue ? `<aside class="editorial-monthly" aria-labelledby="editorial-monthly-title"><div class="editorial-cover-top"><span>함께 나누는 월간 소개</span><time datetime="${escape(issue.date)}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><p class="editorial-cover-name" aria-hidden="true">Monthly</p><h2 id="editorial-monthly-title">${escape(issue.title)}</h2><p class="editorial-cover-deck">${escape(issue.summary)}</p><a class="editorial-cover-link" href="#monthly">월간 소개 보기 <span aria-hidden="true">↗</span></a></aside>` : "";
+  const otherStories = moreGuides.length ? `<section class="editorial-more" aria-labelledby="editorial-more-title"><h2 id="editorial-more-title">함께 볼 이야기</h2>${moreGuides.map(guide=>`<article class="editorial-note"><time datetime="${escape(guide.date)}">${dateText(guide.date)}</time><h3><a href="${guideLink(guide)}">${escape(guide.title)}</a></h3><p>${escape(guide.summary)}</p><a class="editorial-read" href="${guideLink(guide)}">이야기 읽기 <span aria-hidden="true">↗</span></a></article>`).join("")}</section>` : "";
+  const dailyCover = daily?.coverImage;
+  const validCover = dailyCover && dailyCover.date === daily.date && dailyCover.src === `assets/daily/${daily.date}.webp`;
+  const dailyStory = daily ? `<section class="editorial-daily${validCover ? " has-cover" : ""}" aria-labelledby="editorial-daily-title">${validCover ? `<figure><a href="${guideLink(daily)}" aria-label="${escape(daily.date)} 데일리 읽기"><img src="${escape(dailyCover.src)}" alt="${escape(dailyCover.alt)}" width="${dailyCover.width}" height="${dailyCover.height}" loading="lazy" decoding="async"></a></figure>` : ""}<div class="editorial-daily-text"><p class="editorial-story-meta"><span>데일리에서 이어 읽기</span><time datetime="${escape(daily.date)}">${dateText(daily.date)}</time></p><h2 id="editorial-daily-title"><a href="${guideLink(daily)}">${escape(daily.title)}</a></h2><p>${escape(daily.summary)}</p><a class="editorial-read" href="${guideLink(daily)}">오늘의 데일리 <span aria-hidden="true">↗</span></a></div></section>` : "";
+  main.innerHTML = `<div class="editorial-lounge"><header class="editorial-masthead"><h1>인사이트 모음</h1><p>AI 크루 활동으로 시작한 개인 사이드 프로젝트입니다.<br>매일 읽고, 함께 볼 이야기를 조금씩 모읍니다.</p></header><div class="editorial-spread${issue ? "" : " without-monthly"}">${featuredStory}${monthlyCover}</div>${otherStories}${dailyStory}<div class="editorial-close"><p>AI 라운지</p><span>매일 읽는 데일리 · 다시 보는 인사이트 · 함께 나누는 Monthly</span><a href="#home">데일리로 가기 ↗</a></div></div>`;
+  const image = main.querySelector(".editorial-daily img");
+  if (image) {
+    const hideBrokenCover = () => { image.closest("figure").hidden = true; image.closest(".editorial-daily").classList.remove("has-cover"); };
+    image.addEventListener("error", hideBrokenCover, { once: true });
+    if (image.complete && !image.naturalWidth) hideBrokenCover();
+  }
 }
 function renderGuide(guide) {
   document.title = `${guide.title} — AI 라운지`;
@@ -121,6 +138,7 @@ function route() {
   monthlyMotionCleanup();
   monthlyMotionCleanup = () => {};
   const hash = location.hash.slice(1) || "home";
+  document.body.classList.toggle("library-view", hash === "library");
   let selected;
   if (hash.startsWith("post/")) {
     try { const id=decodeURIComponent(hash.slice(5)); selected=issues.find(item=>item.id===id)||dailyReports.find(item=>item.id===id)||guides.find(item=>item.id===id); } catch {}
