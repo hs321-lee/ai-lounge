@@ -3,8 +3,9 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "test": "node --test scripts/routes.test.mjs",
-    "check": "node --check assets/app.js && node --check assets/monthly-motion.js && node --check assets/monthly-media.js && node scripts/validate.mjs && node --test scripts/routes.test.mjs"
+    "test": "node --test scripts/*.test.mjs",
+    "check": "node --check assets/app.js && node --check assets/monthly-motion.js && node --check assets/monthly-media.js && node --check scripts/build.mjs && node scripts/validate.mjs && npm test",
+    "build": "node scripts/build.mjs"
   },
   "engines": {
     "node": ">=20"
