@@ -104,7 +104,25 @@ Node.js 20 이상에서 JavaScript 문법과 콘텐츠의 필수 필드·중복 
 
 ## 배포
 
-현재 GitHub Pages는 **main / (root)**를 소스로 사용합니다. `main`에 반영하면 GitHub의 기본 Pages 빌드·배포가 실행됩니다. 별도의 Actions Pages 워크플로로 바꾸지 않습니다. 콘텐츠 검사는 `Validate content`에서 별도로 실행됩니다.
+현재 운영 주소는 위의 GitHub Pages이며 **main / (root)**를 소스로 사용합니다. Cloudflare 이전 준비만 추가한 상태입니다. 새 주소에서 검증하기 전에는 기존 Pages와 저장소 공개 설정을 바꾸지 않습니다. 콘텐츠 검사는 `Validate content`에서 계속 실행됩니다.
+
+### Cloudflare 이전 준비
+
+목표는 **GitHub 저장소 private + 로그인 없는 공개 웹사이트**입니다. 저장소가 private여도 배포한 HTML·JSON·이미지·스킬 파일은 누구나 내려받을 수 있습니다. 개인 정보와 비밀키는 아래 공개 경로에 넣지 않습니다.
+
+1. Cloudflare Pages에서 이 저장소만 GitHub 연결 대상으로 허용합니다. Production branch는 `main`으로 설정합니다.
+2. 실제 사용할 정식 HTTPS 주소를 확정하고 환경 변수 `SITE_URL`에 입력합니다. 호스트 주소만 사용하며 경로·쿼리·프래그먼트는 넣지 않습니다. 미리보기 주소를 정식 주소로 자동 사용하지 않습니다.
+3. Framework preset은 `None`, Build command는 `npm run check && npm run build`, Build output directory는 `dist`, Node.js는 `22`로 설정합니다. `SITE_URL`이 없거나 잘못되면 빌드가 실패합니다. 첫 배포 전 주소 확인이 필요하면 프로젝트의 자동 배포를 중지한 상태에서 먼저 주소와 환경 변수를 설정합니다.
+4. Pages의 Metrics에서 Web Analytics를 활성화하고 다시 배포합니다. 실제 방문과 `#home`·글별 화면 전환의 통계 집계 여부를 검증합니다.
+5. 새 주소에서 홈·AI 소식·인사이트·월별 자료·공유 링크·이미지·스킬 다운로드와 다음 콘텐츠 갱신을 확인합니다. 그 뒤 기존 Pages를 종료하고 저장소를 private로 전환합니다. GitHub Free에서 먼저 private로 바꾸면 기존 Pages가 중단됩니다.
+
+`npm run build`는 `dist/`를 새로 만들며 다음 경로만 배포합니다.
+
+- `index.html`, `tokens.css`, `assets/**`, `skills/spec-six/SKILL.md`는 공개 파일입니다. `assets/`의 모든 파일도 공개 대상으로 취급하므로 개인 자료를 넣지 않습니다. 심볼릭 링크는 허용하지 않습니다.
+- `data/posts.json`은 공개용으로 복사합니다. `published: false`인 글과 `published: true`가 아닌 guide, 화면에서 쓰지 않는 `monthlyCandidates`는 출력에서 제외합니다. 나머지 JSON 필드와 공개 assets는 모두 방문자가 볼 수 있습니다.
+- README·scripts·templates·`.github`와 그 밖의 경로는 복사하지 않습니다. `dist/`는 git에 저장하지 않습니다.
+
+정식 주소를 지정하면 출력 파일의 canonical·Open Graph 주소와 기존 자기주소의 스킬 다운로드 링크를 새 주소로 바꿉니다. 원본 HTML·JSON과 기존 브리핑 일정·콘텐츠 계약은 변경하지 않습니다. 위 바로가기와 공개 상태 설명은 실제 이전 완료 후 새 운영 상태에 맞춰 갱신합니다.
 
 이전 상태로 되돌리려면 변경을 revert해 `main`에 반영합니다. 회사 내부 정보·개인정보·비밀키·비공개 자료는 공개 저장소에 올리지 않습니다.
 
