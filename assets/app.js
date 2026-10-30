@@ -93,12 +93,12 @@ function renderTopicMarquee() {
   return `<section class="topic-marquee" aria-labelledby="topic-marquee-title" data-reveal><h2 id="topic-marquee-title" class="eyebrow">최근 읽은 주제</h2><div class="topic-marquee-window"><div class="topic-marquee-track"><ul>${chips}</ul><ul aria-hidden="true">${chips.replaceAll('<a ', '<a tabindex="-1" ')}</ul></div></div></section>`;
 }
 const readingPrinciples = Object.freeze([
-  { icon: "M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18", title: "공개 자료만", body: "누구나 볼 수 있는 강연·발표·공식 문서만 읽고, 회사나 비공개 자료는 담지 않습니다." },
+  { icon: "M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18", title: "공개 자료로", body: "누구나 볼 수 있는 강연·발표·공식 문서를 읽고 정리합니다." },
   { icon: "M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7", title: "원문 링크", body: "모든 글에 원문과 날짜를 남겨, 직접 확인할 수 있게 합니다." },
   { icon: "M5 5h6v14H5zM13 5h6v6h-6zM13 13h6v6h-6z", title: "요약과 삽화 구분", body: "직접 쓴 요약·활용 해석과 AI로 만든 삽화를 따로 표시합니다." },
   { icon: "M6 18V10M12 18V6M18 18v-5", title: "수치는 작성자 보고", body: "자료 속 숫자는 원문 작성자의 보고로 옮기고, 따로 검증한 값처럼 쓰지 않습니다." },
   { icon: "M7 4h7l4 4v12H7zM14 4v4h4", title: "원본 파일은 링크로", body: "PDF 같은 원본 파일은 올리지 않고 원문 위치로 연결합니다." },
-  { icon: "M12 3l7 4v5c0 4-3 7-7 9-4-2-7-5-7-9V7z", title: "개인정보는 빼고", body: "이름·소속 같은 개인 정보와 비밀 값은 공개 저장소에 남기지 않습니다." }
+  { icon: "M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3", title: "활용은 제안으로", body: "업무 활용 아이디어는 직접 해 본 결과가 아닌 제안으로 구분해 씁니다." }
 ]);
 function renderReadingPrinciples() {
   return `<section class="reading-principles" aria-labelledby="reading-principles-title"><div class="home-section-heading" data-reveal><div><p class="eyebrow">읽는 기준</p><h2 id="reading-principles-title">AI 라운지는 이렇게 읽습니다.</h2></div></div><ul class="principle-grid" data-reveal>${readingPrinciples.map(item=>`<li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${item.icon}"/></svg><h3>${escape(item.title)}</h3><p>${escape(item.body)}</p></li>`).join("")}</ul></section>`;
