@@ -169,38 +169,64 @@ function dailyDateParts(date) {
   const [year, month, day] = date.split("-").map(Number);
   return { short: `${month}.${String(day).padStart(2, "0")}`, weekday: weekdays[new Date(Date.UTC(year, month - 1, day)).getUTCDay()] };
 }
-function renderDailyDates(report) {
-  if (dailyReports.length < 2) return "";
-  return `<nav class="daily-dates" aria-label="날짜별 ${escape(navigationLabels.daily)}"><ol>${dailyReports.map((item, index) => {
+// ISO calendar dates keep the ten-day window independent of the visitor's timezone.
+function koreanToday() {
+  return new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+}
+function recentDailyRange(today = koreanToday()) {
+  const start = new Date(`${today}T00:00:00Z`);
+  start.setUTCDate(start.getUTCDate() - 9);
+  return { start: start.toISOString().slice(0, 10), end: today };
+}
+function dailyContext(month = "") {
+  const range = recentDailyRange();
+  const reports = dailyReports.filter(item => item.date <= range.end && (month ? item.date.startsWith(`${month}-`) : item.date >= range.start));
+  return { month, reports, range };
+}
+function dailyLink(report, context) {
+  return context.month ? `#daily/${report.date.slice(0, 7)}/${report.date.slice(8)}` : `#post/${encodeURIComponent(report.id)}`;
+}
+function renderDailyArchiveNavigation(context) {
+  const months = [...new Set(dailyReports.map(item => item.date.slice(0, 7)))];
+  return `<div class="daily-history"><nav class="daily-archive-nav" aria-label="AI 소식 기간 선택"><a href="#daily"${!context.month ? ' aria-current="true"' : ""}>최근 10일</a><span class="daily-archive-label">월별 보관함</span>${months.map(month => {
+    const [year, number] = month.split("-");
+    const count = dailyReports.filter(item => item.date.startsWith(`${month}-`)).length;
+    return `<a href="#daily/${month}"${context.month === month ? ' aria-current="true"' : ""}>${year}년 ${Number(number)}월 <span>· ${count}편</span></a>`;
+  }).join("")}</nav><p class="daily-period">${context.month ? `${context.month.slice(0,4)}년 ${Number(context.month.slice(5))}월 전체 · ${context.reports.length}편` : `최근 10일 · ${context.range.start.replaceAll("-", ".")} — ${context.range.end.replaceAll("-", ".")} · 한국 시간`}</p></div>`;
+}
+function renderDailyDates(report, context) {
+  if (!context.reports.length) return "";
+  return `<nav class="daily-dates" aria-label="날짜별 ${escape(navigationLabels.daily)}"><ol>${context.reports.map(item => {
     const parts = dailyDateParts(item.date);
     const current = item.id === report?.id;
-    return `<li><a href="#post/${encodeURIComponent(item.id)}"${current ? ' aria-current="page"' : ""} title="${escape(item.title)}"><span class="date-day">${parts.short}</span><span class="date-week">${parts.weekday}</span>${index === 0 ? '<span class="date-latest">최신</span>' : ""}<span class="visually-hidden"> · ${escape(item.title)}</span></a></li>`;
+    return `<li><a href="${dailyLink(item, context)}"${current ? ' aria-current="page"' : ""} title="${escape(item.title)}"><span class="date-day">${parts.short}</span><span class="date-week">${parts.weekday}</span>${item.id === dailyReports[0]?.id ? '<span class="date-latest">최신</span>' : ""}<span class="visually-hidden"> · ${escape(item.title)}</span></a></li>`;
   }).join("")}</ol></nav>`;
 }
-function renderDailyPager(report) {
-  const index = dailyReports.findIndex(item => item.id === report.id);
-  const newer = dailyReports[index - 1];
-  const older = dailyReports[index + 1];
+function renderDailyPager(report, context) {
+  const index = context.reports.findIndex(item => item.id === report.id);
+  const newer = context.reports[index - 1];
+  const older = context.reports[index + 1];
   if (!newer && !older) return "";
   const link = (item, direction) => {
     const parts = dailyDateParts(item.date);
-    return `<a class="daily-pager-${direction}" href="#post/${encodeURIComponent(item.id)}" rel="${direction === "older" ? "prev" : "next"}"><span class="daily-pager-label">${direction === "older" ? `← 이전 소식 · ${parts.short} ${parts.weekday}` : `${parts.short} ${parts.weekday} · 다음 소식 →`}</span><strong>${escape(item.title)}</strong></a>`;
+    return `<a class="daily-pager-${direction}" href="${dailyLink(item, context)}" rel="${direction === "older" ? "prev" : "next"}"><span class="daily-pager-label">${direction === "older" ? `← 이전 소식 · ${parts.short} ${parts.weekday}` : `${parts.short} ${parts.weekday} · 다음 소식 →`}</span><strong>${escape(item.title)}</strong></a>`;
   };
   return `<nav class="daily-pager" aria-label="이전·다음 ${escape(navigationLabels.daily)}">${older ? link(older, "older") : "<span></span>"}${newer ? link(newer, "newer") : ""}</nav>`;
 }
-function renderDaily(report) {
+function renderDaily(report, context = dailyContext(), missing = false) {
   document.title = `${navigationLabels.daily} — AI 라운지`;
-  const history = renderDailyDates(report);
+  const history = renderDailyDates(report, context);
+  const practiceNote = report?.editionKind === "practice-note";
   const contents = report ? [...report.sections.map((section,index)=>({id:`daily-insight-${index}`,title:section.heading,type:"AI"})),...(report.radar || []).map((repo,index)=>({id:`daily-repo-${index}`,title:repo.headline || repo.repo,type:"GitHub"})),...(report.recipe ? [{id:"daily-recipe",title:report.recipe.heading,type:"실전"}] : [])] : [];
-  main.innerHTML = `<header class="editorial-masthead daily-page-head"><h1>${escape(navigationLabels.daily)}</h1><div class="daily-page-side"><p>매일 아침 AI 소식을 그림 한 장과 글로 정리합니다. <br>아래 날짜를 눌러 지난 소식도 다시 볼 수 있어요.</p></div></header>${history}
-    ${report ? `<article class="daily-edition"><div class="daily-feature"><header class="daily-lead"><div class="daily-edition-meta"><time datetime="${escape(report.date)}">${escape(report.date.replaceAll("-","."))}</time><span>이날의 핵심</span></div><h2>${escape(report.title)}</h2><p class="daily-lead-summary">${escape(report.summary)}</p></header>
+  main.innerHTML = `<header class="editorial-masthead daily-page-head"><h1>${escape(navigationLabels.daily)}</h1><div class="daily-page-side"><p>매일 아침 AI 소식을 그림 한 장과 글로 정리합니다. <br>최근 10일은 바로 읽고, 지난 소식은 월별 보관함에서 찾아보세요.</p></div></header>${renderDailyArchiveNavigation(context)}${history}
+    ${report ? `<article class="daily-edition${practiceNote ? " practice-note" : ""}"><div class="daily-feature"><header class="daily-lead"><div class="daily-edition-meta"><time datetime="${escape(report.date)}">${escape(report.date.replaceAll("-","."))}</time><span>${practiceNote ? "활용 노트" : "이날의 핵심"}</span></div><h2>${escape(report.title)}</h2><p class="daily-lead-summary">${escape(report.summary)}</p></header>
     ${renderDailyCover(report)}</div>
     <nav class="daily-headlines" aria-label="선택한 날짜의 목차"><p class="eyebrow">함께 읽을 ${contents.length}가지</p><ol>${contents.map((item,index)=>`<li><button type="button" data-scroll="${item.id}"><span class="toc-number">${String(index+1).padStart(2,"0")}</span><strong>${escape(item.title)}</strong><span class="toc-type">${item.type}</span></button></li>`).join("")}</ol></nav>
-    ${report.highlights?.length ? `<details class="daily-details edition-overview"><summary>오늘의 브리핑 요점</summary><ul>${report.highlights.map(item=>`<li>${escape(item)}</li>`).join("")}</ul></details>` : ""}
-    <div class="daily-columns${report.radar?.length ? " has-radar" : ""}"><section class="daily-insights" id="daily-insights"><div class="daily-section-title"><p class="eyebrow">WHAT CHANGED</p><h2>AI 인사이트</h2></div>${report.sections.map(renderInsight).join("")}</section>
+    ${report.highlights?.length ? practiceNote ? `<aside class="daily-practice-summary" aria-label="활용 노트 핵심 요약"><h3>핵심 세 줄</h3><ul>${report.highlights.map(item=>`<li>${escape(item)}</li>`).join("")}</ul></aside>` : `<details class="daily-details edition-overview"><summary>오늘의 브리핑 요점</summary><ul>${report.highlights.map(item=>`<li>${escape(item)}</li>`).join("")}</ul></details>` : ""}
+    <div class="daily-columns${report.radar?.length ? " has-radar" : ""}"><section class="daily-insights" id="daily-insights"><div class="daily-section-title"><p class="eyebrow">${practiceNote ? "PRACTICE NOTES" : "WHAT CHANGED"}</p><h2>${practiceNote ? "AI 활용 노트" : "AI 인사이트"}</h2></div>${report.sections.map(renderInsight).join("")}</section>
     ${report.radar?.length ? `<aside class="daily-radar" id="daily-radar"><div class="daily-section-title"><p class="eyebrow">WORTH A LOOK</p><h2>GitHub · 스킬 발견</h2></div>${report.radar.map((repo,index)=>renderRadar(repo,index,report.sections.length)).join("")}</aside>` : ""}</div>
     ${report.recipe ? `<section class="daily-recipe daily-item" id="daily-recipe" tabindex="-1"><div class="daily-section-title"><p class="eyebrow">${String(contents.length).padStart(2,"0")} / TRY IT TODAY</p><h2>${escape(report.recipe.heading)}</h2><p>${escape(report.recipe.description)}</p></div><div class="recipe-grid"><ol>${report.recipe.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol><div><div class="recipe-prompt-header"><p class="recipe-prompt-label">에이전트에 이렇게 요청해 보세요</p><button type="button" class="copy-prompt">프롬프트 복사</button></div><pre class="recipe-prompt" tabindex="0" aria-label="복사할 프롬프트">${escape(report.recipe.prompt)}</pre><p class="copy-status" role="status"></p><p class="recipe-limit">${escape(report.recipe.limitation)}</p></div></div></section>` : ""}
-    <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details>${renderDailyPager(report)}</article>` : '<section class="empty"><h2>첫 AI 소식을 준비하고 있습니다.</h2><p>AI 소식과 주목할 저장소, 직접 해볼 방법을 이곳에 쌓습니다.</p></section>'}`;
+    <details class="daily-sources daily-details" id="daily-sources"><summary>원문과 참고 자료 · ${report.sources.length}개</summary><ul>${report.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul></details>${renderDailyPager(report, context)}</article>` : `<section class="empty"><h2>${missing ? "해당 날짜의 AI 소식이 없습니다." : "최근 10일 동안 발행한 AI 소식이 없습니다."}</h2><p>위의 월별 보관함에서 발행한 소식을 골라 주세요.</p></section>`}`;
   const coverImage = main.querySelector(".daily-cover img");
   if (coverImage) {
     const hideBrokenCover = () => { coverImage.closest("figure").hidden = true; };
@@ -292,8 +318,14 @@ function route() {
   const monthPath = hash.startsWith("monthly/");
   const month = monthPath ? hash.slice("monthly/".length) : "";
   const issue = selected?.type === "monthly" ? selected : /^\d{4}-(0[1-9]|1[0-2])$/.test(month) ? issues.find(item=>item.date.startsWith(month)) : undefined;
+  const dailyPath = hash.startsWith("daily/");
+  const dailyMatch = dailyPath ? /^daily\/(\d{4}-(?:0[1-9]|1[0-2]))(?:\/(0[1-9]|[12]\d|3[01]))?$/.exec(hash) : null;
+  const recent = recentDailyRange();
+  const selectedMonth = selected?.type === "daily" && selected.date < recent.start ? selected.date.slice(0, 7) : "";
+  const context = dailyContext(dailyMatch?.[1] || selectedMonth);
+  const daily = dailyPath ? dailyMatch ? dailyMatch[2] ? context.reports.find(item => item.date === `${dailyMatch[1]}-${dailyMatch[2]}`) : context.reports[0] : undefined : selected || context.reports[0];
   const monthly = hash === "monthly" || monthPath || selected?.type === "monthly";
-  const view = monthly ? "monthly" : hash === "library" || selected?.type === "guide" ? "library" : hash === "daily" || selected?.type === "daily" ? "daily" : "home";
+  const view = monthly ? "monthly" : hash === "library" || selected?.type === "guide" ? "library" : hash === "daily" || dailyPath || selected?.type === "daily" ? "daily" : "home";
   setView(view, Boolean(issue));
   if (view === "home") renderHome();
   else if (hash === "library") renderLibrary();
@@ -301,13 +333,13 @@ function route() {
   else if (hash === "monthly") renderMonthlyArchive();
   else if (issue) renderIssue(issue);
   else if (monthly) renderMissingMonth();
-  else renderDaily(selected||dailyReports[0]);
+  else renderDaily(daily, context, dailyPath && !daily);
   if (!issue) editorialMotionCleanup = mountEditorialMotion();
 }
 fetch("data/posts.json", { cache: "no-cache" }).then(response=>{if(!response.ok) throw new Error("Content unavailable");return response.json();}).then(data=>{
   // Daily reading and monthly presentations are independent views, sharing one content source.
   issues = data.posts.filter(post=>post.type==="monthly").sort((a,b)=>b.date.localeCompare(a.date));
-  dailyReports = data.posts.filter(post=>post.type==="daily").sort((a,b)=>b.date.localeCompare(a.date));
+  dailyReports = data.posts.filter(post=>post.type==="daily" && post.date <= koreanToday()).sort((a,b)=>b.date.localeCompare(a.date));
   guides = data.posts.filter(post=>post.type==="guide" && post.published === true).sort((a,b)=>(b.sourceMonth || b.date.slice(0,7)).localeCompare(a.sourceMonth || a.date.slice(0,7)) || b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
   route();
   window.addEventListener("hashchange",()=>{route();main.focus();window.scrollTo(0,0);});

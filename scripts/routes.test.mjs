@@ -6,8 +6,9 @@ import test from "node:test";
 const code = await readFile(new URL("../assets/app.js", import.meta.url), "utf8");
 const data = JSON.parse(await readFile(new URL("../data/posts.json", import.meta.url), "utf8"));
 const actualIssue = data.posts.find(post => post.type === "monthly");
+const fixtureNow = `${data.posts.filter(post => post.type === "daily").map(post => post.date).sort().at(-1)}T00:00:00Z`;
 
-async function open(hash, posts = data.posts) {
+async function open(hash, posts = data.posts, now = fixtureNow) {
   const classes = new Set();
   const listeners = {};
   const stats = { mounts: 0, cleanups: 0, mediaMounts: 0, mediaCleanups: 0 };
@@ -24,7 +25,8 @@ async function open(hash, posts = data.posts) {
     MonthlyMotion: { mount() { stats.mounts++; return () => stats.cleanups++; } },
     MonthlyMedia: { mount() { stats.mediaMounts++; return () => stats.mediaCleanups++; } }
   };
-  vm.runInNewContext(code, { document, window, location, URL, fetch: async () => ({ ok: true, json: async () => ({ posts }) }) });
+  const Clock = class extends Date { constructor(...args) { super(...(args.length ? args : [now])); } static now() { return new Date(now).getTime(); } };
+  vm.runInNewContext(code, { document, window, location, URL, Date: Clock, fetch: async () => ({ ok: true, json: async () => ({ posts }) }) });
   await new Promise(resolve => setImmediate(resolve));
   return { main, nav, classes, stats, go(next) { location.hash = next; listeners.hashchange(); } };
 }
@@ -189,12 +191,25 @@ test("모든 날짜의 선택값·목차 대상·확대 이미지가 실제 기�
   const reports = data.posts.filter(post => post.type === "daily");
   for (const report of reports) {
     const page = await open(`#post/${report.id}`);
-    assert(page.main.innerHTML.includes(`href="#post/${report.id}" aria-current="page"`));
+    const expectedLink = report.date < new Date(new Date(fixtureNow).getTime() - 9 * 86400000).toISOString().slice(0, 10) ? `#daily/${report.date.slice(0, 7)}/${report.date.slice(8)}` : `#post/${report.id}`;
+    assert(page.main.innerHTML.includes(`href="${expectedLink}" aria-current="page"`));
     assert.equal(page.main.innerHTML.match(/aria-current="page"/g)?.length, 1);
     for (const [, target] of page.main.innerHTML.matchAll(/data-scroll="([^"]+)"/g)) {
       assert(page.main.innerHTML.includes(`id="${target}"`), `${report.id}: ${target}`);
     }
-    assert(page.main.innerHTML.includes(`href="assets/daily/${report.date}.webp" target="_blank" rel="noopener"`));
+    if (report.editionKind === "practice-note") {
+      assert.match(page.main.innerHTML, /class="daily-practice-summary"/);
+      assert.match(page.main.innerHTML, /활용 노트/);
+      assert.equal(report.highlights.length, 3);
+      assert(report.sources.length > 0);
+      assert(report.recipe?.prompt);
+      assert.doesNotMatch(page.main.innerHTML, /class="daily-cover"/);
+      const feature = page.main.innerHTML.split('class="daily-feature"')[1]?.split('<nav class="daily-headlines"')[0];
+      assert.doesNotMatch(feature, /<figure|<img/);
+    } else {
+      assert(report.coverImage, `${report.id}: regular briefing requires its cover`);
+      assert(page.main.innerHTML.includes(`href="assets/daily/${report.date}.webp" target="_blank" rel="noopener"`));
+    }
     assert.equal(page.main.innerHTML.includes('class="daily-columns has-radar"'), Boolean(report.radar?.length));
     assert.match(page.main.innerHTML, /class="copy-prompt">프롬프트 복사/);
   }
@@ -216,4 +231,77 @@ test("각 화면의 내부 글 링크는 공개된 글로 연결되고 외부 �
       }
     }
   }
+});
+
+
+const fixtureDaily = date => ({ ...data.posts.find(post => post.type === "daily"), id: `daily-${date}`, date, title: `테스트 ${date}`, coverImage: undefined });
+const datedFixtures = ["2026-10-01", "2026-10-22", "2026-10-23", "2026-10-31", "2026-11-01", "2026-11-02"].map(fixtureDaily);
+const dateStrip = page => page.main.innerHTML.match(/<nav class="daily-dates"[^>]*>([\s\S]*?)<\/nav>/)?.[1] || "";
+
+test("최근 10일은 한국 날짜 기준 오늘을 포함하고 미래·이전 기록을 제외한다", async () => {
+  const page = await open("#daily", datedFixtures, "2026-11-01T00:00:00Z");
+  const dates = dateStrip(page);
+  for (const date of ["2026-10-23", "2026-10-31", "2026-11-01"]) assert(dates.includes(`#post/daily-${date}`));
+  for (const date of ["2026-10-01", "2026-10-22", "2026-11-02"]) assert(!dates.includes(`#post/daily-${date}`));
+  assert.match(page.main.innerHTML, /최근 10일/);
+  assert.match(page.main.innerHTML, /2026.10.23 — 2026.11.01/);
+  assert.match(page.main.innerHTML, /href="#daily\/2026-10"/);
+  assert.doesNotMatch(page.main.innerHTML, /베타|beta|BETA|정식 운영/);
+  const beforeMidnight = await open("#daily", datedFixtures, "2026-10-31T14:59:59Z");
+  assert(dateStrip(beforeMidnight).includes("#post/daily-2026-10-22"));
+  assert(!dateStrip(beforeMidnight).includes("#post/daily-2026-11-01"));
+  const afterMidnight = await open("#daily", datedFixtures, "2026-10-31T15:00:00Z");
+  assert(dateStrip(afterMidnight).includes("#post/daily-2026-11-01"));
+  assert(!dateStrip(afterMidnight).includes("#post/daily-2026-10-22"));
+});
+
+test("월별 보관함은 최근 범위와 겹쳐도 해당 월 전체를 남기고 선택·페이저 범위를 유지한다", async () => {
+  const page = await open("#daily/2026-10", datedFixtures, "2026-11-01T00:00:00Z");
+  assert.match(page.main.innerHTML, /2026년 10월 전체 · 4편/);
+  for (const day of ["01", "22", "23", "31"]) assert(dateStrip(page).includes(`#daily/2026-10/${day}`));
+  assert(!dateStrip(page).includes("2026-11"));
+  page.go("#daily/2026-10/23");
+  assert.match(page.main.innerHTML, /href="#daily\/2026-10\/23" aria-current="page"/);
+  assert.match(page.main.innerHTML, /href="#daily\/2026-10\/22" rel="prev"/);
+  assert.match(page.main.innerHTML, /href="#daily\/2026-10\/31" rel="next"/);
+  page.go("#daily");
+  assert.match(page.main.innerHTML, /href="#post\/daily-2026-11-01" aria-current="page"/);
+  assert(!dateStrip(page).includes("2026-10-01"));
+});
+
+test("이전 공유 주소는 해당 월에서 선택되고 없는 월·날짜는 최신으로 바뀌지 않는다", async () => {
+  const old = await open("#post/daily-2026-10-01", datedFixtures, "2026-11-01T00:00:00Z");
+  assert.match(old.main.innerHTML, /href="#daily\/2026-10\/01" aria-current="page"/);
+  for (const path of ["2026-09", "2026-13", "2026-10/32", "2026-10/02", "2026-11/02", "%E0%A4%A", "2026-10/01/extra"]) {
+    const page = await open(`#daily/${path}`, datedFixtures, "2026-11-01T00:00:00Z");
+    assert.match(page.main.innerHTML, /해당 날짜의 AI 소식이 없습니다/);
+    assert.doesNotMatch(page.main.innerHTML, /class="daily-edition"/);
+  }
+  const empty = await open("#daily", [fixtureDaily("2026-10-01")]);
+  assert.match(empty.main.innerHTML, /최근 10일 동안 발행한 AI 소식이 없습니다/);
+  assert.doesNotMatch(empty.main.innerHTML, /class="daily-edition"/);
+  assert.match(empty.main.innerHTML, /href="#daily\/2026-10"/);
+});
+
+
+test("활용 노트는 그림 빈칸 없이 핵심 요약·출처·복사 프롬프트를 표시한다", async () => {
+  const note = { ...fixtureDaily("2026-10-01"), editionKind: "practice-note", highlights: ["첫 번째 요약", "두 번째 요약", "세 번째 요약"], radar: [] };
+  const page = await open("#daily/2026-10/01", [note]);
+  assert.match(page.main.innerHTML, /활용 노트/);
+  assert.match(page.main.innerHTML, /class="daily-practice-summary"/);
+  for (const line of note.highlights) assert(page.main.innerHTML.includes(line));
+  assert.match(page.main.innerHTML, /class="copy-prompt">프롬프트 복사/);
+  assert.match(page.main.innerHTML, /원문과 참고 자료/);
+  assert.doesNotMatch(page.main.innerHTML, /class="daily-cover"|<img/);
+});
+
+
+test("운영 단계 안내를 제거하고 모든 AI 소식에서 중립적인 활용 노트 명칭을 쓴다", async () => {
+  for (const hash of ["#daily", "#daily/2026-10", ...data.posts.filter(post => post.type === "daily").map(post => `#post/${post.id}`)]) {
+    const page = await open(hash);
+    assert.doesNotMatch(page.main.innerHTML, /베타|beta|BETA|정식 운영/);
+    assert.doesNotMatch(page.main.innerHTML, /class="daily-operation"|10월 1[~–-]20|활용 노트 20편/);
+  }
+  const notes = data.posts.filter(post => post.editionKind === "practice-note");
+  assert.equal(notes.length, 20);
 });
