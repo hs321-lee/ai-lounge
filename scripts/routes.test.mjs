@@ -6,7 +6,8 @@ import test from "node:test";
 const code = await readFile(new URL("../assets/app.js", import.meta.url), "utf8");
 const data = JSON.parse(await readFile(new URL("../data/posts.json", import.meta.url), "utf8"));
 const actualIssue = data.posts.find(post => post.type === "monthly");
-const fixtureNow = `${data.posts.filter(post => post.type === "daily").map(post => post.date).sort().at(-1)}T00:00:00Z`;
+const publicDailies = data.posts.filter(post => post.type === "daily" && post.published !== false);
+const fixtureNow = `${publicDailies.map(post => post.date).sort().at(-1)}T00:00:00Z`;
 
 async function open(hash, posts = data.posts, now = fixtureNow) {
   const classes = new Set();
@@ -188,7 +189,7 @@ test("홈과 인사이트 대표 표지는 상세 글을 열고 원문 버튼은
 });
 
 test("모든 날짜의 선택값·목차 대상·확대 이미지가 실제 기록과 연결된다", async () => {
-  const reports = data.posts.filter(post => post.type === "daily");
+  const reports = publicDailies;
   for (const report of reports) {
     const page = await open(`#post/${report.id}`);
     const expectedLink = report.date < new Date(new Date(fixtureNow).getTime() - 9 * 86400000).toISOString().slice(0, 10) ? `#daily/${report.date.slice(0, 7)}/${report.date.slice(8)}` : `#post/${report.id}`;
@@ -203,20 +204,17 @@ test("모든 날짜의 선택값·목차 대상·확대 이미지가 실제 기�
       assert.equal(report.highlights.length, 3);
       assert(report.sources.length > 0);
       assert(report.recipe?.prompt);
-      assert.doesNotMatch(page.main.innerHTML, /class="daily-cover"/);
-      const feature = page.main.innerHTML.split('class="daily-feature"')[1]?.split('<nav class="daily-headlines"')[0];
-      assert.doesNotMatch(feature, /<figure|<img/);
-    } else {
-      assert(report.coverImage, `${report.id}: regular briefing requires its cover`);
-      assert(page.main.innerHTML.includes(`href="assets/daily/${report.date}.webp" target="_blank" rel="noopener"`));
     }
+    assert(report.coverImage, `${report.id}: every daily requires its cover`);
+    assert.match(page.main.innerHTML, /class="daily-cover"/);
+    assert(page.main.innerHTML.includes(`href="assets/daily/${report.date}.webp" target="_blank" rel="noopener"`));
     assert.equal(page.main.innerHTML.includes('class="daily-columns has-radar"'), Boolean(report.radar?.length));
     assert.match(page.main.innerHTML, /class="copy-prompt">프롬프트 복사/);
   }
 });
 
 test("각 화면의 내부 글 링크는 공개된 글로 연결되고 외부 링크는 새 탭을 명시한다", async () => {
-  const publicPosts = data.posts.filter(post => post.type !== "guide" || post.published);
+  const publicPosts = data.posts.filter(post => post.published !== false && (post.type !== "guide" || post.published));
   for (const hash of ["#home", "#library", "#monthly", ...publicPosts.map(post => `#post/${post.id}`)]) {
     const page = await open(hash);
     for (const [, attributes] of page.main.innerHTML.matchAll(/<a\b([^>]+)>/g)) {
@@ -284,24 +282,35 @@ test("이전 공유 주소는 해당 월에서 선택되고 없는 월·날짜�
 });
 
 
-test("활용 노트는 그림 빈칸 없이 핵심 요약·출처·복사 프롬프트를 표시한다", async () => {
-  const note = { ...fixtureDaily("2026-10-01"), editionKind: "practice-note", highlights: ["첫 번째 요약", "두 번째 요약", "세 번째 요약"], radar: [] };
+test("활용 노트도 날짜별 그림과 핵심 요약·출처·복사 프롬프트를 표시한다", async () => {
+  const note = { ...fixtureDaily("2026-10-01"), editionKind: "practice-note", coverImage: { src: "assets/daily/2026-10-01.webp", date: "2026-10-01", alt: "이날의 핵심 그림", width: 100, height: 150 }, highlights: ["첫 번째 요약", "두 번째 요약", "세 번째 요약"], radar: [] };
   const page = await open("#daily/2026-10/01", [note]);
   assert.match(page.main.innerHTML, /활용 노트/);
   assert.match(page.main.innerHTML, /class="daily-practice-summary"/);
   for (const line of note.highlights) assert(page.main.innerHTML.includes(line));
   assert.match(page.main.innerHTML, /class="copy-prompt">프롬프트 복사/);
   assert.match(page.main.innerHTML, /원문과 참고 자료/);
-  assert.doesNotMatch(page.main.innerHTML, /class="daily-cover"|<img/);
+  assert.match(page.main.innerHTML, /class="daily-cover"/);
+  assert.match(page.main.innerHTML, /href="assets\/daily\/2026-10-01\.webp"/);
 });
 
 
 test("운영 단계 안내를 제거하고 모든 AI 소식에서 중립적인 활용 노트 명칭을 쓴다", async () => {
-  for (const hash of ["#daily", "#daily/2026-10", ...data.posts.filter(post => post.type === "daily").map(post => `#post/${post.id}`)]) {
+  for (const hash of ["#daily", "#daily/2026-10", ...publicDailies.map(post => `#post/${post.id}`)]) {
     const page = await open(hash);
     assert.doesNotMatch(page.main.innerHTML, /베타|beta|BETA|정식 운영/);
     assert.doesNotMatch(page.main.innerHTML, /class="daily-operation"|10월 1[~–-]20|활용 노트 20편/);
   }
-  const notes = data.posts.filter(post => post.editionKind === "practice-note");
+  const notes = publicDailies.filter(post => post.editionKind === "practice-note");
   assert.equal(notes.length, 20);
+});
+
+test("미완성 비공개 daily는 목록·보관함·직접 주소에 노출하지 않는다", async () => {
+  const draft = { ...fixtureDaily("2026-10-01"), title: "미완성 비공개 노트", published: false };
+  const visible = fixtureDaily("2026-11-01");
+  for (const hash of ["#daily", "#daily/2026-10", `#post/${draft.id}`]) {
+    const page = await open(hash, [visible, draft]);
+    assert.doesNotMatch(page.main.innerHTML, /미완성 비공개 노트/);
+    assert(!dateStrip(page).includes("2026-10/01"));
+  }
 });

@@ -339,7 +339,7 @@ function route() {
 fetch("data/posts.json", { cache: "no-cache" }).then(response=>{if(!response.ok) throw new Error("Content unavailable");return response.json();}).then(data=>{
   // Daily reading and monthly presentations are independent views, sharing one content source.
   issues = data.posts.filter(post=>post.type==="monthly").sort((a,b)=>b.date.localeCompare(a.date));
-  dailyReports = data.posts.filter(post=>post.type==="daily" && post.date <= koreanToday()).sort((a,b)=>b.date.localeCompare(a.date));
+  dailyReports = data.posts.filter(post=>post.type==="daily" && post.published !== false && post.date <= koreanToday()).sort((a,b)=>b.date.localeCompare(a.date));
   guides = data.posts.filter(post=>post.type==="guide" && post.published === true).sort((a,b)=>(b.sourceMonth || b.date.slice(0,7)).localeCompare(a.sourceMonth || a.date.slice(0,7)) || b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
   route();
   window.addEventListener("hashchange",()=>{route();main.focus();window.scrollTo(0,0);});

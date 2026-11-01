@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
+import { validateDailyImages } from "./daily-images.mjs";
 const data = JSON.parse(await readFile(new URL("../data/posts.json", import.meta.url), "utf8"));
 assert.equal(data.schemaVersion, 1, "지원하는 schemaVersion은 1입니다.");
 assert.ok(Array.isArray(data.posts), "posts는 배열이어야 합니다.");
@@ -116,4 +117,6 @@ for (const post of data.posts) {
     assert.equal(new URL(source.url).protocol, "https:", `${post.id}: HTTPS 출처만 허용`);
   }
 }
+const imageReviews = JSON.parse(await readFile(new URL("../docs/daily-image-reviews.json", import.meta.url), "utf8"));
+await validateDailyImages(data.posts, imageReviews);
 console.log(`콘텐츠 검사 통과: ${data.posts.length}건, 고유 ID·날짜·필수 필드·출처 확인`);
