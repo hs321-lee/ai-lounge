@@ -11,7 +11,7 @@
   "coverImage": {
     "src": "assets/daily/YYYY-MM-DD.webp",
     "date": "YYYY-MM-DD",
-    "alt": "오늘 확정한 핵심 내용을 텍스트로 요약하세요. 이미지 생성에 실패한 날은 coverImage 전체를 생략합니다.",
+    "alt": "오늘 확정한 핵심 내용을 요약하세요. README의 그림체 보존 규칙에 따라 승인 원본의 경로·commit을 먼저 확인하고, 문구 교정은 기존 선·질감·색상·레이아웃을 유지한 채 원본과 시각 대조합니다. 생성·내용·그림체 검증에 실패한 날은 coverImage 전체를 생략합니다.",
     "width": 1122,
     "height": 1402
   },
