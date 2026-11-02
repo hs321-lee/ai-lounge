@@ -235,6 +235,12 @@ test("각 화면의 내부 글 링크는 공개된 글로 연결되고 외부 �
 const fixtureDaily = date => ({ ...data.posts.find(post => post.type === "daily"), id: `daily-${date}`, date, title: `테스트 ${date}`, coverImage: undefined });
 const datedFixtures = ["2026-10-01", "2026-10-22", "2026-10-23", "2026-10-31", "2026-11-01", "2026-11-02"].map(fixtureDaily);
 const dateStrip = page => page.main.innerHTML.match(/<nav class="daily-dates"[^>]*>([\s\S]*?)<\/nav>/)?.[1] || "";
+// 운영 단계 안내와 기사 안의 실제 제품 출시 단계를 구분한다.
+const dailyOperationChrome = html => [
+  ...html.matchAll(/<header class="editorial-masthead daily-page-head">[\s\S]*?<\/header>/g),
+  ...html.matchAll(/<div class="daily-edition-meta">[\s\S]*?<\/div>/g),
+  ...html.matchAll(/<p class="daily-period">[\s\S]*?<\/p>/g)
+].map(match => match[0]).join("\n");
 
 test("최근 10일은 한국 날짜 기준 오늘을 포함하고 미래·이전 기록을 제외한다", async () => {
   const page = await open("#daily", datedFixtures, "2026-11-01T00:00:00Z");
@@ -244,7 +250,7 @@ test("최근 10일은 한국 날짜 기준 오늘을 포함하고 미래·이전
   assert.match(page.main.innerHTML, /최근 10일/);
   assert.match(page.main.innerHTML, /2026.10.23 — 2026.11.01/);
   assert.match(page.main.innerHTML, /href="#daily\/2026-10"/);
-  assert.doesNotMatch(page.main.innerHTML, /베타|beta|BETA|정식 운영/);
+  assert.doesNotMatch(dailyOperationChrome(page.main.innerHTML), /베타|beta|BETA|정식 운영/);
   const beforeMidnight = await open("#daily", datedFixtures, "2026-10-31T14:59:59Z");
   assert(dateStrip(beforeMidnight).includes("#post/daily-2026-10-22"));
   assert(!dateStrip(beforeMidnight).includes("#post/daily-2026-11-01"));
@@ -298,11 +304,28 @@ test("활용 노트도 날짜별 그림과 핵심 요약·출처·복사 프롬�
 test("운영 단계 안내를 제거하고 모든 AI 소식에서 중립적인 활용 노트 명칭을 쓴다", async () => {
   for (const hash of ["#daily", "#daily/2026-10", ...publicDailies.map(post => `#post/${post.id}`)]) {
     const page = await open(hash);
-    assert.doesNotMatch(page.main.innerHTML, /베타|beta|BETA|정식 운영/);
+    assert.doesNotMatch(dailyOperationChrome(page.main.innerHTML), /베타|beta|BETA|정식 운영/);
     assert.doesNotMatch(page.main.innerHTML, /class="daily-operation"|10월 1[~–-]20|활용 노트 20편/);
   }
   const notes = publicDailies.filter(post => post.editionKind === "practice-note");
   assert.equal(notes.length, 20);
+});
+
+test("제품 베타 소식은 보존하면서 운영 단계 안내는 계속 차단한다", async () => {
+  const article = { ...fixtureDaily("2026-11-01"), title: "제품 Beta 출시", summary: "실제 제품의 베타 제공 조건입니다." };
+  const page = await open("#daily", [article], "2026-11-01T00:00:00Z");
+  assert.match(page.main.innerHTML, /제품 Beta 출시/);
+  assert.match(page.main.innerHTML, /실제 제품의 베타 제공 조건입니다/);
+  assert.doesNotMatch(dailyOperationChrome(page.main.innerHTML), /베타|beta|BETA|정식 운영/);
+  for (const [before, after] of [
+    ["<h1>AI 소식</h1>", "<h1>AI 소식 베타</h1>"],
+    ["<span>이날의 핵심</span>", "<span>정식 운영</span>"],
+    ["<p class=\"daily-period\">최근 10일", "<p class=\"daily-period\">BETA 최근 10일"]
+  ]) {
+    assert(page.main.innerHTML.includes(before), `운영 안내 검증 대상: ${before}`);
+    const forbidden = page.main.innerHTML.replace(before, after);
+    assert.throws(() => assert.doesNotMatch(dailyOperationChrome(forbidden), /베타|beta|BETA|정식 운영/), assert.AssertionError);
+  }
 });
 
 test("미완성 비공개 daily는 목록·보관함·직접 주소에 노출하지 않는다", async () => {
