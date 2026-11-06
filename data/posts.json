@@ -2,6 +2,135 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-06",
+      "type": "daily",
+      "date": "2026-11-06",
+      "title": "GPT‑6 Cyber 제한 제공, Claude 보안 센터, Gemini 15초 영상",
+      "summary": "GPT‑6 Cyber는 승인된 방어 고객부터, Claude 보안 센터는 Enterprise 베타로 제공됩니다. Gemini Omni 1.2 Flash는 15초 영상과 더 낮은 720p 요금으로 정식 제공을 시작했습니다.",
+      "author": "AI 라운지",
+      "published": true,
+      "tags": [
+        "보안 AI",
+        "기업용 AI",
+        "영상 생성",
+        "MCP"
+      ],
+      "highlights": [
+        "GPT‑6 Cyber: 승인된 Daybreak Red 고객 일부부터 API·Codex 제공",
+        "Claude Enterprise: 보안 센터 베타와 훅 정식 제공을 구분",
+        "Gemini Omni 1.2 Flash: 최대 15초, 720p 초당 0.07달러"
+      ],
+      "sections": [
+        {
+          "heading": "GPT‑6 Cyber, 승인 고객부터 제한 제공",
+          "summary": "OpenAI가 11월 5일 보안 모델 GPT‑6 Cyber를 승인된 Daybreak Red 고객 일부에 API와 Codex로 제공하기 시작했습니다.",
+          "relevance": "취약점 검토를 자동화하려는 팀은 탐지 성능과 허용 범위 준수를 별개로 봐야 합니다.",
+          "label": "모델 출시 · 제한 제공",
+          "date": "2026-11-05",
+          "body": "사실: OpenAI는 취약점 탐색과 수정 지원에 특화한 GPT‑6 Cyber를 발표했습니다. 초기 이용자는 승인된 Daybreak Red 고객 일부이며, 일반 구독자나 모든 Daybreak Red 고객에게 같은 날 열린 것은 아닙니다. 전체 Red 고객으로 확대할 계획이지만 구체 날짜는 발표하지 않았습니다. 기존 GPT‑5.6 Cyber를 전체 Red 고객에 확대하는 내용과도 구분합니다.\n측정: OpenAI의 ExploitGym 점수는 GPT‑5.6 Cyber 32.1%, GPT‑6 Cyber 48.5%입니다. 특정 취약점을 대상으로 한 평가이며 다른 환경의 성공률이 아닙니다. 허용 범위 준수 수치 역시 별도 평가 조건에서 나온 제공자 측정입니다. 이번 브리핑에서 접근·성능·권한 준수를 재현하지 않았습니다.",
+          "takeaway": "해석: 기능과 권한이 함께 넓어지는 도구는 실행 범위·검증·중지 절차까지 설계해야 합니다.",
+          "action": "공개 테스트 프로젝트에 대해 허용 자산, 금지 행위, 결과 검토자를 먼저 한 줄씩 적어 보세요. 실제 스캔을 실행하는 제안은 아닙니다.",
+          "url": "https://openai.com/index/introducing-gpt-6-cyber/"
+        },
+        {
+          "heading": "Claude Enterprise, 보안 센터와 접근 제어 확대",
+          "summary": "Anthropic이 11월 5일 Claude Enterprise 보안 센터·중앙 관리·추가 접근 제어를 안내했습니다. 보안 센터는 베타이고 추론 훅은 정식 제공 상태입니다.",
+          "relevance": "여러 Claude 제품을 운영하는 보안·관리 담당자가 설정 검토와 실행 전 정책 확인을 한 흐름으로 비교할 수 있습니다.",
+          "label": "기업용 관리 · 베타와 정식 구분",
+          "date": "2026-11-05",
+          "body": "사실: 보안 센터는 채팅·Cowork·Claude Code 설정을 Anthropic 권장값과 비교하는 Organization settings 화면입니다. 중앙 관리, Admin API 멤버 로그아웃, 자체 IP 허용 목록 관리도 각각 베타입니다. 프롬프트와 도구 호출 전에 검사하는 추론 훅은 11월 5일 안내 기준 정식 제공 상태입니다. 모든 기능이 이날 처음 정식 출시된 것은 아닙니다.\n한계: 멤버 로그아웃은 기기의 로그인 세션을 종료하지만 API 키, 이미 실행 중인 클라우드 세션이나 예약 루틴을 중단하지 않습니다. 보안 센터는 권장 구성 안내이며 규정 준수 인증은 아닙니다. 조직별 실제 활성화나 정책 동작은 시험하지 않았습니다.",
+          "takeaway": "해석: 계정 접속 차단, 실행 작업 중지, 토큰·키 폐기에는 서로 다른 제어가 필요합니다.",
+          "action": "공식 문서에서 관리자 역할, 베타 조건, 로그아웃 후에도 남는 세 가지를 확인하고 대응표에 적어 보세요.",
+          "url": "https://claude.com/resources/articles/claude-enterprise-security-updates"
+        },
+        {
+          "heading": "Gemini Omni 1.2 Flash, 15초 영상과 낮아진 요금",
+          "summary": "Google이 11월 5일 Gemini API와 Gemini for business에 Omni 1.2 Flash를 정식 제공했습니다. 최대 15초를 만들 수 있으며 720p 영상은 초당 0.07달러입니다.",
+          "relevance": "짧은 설명 영상 제작자는 한 장면의 길이, 재편집 횟수와 비용을 함께 계획할 수 있습니다.",
+          "label": "모델 출시 · 정식 제공",
+          "date": "2026-11-05",
+          "body": "사실: Google은 최대 길이를 10초에서 15초로 늘리고 여러 차례 대화로 편집할 수 있다고 발표했습니다. 720p 초당 0.07달러는 1.1 대비 30% 인하한 발표 요금이며, 15초에 1.05달러는 이 단가의 단순 계산입니다. 반복 생성·편집 비용까지 포함한 실측이 아닙니다. Google Vids는 Google 계정 또는 Workspace 가입자에게 월 최대 3개의 15초 영상 무료 생성을 제공한다고 별도로 안내했습니다. Gemini 앱의 15초 기능은 AI Ultra 배포 대상으로 구분합니다.\n한계: 계정별 노출과 편집 후 일관성·한국어 발화 정확도는 직접 시험하지 않았습니다. Google은 빠른 동작, 복잡한 물리 장면 등에서 아직 제한이 있다고 설명합니다.",
+          "takeaway": "해석: 한 장면만 먼저 만들어 구도·문구·내레이션을 검증하면 여러 장면을 다시 만드는 비용을 줄이는 데 도움이 될 수 있습니다.",
+          "action": "공개 자료 한 장을 골라 15초 설명 영상의 3구간 스토리보드를 먼저 작성하세요. 생성 전에 장면 길이와 바뀌면 안 되는 요소를 확인합니다.",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
+        }
+      ],
+      "radar": [
+        {
+          "label": "주목할 저장소",
+          "repo": "JosssphZhou/poki",
+          "headline": "Poki, 실기기 iPhone 조작을 MCP로 연결",
+          "url": "https://github.com/JosssphZhou/poki",
+          "description": "macOS에서 실행하는 로컬 MCP 서버를 통해 연결한 iPhone을 에이전트가 읽고 조작하도록 합니다.",
+          "signal": "Trendar AI Agents의 2026-11-05 18:01 UTC(11월 6일 03:01 KST) 갱신 목록 3위에서 발굴했습니다. 피드는 6시간마다 갱신되지만 증가량의 정확한 집계 기간은 확인하지 못했고 est.이므로 증가 수치는 싣지 않았습니다. GitHub 공식 Trending과는 별개입니다. 첫 공개 릴리스 v0.1.0은 11월 5일 15:32:46 UTC(11월 6일 00:32:46 KST)입니다.",
+          "checkedAt": "2026-11-06",
+          "sourceUrl": "https://trendar.org/trending/topic/ai-agents",
+          "why": "기기 UI 시험에 관심 있는 독자가 시뮬레이터와 실기기의 지원 차이를 확인할 수 있는 첫 릴리스입니다. 전일 소개한 Agent Autoloop은 반복하지 않았고, 자율 침투 도구 Sapper는 오늘의 일반적 UI 시험 목적과 달라 제외했습니다.",
+          "try": "10분 읽기: README의 Quick start, 실기기 설정, Verification을 열고 내 환경의 macOS·Xcode·USB 연결·개발자 모드 요구를 대조하세요. 시험용 기기의 화면 정보와 앱 권한을 먼저 점검합니다. 여기서는 설치·실행하지 않았습니다.",
+          "limitation": "AGPL-3.0-only 초기 공개 버전입니다. macOS 15 이상과 전체 Xcode가 필요하며 사전 빌드 패키지는 Apple Silicon용입니다. 실기기는 제작자가 중국어 UI·세로 화면으로만 검증했습니다. 화면은 설정한 모델 서비스로 전송될 수 있고 실제 조작이 가능하므로 개인 계정 기기에서 시험하지 않습니다."
+        }
+      ],
+      "recipe": {
+        "heading": "15초 영상 만들기 전에 장면과 확인 기준 정하기",
+        "description": "Gemini Omni 1.2 Flash의 15초 길이에 맞춘 범용 기획 제안입니다. 영상 생성이나 품질 검증 결과가 아닙니다.",
+        "steps": [
+          "공개 안내 자료 한 장을 준비합니다.",
+          "아래 요청에 대상 독자와 전달할 메시지 하나를 적습니다.",
+          "장면 합계 15초와 원문 근거·금지 요소를 확인합니다."
+        ],
+        "prompt": "입력: 공개 안내문 또는 직접 만든 이미지 [첨부], 대상 독자 [입력].\n목표: 핵심 메시지 하나를 전달하는 총 15초 설명 영상의 스토리보드를 작성해줘.\n출력: 0~5초·5~10초·10~15초마다 화면, 한 줄 내레이션, 원문 근거, 유지할 요소를 표로 정리해줘.\n확인 기준: 전체 15초, 원문과 일치하는 문구·수치, 장면 간 일관성. 누락되거나 달라질 수 있는 요소 한 가지와 점검 방법을 적어줘.\n근거가 없으면 미확인으로 남겨줘. 실제 생성·결제·업로드 없이 계획만 작성해줘.",
+        "limitation": "15초 기획의 적절성은 원문과 대조합니다. 실제 생성 품질·계정 한도·반복 작업 비용은 확인하지 않았습니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "Gemini Omni 1.2 Flash의 15초 영상과 기획 절차",
+          "reason": "짧은 영상의 제공 조건과 만들기 전 장면 검토 방법을 함께 소개할 수 있습니다. 발표 전 무료 한도와 요금을 다시 확인합니다.",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "OpenAI GPT‑6 Cyber — 11/5 발표와 제한 제공",
+          "url": "https://openai.com/index/introducing-gpt-6-cyber/"
+        },
+        {
+          "title": "Claude Enterprise 보안 업데이트 — 11/5 베타와 정식 구분",
+          "url": "https://claude.com/resources/articles/claude-enterprise-security-updates"
+        },
+        {
+          "title": "Google Omni 1.2 Flash — 11/5 출시와 720p 요금",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
+        },
+        {
+          "title": "Google Vids — 11/5 무료 생성 한도",
+          "url": "https://blog.google/products-and-platforms/products/workspace/omni-1-2-flash-google-vids/"
+        },
+        {
+          "title": "Poki 원본 README·설치·라이선스",
+          "url": "https://github.com/JosssphZhou/poki"
+        },
+        {
+          "title": "Poki v0.1.0 첫 공개 릴리스",
+          "url": "https://github.com/JosssphZhou/poki/releases/tag/v0.1.0"
+        },
+        {
+          "title": "Poki 실기기 검증 범위",
+          "url": "https://github.com/JosssphZhou/poki/blob/main/docs/verification.md"
+        },
+        {
+          "title": "Trendar AI Agents — 11/5 18:01 UTC 갱신",
+          "url": "https://trendar.org/trending/topic/ai-agents"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-06.webp",
+        "date": "2026-11-06",
+        "alt": "AI 생성 요약 삽화. GPT-6 Cyber 제한 제공, Claude Enterprise 보안 센터 베타, Gemini Omni 1.2 Flash 15초 영상 및 활용 프롬프트를 네 칸 손그림으로 요약했습니다.",
+        "width": 1024,
+        "height": 1536
+      }
+    },
+    {
       "id": "daily-2026-11-05",
       "type": "daily",
       "date": "2026-11-05",
