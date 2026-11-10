@@ -2,6 +2,99 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-11",
+      "type": "daily",
+      "date": "2026-11-11",
+      "published": true,
+      "title": "Carbon 유료 API 공개 · Claude Sheets 베타 · 앱을 대화 옆에",
+      "summary": "Gemini 4 Carbon은 제한 공개에서 유료 API 제공으로 확대됐습니다. Claude는 공동 편집 시트와 화이트보드, 대화 옆에서 직접 여는 연결 앱을 추가했습니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "Gemini",
+        "Claude",
+        "MCP Apps"
+      ],
+      "highlights": [
+        "Gemini 4 Carbon: 유료 개발자 API 제공, Ultra 순차 배포",
+        "Claude Sheets·Whiteboards 베타, Data 정식 제공",
+        "Interactive connectors: 웹·데스크톱 순차 배포, 개발 기능 공개 프리뷰"
+      ],
+      "sections": [
+        {
+          "heading": "Gemini 4 Carbon, 유료 API와 Ultra로 제공 확대",
+          "label": "모델 제공 확대",
+          "date": "2026-11-10",
+          "summary": "Google이 Carbon을 모든 유료 개발자·기업의 API로 제공한다고 발표했습니다. 도입 API 가격은 100만 토큰당 입력 $2·출력 $10입니다.",
+          "relevance": "복잡한 다단계 코딩과 연구 과제를 맡길 새 선택지가 생겼지만 전체 토큰 사용량도 함께 봐야 합니다.",
+          "body": "10월 30일의 사이버 방어자 제한 공개에 이은 실제 접근 범위 확대입니다. Google AI Studio와 Gemini for business의 API로 제공하며, Google Antigravity·Gemini 앱·AI Mode in Search에서는 Google AI Ultra 가입자에게 순차 배포합니다. Google은 일반적인 소프트웨어·지식 작업에는 Argon을 권하고, Carbon은 더 많은 토큰을 써 깊이 탐색하는 복잡한 과제용으로 설명합니다. Antigravity의 /swarm은 별도 프리뷰입니다. 지역별 계정의 실제 노출과 사용 한도는 직접 시험하지 않았습니다.",
+          "takeaway": "해석: 같은 토큰 단가라도 전체 작업 비용은 달라집니다. 과거 제한 공개와 오늘의 API 제공을 구분해야 합니다.",
+          "action": "막혔던 공개 샘플 과제 하나만 골라 사용한 토큰·완료 시간·재시도를 기록하는 비교를 계획하세요. 직접 실행하지 않았습니다.",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/"
+        },
+        {
+          "heading": "Claude Sheets·Whiteboards 베타, Data는 정식 제공",
+          "label": "작업 화면 확장",
+          "date": "2026-11-10",
+          "summary": "Claude가 공동 편집 가능한 Sheets와 Whiteboards를 베타로 출시했습니다. 기존 Dashboards는 Claude Data로 이름을 바꾸고 정식 제공됩니다.",
+          "relevance": "표나 보드를 다른 도구로 옮기기 전에 Claude 안에서 함께 수정하고 결과를 확인할 수 있습니다.",
+          "body": "세 기능은 모든 유료 요금제의 웹·데스크톱·모바일 대상입니다. Sheets는 여러 탭·수식·서식·드롭다운과 셀 편집을 지원합니다. Data는 데이터 커넥터가 필요하고, 인증 쿼리와 실시간 공유는 베타입니다. Team은 기본 활성화되지만 Enterprise의 Sheets·Whiteboards는 기본 비활성화이고 Data 기본 활성화는 11월 19일 예정입니다. Meetings는 출시 예고이며 일정은 미정입니다.",
+          "takeaway": "해석: 시트를 만들 수 있다는 것과 수식·원본 데이터가 정확하다는 것은 별도입니다. 작은 가상 표로 먼저 확인할 수 있습니다.",
+          "action": "아래 가상 개인 프로젝트 표를 Sheets에 넣고, 막힌 일은 추천하지 않고 합계 60분 이하의 작업만 고르는지 확인하세요. 직접 실행하지 않았습니다.",
+          "url": "https://claude.com/resources/articles/sheets-whiteboards-data"
+        },
+        {
+          "heading": "Claude, 연결 앱을 대화 옆이나 전체 화면으로",
+          "label": "MCP Apps 확장",
+          "date": "2026-11-10",
+          "summary": "지원하는 연결 앱을 대화 옆이나 전체 화면에서 열고 Claude와 함께 수정할 수 있게 됩니다. 웹·데스크톱의 새 Claude 경험에서 모든 요금제에 순차 배포합니다.",
+          "relevance": "앱을 오가며 문맥을 설명하는 단계를 줄일 수 있고, MCP 앱 제작자에게는 새 표시·조작 기능이 열립니다.",
+          "body": "계정에 새 Claude 경험이 적용되거나 조직에서 활성화해야 보입니다. 앱별 지원이 필요하며 모든 커넥터가 곧바로 전체 앱을 제공하는 것은 아닙니다. Asana·Canva·Dropbox·Vercel 등 일부 도구부터 시작합니다. MCP Apps의 확장 기능을 바탕으로 하며 개발자 지원은 공개 프리뷰입니다. 앱 변경은 기존 커넥터 승인 흐름을 따릅니다.",
+          "takeaway": "해석: MCP 도구 호출에 더해 같은 화면에서 원본 앱 상태와 변경을 볼 수 있는 변화입니다. 실제 반영 여부는 앱에서 확인해야 합니다.",
+          "action": "지원 앱의 시험 문서 한 개에서 변경 전후를 확인하세요. 연결이나 문서 변경은 여기서 실행하지 않았습니다.",
+          "url": "https://claude.com/resources/articles/interactive-connectors-full-tool"
+        }
+      ],
+      "recipe": {
+        "heading": "오늘 60분, 개인 프로젝트에서 무엇부터 끝낼까?",
+        "description": "Claude Sheets에 바로 넣을 수 있는 가상 할 일 네 개입니다. 막힌 작업을 빼고 오늘 끝낼 두 작업을 고르는 작은 활용 제안입니다.",
+        "steps": [
+          "새 Sheets 기능이 보이는 유료 계정에서 아래 요청을 붙여넣습니다.",
+          "원본 4행, 차단 여부, 시간 합계 수식을 확인합니다.",
+          "추천은 A+C, 합계 50분이어야 합니다. 이 결과와 다르면 수식과 선정 이유를 확인합니다."
+        ],
+        "prompt": "Claude Sheets로 아래 개인 프로젝트 할 일을 표로 만들어줘.\nID | 작업 | 시간(분) | 중요도(1~3) | 차단\nA | 오류 재현하기 | 20 | 3 | 없음\nB | 배포 설정하기 | 40 | 3 | 계정 대기\nC | 화면 테스트 추가 | 30 | 2 | 없음\nD | 소개문 다듬기 | 25 | 1 | 없음\n오늘 가능한 시간은 60분이야. 차단된 일은 빼고 중요도 합계가 최대인 작업 조합을 추천해줘. 원본 표를 보존하고 선택한 시간 합계를 수식으로 표시해줘. 추천 이유와, 차단이 풀리면 선택이 어떻게 달라지는지 한 줄씩 적어줘. 실제 파일·계정·외부 앱은 변경하지 마.",
+        "limitation": "확인 기대값은 A+C, 50분입니다. B의 차단이 풀려도 A+B는 60분입니다. 이는 가상 입력의 계산 결과이며 기능 실행·정확도 검증 성과가 아닙니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "Claude Sheets로 오늘 끝낼 작업 고르기",
+          "reason": "구체적인 입력과 사람이 계산할 수 있는 기대값으로 새 기능을 설명할 수 있습니다. 월간 소개 전 실제 수식 편집을 시험할 필요가 있습니다.",
+          "url": "https://claude.com/resources/articles/sheets-whiteboards-data"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gemini 4 Carbon, 유료 API와 Ultra로 제공 확대",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/"
+        },
+        {
+          "title": "Claude Sheets·Whiteboards 베타, Data는 정식 제공",
+          "url": "https://claude.com/resources/articles/sheets-whiteboards-data"
+        },
+        {
+          "title": "Claude, 연결 앱을 대화 옆이나 전체 화면으로",
+          "url": "https://claude.com/resources/articles/interactive-connectors-full-tool"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-11.webp",
+        "date": "2026-11-11",
+        "alt": "Carbon 유료 API 확대, Claude Sheets 베타, 연결 앱 순차 배포와 60분 할 일 선정 프롬프트를 2×2 손그림으로 요약한 AI 생성 삽화",
+        "width": 1024,
+        "height": 1536
+      }
+    },
+    {
       "id": "daily-2026-11-10",
       "type": "daily",
       "date": "2026-11-10",
