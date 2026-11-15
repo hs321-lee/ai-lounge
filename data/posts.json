@@ -2,6 +2,99 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-16",
+      "type": "daily",
+      "date": "2026-11-16",
+      "published": true,
+      "title": "Copilot 모델 6종 종료 예고 · Codex 탭 복구 · Gemini 선택지 평가",
+      "summary": "GitHub Copilot은 모델 종료를 예고했고, Codex CLI는 보조 대화를 복구하며, Gemini Decisions API는 정해진 선택지에 점수를 매깁니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "GitHub Copilot",
+        "Codex CLI",
+        "Gemini"
+      ],
+      "highlights": [
+        "GitHub Copilot: 12월 14일 모델 6종 종료 예정",
+        "Codex CLI 0.169.0: 저장한 보조 대화 복구",
+        "Gemini Decisions API: 정해진 선택지 평가"
+      ],
+      "sections": [
+        {
+          "heading": "GitHub Copilot, 12월 14일 모델 6종 종료 예고",
+          "summary": "GitHub는 12월 14일 Claude Fable 5, Gemini 4 Argon 등 모델 6종을 Copilot에서 종료한다고 발표했습니다. 개인 연간 구독의 Claude Haiku 4.5는 예외입니다.",
+          "relevance": "모델을 지정한 팀 작업이나 자동화는 종료 전에 대체 모델을 시험해 볼 수 있습니다.",
+          "label": "공식 종료 예정",
+          "date": "2026-11-13",
+          "body": "공식 목록은 Claude Fable 5, Claude Haiku 4.5, Gemini 3.8 Flash, Gemini 4 Argon, Grok 4.6, Kimi K3입니다. Chat, 인라인 수정, 에이전트 모드, 자동완성 등 Copilot 전반에 해당합니다. GitHub는 Fable 5.2, Haiku 5.5, Hydrogen, Carbon, Grok 4.7을 각각 권하며, Kimi K3 대안은 아직 공개하지 않았습니다. Business·Enterprise 조직에서 대체 모델 접근은 관리자 정책의 영향을 받습니다.",
+          "takeaway": "해석: 공급자가 권한 모델도 기존 작업에서 같은 결과를 내는지는 별도 확인이 필요합니다.",
+          "action": "모델을 고정한 작업 두 개를 골라 설정, 이용 가능 여부, 기존 결과와 비교할 기준을 적으세요.",
+          "url": "https://github.blog/changelog/2026-11-13-upcoming-deprecation-of-selected-github-copilot-models-in-december/"
+        },
+        {
+          "heading": "Codex CLI 0.169.0, 저장한 보조 대화를 다시 연다",
+          "summary": "선택적으로 켜는 터미널 작업 공간에서 여러 보조 대화 탭을 열 수 있습니다. 로컬에 저장한 탭은 Codex를 재시작한 뒤 다시 열 수 있습니다.",
+          "relevance": "본 작업과 검토 질문을 나눠 두고 다른 날 이어갈 때 이전 맥락을 찾기 쉬워집니다.",
+          "label": "CLI 정식 릴리스 · 선택 기능",
+          "date": "2026-11-13",
+          "body": "11월 10일에는 세션 관리 변화를 다뤘습니다. 이번 릴리스는 터미널의 다중 보조 대화 탭과 재시작 후 복구를 명시합니다. 에이전트 명령 센터에서 이름·프롬프트 미리보기·작업 디렉터리로 이전 작업을 찾는 기능도 추가됐습니다. 탭 분리는 별도의 권한 경계나 워크트리를 만든다는 뜻이 아닙니다.",
+          "takeaway": "해석: 일시적인 질문과 나중에 찾을 검토 기록을 처음부터 나누기 쉽습니다.",
+          "action": "공개 예제에서 읽기 전용 검토 탭 두 개를 만든 뒤 저장하고, 재시작 후 두 탭을 다시 찾아보세요.",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.169.0"
+        },
+        {
+          "heading": "Gemini Decisions API, 정해진 선택지에 점수를 매긴다",
+          "summary": "Google은 Gemini Decision 1 기반의 선택지 평가 API를 공개했습니다. 텍스트·이미지·음성·영상·PDF를 입력받아 선택지와 신뢰도 점수를 반환합니다.",
+          "relevance": "문서 분류처럼 답의 범위가 정해진 작업에서 자동 처리와 사람 검토를 나눌 수 있습니다.",
+          "label": "Gemini API 공개",
+          "date": "2026-11-11",
+          "body": "Google AI Studio에서 Gemini API 키로 시작할 수 있다고 공식 발표했습니다. Google 발표 기준 한 입력에 독립 질문을 최대 1,000개까지 넣을 수 있으며, 가격은 입력 100만 토큰당 0.10달러이고 출력 토큰 요금은 없습니다. 반환 점수는 판단 보조 자료이며 자기 데이터에서의 정확도를 보장하지 않습니다.",
+          "takeaway": "해석: 설명문 생성 없이 분류만 필요하다면, 정답을 아는 예시로 신뢰도 점수와 오류를 같이 볼 수 있습니다.",
+          "action": "짧은 공개 문서 세 개를 준비하고 분류가 모호한 예시 하나를 섞어 사람 검토로 넘기는 조건을 정하세요.",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/"
+        }
+      ],
+      "recipe": {
+        "heading": "Copilot 모델 교체 전, 보류할 작업부터 찾기",
+        "description": "공식 종료표와 가상 작업 세 개로 지금 시험할 것, 구독 예외, 대안 미발표를 구분합니다.",
+        "steps": [
+          "아래 가상 작업과 공식 종료표 링크를 함께 복사합니다.",
+          "작업별로 다음 행동과 확인 근거를 한 줄씩 받아 봅니다.",
+          "예외와 미발표 항목이 자동 교체로 표시되지 않았는지 확인합니다."
+        ],
+        "prompt": "GitHub의 Copilot 12월 종료 공지(https://github.blog/changelog/2026-11-13-upcoming-deprecation-of-selected-github-copilot-models-in-december/)와 다음 가상 작업을 대조해 줘. A: 조직에서 Gemini 4 Argon으로 문서 검토. B: 개인 연간 구독으로 Claude Haiku 4.5 사용. C: Kimi K3로 작업 항목 분류. 표에 작업·종료일 적용 여부·공식 대안·지금 할 검증·출처 근거를 써 줘. 조직 정책이 실제로 허용하는지는 미확인으로 두고, 공식 대안이 없거나 예외인 행은 자동 교체 대상에서 빼 줘.",
+        "limitation": "기대 결과: A는 대체 모델 시험, B는 개인 연간 구독 예외, C는 공식 대안 미발표입니다. 실제 계정 설정이나 모델 호출은 하지 않았습니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "모델 종료 전에 예외와 대안 미발표 분리하기",
+          "reason": "모델에 의존하는 작업을 모으고, 설정을 바꾸기 전에 검증 순서를 정하는 사례입니다.",
+          "url": "https://github.blog/changelog/2026-11-13-upcoming-deprecation-of-selected-github-copilot-models-in-december/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "GitHub Copilot 12월 모델 종료 공지",
+          "url": "https://github.blog/changelog/2026-11-13-upcoming-deprecation-of-selected-github-copilot-models-in-december/"
+        },
+        {
+          "title": "Codex CLI 0.169.0 원본 릴리스",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.169.0"
+        },
+        {
+          "title": "Google Gemini Decisions API 발표",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-16.webp",
+        "date": "2026-11-16",
+        "alt": "Copilot 모델 종료 예고, Codex 보조 대화 복구, Gemini 선택지 평가와 모델 교체 확인 절차를 담은 AI 생성 요약 삽화",
+        "width": 1024,
+        "height": 1536
+      }
+    },
+    {
       "id": "daily-2026-11-15",
       "type": "daily",
       "date": "2026-11-15",
