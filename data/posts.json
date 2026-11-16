@@ -2,6 +2,112 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-17",
+      "type": "daily",
+      "date": "2026-11-17",
+      "published": true,
+      "title": "VS Code 에이전트 받은편지함 · AdMob 스킬 공개 · Copilot 11월 종료 적용",
+      "summary": "VS Code는 주의가 필요한 세션을 모으고, Google은 AdMob 코딩 스킬을 공개했습니다. Copilot에서는 11월 종료 목록이 적용됐습니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "VS Code",
+        "GitHub Copilot",
+        "AdMob",
+        "Agent Skills"
+      ],
+      "highlights": [
+        "VS Code 1.146: 여러 작업 공간의 에이전트 세션을 한곳에서 확인",
+        "AdMob: 코딩 스킬 공개, 계정 연결 MCP는 초기 테스트",
+        "Copilot: 11월 16일 모델 3종 종료 적용, 접근 예외 확인"
+      ],
+      "sections": [
+        {
+          "heading": "VS Code 1.146, 확인이 필요한 에이전트 세션을 모은다",
+          "summary": "실험 기능 Inbox mode는 여러 작업 공간의 에이전트 세션을 한곳에서 보여 줍니다. Compare Models 프리뷰에서는 실험 옵션을 켜 에이전트가 비교를 시작하고 결과를 읽게 할 수 있습니다.",
+          "relevance": "작업 공간을 오가며 대기 중인 질문과 모델 비교 결과를 챙기는 팀에 유용합니다.",
+          "label": "정식 에디터 · 실험 기능",
+          "date": "2026-11-11",
+          "body": "VS Code 1.146 정식 릴리스 날짜는 11월 11일이고 GitHub 주간 정리는 11월 16일입니다. Inbox에서는 주의가 필요한 세션을 위에 두며 나머지는 보류하거나 다시 알리도록 할 수 있습니다. Compare Models에 에이전트를 사용하려면 비교 기능과 에이전트 도구를 설정에서 켜야 합니다. 채팅을 별도 창으로 옮기는 기능은 프리뷰입니다.",
+          "takeaway": "해석: 여러 세션을 관리할 때 새 작업을 더 여는 것보다 답변이 필요한 작업을 먼저 찾는 데 도움이 됩니다.",
+          "action": "실험 기능을 켤 수 있다면 공개 문서 사례 하나로 모델 두 개의 근거와 보류 처리부터 비교하세요.",
+          "url": "https://code.visualstudio.com/updates/v1_146"
+        },
+        {
+          "heading": "AdMob, 광고 SDK 통합을 돕는 Agent Skills 공개",
+          "summary": "Google이 광고 SDK 초기화·마이그레이션·검증 안내를 담은 스킬을 공개했습니다. 계정의 광고 단위와 중개 설정을 다루는 MCP 서버는 초기 테스트 단계입니다.",
+          "relevance": "광고 통합을 하는 앱 팀은 실제 계정 변경 없이 코드 검토부터 시작할 수 있습니다.",
+          "label": "스킬 공개 · MCP 초기 테스트",
+          "date": "2026-11-16",
+          "body": "Google 문서는 Next-Gen SDK용 스킬이 Antigravity, Claude Code, Codex, Cursor 등 스킬을 지원하는 도구에서 동작한다고 안내합니다. Android 마이그레이션과 통합 검증이 예시입니다. Google은 Gemini 기반 Ask AdMob도 발표했으며 앞으로 수개월에 걸쳐 시험할 계획입니다. 계정 연결 MCP는 2027년 초 더 많은 개발자에게 확대한다고 예고했습니다.",
+          "takeaway": "해석: 지금 읽고 적용할 코딩 지침과 앞으로 확대될 계정 변경 기능은 도입 시점이 다릅니다.",
+          "action": "공식 스킬의 검증 항목을 먼저 읽고 공개 샘플에서 초기화 또는 테스트 광고 설정 확인만 요청하세요.",
+          "url": "https://blog.google/products/publisher-connections/new-google-admob-tools/"
+        },
+        {
+          "heading": "Copilot, 11월 종료 목록 모델 3종 적용",
+          "summary": "GitHub는 Claude Opus 4.8·Opus 5와 GPT-5.6 Terra의 종료가 대부분의 Copilot 환경에 적용됐다고 밝혔습니다. 개인 연간 구독의 Opus 4.8과 기존 권한을 이용한 Opus 5의 일부 대체 실행은 예외입니다.",
+          "relevance": "모델 선택 화면과 이미 승인된 자동 대체 실행의 차이를 구분해야 합니다.",
+          "label": "적용 확인 · 12월 예고와 별도",
+          "date": "2026-11-16",
+          "body": "11월 16일 적용은 10월 15일에 예고됐으며 지난 데일리의 12월 14일 대상 6종과는 별개입니다. Claude Opus 5는 직접 선택 목록에서 빠졌지만 기존 승인 접근권에 따른 실행 중 거절 대체용으로 남습니다. 제안 대안은 Opus 5.5 또는 GPT-6.1 Sol·GPT-6 Luna이며 조직 모델 정책이 적용됩니다.",
+          "takeaway": "해석: 모델이 목록에서 사라졌다고 해서 예외 경로까지 없어졌다고 판단할 수 없습니다.",
+          "action": "업무에 지정된 모델명이 이 목록에 있는지 먼저 찾고, 대체 모델의 조직 접근과 결과 형식을 확인하세요.",
+          "url": "https://github.blog/changelog/2026-11-16-github-copilot-models-deprecated-on-november-16-2026/"
+        }
+      ],
+      "recipe": {
+        "heading": "모델 두 개가 일정 충돌을 어떻게 처리하는지 비교",
+        "description": "VS Code Compare Models에 넣을 가상 행사 공지입니다. 두 모델이 모순된 정보를 꾸며 채우지 않는지 확인합니다.",
+        "steps": [
+          "사용 가능한 모델 두 개를 비교 대상으로 고릅니다.",
+          "동일한 가상 공지와 질문을 두 모델에 사용합니다.",
+          "근거를 인용했는지와 시간 및 비용을 확정하지 않았는지 비교합니다."
+        ],
+        "prompt": "가상 행사 안내: 공지 A ‘금요일 14시 시작, 참가비 무료.’ 안내 B ‘금요일 15시 시작, 참가비는 추후 공지.’ 두 문서의 작성 시각은 없다. 참가자에게 보낼 초안을 쓰기 전에 날짜·시각·비용을 표로 정리해 줘. 각 행에 문서 근거와 확정·충돌·미확인을 적어 줘. 충돌한 시각과 비용을 임의로 고르지 말고 담당자에게 물을 질문을 한 줄씩 써 줘.",
+        "limitation": "기대 결과: 금요일은 공통, 시각과 비용은 충돌 또는 미확정, 확인할 질문은 두 개입니다. 이 공개 예시는 직접 실행한 성능 비교가 아닙니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "모델 비교에서 정확한 보류를 평가하기",
+          "reason": "같은 입력을 주고 문서 충돌과 확인 질문을 비교하는 간단한 사례입니다.",
+          "url": "https://code.visualstudio.com/updates/v1_146"
+        }
+      ],
+      "sources": [
+        {
+          "title": "VS Code 1.146 최종 릴리스 노트",
+          "url": "https://code.visualstudio.com/updates/v1_146"
+        },
+        {
+          "title": "GitHub Copilot 11월 16일 주간 정리",
+          "url": "https://github.blog/changelog/2026-11-16-github-copilot-weekly-releases-november-9/"
+        },
+        {
+          "title": "AdMob AI 도구 공식 발표",
+          "url": "https://blog.google/products/publisher-connections/new-google-admob-tools/"
+        },
+        {
+          "title": "AdMob Agent Skills 사용 문서",
+          "url": "https://developers.google.com/admob/android/next-gen/agent-skills"
+        },
+        {
+          "title": "Google Agent Skills 원본 저장소",
+          "url": "https://github.com/google/skills/tree/main/skills/ads"
+        },
+        {
+          "title": "Copilot 11월 16일 모델 종료 적용",
+          "url": "https://github.blog/changelog/2026-11-16-github-copilot-models-deprecated-on-november-16-2026/"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-17.webp",
+        "date": "2026-11-17",
+        "alt": "VS Code 세션, AdMob 스킬과 MCP 단계, Copilot 11월 모델 종료, 모델 비교 예제를 네 칸에 정리한 AI 생성 요약 삽화",
+        "width": 1024,
+        "height": 1536
+      }
+    },
+    {
       "id": "daily-2026-11-16",
       "type": "daily",
       "date": "2026-11-16",
