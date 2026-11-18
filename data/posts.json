@@ -2,6 +2,100 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-19",
+      "type": "daily",
+      "date": "2026-11-19",
+      "published": true,
+      "title": "Gemini 4 Neon 공개 · Vibe Desktop 통합 · Codex 음성 연결",
+      "summary": "Gemini는 복잡한 에이전트 작업용 Neon을, Mistral은 로컬·클라우드 코딩을 묶은 데스크톱 앱을 공개했습니다. Codex TUI에는 실시간 음성 연결 처리가 추가됐습니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "Gemini",
+        "Mistral Vibe",
+        "Codex"
+      ],
+      "highlights": [
+        "Gemini 4 Neon 유료 API·Pro·Ultra 배포 시작",
+        "Vibe Desktop, 로컬·클라우드 코딩과 변경 검토 통합",
+        "Codex CLI 0.170.0, TUI 실시간 음성 연결 지원"
+      ],
+      "sections": [
+        {
+          "heading": "Gemini 4 Neon, 복잡한 작업의 깊이와 속도 조절",
+          "summary": "Google이 100만 토큰 문맥과 네 단계 thinking을 지원하는 Gemini 4 Neon의 배포를 시작했습니다.",
+          "relevance": "긴 문서 분석과 여러 파일 수정처럼 반복 호출이 많은 작업에서 비용과 검토 시간을 비교해 볼 수 있습니다.",
+          "label": "제품 업데이트",
+          "date": "2026-11-18",
+          "body": "유료 Gemini API는 100만 입력/출력 토큰당 3/15달러, 캐시 입력은 0.15달러입니다. Google AI Studio·Gemini for business와 유료 Google AI Pro·Ultra의 Antigravity 및 Gemini 앱에 배포합니다. 어제 다룬 Hydrogen 기반 무료 Tasks 확대와 달리 새 유료 모델의 출시입니다. 비용·성능 개선 수치는 Google과 인용 평가의 조건에 따른 결과로, 개별 프로젝트 성과가 아닙니다.",
+          "takeaway": "해석: Carbon·Hydrogen 외에 복잡한 작업의 호출 비용과 대기 시간을 비교할 선택지가 늘었습니다.",
+          "action": "같은 공개 버그 재현 사례에서 기존 모델과 Neon의 수정 범위·테스트·재작업 횟수를 비교하세요.",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/"
+        },
+        {
+          "heading": "Vibe Desktop, 로컬·클라우드 코딩과 PR 검토 통합",
+          "summary": "Mistral이 macOS·Windows용 Vibe Desktop을 정식 공개했습니다. 로컬 저장소와 관리형 클라우드 샌드박스 작업을 한 앱에서 다룹니다.",
+          "relevance": "여러 작업의 로그·파일·Git diff·PR을 오가며 확인하는 사람에게 유용합니다.",
+          "label": "제품 업데이트",
+          "date": "2026-11-17",
+          "body": "공식 릴리스 노트는 11월 17일이며 관련 보도는 18일에 나왔습니다. 로컬 세션은 CLI의 핵심 엔진과 로그를 공유하지만 별도 CLI 설치는 필요하지 않습니다. Git worktree 격리, 하위 대화 확인, 백그라운드 명령의 출력과 중단, Unified/Split diff 및 PR 상태 확인을 제공합니다. Linux는 공식 예고·일정 미정입니다. 정식 앱 제공이 모든 모델 사용의 무제한 무료를 뜻하지는 않습니다.",
+          "takeaway": "해석: 병렬 작업 수보다 어느 작업이 어떤 파일을 고쳤는지 확인하는 흐름이 핵심입니다.",
+          "action": "공개 샘플 저장소의 작은 오류 하나를 로컬 세션에서 재현하고, 변경 diff와 테스트 출력이 함께 확인되는지 살펴보세요.",
+          "url": "https://docs.mistral.ai/resources/release-notes"
+        },
+        {
+          "heading": "Codex CLI 0.170.0, TUI 실시간 음성 연결 처리 추가",
+          "summary": "Codex CLI에 실시간 음성 통화용 WebRTC 협상이 추가됐고, 환경별 동일 이름 MCP 서버 지원은 실험 기능으로 들어갔습니다.",
+          "relevance": "터미널 에이전트를 음성으로 조작하거나 여러 환경의 MCP를 운영하는 흐름의 변화입니다.",
+          "label": "제품 업데이트",
+          "date": "2026-11-18",
+          "body": "공식 GitHub 릴리스는 11월 18일 03:40 UTC입니다. 음성 관련 코드는 추가됐지만 이 사실만으로 모든 계정·플랫폼에 완성된 음성 기능이 활성화됐다고 단정할 수 없습니다. MCP OAuth 경합, Cloud 대화 재연결, 권한 변경 시 하위 대화의 기존 샌드박스 제한 보존 수정도 포함합니다. 어제 소개한 GPT-6.2 모델 출시와는 별도의 CLI 업데이트입니다.",
+          "takeaway": "해석: 코드에 새 연결 처리가 있는지와 내 환경에서 기능이 제공되는지는 별도로 확인해야 합니다.",
+          "action": "현재 버전을 확인하고 공개 샘플 세션에서 재연결과 권한 유지부터 점검하세요. 음성은 실제 계정의 노출 여부를 확인합니다.",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0"
+        }
+      ],
+      "radar": [],
+      "recipe": {
+        "heading": "쉼표가 든 이름이 CSV에서 두 칸으로 갈라지는 오류 고치기",
+        "description": "Vibe Desktop에서 재현 테스트, 최소 수정, diff 검토가 한 흐름으로 연결되는지 확인하는 활용 제안입니다.",
+        "steps": [
+          "개인정보가 없는 공개 CSV 내보내기 샘플을 별도 작업 트리에서 여세요.",
+          "아래 요청으로 실패 테스트와 수정 계획부터 확인하세요.",
+          "승인한 수정 후 테스트 출력과 Git diff를 나란히 보고 관련 없는 변경이 없는지 살펴보세요."
+        ],
+        "prompt": "이 공개 CSV 내보내기 샘플에서 이름이 “Kim, Mina”인 행을 내보내면 열이 늘어나는지 재현해 줘. 먼저 실패 테스트와 최소 수정 계획만 보여 줘. 합격 기준은 쉼표·따옴표·줄바꿈이 든 이름을 저장하고 다시 읽어도 원래 이름과 열 수가 유지되는 것이다. 단순 쉼표 분할도 되는지 반례로 확인해 줘. 파일·함수별 변경 이유와 실제 테스트 출력을 남기고, 관련 없는 수정은 하지 마. 테스트를 못 돌리면 이유를 적어 줘.",
+        "limitation": "기대 결과는 특수문자를 가진 필드가 한 열로 복원되고 테스트·diff로 확인되는 것입니다. 이번 조사에서 Vibe 설치나 코드 수정·평가는 실행하지 않았습니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "에이전트 수정에서 재현 테스트와 diff 함께 보기",
+          "reason": "작은 CSV 오류를 고치며 변경 범위와 확인 증거를 연결하는 범용 사례입니다.",
+          "url": "https://docs.mistral.ai/resources/release-notes"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gemini 4 Neon, 복잡한 작업의 깊이와 속도 조절",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/"
+        },
+        {
+          "title": "Vibe Desktop, 로컬·클라우드 코딩과 PR 검토 통합",
+          "url": "https://docs.mistral.ai/resources/release-notes"
+        },
+        {
+          "title": "Codex CLI 0.170.0, TUI 실시간 음성 연결 처리 추가",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.170.0"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-19.webp",
+        "date": "2026-11-19",
+        "alt": "Gemini 4 Neon, Vibe Desktop, Codex 음성 연결과 CSV 오류 재현 활용을 담은 2×2 AI 생성 요약 삽화",
+        "width": 1024,
+        "height": 1536
+      }
+    },
+    {
       "id": "daily-2026-11-18",
       "type": "daily",
       "date": "2026-11-18",
