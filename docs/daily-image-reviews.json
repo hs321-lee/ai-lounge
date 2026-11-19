@@ -1300,6 +1300,32 @@
         "result": "pass",
         "notes": "작성·수정에 참여하지 않고 원고와 고정 원본·최종 WebP를 같은 1024×1536으로 직접 대조했습니다. 날짜와 번호 1–4, Neon의 유료 API·100만 토큰, Vibe의 로컬·클라우드와 플랫폼, Codex 음성 연결·노출 별도 확인, CSV 오류 재현·출력·변경 비교가 일치합니다. 한 셀의 Kim, Mina와 각 삽화, 크림 종이·불균일한 갈색 선·사선 음영·주황 수채 붓결·2×2 구획·여백·가독성 및 AI 생성 표기를 확인했습니다."
       }
+    },
+    {
+      "date": "2026-11-20",
+      "imageSha256": "7fa3d5809c61cd5dd0cf8524590b9ae3f693e2af5bec511590ee3690589cbd94",
+      "contentSha256": "54be06f50ca29869e9d182a4999ffbe0522ef8ad6880c5ec8119811538d9a4f2",
+      "reference": {
+        "commit": "2a48e5221580dfc634660b6d88b8a5afe8b75688",
+        "path": "assets/daily/2026-10-30.webp"
+      },
+      "provenance": {
+        "method": "generated",
+        "tool": "image_gen",
+        "details": "고정 승인 원본을 실제 참조해 Gemini 도구 검색, Claude Code 자동 모드, VS Code 예약 요청과 빌드 로그 읽기를 네 칸으로 요약했습니다."
+      },
+      "authorReview": {
+        "reviewer": "daily-author",
+        "reviewedAt": "2026-11-19T23:26:11Z",
+        "result": "pass",
+        "notes": "고정 원본과 최종 WebP를 같은 1024×1536으로 직접 열고 최종 본문과 대조했습니다. 날짜·한글·제품명과 프리뷰·실험 단계, 호스트 조건, build.log 세 줄 결과 및 예약 실행 미검증 표기가 맞습니다. 크림 종이, 불균일한 짙은 갈색 펜선, 연필 사선과 주황 수채 붓결, 2×2 구획·여백과 도구함·권한문·시계·로그 삽화의 일치를 확인했습니다."
+      },
+      "independentReview": {
+        "reviewer": "independent-visual-reviewer",
+        "reviewedAt": "2026-11-19T23:25:15Z",
+        "result": "pass",
+        "notes": "작성·생성에 참여하지 않고 고정 원본과 최종 WebP를 같은 1024×1536으로 직접 열어 최종 본문과 대조했습니다. 날짜·한글·제품명과 공개 프리뷰·실험 단계, 호스트 조건, build.log와 상태·근거·다음 행동이 일치하고 예약 실행 미검증 표기도 읽힙니다. 과금·Mac 이용 조건 보완과 모순이 없습니다. 크림 종이·브라운 펜선·연필 사선·주황 수채 붓터치, 2×2 구획·여백과 내용 관련 삽화를 확인했습니다."
+      }
     }
   ]
 }
