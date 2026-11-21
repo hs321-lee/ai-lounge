@@ -2,6 +2,100 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-22",
+      "type": "daily",
+      "date": "2026-11-22",
+      "published": true,
+      "title": "Claude 터미널 차트 · Space Plus 확대 · 성능 진단 반대 검토",
+      "summary": "AI의 결과를 차트로 읽고 함께 편집하는 기능이 넓어지는 가운데, 원인 진단을 반박하고 다시 확인하는 운영 사례도 공개됐습니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "Claude Code",
+        "ChatGPT Space",
+        "AI 에이전트"
+      ],
+      "highlights": [
+        "Claude Code easel 터미널 차트",
+        "ChatGPT Space Plus 순차 제공",
+        "Performance Factory의 별도 진단 검토"
+      ],
+      "sections": [
+        {
+          "heading": "Claude Code 2.1.330, 터미널에서 지표를 차트로",
+          "summary": "내장 mod인 easel이 요청한 데이터와 MCP 지표 결과를 차트로 표시합니다. macOS·Linux의 Pro·Max와 제공 가능한 Team·Enterprise가 대상입니다.",
+          "relevance": "수치 확인과 시각화를 같은 대화에서 이어갈 수 있습니다.",
+          "body": "릴리스 시각은 11월 20일 22:32 UTC, 한국 시각 21일 07:32입니다. 자동 차트는 /config에서 끌 수 있습니다. Enterprise Admin Console 조직 로그인 지원도 추가됐습니다. 11월 20일 소개한 auto mode와 다른 변화입니다. 이번 실행에서 easel을 직접 실행하지 않았습니다.",
+          "takeaway": "해석: 차트가 생겨도 원자료와 축·단위를 함께 확인해야 해석 오류를 줄일 수 있습니다.",
+          "action": "아래 가상 CSV를 붙여 넣고 원자료 표와 차트의 일치 여부를 확인하세요.",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.330",
+          "label": "제품 업데이트",
+          "date": "2026-11-21"
+        },
+        {
+          "heading": "ChatGPT Space, Plus 성인 사용자에게 확대",
+          "summary": "11월 20일부터 전 세계 18세 이상 Plus 사용자에게 Space를 순차 제공합니다. 대화형 페이지·발표 자료를 만들고 Space 접근 권한이 있는 사람과 함께 편집할 수 있습니다.",
+          "relevance": "공유 문서와 발표 자료를 연결된 앱·도구의 내용에 맞춰 갱신하는 작업에 유용합니다.",
+          "body": "공유 자료를 열려면 보기 권한과 Space 접근이 있는 Plus·Pro·Business·Enterprise 로그인이 필요합니다. Free에서는 열 수 없고 공개 링크는 제공되지 않습니다. 웹·데스크톱·iOS·Android를 지원하며 계정별 반영 시점은 다를 수 있습니다. 별도 11월 19일 모바일 UI 개편의 한국 제외 조건과 혼동하지 않았습니다.",
+          "takeaway": "해석: 협업 범위는 공유 링크 자체보다 상대방의 요금제·접근 권한으로 결정됩니다.",
+          "action": "공개 가능한 예제 문서 하나를 만들고 초대할 사람의 접근 조건부터 확인하세요.",
+          "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+          "label": "제품 업데이트",
+          "date": "2026-11-20"
+        },
+        {
+          "heading": "Performance Factory, 성능 진단에 반대 검토 추가",
+          "summary": "OpenAI가 Codex 기반 내부 성능 조사 운영 사례를 공개했습니다. 별도 Codex 세션이 원인 진단을 반박해 보고, 사람이 수정 PR을 검토한 뒤 배포 후 회복 여부를 다시 확인합니다.",
+          "relevance": "공용 스킬과 여러 에이전트로 조사·검토·후속 확인을 나누려는 운영자에게 참고가 됩니다.",
+          "body": "공유 스킬 perf-forensics를 과거 회귀 사례의 eval로 다듬었습니다. 작업 상태와 근거는 한 에이전트의 문맥 밖에 기록합니다. 공개 설치 제품이나 일반 계정에 추가된 기능은 아닙니다. 발표자의 내부 운영 사례이며 외부 환경의 성과를 보장하지 않습니다.",
+          "takeaway": "해석: 그럴듯한 설명을 얻는 것보다 반례와 배포 후 지표까지 이어지는 절차가 핵심입니다.",
+          "action": "기존 조사 절차에 원인 반박 질문 한 개와 회복 확인 기준 한 개를 추가해 보세요.",
+          "url": "https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast/",
+          "label": "운영 사례",
+          "date": "2026-11-19"
+        }
+      ],
+      "radar": [],
+      "recipe": {
+        "heading": "가상 지연시간 CSV를 차트와 원자료로 함께 확인",
+        "description": "Claude Code easel에 연결한 작은 시각화 실험입니다. 실제 서비스 로그 대신 아래 가상 자료를 사용합니다.",
+        "steps": [
+          "지원 요금제·운영체제와 Claude Code 버전을 확인하세요.",
+          "아래 프롬프트를 붙여 넣고 차트와 표를 요청하세요.",
+          "축·단위와 11시 값, 원인 추정의 한계를 확인하세요."
+        ],
+        "prompt": "다음은 가상 지연시간 CSV야.\ntime,p50_ms,p95_ms\n09:00,100,200\n10:00,110,220\n11:00,105,600\n12:00,100,210\n목표: p50과 p95를 시간별 차트로 그리고 같은 원자료 표를 보여 줘. 축과 ms 단위를 명시하고 11시 p95를 강조해 줘. 결과는 차트 / 표 / 관찰 사실 2개 / 이 자료만으로 원인을 단정할 수 없는 반례 1개 순서로 작성해 줘. 차트를 지원하지 않으면 그 사실을 알려 줘.",
+        "limitation": "기대 결과는 두 계열과 11시 p95 600ms가 원자료와 일치하고, p50은 크게 변하지 않았다는 관찰입니다. 원인은 이 네 행만으로 확정할 수 없습니다. easel 실제 실행과 화면은 미검증입니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "성능 진단을 반박하는 별도 에이전트와 회복 확인",
+          "reason": "공용 스킬·과거 사례 eval·진단 반박·사람의 PR 검토를 연결한 공개 운영 사례입니다.",
+          "url": "https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Claude Code 2.1.330, 터미널에서 지표를 차트로",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.330"
+        },
+        {
+          "title": "ChatGPT Space, Plus 성인 사용자에게 확대",
+          "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+        },
+        {
+          "title": "Performance Factory, 성능 진단에 반대 검토 추가",
+          "url": "https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast/"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-22.webp",
+        "date": "2026-11-22",
+        "width": 1024,
+        "height": 1536,
+        "alt": "AI 생성 요약 삽화: Claude Code 터미널 차트, Space Plus 확대, 성능 진단 반대 검토와 가상 CSV 시각화"
+      }
+    },
+    {
       "id": "daily-2026-11-21",
       "type": "daily",
       "date": "2026-11-21",
