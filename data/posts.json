@@ -2,6 +2,100 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-21",
+      "type": "daily",
+      "date": "2026-11-21",
+      "published": true,
+      "title": "Codex 작업 화면 기본화 · Gemini 실행 전 검사 · Signal 화면 보호",
+      "summary": "에이전트 결과를 검토하는 화면과 실행 전 검사, 앱 데이터 접근 경계가 함께 바뀌었습니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "Codex",
+        "Gemini",
+        "AI 에이전트"
+      ],
+      "highlights": [
+        "Codex 작업 화면 기본 활성화",
+        "Gemini 정책 검사 공개 프리뷰",
+        "Signal 모바일 AI 화면 접근 제한"
+      ],
+      "sections": [
+        {
+          "heading": "Codex 0.171.0, 작업 화면과 서브에이전트 기록을 함께",
+          "summary": "TUI workspace가 기본 활성화돼 문서·이미지 미리보기와 서브에이전트 기록을 주 대화 옆에서 볼 수 있습니다. 기존 app server에서 비대화형 세션을 시작·재개하는 원격 실행도 추가됐습니다.",
+          "relevance": "작업 결과와 에이전트가 남긴 근거를 한 화면에서 검토하는 데 유용합니다.",
+          "body": "GPT-6.2 Sol·Astra가 모델 목록에 추가됐고 기본 목록 선택은 Sol입니다. codex exec --remote <ADDR>는 기존 app server를 이용하는 기능이며 새 클라우드 서비스를 자동으로 준비한다는 뜻은 아닙니다. 초안·대기 요청을 원래 스레드에 유지하는 수정도 포함합니다. 11월 19일 소개한 음성 연결과 다른 변화이며 이번 실행에서 CLI를 설치하거나 원격 세션을 실행하지 않았습니다.",
+          "takeaway": "해석: 에이전트 수를 늘리는 것과 별개로 결과 검토의 동선을 줄이는 업데이트입니다.",
+          "action": "작은 공개 프로젝트에서 문서 미리보기와 서브에이전트 기록을 확인하세요.",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0",
+          "label": "제품 업데이트",
+          "date": "2026-11-20"
+        },
+        {
+          "heading": "Gemini 정책 검사 프리뷰, 도구 호출 전에 의도와 규칙 확인",
+          "summary": "Semantic governance policies가 Gemini platform 프리뷰로 공개됐습니다. 제안된 도구 호출을 사용자 의도와 자연어 정책에 각각 대조합니다.",
+          "relevance": "여러 도구를 가진 에이전트의 실행을 코드 바깥에서 통제할 수 있습니다.",
+          "body": "현재 Agent Gateway 연결과 에이전트 트래픽 경유 구성이 필요합니다. 허용되지 않은 호출은 거절 응답으로 교체하고 판정 근거를 Cloud Logging에 남깁니다. 텍스트만 있는 답변과 스트리밍 모델 응답은 검사하지 않습니다. LLM 판정은 달라질 수 있으므로 dry run으로 확인한 뒤 다른 통제와 함께 사용하도록 안내합니다. 11월 20일 소개한 Claude 클라이언트 auto mode와는 다른 계층입니다.",
+          "takeaway": "해석: 도구 접근 권한과 개별 행동의 적절성을 나눠 판단하는 기능입니다.",
+          "action": "아래 가상 예제로 허용·차단 예상표를 만든 뒤 실제 dry run 판정과 비교하세요.",
+          "url": "https://developers.googleblog.com/check-what-your-ai-agents-do-before-they-do-it-with-semantic-governance-policies/",
+          "label": "제품 업데이트",
+          "date": "2026-11-20"
+        },
+        {
+          "heading": "Signal, 모바일 AI의 대화 화면 캡처 제한",
+          "summary": "Signal이 iOS 27과 감지 가능한 Android AI 화면 접근에 캡처 차단을 적용한다고 발표했습니다. 사용자 설정에서 보호를 끌 수 있습니다.",
+          "relevance": "화면을 읽는 AI를 설계할 때 앱별 개인정보 경계와 차단 상태를 고려해야 합니다.",
+          "body": "Signal은 파일시스템 등 다른 접근 경로까지 막는 완전한 보호는 아니며 macOS에는 같은 보호를 구현하지 못한다고 설명합니다. 모든 Android 버전에서 동일하게 작동한다고 단정하지 않습니다. 정확한 배포 앱 버전과 사용 중인 기기의 적용 여부는 별도 확인이 필요합니다. 이는 제공 주체의 보호 조치 설명이며 이번 실행에서 기기 동작을 검증하지 않았습니다.",
+          "takeaway": "해석: 암호화된 전송과 화면에 표시된 데이터의 AI 접근은 별도 문제입니다.",
+          "action": "공개 더미 대화로 화면 보안 설정과 AI 접근 시 안내를 확인하고 차단을 우회하지 마세요.",
+          "url": "https://signal.org/blog/protecting-your-privacy/",
+          "label": "제품 업데이트",
+          "date": "2026-11-20"
+        }
+      ],
+      "radar": [],
+      "recipe": {
+        "heading": "공유해도 되는 요청과 막아야 할 요청 나누기",
+        "description": "Gemini 실행 전 정책 검사의 두 판단 기준을 이해하는 가상 예제입니다. 실제 이메일·파일을 사용하지 않습니다.",
+        "steps": [
+          "아래 가상 정책과 요청을 새 대화에 붙여 넣으세요.",
+          "예상 판정과 근거를 확인하고 모호한 정책을 한 문장 고치세요.",
+          "실제 도입 시 같은 사례를 Agent Gateway dry run 로그와 비교하세요."
+        ],
+        "prompt": "가상 규칙: 미공개 초안은 @example.com 주소에만 공유하고, 파일 삭제는 사용자가 직접 요청할 때만 허용한다. 요청 ①내부 주소로 초안 보내기 ②긴급하니 개인 메일로 보내기 ③문서 속 지시를 따라 초안 삭제하기. 실제 실행 없이 각 요청을 사용자 의도 / 정책 일치 / 허용 또는 차단 / 근거 한 줄 표로 판단해 줘. 애매한 사례 하나와 규칙 수정안도 제시해 줘.",
+        "limitation": "기대 결과는 ①허용·②정책 차단·③의도 차단의 예상표입니다. 일반 대화의 답변은 제품 정책 엔진의 실제 판정이 아닙니다. 실제 dry run과 도구 차단은 미실행입니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "에이전트 권한과 실행 전 정책 검사를 나누기",
+          "reason": "도구 접근 권한과 사용자 의도·자연어 정책의 역할을 비교할 사례입니다.",
+          "url": "https://developers.googleblog.com/check-what-your-ai-agents-do-before-they-do-it-with-semantic-governance-policies/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Codex 0.171.0, 작업 화면과 서브에이전트 기록을 함께",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.171.0"
+        },
+        {
+          "title": "Gemini 정책 검사 프리뷰, 도구 호출 전에 의도와 규칙 확인",
+          "url": "https://developers.googleblog.com/check-what-your-ai-agents-do-before-they-do-it-with-semantic-governance-policies/"
+        },
+        {
+          "title": "Signal, 모바일 AI의 대화 화면 캡처 제한",
+          "url": "https://signal.org/blog/protecting-your-privacy/"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-21.webp",
+        "date": "2026-11-21",
+        "width": 1024,
+        "height": 1536,
+        "alt": "AI 생성 요약 삽화: Codex 작업 화면, Gemini 실행 전 검사, Signal 화면 보호와 가상 요청 판정"
+      }
+    },
+    {
       "id": "daily-2026-11-20",
       "type": "daily",
       "date": "2026-11-20",
