@@ -50,6 +50,7 @@ function renderScene(section, index) {
       ${section.steps ? `<ol class="scene-steps">${section.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol>` : ""}
       ${section.code ? `<pre class="scene-code">${section.code.map(line=>`<span>$ </span>${escape(line)}`).join("\n")}</pre>` : ""}
       ${section.takeaway ? `<p class="scene-takeaway">${escape(section.takeaway)}</p>` : ""}
+      ${section.instructorQuote ? `<figure class="instructor-quote"><blockquote>“${escape(section.instructorQuote.text)}”</blockquote><figcaption>${escape(section.instructorQuote.attribution)}</figcaption></figure>` : ""}
       ${renderGenerationExample(section.generationExample)}
       ${section.courseSource ? `<details class="scene-notes course-source"><summary>자료 · ${escape(section.courseSource.label)}</summary><p>${escape(section.courseSource.detail)}</p></details>` : ""}
       ${section.speakerNotes ? `<details class="scene-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p></details>` : ""}`;

@@ -103,6 +103,9 @@ html,body{overflow-x:clip}
 .story-topic .scene-points li{font-size:clamp(1.05rem,1.3vw,1.3rem);padding-left:1.15rem}
 .story-topic .scene-points li::before{width:.42rem;height:.42rem}
 .scene-takeaway{max-width:48em;margin:1.45rem 0 0;border-inline-start:3px solid var(--story-accent);padding-inline-start:.85rem;font-weight:700;line-height:1.5}
+.instructor-quote{margin:1.5rem 0 0;padding-inline-start:1rem;border-inline-start:3px solid var(--story-accent);word-break:keep-all}
+.instructor-quote blockquote{margin:0;font-size:clamp(1.2rem,1.65vw,1.75rem);font-weight:700;line-height:1.5}
+.instructor-quote figcaption{margin-top:.5rem;color:var(--story-muted);font-size:.95rem;line-height:1.5}
 .scene-notes{margin:1.15rem 0 0;max-width:48em;color:var(--story-muted);font-size:1rem;line-height:1.6}
 .scene-notes summary{width:fit-content;cursor:pointer;font-weight:650}
 .scene-notes p{margin:.55rem 0 0;white-space:pre-line}
