@@ -98,7 +98,17 @@ for (const post of data.posts) {
     }
   }
   assert.ok(Array.isArray(post.sections) && post.sections.length, `${post.id}: sections 필요`);
+  if (post.presentation !== undefined) {
+    assert.equal(post.type, "monthly");
+    assert.equal(post.presentation, "slides");
+  }
   for (const section of post.sections) {
+    if (post.presentation === "slides") {
+      requiredText(section.label, `${post.id}: 슬라이드 주제`);
+      requiredText(section.speakerNotes, `${post.id}: 발표 메모`);
+      assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
+      if (section.spotlight !== undefined) assert.equal(typeof section.spotlight, "boolean");
+    }
     assert.ok(typeof section.heading === "string" && section.heading.trim(), `${post.id}: heading 필요`);
     assert.equal(typeof section.body, "string", `${post.id}: body 필요`);
     for (const key of ["label", "takeaway", "action", "summary", "relevance"]) if (section[key] !== undefined) requiredText(section[key], `${post.id}: section ${key}`);
@@ -140,7 +150,7 @@ for (const post of data.posts) {
       assert.ok(typeof section.part === "string" && section.part.trim(), `${post.id}: chapter part 필요`);
       assert.equal(new URL(section.url).protocol, "https:", `${post.id}: chapter url은 HTTPS`);
     } else if (!section.media && !section.stats && !section.points && !section.steps && !section.code) {
-      assert.ok(section.body.trim(), `${post.id}: 내용 없는 장면: ${section.heading}`);
+      assert.ok(section.body.trim() || section.instructorQuote?.text.trim(), `${post.id}: 내용 없는 장면: ${section.heading}`);
     }
     for (const key of ["points", "steps", "code"]) if (section[key] !== undefined) assert.ok(Array.isArray(section[key]) && section[key].every(item=>typeof item === "string" && item.trim()), `${post.id}: ${key} 오류`);
     if (section.stats !== undefined) assert.ok(Array.isArray(section.stats) && section.stats.every(stat=>stat.value?.trim() && stat.label?.trim()), `${post.id}: stats 오류`);

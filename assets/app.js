@@ -57,6 +57,32 @@ function renderScene(section, index) {
   const sceneType = section.kind === "chapter" ? " story-chapter" : section.label ? " story-topic" : "";
   return `<section class="story-scene${sceneType}${section.conceptIllustration ? " story-concept" : ""}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
 }
+function slideNav(index, total) {
+  return `<nav class="slide-nav" aria-label="슬라이드 이동"><button type="button" data-slide-to="${index-1}"${index===0 ? " disabled" : ""}>이전</button><span aria-label="현재 장">${index+1} / ${total}</span><button type="button" data-slide-to="${index+1}"${index===total-1 ? " disabled" : ""}>다음</button></nav>`;
+}
+function renderSeminarSlide(section, index, sections) {
+  const media = section.media || [];
+  const mainFigure = media.length > 0 && !section.stats;
+  const extraStart = mainFigure ? 1 : 0;
+  const extra = media.slice(extraStart);
+  const source = section.courseSource;
+  const quote = section.instructorQuote;
+  const numbers = section.stats?.map(stat => `<div><dt>${escape(stat.label)}</dt><dd>${escape(stat.value)}</dd></div>`).join("");
+  return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
+    <div class="slide-stage${mainFigure || numbers ? " slide-split" : ""}">
+      <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
+        ${section.body ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
+        ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
+      </div>
+      ${mainFigure ? renderGallery(media.slice(0,1), index) : ""}
+      ${numbers ? `<dl class="slide-numbers">${numbers}</dl>` : ""}
+    </div>
+    <div class="slide-foot"><details class="slide-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p>
+      <p class="slide-source"><strong>${escape(source.label)}</strong><br>${escape(source.detail)}</p>
+      ${extra.length ? renderGallery(extra, index, extraStart) : ""}</details>
+      ${slideNav(index+1, sections.length+1)}
+    </div></section>`;
+}
 function monthlyIssueLink(issue) {
   const month = issue.date.slice(0, 7);
   return issues.filter(item => item.date.startsWith(month)).length > 1
@@ -86,15 +112,16 @@ function renderMonthlySources(issue) {
 }
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
+  const slides = issue.presentation === "slides";
   const chapters = issue.sections.map((section,index)=>({ section, index })).filter(item=>item.section.kind === "chapter");
-  main.innerHTML = `<div class="monthly-detail-nav"><a href="#monthly">← ${escape(navigationLabels.monthly)} 목록</a><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><div class="monthly-story"><section class="story-scene story-cover" data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · ${escape(navigationLabels.monthly)} · AI 라운지</p>${issue.coverArt ? '<div class="concept-cover-lead"><div>' : ""}<h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p>
+  main.innerHTML = `<div class="monthly-detail-nav"><a href="#monthly">← ${escape(navigationLabels.monthly)} 목록</a><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><div class="monthly-story${slides ? " seminar-deck" : ""}"><section class="story-scene story-cover"${slides ? ' tabindex="-1"' : ""} data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · ${escape(navigationLabels.monthly)} · AI 라운지</p>${issue.coverArt ? '<div class="concept-cover-lead"><div>' : ""}<h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p>
   ${issue.coverNote ? `<p class="monthly-public-note">${escape(issue.coverNote)}</p>` : ""}
   ${issue.coverArt ? `</div><img src="${escape(issue.coverArt.src)}" alt="${escape(issue.coverArt.alt)}" width="${issue.coverArt.width}" height="${issue.coverArt.height}"></div>` : ""}
   ${issue.coverTopics?.length ? `<ul class="scene-stats story-cover-topics" aria-label="교육 과정">${issue.coverTopics.map(topic=>`<li><strong>${escape(topic.title)}</strong><span>${escape(topic.description)}</span></li>`).join("")}</ul>` : ""}
   ${chapters.length ? `<ol class="story-chapters">${chapters.map(({section,index})=>`<li><span class="chapter-part">${escape(section.part)}</span><strong>${escape(section.heading)}</strong><span class="chapter-actions"><button type="button" class="story-jump" data-jump="${index}">바로 가기</button><a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} ↗</a></span></li>`).join("")}</ol>` : ""}
-  <p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p></section>
+  ${slides ? slideNav(0, issue.sections.length+1) : `<p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p>`}</section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
-  ${issue.sections.map(renderScene).join("")}
+  ${issue.sections.map(slides ? renderSeminarSlide : renderScene).join("")}
   ${renderMonthlySources(issue)}
   <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""></dialog>
   ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 달의 자료</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="${monthlyIssueLink(item)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
