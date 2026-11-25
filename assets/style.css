@@ -96,6 +96,17 @@ html,body{overflow-x:clip}
 .scene-points li::before{content:"";position:absolute;left:0;top:.6em;width:.6rem;height:.6rem;background:var(--story-accent)}
 .story-scene:not(.has-media) .scene-points{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem 3rem}
 .story-scene:not(.has-media) .scene-points li{font-size:clamp(1.35rem,1.8vw,2rem)}
+.scene-label{margin:0 0 .65rem;color:var(--story-accent);font-size:.95rem;font-weight:750}
+.story-topic .scene-text h2{word-break:keep-all;overflow-wrap:anywhere}
+.story-topic .scene-body{margin-top:1rem}
+.story-topic .scene-points{margin-top:1.25rem;gap:.6rem 2rem}
+.story-topic .scene-points li{font-size:clamp(1.05rem,1.3vw,1.3rem);padding-left:1.15rem}
+.story-topic .scene-points li::before{width:.42rem;height:.42rem}
+.scene-takeaway{max-width:48em;margin:1.45rem 0 0;border-inline-start:3px solid var(--story-accent);padding-inline-start:.85rem;font-weight:700;line-height:1.5}
+.scene-notes{margin:1.15rem 0 0;max-width:48em;color:var(--story-muted);font-size:1rem;line-height:1.6}
+.scene-notes summary{width:fit-content;cursor:pointer;font-weight:650}
+.scene-notes p{margin:.55rem 0 0;white-space:pre-line}
+@media(min-width:1101px){.story-topic.has-media .scene-grid{grid-template-columns:minmax(0,.88fr) minmax(0,1fr)}}
 .scene-code{margin:2rem 0 0;padding:1.25rem 1.5rem;background:oklch(22% .02 155);color:oklch(94% .01 110);font:clamp(.95rem,1.05vw,1.15rem)/1.9 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow-x:auto;white-space:pre}
 .scene-code span{color:oklch(70% .02 155);user-select:none}
 
