@@ -276,3 +276,26 @@ html:has(.seminar-deck){scroll-behavior:auto}
   .slide-nav{gap:.45rem}
   .slide-nav button{padding-inline:.7rem}
 }
+
+/* Slide focus follows navigation; interactive controls retain their own focus rings. */
+.seminar-deck [data-scene]:focus{outline:none}
+
+/* Project one readable detail from a study sheet. Its link opens the whole original. */
+.notebook-excerpt{margin:0;min-width:0}
+.notebook-window{display:block;position:relative;overflow:hidden;background:#faf7f0;border-radius:12px}
+.notebook-window img{position:absolute;inset:0 auto auto 0;width:100%;max-width:none;height:auto;display:block;transform:translateY(var(--notebook-offset))}
+.notebook-excerpt figcaption{margin-top:.7rem;color:var(--story-muted);font-size:.95rem;line-height:1.55;text-align:center}
+.notebook-excerpt figcaption span{white-space:nowrap}
+.notebook-spread{min-width:0}
+.seminar-deck .notebook-spread .scene-gallery{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.2rem,.8vw,1rem);align-items:start}
+.seminar-deck .notebook-spread .story-media-open{border-radius:4px}
+.seminar-deck .notebook-spread .story-media img{max-height:none;width:100%}
+.notebook-spread .story-media:nth-child(2){margin-top:1rem}
+.notebook-spread .story-media figcaption{font-size:.9rem;line-height:1.35}
+.notebook-spread .story-zoom-hint{display:none}
+@media(min-width:761px){
+ .slide-split:has(.notebook-excerpt,.notebook-spread){grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr)}
+}
+@media(max-width:760px){
+ .notebook-spread{max-width:30rem;width:100%;justify-self:center}
+}

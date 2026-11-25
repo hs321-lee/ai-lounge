@@ -60,10 +60,27 @@ function renderScene(section, index) {
 function slideNav(index, total) {
   return `<nav class="slide-nav" aria-label="슬라이드 이동"><button type="button" data-slide-to="${index-1}"${index===0 ? " disabled" : ""}>이전</button><span aria-label="현재 장">${index+1} / ${total}</span><button type="button" data-slide-to="${index+1}"${index===total-1 ? " disabled" : ""}>다음</button></nav>`;
 }
+function renderNotebookExcerpt(media, sectionIndex) {
+  const { top, bottom, alt } = media.excerpt;
+  const style = `aspect-ratio:${media.width}/${bottom-top};--notebook-offset:${-100*top/media.height}%`;
+  return `<figure class="notebook-excerpt">
+    <a class="notebook-window" style="${style}" href="${escape(media.src)}" data-media="${sectionIndex}-0" target="_blank" rel="noopener" aria-label="${escape(alt)} · 그림 전체 보기">
+      <img src="${escape(media.src)}" width="${media.width}" height="${media.height}" alt="${escape(alt)}" loading="lazy" decoding="async">
+    </a>
+    <figcaption>${escape(media.caption)} <span>· 눌러서 전체 보기</span></figcaption>
+  </figure>`;
+}
 function renderSeminarSlide(section, index, sections) {
   const media = section.media || [];
   const mainFigure = media.length > 0 && !section.stats;
-  const extraStart = mainFigure ? 1 : 0;
+  const notebooks = section.figureLayout === "notebooks";
+  const extraStart = notebooks ? media.length : Number(mainFigure);
+  let artwork = "";
+  if (notebooks) {
+    artwork = `<div class="notebook-spread">${renderGallery(media, index)}</div>`;
+  } else if (mainFigure) {
+    artwork = media[0].excerpt ? renderNotebookExcerpt(media[0], index) : renderGallery(media.slice(0,1), index);
+  }
   const extra = media.slice(extraStart);
   const source = section.courseSource;
   const quote = section.instructorQuote;
@@ -74,7 +91,7 @@ function renderSeminarSlide(section, index, sections) {
         ${section.body ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
       </div>
-      ${mainFigure ? renderGallery(media.slice(0,1), index) : ""}
+      ${artwork}
       ${numbers ? `<dl class="slide-numbers">${numbers}</dl>` : ""}
     </div>
     <div class="slide-foot"><details class="slide-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p>

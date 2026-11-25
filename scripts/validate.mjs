@@ -107,6 +107,10 @@ for (const post of data.posts) {
       requiredText(section.label, `${post.id}: 슬라이드 주제`);
       requiredText(section.speakerNotes, `${post.id}: 발표 메모`);
       assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
+      if (section.figureLayout !== undefined) {
+        assert.equal(section.figureLayout, "notebooks");
+        assert.equal(section.media?.length, 3, `${post.id}: 복습 노트 세 장 필요`);
+      }
       if (section.spotlight !== undefined) assert.equal(typeof section.spotlight, "boolean");
     }
     assert.ok(typeof section.heading === "string" && section.heading.trim(), `${post.id}: heading 필요`);
@@ -160,6 +164,12 @@ for (const post of data.posts) {
       assert.match(media.src, /^assets\/(?:dental|herdr|ai-specialist)\/[a-z0-9-]+\.(?:webp|png|jpg)$/);
       for (const key of ["alt", "caption"]) assert.ok(typeof media[key] === "string" && media[key].trim(), `${post.id}: media ${key} 필요`);
       for (const key of ["width", "height"]) assert.ok(Number.isInteger(media[key]) && media[key] > 0, `${post.id}: media ${key} 필요`);
+      if (media.excerpt !== undefined) {
+        assert.equal(post.presentation, "slides");
+        const { top, bottom, alt } = media.excerpt;
+        assert.ok(Number.isInteger(top) && Number.isInteger(bottom) && top >= 0 && top < bottom && bottom <= media.height, `${post.id}: 그림 발췌 영역 오류`);
+        requiredText(alt, `${post.id}: 그림 발췌 설명`);
+      }
       await readFile(new URL(`../${media.src}`, import.meta.url));
     }
   }
