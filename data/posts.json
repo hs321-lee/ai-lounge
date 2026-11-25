@@ -5954,27 +5954,35 @@
               "src": "assets/ai-specialist/concept-attention.webp",
               "width": 1120,
               "height": 650,
-              "caption": "순차 전달과 직접 참조",
+              "caption": "발표용 그림 · 순차 전달과 직접 참조",
               "alt": "문장 조각을 순서대로 넘기는 RNN과 마지막 위치가 앞의 두 위치를 직접 참조하는 셀프 어텐션 비교"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "1일차 강의·실습 · 어텐션",
+            "detail": "언어 모델 강의 70~73쪽에서 RNN과 트랜스포머를 비교했습니다. Chapter_3_Excercise_Attention.ipynb에서 쿼리·키·값으로 각 위치의 정보를 모으는 과정을 확인했습니다."
+          }
         },
         {
           "label": "언어 모델 · 트랜스포머",
           "heading": "번역기에는 왜 인코더와 디코더가 둘 다 있을까?",
           "body": "번역기는 원문의 뜻을 읽으면서 번역문을 한 조각씩 써야 합니다. 초기 트랜스포머는 이 두 일을 인코더와 디코더에 나눠 맡겼습니다.",
           "takeaway": "인코더는 원문의 각 위치를 문맥에 맞게 표현하고, 디코더는 그 정보와 지금까지 쓴 번역을 참고합니다.",
-          "speakerNotes": "2017년 논문의 출발점은 기계 번역이었습니다. “비가 온다”가 원문이고 영어로 “It”까지 썼다면, 번역을 쓰는 쪽은 원문 정보와 “It”을 함께 참고해 다음 조각을 고릅니다. 디코더가 원문의 표현을 참조하는 연산을 크로스 어텐션이라고 합니다. 트랜스포머라는 이름은 어텐션을 중심으로 이런 층을 쌓은 전체 구조를 가리킵니다.",
+          "speakerNotes": "1일차 강의에서 본 인코더·디코더 구조를 번역 예시로 살펴봅시다. “비가 온다”가 원문이고 영어로 “It”까지 썼다면, 번역을 쓰는 쪽은 원문 정보와 “It”을 함께 참고해 다음 조각을 고릅니다. 디코더가 원문의 표현을 참조하는 연산을 크로스 어텐션이라고 합니다. 트랜스포머라는 이름은 어텐션을 중심으로 이런 층을 쌓은 전체 구조를 가리킵니다.",
           "conceptIllustration": true,
           "media": [
             {
               "src": "assets/ai-specialist/concept-transformer.webp",
               "width": 1120,
               "height": 650,
-              "caption": "원문을 읽는 쪽과 번역을 쓰는 쪽",
+              "caption": "발표용 그림 · 원문을 읽는 쪽과 번역을 쓰는 쪽",
               "alt": "인코더에서 원문 정보가 디코더로 전달되고, 이미 쓴 번역도 디코더에 입력되는 구조"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "1일차 강의 · 트랜스포머 69~73쪽",
+            "detail": "언어 모델 강의 69쪽은 인코더와 디코더, 70~71쪽은 RNN과 어텐션, 72~73쪽은 트랜스포머 비교와 구조입니다. 원문과 번역문을 잇는 화살표에 발표용 한국어 예문을 넣었습니다."
+          }
         },
         {
           "label": "언어 모델 · GPT와 디코더",
@@ -5988,7 +5996,7 @@
               "src": "assets/ai-specialist/concept-decoder.webp",
               "width": 1120,
               "height": 650,
-              "caption": "미래 위치를 가리는 표와 생성 한 단계",
+              "caption": "발표용 그림 · 미래 위치를 가리는 표와 생성 한 단계",
               "alt": "3행 표에서 각 위치는 자신과 앞선 위치를 보고 미래 위치는 가린다. 마지막 위치에서 다음 토큰 후보를 고른다."
             },
             {
@@ -6008,6 +6016,10 @@
               "다",
               "."
             ]
+          },
+          "courseSource": {
+            "label": "1~2일차 실습 · GPT로 글 이어 쓰기",
+            "detail": "Chapter_3_Excercise_Attention.ipynb의 인과 마스크와 Chapter_4_Excercise_GPT.ipynb의 generate_text_simple을 연결했습니다. 버튼은 다음 토큰을 입력 뒤에 붙이는 동작을 재현합니다."
           }
         },
         {
@@ -6022,10 +6034,14 @@
               "src": "assets/ai-specialist/concept-vit.webp",
               "width": 1120,
               "height": 650,
-              "caption": "사진을 패치로 나누고 관계를 계산하는 과정",
+              "caption": "발표용 그림 · 사진을 패치로 나누고 관계를 계산하는 과정",
               "alt": "우산 그림 위 격자와 네 개의 패치 벡터 예시가 어텐션 입력으로 이어진다."
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "4일차 실습 · ViT로 사진 분류",
+            "detail": "02_ViT_CIFAR10.ipynb에서 CIFAR-10 이미지를 패치로 나누고 위치 정보를 더한 뒤 트랜스포머 인코더로 분류했습니다. 우산 격자는 발표용 예시입니다."
+          }
         },
         {
           "label": "이미지 인식 · 분류, 검출, 분할",
@@ -6039,7 +6055,7 @@
               "src": "assets/ai-specialist/concept-vision.webp",
               "width": 1120,
               "height": 650,
-              "caption": "같은 우산에 대한 세 종류의 출력",
+              "caption": "발표용 그림 · 같은 우산에 대한 세 종류의 출력",
               "alt": "같은 우산 그림에 종류 이름만 붙이거나 박스로 둘러싸거나 해당 픽셀을 한 색으로 채운 세 사례"
             },
             {
@@ -6056,7 +6072,11 @@
               "alt": "DETR이 사진에서 물체 종류와 위치를 예측하고 원본 사진에 박스를 그리는 실습 흐름",
               "caption": "AI-S 실습 그림 · DETR로 물체 찾기"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "3~4일차 실습 · 분류·검출·분할",
+            "detail": "01_ResNet18_CIFAR10.ipynb는 이미지 분류, 03_DETR.ipynb는 물체의 종류와 박스, 04_Unet.ipynb는 픽셀별 분할을 다룹니다. 세 출력을 비교하려고 같은 우산을 그렸습니다."
+          }
         },
         {
           "label": "온디바이스 AI · 양자화",
@@ -6070,7 +6090,7 @@
               "src": "assets/ai-specialist/concept-quant.webp",
               "width": 1120,
               "height": 650,
-              "caption": "숫자 하나를 저장하는 비트 수",
+              "caption": "발표용 그림 · 숫자 하나를 저장하는 비트 수",
               "alt": "32칸과 8칸의 비트 띠를 같은 눈금으로 비교한 그림"
             },
             {
@@ -6087,7 +6107,11 @@
               "alt": "가중치 한 칸부터 줄, 커널, 채널까지 가지치기 단위를 비교한 AI-S 그림",
               "caption": "AI-S 복습 그림 · 가중치를 어떤 단위로 줄일까"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "6일차 실습 · 기본 양자화",
+            "detail": "Basic Quantization Lab에서 linear_quantize로 실수를 정수 눈금에 옮기고 scale과 zero point로 복원값을 확인했습니다. 그림은 같은 개수의 가중치를 32비트와 8비트로 저장하는 경우를 비교합니다."
+          }
         },
         {
           "label": "데이터 · 시계열",
@@ -6101,7 +6125,7 @@
               "src": "assets/ai-specialist/concept-series.webp",
               "width": 1120,
               "height": 650,
-              "caption": "세 날을 읽고 다음 날을 맞히는 예",
+              "caption": "발표용 그림 · 세 날을 읽고 다음 날을 맞히는 예",
               "alt": "두 학습 예시에서 입력 구간과 정답이 오른쪽으로 한 칸씩 이동한다."
             },
             {
@@ -6111,7 +6135,11 @@
               "alt": "과거 값 여러 개를 한 구간으로 묶어 바로 다음 값을 예측하는 시계열 실습 그림",
               "caption": "AI-S 실습 그림 · 시계열로 다음 값 예측"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "8일차 실습 · 시계열 예측",
+            "detail": "ts_solution.ipynb의 Sliding Window에서는 과거 50개 시점이 입력이고 바로 다음 시점의 첫 번째 열이 정답입니다. 발표 그림은 우산 판매량 사흘로 줄여 같은 규칙을 보여줍니다."
+          }
         },
         {
           "label": "데이터 · 그래프 추천",
@@ -6125,7 +6153,7 @@
               "src": "assets/ai-specialist/concept-graph.webp",
               "width": 1120,
               "height": 650,
-              "caption": "나에서 영화 B로 이어지는 선택 경로",
+              "caption": "발표용 그림 · 나에서 영화 B로 이어지는 선택 경로",
               "alt": "나와 다른 관객은 A에 연결되고 다른 관객은 B에도 연결된다."
             },
             {
@@ -6135,7 +6163,11 @@
               "alt": "사용자와 영화의 별점 관계를 이용해 선호 점수를 계산하는 추천 실습 그림",
               "caption": "AI-S 실습 그림 · 사용자와 영화의 관계로 추천"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "8일차 실습 · 영화 추천",
+            "detail": "RecSys_GCF_sol.ipynb에서 MovieLens의 사용자와 영화를 평점 기록으로 연결하고 NGCF로 이웃 정보를 모았습니다. 영화 A와 B는 그 연결을 따라가기 위한 예시입니다."
+          }
         },
         {
           "label": "문서 검색 · RAG",
@@ -6149,7 +6181,7 @@
               "src": "assets/ai-specialist/concept-rag.webp",
               "width": 1120,
               "height": 650,
-              "caption": "설명용 우천 공지에서 근거를 고르는 예",
+              "caption": "발표용 그림 · 설명용 우천 공지에서 근거를 고르는 예",
               "alt": "세 문단 중 우천 공지를 선택해 질문과 함께 모델에 전달한 결과 강당이라는 답이 나온다."
             },
             {
@@ -6166,7 +6198,11 @@
               "alt": "웹과 지식 그래프에서 찾은 근거를 답변에 연결하고 결과를 평가하는 복습 그림",
               "caption": "AI-S 복습 그림 · 찾은 근거와 답변을 평가하기"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "9~10일차 실습 · 문서 검색과 답변 평가",
+            "detail": "9일차 2. RAG.ipynb에서 질문에 맞는 문단을 찾아 답을 생성했습니다. 10일차 4_RAG_framework_evaluation_with_MCP.ipynb에서는 생성된 답을 평가했습니다. 우천 공지는 이 두 단계를 보여주려고 만든 문서입니다."
+          }
         },
         {
           "label": "공부한 방식 · 이미지 크기",
@@ -6180,24 +6216,28 @@
               "src": "assets/ai-specialist/concept-study.webp",
               "width": 1120,
               "height": 650,
-              "caption": "같은 입력과 필터에서 이동 간격만 바꾼 경우",
+              "caption": "발표용 그림 · 같은 입력과 필터에서 이동 간격만 바꾼 경우",
               "alt": "32×32 입력에 간격 1을 쓰면 32×32, 간격 2를 쓰면 16×16인 두 경우를 비교"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "3일차 실습·개인 복습 · ResNet18",
+            "detail": "01_ResNet18_CIFAR10.ipynb에서 첫 합성곱을 3×3, 이동 간격 1, 테두리 1로 바꿨습니다. 이동 간격을 2로 둔 경우는 크기가 유지되는 이유를 확인하려고 추가한 비교입니다."
+          }
         },
         {
           "label": "더 읽은 내용 · Grad-CAM",
           "heading": "정답을 맞힌 모델은 우산의 어디에 반응했을까?",
           "body": "분류 실습이 끝나도 궁금했습니다. 모델이 우산을 보고 맞혔을까, 배경을 보고 맞혔을까? 그래서 기본 실습 뒤에 나온 Grad-CAM까지 찾아 복습 노트에 남겼습니다.",
           "takeaway": "열지도는 모델의 반응을 살펴보는 단서입니다. 물체 경계가 필요하면 분할 결과를 봅니다.",
-          "speakerNotes": "왼쪽 우산과 오른쪽 열지도를 비교해 보세요. 이 그림의 색은 원리를 보여주기 위해 그린 예시입니다. 실제 Grad-CAM은 선택한 클래스 점수의 기울기를 이용해 특징 맵을 가중합합니다. 강사가 안내한 기본 실습을 마친 뒤에도 다시 보고 싶어서 AI-S 복습 노트에 남겼던 항목입니다.",
+          "speakerNotes": "왼쪽 우산과 오른쪽 열지도를 비교해 보세요. 이 그림의 색은 원리를 보여주기 위해 그린 예시입니다. 실제 Grad-CAM은 선택한 클래스 점수의 기울기를 이용해 특징 맵을 가중합합니다. 3일차 노트북 뒤쪽에 있던 참고 항목입니다. 기본 실습을 마치고 복습할 때 따로 정리했습니다.",
           "conceptIllustration": true,
           "media": [
             {
               "src": "assets/ai-specialist/concept-gradcam.webp",
               "width": 1120,
               "height": 650,
-              "caption": "직접 그린 열지도 예시 · 모형 출력의 원리",
+              "caption": "발표용 그림 · 직접 그린 열지도 예시 · 모형 출력의 원리",
               "alt": "같은 우산 위에 천 중앙을 강조하는 설명용 열지도를 겹친 그림"
             },
             {
@@ -6207,7 +6247,11 @@
               "alt": "AI-S 이미지 분류 복습 노트의 Grad-CAM 보완 설명 일부",
               "caption": "AI-S 실습 노트 · Grad-CAM 보완 설명"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "3일차 노트북의 추가 항목 · Grad-CAM",
+            "detail": "01_ResNet18_CIFAR10.ipynb 뒷부분에는 정분류·오분류 사진을 열지도와 함께 보는 항목이 있습니다. 3일차 실습 안내 뒤에 개인적으로 정리한 내용은 이 장의 AI-S 복습 노트에서 볼 수 있습니다."
+          }
         },
         {
           "label": "수강 후 남은 질문 · 워치페이스 추천",
@@ -6221,47 +6265,18 @@
               "src": "assets/ai-specialist/concept-watch.webp",
               "width": 1120,
               "height": 650,
-              "caption": "수강 후 떠올린 워치페이스 추천 아이디어",
+              "caption": "개인 적용 아이디어 · 워치페이스 추천",
               "alt": "워치 화면의 정보, 사용자의 선택, 워치에서의 추론이라는 세 질문을 각각 다른 시계 그림으로 표시"
             }
-          ]
+          ],
+          "courseSource": {
+            "label": "수강 후 개인 적용 메모 · 워치페이스 추천",
+            "detail": "8일차 영화 추천 실습과 비전·온디바이스 수업에서 출발했습니다. 수강 후 작성한 워치페이스 프리뷰 추천 메모에서 선택 이력과 화면 구성을 어떻게 함께 볼지 제안했습니다."
+          }
         }
       ],
-      "sources": [
-        {
-          "title": "트랜스포머의 번역 구조 · Vaswani 외, 2017",
-          "url": "https://arxiv.org/abs/1706.03762"
-        },
-        {
-          "title": "GPT의 디코더 구조 그림 · Jay Alammar",
-          "url": "https://jalammar.github.io/illustrated-gpt2/"
-        },
-        {
-          "title": "비전 트랜스포머 · Dosovitskiy 외, 2020",
-          "url": "https://arxiv.org/abs/2010.11929"
-        },
-        {
-          "title": "객체 검출 · Carion 외, 2020",
-          "url": "https://arxiv.org/abs/2005.12872"
-        },
-        {
-          "title": "정수 양자화 · Jacob 외, 2017",
-          "url": "https://arxiv.org/abs/1712.05877"
-        },
-        {
-          "title": "그래프 추천 · Wang 외, 2019",
-          "url": "https://arxiv.org/abs/1905.08108"
-        },
-        {
-          "title": "검색 증강 생성 · Lewis 외, 2020",
-          "url": "https://arxiv.org/abs/2005.11401"
-        },
-        {
-          "title": "Grad-CAM · Selvaraju 외, 2016",
-          "url": "https://arxiv.org/abs/1610.02391"
-        }
-      ],
-      "sourceNote": "기술 배경은 아래 원문을 참고했습니다. 우산 사례와 개념 그림은 이번 발표를 위해 구성했고, AI-S 실습 그림과 개인 복습 노트는 해당 장에서 펼쳐볼 수 있습니다."
+      "sources": [],
+      "sourceNote": "강의 슬라이드와 실습 노트북에서 각 장의 근거를 확인할 수 있습니다. 우산 예문·판매량·열지도는 수업 내용을 설명하려고 만든 예시입니다. 마지막 장은 수강 후 떠올린 업무 적용 아이디어입니다."
     }
   ]
 }

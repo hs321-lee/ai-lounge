@@ -114,6 +114,11 @@ for (const post of data.posts) {
       assert.ok(Array.isArray(tokens) && tokens.length, `${post.id}: 이어쓰기 토큰 필요`);
       for (const token of tokens) requiredText(token, `${post.id}: 토큰`);
     }
+    if (section.courseSource !== undefined) {
+      assert.equal(post.type, "monthly");
+      requiredText(section.courseSource.label, `${post.id}: 수업 자료 이름`);
+      requiredText(section.courseSource.detail, `${post.id}: 수업 자료 근거`);
+    }
     if (section.speakerNotes !== undefined) {
       assert.equal(post.type, "monthly", `${post.id}: speakerNotes는 월간 발표 전용`);
       requiredText(section.speakerNotes, `${post.id}: speakerNotes`);
