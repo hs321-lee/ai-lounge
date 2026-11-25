@@ -2,6 +2,131 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-25",
+      "type": "daily",
+      "date": "2026-11-25",
+      "published": true,
+      "title": "MCP로 스킬 배포 · Artifacts 앱 설치 · Decider v2 공개",
+      "summary": "도구와 작업 지침을 함께 배포하고, 만든 도구를 데스크톱 앱으로 쓰며, 선택지 판단을 작은 모델에 맡기는 변화입니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "MCP",
+        "Artifacts",
+        "Strands Decider"
+      ],
+      "highlights": [
+        "Skills over MCP 공개 베타",
+        "Artifacts의 Mac·Windows 앱 설치 베타",
+        "Strands Decider v2 선택지 판단 모델"
+      ],
+      "sections": [
+        {
+          "heading": "Claude MCP, 도구와 스킬을 함께 배포",
+          "summary": "Skills over MCP가 공개 베타로 제공됩니다. Tasks·Elicitation은 정식 제공되며 File Uploads는 곧 제공할 예정입니다.",
+          "relevance": "여러 도구에 공통 작업 지침을 배포하고 긴 작업의 중간 입력을 처리하려는 개발자에게 유용합니다.",
+          "body": "11월 24일 발표입니다. Skills는 Claude·Claude Code의 Pro·Max·Ultra에서 기본 활성화, Team은 관리자 활성화가 필요하며 Enterprise는 추후 제공입니다. 필요한 스킬만 로드하고 서버와 함께 갱신합니다. Tasks·Elicitation은 Pro·Max·Ultra 정식 제공, Team·Enterprise에는 순차 배포됩니다. File Uploads는 공식 예고이며 아직 제공 완료로 보지 않습니다.",
+          "takeaway": "도구 설명만으로 부족했던 작업 절차를 배포 단위에 넣을 수 있습니다. 서버와 클라이언트의 기능 지원은 따로 확인해야 합니다.",
+          "action": "공개 문서 변환 작업 하나를 도구·스킬·긴 작업·중간 입력으로 나눠 보세요. 실제 서버 연결과 실행은 미실행입니다.",
+          "date": "2026-11-24",
+          "url": "https://claude.com/resources/articles/skills-over-mcp-tasks-and-more",
+          "label": "제품 업데이트"
+        },
+        {
+          "heading": "Claude Artifacts, Mac·Windows 앱으로 설치",
+          "summary": "Install as app이 모든 요금제에 베타로 순차 배포됩니다. 설치한 artifact가 별도 창·아이콘으로 열리고 원본 편집 시 자동 갱신됩니다.",
+          "relevance": "반복해서 쓰는 작은 도구를 데스크톱에서 바로 열려는 독자에게 연결됩니다.",
+          "body": "11월 24일 발표입니다. Claude for Mac·Windows를 업데이트한 뒤 Share 메뉴에서 설치합니다. 온라인·Claude 로그인이 필요하고 호출은 요금제 사용량에 합산됩니다. 기본 권한은 브라우저 수준이며 알림 등 앱 권한과 전체 컴퓨터 접근은 별도입니다. 전체 접근은 자신이 만든 앱 또는 Team·Enterprise 조직 내부 앱에만 허용할 수 있습니다. 업데이트마다 재승인하지만 외부 웹 콘텐츠 변경은 예외입니다. Team은 기본 활성화·전체 접근 비활성화, Enterprise는 소유자 활성화가 필요합니다. HIPAA-ready·하이브리드 배포와 Docs·Slides·Sheets 일부 artifacts는 제외됩니다.",
+          "takeaway": "작은 도구를 포장·유지하는 과정은 줄어도 로컬 파일 접근 권한은 별도로 판단해야 합니다.",
+          "action": "공개 자료만 쓰는 도구 하나를 기본 권한으로 설계하고 필요한 기능이 정말 파일 쓰기를 요구하는지 확인하세요. 설치는 미실행입니다.",
+          "date": "2026-11-24",
+          "url": "https://claude.com/resources/articles/install-as-app",
+          "label": "제품 업데이트"
+        },
+        {
+          "heading": "Strands Decider v2, 선택지별 확률을 한 번에",
+          "summary": "Gemma 4 기반 E2B부터 31B까지 5개 공개 모델이 Apache-2.0으로 나왔습니다. 문장 생성 대신 주어진 선택지마다 확률을 반환합니다.",
+          "relevance": "도구 선택·요청 분류·추가 확인 여부 같은 반복 판단을 분리하려는 개발자에게 적합합니다.",
+          "body": "11월 23일 발표로 최근 7일 범위에서 선정했습니다. 가중치와 v2 코드가 공개됐으며 공유 문맥을 읽은 뒤 여러 질문에 재사용하는 구조입니다. 정확도·확률 보정 개선은 제공자 평가이며 실제 업무의 확률 정확도를 보증하지 않습니다. v1의 비용 절감 사례를 v2의 실측 성과로 옮기지 않습니다. 원본 저장소는 로컬 GPU·Mac·CPU 경로를 안내하지만 모델별 메모리와 실행 조건 확인이 필요합니다.",
+          "takeaway": "낮은 확신에서 사람이나 큰 모델로 넘기는 구조를 검토할 수 있습니다. 임계값은 자신의 평가 데이터로 정해야 합니다.",
+          "action": "가상의 요청 10개와 선택지·보류 기준을 먼저 만들고 아래 프롬프트로 평가 설계를 점검하세요. 모델 추론·비용 비교는 미실행입니다.",
+          "date": "2026-11-23",
+          "url": "https://strandsagents.com/blog/introducing-strands-decider-v2/",
+          "label": "제품 업데이트"
+        }
+      ],
+      "radar": [
+        {
+          "label": "주목할 스킬",
+          "repo": "sybil-solutions/skill-distill",
+          "headline": "성공한 세션을 재현 가능한 스킬로",
+          "url": "https://github.com/sybil-solutions/skill-distill",
+          "description": "성공 세션에서 작업 지침을 추출하고 다른 모델·harness로 반복 재현하는 실험용 스킬입니다.",
+          "signal": "Trendar 2026-11-24 18:00 UTC 갱신 목록에서 발굴했습니다. 원본 README·MIT·최근 커밋 11월 21일 UTC를 확인했습니다. 급상승 성과나 재현 성공을 독립 검증하지 않았습니다.",
+          "checkedAt": "2026-11-25",
+          "sourceUrl": "https://trendar.org/ko/trending",
+          "why": "좋은 결과를 만든 절차를 모델별로 재사용하려는 실험에 적합합니다.",
+          "try": "10분 읽기: README의 세 번 반복·참조 결과 비교 규칙과 adapters 상태를 확인하세요. 공개 가상 작업 하나와 성공 기준을 적고 설치·실행 여부를 결정하세요.",
+          "limitation": "MIT·초기 프로젝트입니다. tmux·git·Python 3.10+와 모델에 연결된 student harness가 필요하며 세션 로그·파일·반복 모델 호출을 다룹니다. omp는 tested, pi·opencode는 untested로 안내합니다. 실제 설치·재현은 미실행입니다."
+        }
+      ],
+      "recipe": {
+        "heading": "선택지 판단 모델의 작은 평가셋 설계",
+        "description": "Decider v2의 정해진 선택지와 확신도 활용에 연결한 문서 실험입니다.",
+        "steps": [
+          "가상 입력과 선택지를 붙여 넣으세요.",
+          "애매한 사례·보류 근거·오분류 비용이 있는 표인지 확인하세요.",
+          "모델을 실제 실행할 때 정답과 확신도를 별도 기록하세요."
+        ],
+        "prompt": "가상 지원 요청을 설명 문서 찾기 / 오류 조사 / 추가 질문 세 선택지로 분류하는 평가셋을 설계해 줘. 입력 예: 설치 방법이 궁금하다; 실행이 안 된다; 오류 코드 E42와 재현 단계가 있다. 총 10개 사례를 만들고 입력 / 정답 후보 / 근거 / 반례 / 부족한 정보 / 오분류 비용 표로 작성해 줘. 애매하면 추가 질문을 정답으로 허용해 줘. 모델이 출력하지 않은 확률이나 성능을 만들지 말고, 실제 추론 후 정확도와 확신도 보정을 확인할 방법도 적어 줘.",
+        "limitation": "기대 결과는 명확한 사례와 정보 부족 사례를 함께 포함한 평가표입니다. 프롬프트로 만든 정답은 사람의 검토가 필요하며 모델 확률·성능·비용 검증 결과가 아닙니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "도구와 작업 지침을 함께 배포하는 MCP",
+          "reason": "베타·정식·예고의 제공 단계와 서버/클라이언트 지원을 비교할 후보입니다.",
+          "url": "https://claude.com/resources/articles/skills-over-mcp-tasks-and-more"
+        },
+        {
+          "title": "생성 모델과 선택지 판단 모델의 역할 분리",
+          "reason": "실제 평가셋과 확신도 검증을 보완한 뒤 소개할 후보입니다.",
+          "url": "https://strandsagents.com/blog/introducing-strands-decider-v2/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "MCP 기능 발표",
+          "url": "https://claude.com/resources/articles/skills-over-mcp-tasks-and-more"
+        },
+        {
+          "title": "Artifacts 앱 설치",
+          "url": "https://claude.com/resources/articles/install-as-app"
+        },
+        {
+          "title": "Strands Decider v2",
+          "url": "https://strandsagents.com/blog/introducing-strands-decider-v2/"
+        },
+        {
+          "title": "Decider 원본 저장소",
+          "url": "https://github.com/strands-labs/strands-decider"
+        },
+        {
+          "title": "skill-distill 원본",
+          "url": "https://github.com/sybil-solutions/skill-distill"
+        },
+        {
+          "title": "Trendar 발굴 목록",
+          "url": "https://trendar.org/ko/trending"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-25.webp",
+        "date": "2026-11-25",
+        "width": 1024,
+        "height": 1536,
+        "alt": "AI 생성 요약 삽화: Skills over MCP 공개 베타, Artifacts 앱 설치 베타, Strands Decider v2와 선택지 평가셋 프롬프트"
+      }
+    },
+    {
       "id": "daily-2026-11-24",
       "type": "daily",
       "date": "2026-11-24",
