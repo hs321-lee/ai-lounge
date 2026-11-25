@@ -193,3 +193,17 @@ html,body{overflow-x:clip}
 .daily-cover img{display:block;width:100%;height:auto;max-width:100%;background:#fff}
 .daily-cover figcaption{font-size:.8rem;color:var(--muted);line-height:1.6;margin-top:.5rem}
 .daily-cover figcaption span{display:block}
+
+.concept-cover-lead{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:center;gap:2rem}
+.concept-cover-lead img{width:100%;max-width:25rem;height:auto;justify-self:end;border-radius:1rem}
+.concept-cover-lead h1{font-size:clamp(2.8rem,4.7vw,5.5rem);word-break:keep-all}
+.concept-gallery{min-width:0}
+.story-concept .story-zoom-hint{top:.45rem;bottom:auto}
+.study-figures{margin:.75rem auto 0}
+.study-figures .scene-gallery{margin-top:.85rem}
+.generation-example{margin-top:1rem;border:1px solid var(--story-rule);border-radius:12px;padding:.75rem 1rem;background:var(--surface)}
+.generation-example p{font-size:.8rem;color:var(--story-muted);margin:0}
+.generation-example output{display:block;font-size:1.35rem;font-weight:700;margin:.25rem 0 .65rem;min-height:1.5em}
+.generation-example output span{color:var(--story-accent)}
+.generation-example button{border:0;border-radius:8px;padding:.55rem .95rem;background:var(--story-ink);color:var(--story-paper);cursor:pointer;font:inherit}
+@media(max-width:640px){.concept-cover-lead{grid-template-columns:1fr;gap:1rem}.concept-cover-lead img{width:65%;max-width:15rem;justify-self:start}}
