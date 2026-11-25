@@ -89,6 +89,8 @@ html,body{overflow-x:clip}
 .scene-stats li{border-top:3px solid var(--story-accent);padding-top:.75rem}
 .scene-stats strong{display:block;font-size:clamp(2rem,2.6vw,3.25rem);line-height:1.15;letter-spacing:-.04em;color:var(--story-ink)}
 .scene-stats span{display:block;font-size:1rem;color:var(--story-muted);line-height:1.5;margin-top:.35rem}
+.story-cover-topics{grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr))}
+.story-cover-topics strong{font-size:clamp(1.4rem,2vw,2.15rem)}
 .scene-points{margin:2rem 0 0;padding:0;list-style:none;display:grid;gap:.85rem}
 .scene-points li{font-size:clamp(1.15rem,1.4vw,1.55rem);line-height:1.5;padding-left:1.6rem;position:relative}
 .scene-points li::before{content:"";position:absolute;left:0;top:.6em;width:.6rem;height:.6rem;background:var(--story-accent)}
@@ -143,11 +145,11 @@ html,body{overflow-x:clip}
   .story-zoom-hint{opacity:1}
 }
 @media(prefers-reduced-motion:reduce){.story-scene.is-in{animation:none}.story-progress{display:none}}
-.scene-steps{list-style:none;padding:0;margin:2.5rem 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;counter-reset:step}
+.scene-steps{list-style:none;padding:0;margin:2.5rem 0 0;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:1rem;counter-reset:step}
 .scene-steps li{counter-increment:step;position:relative;background:var(--story-ink);color:var(--story-paper);padding:1.75rem 1.5rem;font-size:clamp(1.5rem,2.1vw,2.4rem);font-weight:720;letter-spacing:-.03em}
 .scene-steps li::before{content:counter(step);display:block;font-size:.9rem;font-weight:600;color:oklch(78% .12 50);margin-bottom:.5rem}
 .scene-steps li:not(:last-child)::after{content:"→";position:absolute;right:-.95rem;top:50%;transform:translateY(-50%);z-index:1;color:var(--story-accent);font-size:1.5rem;background:var(--story-paper);line-height:1;padding:.2rem 0}
-@media(max-width:640px){.scene-steps{grid-template-columns:minmax(0,1fr)}.scene-steps li:not(:last-child)::after{display:none}}
+@media(max-width:640px){.scene-steps{grid-auto-flow:row}.scene-steps li:not(:last-child)::after{display:none}}
 
 /* Saved insights use the lounge's paper, ink and editorial reading rhythm. */
 .guide-article{max-width:780px;margin:0 auto;padding:3rem 0 1rem}

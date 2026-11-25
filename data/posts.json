@@ -3249,6 +3249,7 @@
       "type": "monthly",
       "date": "2026-10-21",
       "title": "동네 치과의 AX 전환기",
+      "coverNote": "PUBLIC CASE STUDY · 본문의 경험은 원문 작성자의 공개 보고입니다.",
       "summary": "치과 원장이 공개한 병원 AI 경험을 1·2·3편 원문과 캡처로 살펴봅니다. 4편은 한 장의 후속 소개로 연결하며, 다음 소개는 Herdr입니다.",
       "author": "AI 라운지",
       "tags": [
@@ -5899,6 +5900,94 @@
         "width": 1024,
         "height": 1536
       }
+    },
+    {
+      "id": "monthly-2026-12",
+      "type": "monthly",
+      "date": "2026-12-03",
+      "title": "AI 스페셜리스트 교육, 10일 동안 이렇게 배웠습니다",
+      "summary": "개념을 배우고, 코드를 직접 돌리고, 다시 볼 수 있게 그림과 노트로 정리했습니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "AI 스페셜리스트",
+        "수강 후기"
+      ],
+      "coverNote": "12월 3일 월간 세미나 · 수강 후기",
+      "coverTopics": [
+        {
+          "title": "언어 모델",
+          "description": "다음에 올 말을 예측하기"
+        },
+        {
+          "title": "이미지 인식",
+          "description": "사진을 분류하고 물체 찾기"
+        },
+        {
+          "title": "온디바이스 AI",
+          "description": "기기에서 돌릴 모델을 가볍게 만들기"
+        },
+        {
+          "title": "예측·추천",
+          "description": "과거 값으로 예측하고 취향에 맞게 추천하기"
+        },
+        {
+          "title": "문서 검색·답변",
+          "description": "관련 자료를 찾아 답변에 활용하기"
+        }
+      ],
+      "sections": [
+        {
+          "heading": "저는 이렇게 공부했습니다",
+          "body": "이미지 분류 실습에서 입력 크기가 언제 바뀌는지 헷갈렸습니다. 그림으로 흐름을 다시 보고, 코드에서 크기를 바꾸는 설정을 찾아 정리했습니다.",
+          "steps": [
+            "큰 그림으로 이해",
+            "코드 직접 실행",
+            "막힌 부분 다시 정리"
+          ]
+        },
+        {
+          "heading": "그림으로 남긴 실습",
+          "body": "무엇을 넣고, 무엇을 거쳐, 어떤 결과가 나오는지 그림으로 정리했습니다.",
+          "media": [
+            {
+              "src": "assets/ai-specialist/image-classification.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "사진을 넣어 종류별 점수를 얻고 중간 층이 이미지에 어떻게 반응하는지 확인하는 ResNet18 실습 그림",
+              "caption": "사진 분류 · 어떤 사진인지 맞혀보기"
+            },
+            {
+              "src": "assets/ai-specialist/model-compression.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "실수 값을 정수로 바꿔 모델 계산을 가볍게 만드는 양자화 실습 그림",
+              "caption": "모델 경량화 · 숫자 저장 공간 줄이기"
+            },
+            {
+              "src": "assets/ai-specialist/document-search.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "문서를 나눠 저장하고 질문과 관련된 부분을 찾아 답변에 활용하는 검색 흐름 그림",
+              "caption": "문서 검색 · 답변에 쓸 근거 찾아보기"
+            }
+          ]
+        },
+        {
+          "heading": "모델은 사진의 어디에 반응했을까?",
+          "body": "Grad-CAM은 사진의 어느 부분이 분류에 영향을 줬는지 색으로 보여줍니다. 강사가 안내한 기본 실습을 마친 뒤 다시 볼 수 있도록 참고 노트에 정리했습니다.",
+          "media": [
+            {
+              "src": "assets/ai-specialist/resnet-study-note.png",
+              "width": 1404,
+              "height": 248,
+              "alt": "AI-S 이미지 분류 복습 노트의 Grad-CAM 보완 설명 일부",
+              "caption": "AI-S 실습 노트 · Grad-CAM 보완 설명"
+            }
+          ]
+        }
+      ],
+      "sources": [],
+      "sourceNote": "작성자가 AI-S에 정리한 이론·실습 그림과 이미지 분류 복습 노트."
     }
   ]
 }
