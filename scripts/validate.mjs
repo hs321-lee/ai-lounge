@@ -59,6 +59,15 @@ for (const post of data.posts) {
     assert.ok((await readFile(new URL(`../${cover.src}`, import.meta.url))).length > 0, `${post.id}: 빈 이미지`);
   }
   if (post.highlights !== undefined) assert.ok(Array.isArray(post.highlights) && post.highlights.length <= 3 && post.highlights.every(item=>typeof item === "string" && item.trim()), `${post.id}: highlights 오류`);
+  if (post.coverNote !== undefined) requiredText(post.coverNote, `${post.id}: coverNote`);
+  if (post.coverTopics !== undefined) {
+    assert.equal(post.type, "monthly", `${post.id}: coverTopics는 월간 발표 전용`);
+    assert.ok(Array.isArray(post.coverTopics) && post.coverTopics.length, `${post.id}: coverTopics 배열 필요`);
+    for (const topic of post.coverTopics) {
+      requiredText(topic.title, `${post.id}: coverTopics title`);
+      requiredText(topic.description, `${post.id}: coverTopics description`);
+    }
+  }
   if (post.radar !== undefined) {
     assert.ok(Array.isArray(post.radar), `${post.id}: radar 배열 필요`);
     for (const repo of post.radar) {
@@ -104,7 +113,7 @@ for (const post of data.posts) {
     if (section.media === undefined) continue;
     assert.ok(Array.isArray(section.media) && section.media.length, `${post.id}: media는 배열이어야 합니다.`);
     for (const media of section.media) {
-      assert.match(media.src, /^assets\/(?:dental|herdr)\/[a-z0-9-]+\.(?:webp|png|jpg)$/);
+      assert.match(media.src, /^assets\/(?:dental|herdr|ai-specialist)\/[a-z0-9-]+\.(?:webp|png|jpg)$/);
       for (const key of ["alt", "caption"]) assert.ok(typeof media[key] === "string" && media[key].trim(), `${post.id}: media ${key} 필요`);
       for (const key of ["width", "height"]) assert.ok(Number.isInteger(media[key]) && media[key] > 0, `${post.id}: media ${key} 필요`);
       await readFile(new URL(`../${media.src}`, import.meta.url));

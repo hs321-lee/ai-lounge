@@ -145,6 +145,17 @@ test("치과 원문은 편 번호와 다른 이전 주소를 정확히 연결한
   assert.doesNotMatch(JSON.stringify(data), /https:\/\/arca\.live\/b\/aihomelab\/(?:185810092|186115260|186465322)/);
 });
 
+test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 자료를 연다", async () => {
+  const archive = await open("#monthly");
+  assert.match(archive.main.innerHTML, /href="#monthly\/2026-12"/);
+  const december = await open("#monthly/2026-12");
+  assert.match(december.main.innerHTML, /aria-label="교육 과정"/);
+  assert.match(december.main.innerHTML, /문서 검색·답변/);
+  assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, 4);
+  assert.equal(december.main.innerHTML.match(/ data-media=/g).length, 4);
+  assert.doesNotMatch(december.main.innerHTML, /PUBLIC CASE STUDY|https:\/\/ai-s.pages.dev/);
+});
+
 test("4편은 후속 소개 한 장에서 기존 인사이트와 원문으로 연결한다", async () => {
   const followups = actualIssue.sections.filter(section => section.insightId !== undefined);
   assert.equal(followups.length, 1);
