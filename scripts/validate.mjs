@@ -60,6 +60,14 @@ for (const post of data.posts) {
   }
   if (post.highlights !== undefined) assert.ok(Array.isArray(post.highlights) && post.highlights.length <= 3 && post.highlights.every(item=>typeof item === "string" && item.trim()), `${post.id}: highlights 오류`);
   if (post.coverNote !== undefined) requiredText(post.coverNote, `${post.id}: coverNote`);
+  if (post.coverArt !== undefined) {
+    assert.equal(post.type, "monthly", `${post.id}: coverArt는 월간 발표 전용`);
+    const cover = post.coverArt;
+    assert.match(cover.src, /^assets\/ai-specialist\/[a-z0-9-]+\.webp$/);
+    requiredText(cover.alt, `${post.id}: coverArt alt`);
+    for (const key of ["width", "height"]) assert.ok(Number.isInteger(cover[key]) && cover[key] > 0, `${post.id}: coverArt ${key} 필요`);
+    await readFile(new URL(`../${cover.src}`, import.meta.url));
+  }
   if (post.coverTopics !== undefined) {
     assert.equal(post.type, "monthly", `${post.id}: coverTopics는 월간 발표 전용`);
     assert.ok(Array.isArray(post.coverTopics) && post.coverTopics.length, `${post.id}: coverTopics 배열 필요`);
@@ -94,6 +102,18 @@ for (const post of data.posts) {
     assert.ok(typeof section.heading === "string" && section.heading.trim(), `${post.id}: heading 필요`);
     assert.equal(typeof section.body, "string", `${post.id}: body 필요`);
     for (const key of ["label", "takeaway", "action", "summary", "relevance"]) if (section[key] !== undefined) requiredText(section[key], `${post.id}: section ${key}`);
+    if (section.conceptIllustration !== undefined) {
+      assert.equal(post.type, "monthly");
+      assert.equal(typeof section.conceptIllustration, "boolean");
+      if (section.conceptIllustration) assert.ok(section.media?.length, `${post.id}: 개념 그림 필요`);
+    }
+    if (section.generationExample !== undefined) {
+      assert.equal(post.type, "monthly");
+      const { prompt, tokens } = section.generationExample;
+      requiredText(prompt, `${post.id}: 이어쓰기 시작 문구`);
+      assert.ok(Array.isArray(tokens) && tokens.length, `${post.id}: 이어쓰기 토큰 필요`);
+      for (const token of tokens) requiredText(token, `${post.id}: 토큰`);
+    }
     if (section.speakerNotes !== undefined) {
       assert.equal(post.type, "monthly", `${post.id}: speakerNotes는 월간 발표 전용`);
       requiredText(section.speakerNotes, `${post.id}: speakerNotes`);

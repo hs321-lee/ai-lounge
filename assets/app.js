@@ -15,12 +15,31 @@ const escape = value => String(value).replace(/[&<>"']/g, character => ({"&":"&a
 const safeUrl = value => { try { const url = new URL(value); return url.protocol === "https:" ? escape(url.href) : "#"; } catch { return "#"; } };
 let monthlyMotionCleanup = () => {};
 let editorialMotionCleanup = () => {};
+function renderGallery(list, sectionIndex, startIndex = 0) {
+  return `<div class="scene-gallery count-${Math.min(list.length,3)}">${list.map((media,mediaIndex)=>`<figure class="story-media"><a class="story-media-open" href="${escape(media.src)}" data-media="${sectionIndex}-${startIndex + mediaIndex}" target="_blank" rel="noopener" aria-label="${escape(media.alt)} · 크게 보기"><img src="${escape(media.src)}" width="${media.width}" height="${media.height}" alt="${escape(media.alt)}" loading="${sectionIndex<2 ? "eager" : "lazy"}" decoding="async"><span class="story-zoom-hint" aria-hidden="true">크게 보기 ↗</span></a><figcaption>${escape(media.caption)}</figcaption></figure>`).join("")}</div>`;
+}
 function renderMedia(section, sectionIndex) {
   const list = section.media || [];
   if (!list.length) return "";
-  const gallery = `<div class="scene-gallery count-${Math.min(list.length,3)}">${list.map((media,mediaIndex)=>`<figure class="story-media"><a class="story-media-open" href="${escape(media.src)}" data-media="${sectionIndex}-${mediaIndex}" target="_blank" rel="noopener" aria-label="${escape(media.alt)} · 크게 보기"><img src="${escape(media.src)}" width="${media.width}" height="${media.height}" alt="${escape(media.alt)}" loading="${sectionIndex<2 ? "eager" : "lazy"}" decoding="async"><span class="story-zoom-hint" aria-hidden="true">크게 보기 ↗</span></a><figcaption>${escape(media.caption)}</figcaption></figure>`).join("")}</div>`;
+  if (section.conceptIllustration && list.length > 1) {
+    return `<div class="concept-gallery">${renderGallery(list.slice(0, 1), sectionIndex)}<details class="scene-notes study-figures"><summary>AI-S 실습 자료 보기 · ${list.length - 1}장</summary>${renderGallery(list.slice(1), sectionIndex, 1)}</details></div>`;
+  }
+  const gallery = renderGallery(list, sectionIndex);
   return list.some(media => media.src === "assets/dental/p2-poster.webp") ? `<details class="original-poster"><summary>원문 패러디 포스터 보기</summary>${gallery}</details>` : gallery;
 }
+function renderGenerationExample(example) {
+  if (!example) return "";
+  return `<div class="generation-example"><p>문장 이어쓰기 · 설명용 토큰 예시</p><output aria-live="polite" aria-atomic="true">${escape(example.prompt)}${example.tokens.map(token => `<span hidden>${escape(token)}</span>`).join("")}</output><button type="button" data-next-token>다음 토큰 붙이기</button></div>`;
+}
+main.addEventListener("click", event => {
+  const button = event.target.closest?.("[data-next-token]");
+  if (!button) return;
+  const output = button.parentElement.querySelector("output");
+  const next = output.querySelector("[hidden]");
+  if (next) next.hidden = false;
+  else output.querySelectorAll("span").forEach(token => { token.hidden = true; });
+  button.textContent = output.querySelector("[hidden]") ? "다음 토큰 붙이기" : "다시 시작";
+});
 function renderScene(section, index) {
   const insight = section.insightId ? guides.find(guide => guide.id === section.insightId) : undefined;
   const text = section.kind === "chapter"
@@ -31,9 +50,10 @@ function renderScene(section, index) {
       ${section.steps ? `<ol class="scene-steps">${section.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol>` : ""}
       ${section.code ? `<pre class="scene-code">${section.code.map(line=>`<span>$ </span>${escape(line)}`).join("\n")}</pre>` : ""}
       ${section.takeaway ? `<p class="scene-takeaway">${escape(section.takeaway)}</p>` : ""}
+      ${renderGenerationExample(section.generationExample)}
       ${section.speakerNotes ? `<details class="scene-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p></details>` : ""}`;
   const sceneType = section.kind === "chapter" ? " story-chapter" : section.label ? " story-topic" : "";
-  return `<section class="story-scene${sceneType}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
+  return `<section class="story-scene${sceneType}${section.conceptIllustration ? " story-concept" : ""}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
 }
 function monthlyIssueLink(issue) {
   const month = issue.date.slice(0, 7);
@@ -57,8 +77,9 @@ function renderMissingMonth() {
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
   const chapters = issue.sections.map((section,index)=>({ section, index })).filter(item=>item.section.kind === "chapter");
-  main.innerHTML = `<div class="monthly-detail-nav"><a href="#monthly">← ${escape(navigationLabels.monthly)} 목록</a><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><div class="monthly-story"><section class="story-scene story-cover" data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · ${escape(navigationLabels.monthly)} · AI 라운지</p><h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p>
+  main.innerHTML = `<div class="monthly-detail-nav"><a href="#monthly">← ${escape(navigationLabels.monthly)} 목록</a><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><div class="monthly-story"><section class="story-scene story-cover" data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · ${escape(navigationLabels.monthly)} · AI 라운지</p>${issue.coverArt ? '<div class="concept-cover-lead"><div>' : ""}<h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p>
   ${issue.coverNote ? `<p class="monthly-public-note">${escape(issue.coverNote)}</p>` : ""}
+  ${issue.coverArt ? `</div><img src="${escape(issue.coverArt.src)}" alt="${escape(issue.coverArt.alt)}" width="${issue.coverArt.width}" height="${issue.coverArt.height}"></div>` : ""}
   ${issue.coverTopics?.length ? `<ul class="scene-stats story-cover-topics" aria-label="교육 과정">${issue.coverTopics.map(topic=>`<li><strong>${escape(topic.title)}</strong><span>${escape(topic.description)}</span></li>`).join("")}</ul>` : ""}
   ${chapters.length ? `<ol class="story-chapters">${chapters.map(({section,index})=>`<li><span class="chapter-part">${escape(section.part)}</span><strong>${escape(section.heading)}</strong><span class="chapter-actions"><button type="button" class="story-jump" data-jump="${index}">바로 가기</button><a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} ↗</a></span></li>`).join("")}</ol>` : ""}
   <p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p></section>
