@@ -94,6 +94,10 @@ for (const post of data.posts) {
     assert.ok(typeof section.heading === "string" && section.heading.trim(), `${post.id}: heading 필요`);
     assert.equal(typeof section.body, "string", `${post.id}: body 필요`);
     for (const key of ["label", "takeaway", "action", "summary", "relevance"]) if (section[key] !== undefined) requiredText(section[key], `${post.id}: section ${key}`);
+    if (section.speakerNotes !== undefined) {
+      assert.equal(post.type, "monthly", `${post.id}: speakerNotes는 월간 발표 전용`);
+      requiredText(section.speakerNotes, `${post.id}: speakerNotes`);
+    }
     if (section.insightId !== undefined) {
       assert.equal(post.type, "monthly", `${post.id}: insightId는 월간 소개 전용`);
       assert.equal(section.kind, "chapter", `${post.id}: insightId는 chapter 전용`);

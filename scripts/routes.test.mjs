@@ -151,8 +151,10 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   const december = await open("#monthly/2026-12");
   assert.match(december.main.innerHTML, /aria-label="교육 과정"/);
   assert.match(december.main.innerHTML, /문서 검색·답변/);
-  assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, 4);
-  assert.equal(december.main.innerHTML.match(/ data-media=/g).length, 4);
+  assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, 9);
+  assert.equal(december.main.innerHTML.match(/ data-media=/g).length, 10);
+  for (const label of ["DAY 1–2", "DAY 3–4", "DAY 6–7", "DAY 8", "DAY 9–10"]) assert.ok(december.main.innerHTML.includes(label));
+  assert.equal(december.main.innerHTML.match(/<summary>발표 메모<\/summary>/g).length, 8);
   assert.doesNotMatch(december.main.innerHTML, /PUBLIC CASE STUDY|https:\/\/ai-s.pages.dev/);
 });
 

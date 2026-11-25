@@ -25,12 +25,15 @@ function renderScene(section, index) {
   const insight = section.insightId ? guides.find(guide => guide.id === section.insightId) : undefined;
   const text = section.kind === "chapter"
     ? `<p class="chapter-part">${escape(section.part)}</p><h2>${escape(section.heading)}</h2><p class="scene-body">${escape(section.body)}</p><p class="chapter-meta">${section.date ? `<time datetime="${escape(section.date)}">${escape(section.date.replaceAll("-","."))}</time>` : ""}${insight ? `<a href="#post/${encodeURIComponent(insight.id)}">인사이트 보기 ↗</a>` : ""}<a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} 보기 ↗</a></p>`
-    : `<h2>${escape(section.heading)}</h2>${section.body ? `<p class="scene-body">${escape(section.body)}</p>` : ""}
+    : `${section.label ? `<p class="scene-label">${escape(section.label)}</p>` : ""}<h2>${escape(section.heading)}</h2>${section.body ? `<p class="scene-body">${escape(section.body)}</p>` : ""}
       ${section.stats ? `<ul class="scene-stats">${section.stats.map(stat=>`<li><strong>${escape(stat.value)}</strong><span>${escape(stat.label)}</span></li>`).join("")}</ul>` : ""}
       ${section.points ? `<ul class="scene-points">${section.points.map(point=>`<li>${escape(point)}</li>`).join("")}</ul>` : ""}
       ${section.steps ? `<ol class="scene-steps">${section.steps.map(step=>`<li>${escape(step)}</li>`).join("")}</ol>` : ""}
-      ${section.code ? `<pre class="scene-code">${section.code.map(line=>`<span>$ </span>${escape(line)}`).join("\n")}</pre>` : ""}`;
-  return `<section class="story-scene${section.kind === "chapter" ? " story-chapter" : ""}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
+      ${section.code ? `<pre class="scene-code">${section.code.map(line=>`<span>$ </span>${escape(line)}`).join("\n")}</pre>` : ""}
+      ${section.takeaway ? `<p class="scene-takeaway">${escape(section.takeaway)}</p>` : ""}
+      ${section.speakerNotes ? `<details class="scene-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p></details>` : ""}`;
+  const sceneType = section.kind === "chapter" ? " story-chapter" : section.label ? " story-topic" : "";
+  return `<section class="story-scene${sceneType}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
 }
 function monthlyIssueLink(issue) {
   const month = issue.date.slice(0, 7);

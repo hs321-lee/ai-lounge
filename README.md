@@ -97,6 +97,7 @@ Node.js 20 이상에서 JavaScript 문법과 콘텐츠의 필수 필드·중복 
 | `sources` | `{ "title": "원문 이름", "url": "https://…" }` 배열 |
 | `highlights` | 선택: 첫 화면 핵심 문자열 최대 3개 |
 | `coverNote`, `coverTopics` | 선택: 월간 표지 설명과 표지에 표시할 교육 주제 배열. 각 주제는 `{ title, description }` |
+| `sections[].speakerNotes` | 선택: 월간 발표 장면에서 펼쳐 읽는 발표 메모 |
 | 데일리 `sections[].label`, `date`, `takeaway`, `action`, `url` | 선택: 분류·발표 날짜·해석·활용 행동·공식 원문. 기존 `heading`, `body`와 함께 사용 |
 | 데일리 `sections[].summary`, `relevance` | 선택: 기본 표시할 짧은 사실 요약·왜 중요한지 한 문장. `summary`가 있으면 전체 `body`·해석·실행은 native details로 펼쳐 읽기 |
 | `radar` | 선택: `{label, repo, url, description, signal, checkedAt, sourceUrl, why, try, limitation}` 배열. 검증된 GitHub 저장소, 선정 근거와 관찰 날짜. 선택 `headline`은 용도가 드러나는 짧은 제목 |
