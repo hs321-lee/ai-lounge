@@ -126,6 +126,15 @@ html,body{overflow-x:clip}
 .story-media figcaption{font-size:.9rem;color:var(--story-muted);line-height:1.6;margin-top:.6rem;text-align:center}
 
 /* Sources, progress, viewer */
+.news-recap{margin:2rem auto;max-width:900px;padding:1.3rem var(--slide-pad);border-block:1px solid var(--story-rule)}
+.news-recap summary{cursor:pointer;font-size:1.15rem;font-weight:700}
+.recap-entries{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1.5rem;margin:1.3rem 0}
+.recap-entry{display:grid;grid-template-columns:5.25rem 1fr;align-items:center;gap:1rem;color:inherit;text-decoration:none}
+.recap-entry img{display:block;width:100%;height:auto}
+.recap-entry h3,.recap-entry p{margin:.3rem 0}
+.recap-entry time,.recap-entry p{color:var(--story-muted);font-size:.94rem}
+.recap-entry:hover h3,.recap-entry:focus-visible h3{text-decoration:underline}
+.seminar-deck .monthly-public-note{white-space:pre-line}
 .story-sources{padding:4rem 0;border-top:1px solid var(--story-rule);max-width:900px}
 .story-sources h2{font-size:1.15rem;margin:0 0 1rem}
 .story-sources p,.story-sources li{font-size:.95rem;color:var(--story-muted);line-height:1.8}
@@ -222,6 +231,7 @@ html,body{overflow-x:clip}
 html:has(.seminar-deck){scroll-behavior:auto}
 .seminar-deck{--slide-pad:clamp(1rem,3vw,3.5rem)}
 .seminar-deck .story-cover,.seminar-deck .seminar-slide{min-height:var(--scene-h);padding:clamp(1.3rem,4vh,2.8rem) var(--slide-pad);animation:none}
+.seminar-deck .story-cover{min-height:calc(var(--scene-h) - 45px - var(--lounge-space-sm,1rem) - var(--lounge-space-sm,1rem))}
 .seminar-deck .story-cover h1{font-size:clamp(2.8rem,6vw,6.5rem);line-height:1.13;max-width:15em}
 .seminar-deck .story-cover .story-deck{max-width:39em;font-size:clamp(1.1rem,1.8vw,1.7rem)}
 .seminar-deck .story-cover .slide-nav{justify-self:end;margin-top:1.5rem}
@@ -246,6 +256,10 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-quote .instructor-quote{margin:1.8rem 0 0;padding:0;border:0}
 .slide-quote .instructor-quote blockquote{max-width:14em;font-size:clamp(3rem,6.3vw,7rem);letter-spacing:-.055em;line-height:1.16;text-wrap:balance}
 .slide-quote .instructor-quote figcaption{margin-top:1.25rem;color:var(--story-accent);font-size:1.05rem}
+/* On a personal story slide, the instructor quotation supports the speaker's decision. */
+.seminar-deck .slide-quote .slide-copy:has(.slide-body) h2{font-size:clamp(2.5rem,5.8vw,6.25rem);font-weight:800}
+.slide-quote .slide-copy:has(.slide-body) .instructor-quote blockquote{max-width:32em;font-size:clamp(1.25rem,2.45vw,2.5rem);letter-spacing:-.035em;line-height:1.35}
+
 .slide-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:1rem;border-top:1px solid var(--story-rule);padding-top:.6rem}
 .slide-notes{min-width:0;max-width:58rem;font-size:1rem}
 .slide-notes summary{width:fit-content;min-height:44px;align-content:center;cursor:pointer;color:var(--story-muted)}

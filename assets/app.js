@@ -127,6 +127,21 @@ function renderMonthlySources(issue) {
   }).join("");
   return `<section class="story-sources"><h2>${courseList ? "발표에 사용한 AI-S 수업·복습 자료" : "출처"}</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}${courseList ? `<ol class="course-source-list">${courseList}</ol>` : ""}${issue.sources.length ? `<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul>` : ""}</section>`;
 }
+function renderNewsRecap(recap) {
+  if (!recap) return "";
+  const entries = recap.items.map(item => {
+    const report = dailyReports.find(post => post.id === item.postId);
+    if (!report?.coverImage) return "";
+    const { src, alt, width, height } = report.coverImage;
+    return `<a class="recap-entry" href="#post/${encodeURIComponent(report.id)}">
+      <img src="${escape(src)}" alt="${escape(alt)}" width="${width}" height="${height}" loading="lazy">
+      <div><time datetime="${escape(report.date)}">${escape(report.date.slice(5).replace("-","."))}</time>
+      <h3>${escape(item.heading)}</h3><p>${escape(item.body)}</p></div></a>`;
+  }).join("");
+  return entries ? `<details class="news-recap"><summary>${escape(recap.title)}</summary>
+    <div class="recap-entries">${entries}</div>
+    <p>${escape(recap.prompt)}</p></details>` : "";
+}
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
   const slides = issue.presentation === "slides";
@@ -139,6 +154,7 @@ function renderIssue(issue) {
   ${slides ? slideNav(0, issue.sections.length+1) : `<p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p>`}</section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
   ${issue.sections.map(slides ? renderSeminarSlide : renderScene).join("")}
+  ${renderNewsRecap(issue.newsRecap)}
   ${renderMonthlySources(issue)}
   <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""></dialog>
   ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 달의 자료</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="${monthlyIssueLink(item)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
