@@ -207,3 +207,10 @@ html,body{overflow-x:clip}
 .generation-example output span{color:var(--story-accent)}
 .generation-example button{border:0;border-radius:8px;padding:.55rem .95rem;background:var(--story-ink);color:var(--story-paper);cursor:pointer;font:inherit}
 @media(max-width:640px){.concept-cover-lead{grid-template-columns:1fr;gap:1rem}.concept-cover-lead img{width:65%;max-width:15rem;justify-self:start}}
+
+.course-source{margin-top:.7rem;font-size:.9rem}
+.course-source + .scene-notes{margin-top:.4rem}
+.course-source-list{list-style:none;margin:1rem 0;padding:0}
+.course-source-list li{padding:.75rem 0;border-top:1px solid var(--story-rule)}
+.course-source-list p{margin:.25rem 0 0}
+.course-source-jump{padding:0;background:none;border:0;color:var(--story-ink);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:.22em;text-align:left;cursor:pointer}

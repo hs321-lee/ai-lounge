@@ -51,6 +51,7 @@ function renderScene(section, index) {
       ${section.code ? `<pre class="scene-code">${section.code.map(line=>`<span>$ </span>${escape(line)}`).join("\n")}</pre>` : ""}
       ${section.takeaway ? `<p class="scene-takeaway">${escape(section.takeaway)}</p>` : ""}
       ${renderGenerationExample(section.generationExample)}
+      ${section.courseSource ? `<details class="scene-notes course-source"><summary>자료 · ${escape(section.courseSource.label)}</summary><p>${escape(section.courseSource.detail)}</p></details>` : ""}
       ${section.speakerNotes ? `<details class="scene-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p></details>` : ""}`;
   const sceneType = section.kind === "chapter" ? " story-chapter" : section.label ? " story-topic" : "";
   return `<section class="story-scene${sceneType}${section.conceptIllustration ? " story-concept" : ""}${section.media?.length ? " has-media" : ""}" id="scene-${index}" data-scene aria-label="${escape(section.part ? `${section.part} · ${section.heading}` : section.heading)}"><div class="scene-grid"><div class="scene-text">${text}</div>${renderMedia(section,index)}</div></section>`;
@@ -74,6 +75,14 @@ function renderMissingMonth() {
   document.title = `${navigationLabels.monthly} 자료 안내 — AI 라운지`;
   main.innerHTML = `<section class="page-heading"><h1>해당 월의 자료가 없습니다.</h1><p class="lede">발행한 월을 목록에서 다시 골라 주세요.</p><a class="editorial-read" href="#monthly">${escape(navigationLabels.monthly)} 목록으로 →</a></section>`;
 }
+function renderMonthlySources(issue) {
+  const courseList = issue.sections.map((section, index) => {
+    if (!section.courseSource) return "";
+    const { label, detail } = section.courseSource;
+    return `<li><button class="course-source-jump" data-jump="${index}" type="button" aria-label="${escape(label)} 장면으로 이동">${escape(label)}</button><p>${escape(detail)}</p></li>`;
+  }).join("");
+  return `<section class="story-sources"><h2>${courseList ? "발표에 사용한 AI-S 수업·복습 자료" : "출처"}</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}${courseList ? `<ol class="course-source-list">${courseList}</ol>` : ""}${issue.sources.length ? `<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul>` : ""}</section>`;
+}
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
   const chapters = issue.sections.map((section,index)=>({ section, index })).filter(item=>item.section.kind === "chapter");
@@ -85,7 +94,7 @@ function renderIssue(issue) {
   <p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p></section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
   ${issue.sections.map(renderScene).join("")}
-  <section class="story-sources"><h2>출처</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}${issue.sources.length ? `<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul>` : ""}</section>
+  ${renderMonthlySources(issue)}
   <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""></dialog>
   ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 달의 자료</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="${monthlyIssueLink(item)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
   const disposeMotion = window.MonthlyMotion?.mount(main) || (() => {});

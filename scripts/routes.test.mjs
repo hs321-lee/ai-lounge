@@ -156,6 +156,11 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(december.main.innerHTML, /data-next-token/);
   for (const label of ["셀프 어텐션", "트랜스포머", "GPT와 디코더", "그래프 추천", "AI-S 실습 자료 보기"]) assert.ok(december.main.innerHTML.includes(label));
   assert.equal(december.main.innerHTML.match(/<summary>발표 메모<\/summary>/g).length, 12);
+  assert.match(december.main.innerHTML, /발표에 사용한 AI-S 수업·복습 자료/);
+  assert.equal(december.main.innerHTML.match(/class="scene-notes course-source"/g).length, 12);
+  assert.equal(december.main.innerHTML.match(/class="course-source-jump"/g).length, 12);
+  for (const record of ["언어 모델 강의 69쪽", "Chapter_4_Excercise_GPT", "02_ViT_CIFAR10", "Basic Quantization Lab", "ts_solution", "RecSys_GCF_sol", "2. RAG.ipynb", "수강 후 개인 적용 메모"]) assert.ok(december.main.innerHTML.includes(record), record);
+  assert.doesNotMatch(december.main.innerHTML, /arxiv\.org|jalammar\.github\.io/);
   assert.doesNotMatch(december.main.innerHTML, /PUBLIC CASE STUDY|https:\/\/ai-s.pages.dev/);
 });
 

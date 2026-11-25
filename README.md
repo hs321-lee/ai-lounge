@@ -100,6 +100,7 @@ Node.js 20 이상에서 JavaScript 문법과 콘텐츠의 필수 필드·중복 
 | `coverArt` | 월간 표지 그림의 경로, 대체 텍스트, 너비와 높이 |
 | `sections[].conceptIllustration` | 첫 번째 그림을 개념도로 표시하고 뒤의 학습 자료를 펼쳐 볼 수 있게 함 |
 | `sections[].generationExample` | 시작 문구 `prompt` 뒤에 `tokens`를 하나씩 붙여 보는 월간 발표 예제 |
+| `sections[].courseSource` | 월간 교육 발표에서 근거로 삼은 차시·자료명(`label`)과 실제 다룬 내용(`detail`). 해당 장과 발표 하단 자료 목록에 표시 |
 | `sections[].speakerNotes` | 선택: 월간 발표 장면에서 펼쳐 읽는 발표 메모 |
 | 데일리 `sections[].label`, `date`, `takeaway`, `action`, `url` | 선택: 분류·발표 날짜·해석·활용 행동·공식 원문. 기존 `heading`, `body`와 함께 사용 |
 | 데일리 `sections[].summary`, `relevance` | 선택: 기본 표시할 짧은 사실 요약·왜 중요한지 한 문장. `summary`가 있으면 전체 `body`·해석·실행은 native details로 펼쳐 읽기 |
