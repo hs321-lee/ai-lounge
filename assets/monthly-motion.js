@@ -5,6 +5,7 @@ window.MonthlyMotion = {
   mount(root) {
     const scenes = [...root.querySelectorAll("[data-scene]")];
     const story = root.querySelector(".monthly-story");
+    const slides = story?.classList.contains("seminar-deck");
     const rail = root.querySelector(".story-progress span");
     const header = document.querySelector(".menu-bar");
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -22,7 +23,8 @@ window.MonthlyMotion = {
     const onResize = () => { setHeaderHeight(); onScroll(); };
     const goTo = index => {
       const target = scenes[Math.max(0, Math.min(scenes.length - 1, index))];
-      target?.scrollIntoView({ behavior: media.matches ? "auto" : "smooth", block: "start" });
+      if (slides) target?.focus({ preventScroll: true });
+      target?.scrollIntoView({ behavior: slides ? "instant" : media.matches ? "auto" : "smooth", block: "start" });
     };
     const currentIndex = () => {
       const offset = (header?.offsetHeight || 0) + 8;
@@ -33,16 +35,22 @@ window.MonthlyMotion = {
     const onKey = event => {
       if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
       if (root.querySelector(".story-viewer[open]") || event.target.closest?.("input,select,textarea,dialog")) return;
-      const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+      const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key] || (slides && { PageDown: 1, PageUp: -1 }[event.key]);
       if (!step) return;
       event.preventDefault();
       goTo(currentIndex() + step);
     };
     const onJump = event => {
+      const arrow = event.target.closest?.("[data-slide-to]");
+      if (slides && arrow && root.contains(arrow)) {
+        goTo(Number(arrow.dataset.slideTo));
+        return;
+      }
       const button = event.target.closest?.("[data-jump]");
       if (!button || !root.contains(button)) return;
       const target = root.querySelector(`#scene-${Number(button.dataset.jump)}`);
-      target?.scrollIntoView({ behavior: media.matches ? "auto" : "smooth", block: "start" });
+      if (slides) target?.focus({ preventScroll: true });
+      target?.scrollIntoView({ behavior: slides ? "instant" : media.matches ? "auto" : "smooth", block: "start" });
     };
     setHeaderHeight();
     if (!media.matches && "IntersectionObserver" in window) {

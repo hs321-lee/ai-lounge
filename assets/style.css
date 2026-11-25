@@ -217,3 +217,62 @@ html,body{overflow-x:clip}
 .course-source-list li{padding:.75rem 0;border-top:1px solid var(--story-rule)}
 .course-source-list p{margin:.25rem 0 0}
 .course-source-jump{padding:0;background:none;border:0;color:var(--story-ink);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:.22em;text-align:left;cursor:pointer}
+
+/* One thought per screen for the first-person seminar presentation. */
+html:has(.seminar-deck){scroll-behavior:auto}
+.seminar-deck{--slide-pad:clamp(1rem,3vw,3.5rem)}
+.seminar-deck .story-cover,.seminar-deck .seminar-slide{min-height:var(--scene-h);padding:clamp(1.3rem,4vh,2.8rem) var(--slide-pad);animation:none}
+.seminar-deck .story-cover h1{font-size:clamp(2.8rem,6vw,6.5rem);line-height:1.13;max-width:15em}
+.seminar-deck .story-cover .story-deck{max-width:39em;font-size:clamp(1.1rem,1.8vw,1.7rem)}
+.seminar-deck .story-cover .slide-nav{justify-self:end;margin-top:1.5rem}
+.seminar-deck .story-cover .scene-stats li{border:0;border-radius:0;border-top:2px solid var(--story-accent);background:none;padding:.7rem 0}
+.seminar-deck .story-cover .scene-stats strong{background:none;color:var(--story-ink);font-size:clamp(1.3rem,2.7vw,3rem)}
+.seminar-deck .seminar-slide{display:grid;align-content:stretch;grid-template-rows:1fr auto;row-gap:1rem}
+.slide-stage{align-self:center;min-width:0;padding-block:1rem}
+.slide-split{display:grid;grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);align-items:center;gap:clamp(1.5rem,3.5vw,4.25rem)}
+.slide-copy{min-width:0}
+.slide-copy .scene-label{margin:0 0 1.15rem;font-size:clamp(.95rem,1.3vw,1.3rem)}
+.seminar-deck .slide-copy h2{margin:0;max-width:19em;font-family:var(--story-display);font-size:clamp(3.6rem,6.9vw,8.25rem);line-height:1.13;white-space:pre-line;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance}
+.seminar-deck .slide-split h2{font-size:clamp(2.8rem,4.55vw,5.8rem)}
+.slide-body{max-width:37em;margin:1.4rem 0 0;color:var(--story-muted);font-size:clamp(1.18rem,1.75vw,1.85rem);line-height:1.55;text-wrap:pretty}
+.seminar-deck .slide-stage .story-media-open{width:100%;background:#faf7f0}
+.seminar-deck .slide-stage .story-media img{width:100%;max-height:calc(var(--scene-h) - 9rem)}
+.slide-numbers{margin:0;padding:0;display:grid;gap:1.6rem}
+.slide-numbers div{border-top:2px solid var(--story-rule);padding-top:.7rem}
+.slide-numbers dt{font-size:clamp(1rem,1.2vw,1.25rem);color:var(--story-muted)}
+.slide-numbers dd{margin:.25rem 0 0;font-size:clamp(2.8rem,5.6vw,6.5rem);font-weight:800;letter-spacing:-.06em;line-height:1.12;color:var(--story-accent)}
+.seminar-deck .slide-dark{--story-muted:#e1d4c8;--story-accent:#ffb17c;--story-rule:#74675d;background:#2a241f;color:#fff9f2;box-shadow:0 0 0 100vmax #2a241f;clip-path:inset(0 -100vmax)}
+.seminar-deck .slide-quote .slide-copy h2{font-size:clamp(1.25rem,2.1vw,2.1rem);font-weight:550}
+.slide-quote .instructor-quote{margin:1.8rem 0 0;padding:0;border:0}
+.slide-quote .instructor-quote blockquote{max-width:14em;font-size:clamp(3rem,6.3vw,7rem);letter-spacing:-.055em;line-height:1.16;text-wrap:balance}
+.slide-quote .instructor-quote figcaption{margin-top:1.25rem;color:var(--story-accent);font-size:1.05rem}
+.slide-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:1rem;border-top:1px solid var(--story-rule);padding-top:.6rem}
+.slide-notes{min-width:0;max-width:58rem;font-size:1rem}
+.slide-notes summary{width:fit-content;min-height:44px;align-content:center;cursor:pointer;color:var(--story-muted)}
+.slide-notes p{line-height:1.65;margin:.8rem 0}
+.slide-source{color:var(--story-muted);overflow-wrap:anywhere}
+.slide-notes .scene-gallery{margin:1rem 0}
+.slide-nav{display:flex;align-items:center;gap:.7rem;color:inherit}
+.slide-nav button{min-height:44px;padding:.3rem .8rem;background:transparent;border:1px solid var(--story-rule);border-radius:2rem;color:inherit;font:inherit;cursor:pointer}
+.slide-nav span{font-variant-numeric:tabular-nums;color:var(--story-muted);font-size:.9rem;white-space:nowrap}
+.slide-nav button:disabled{opacity:.36;cursor:default}
+@media(max-width:760px){
+  .seminar-deck{--slide-pad:0}
+  .seminar-deck .story-cover h1,.seminar-deck .slide-copy h2{font-size:clamp(2.35rem,8vw,3.8rem)}
+  .seminar-deck .slide-split h2{font-size:clamp(2.25rem,6.6vw,3.2rem)}
+  .seminar-deck .slide-copy h2{white-space:normal}
+  .slide-split{grid-template-columns:minmax(0,1fr);gap:1.3rem}
+  .slide-copy .scene-label{margin-bottom:.65rem}
+  .slide-stage{padding-block:.5rem}
+  .slide-body{font-size:1.1rem;margin-top:.85rem}
+  .slide-numbers{grid-template-columns:1fr 1fr;gap:.8rem}
+  .slide-numbers dd{font-size:clamp(1.8rem,7vw,3rem)}
+  .seminar-deck .slide-stage .story-media img{max-height:min(32svh,18rem)}
+  .seminar-deck .story-cover-topics{grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+  .seminar-deck .story-cover .scene-stats strong{font-size:clamp(1rem,4vw,1.55rem)}
+  .seminar-deck .story-cover .scene-stats span{font-size:.9rem}
+  .slide-foot:has(details[open]){grid-template-columns:1fr}
+  .slide-foot .slide-nav{justify-self:end}
+  .slide-nav{gap:.45rem}
+  .slide-nav button{padding-inline:.7rem}
+}
