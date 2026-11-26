@@ -237,6 +237,15 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .seminar-deck .story-cover .slide-nav{justify-self:end;margin-top:1.5rem}
 .seminar-deck .story-cover .scene-stats li{border:0;border-radius:0;border-top:2px solid var(--story-accent);background:none;padding:.7rem 0}
 .seminar-deck .story-cover .scene-stats strong{background:none;color:var(--story-ink);font-size:clamp(1.3rem,2.7vw,3rem)}
+.seminar-cover-lead{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center;gap:clamp(1.5rem,4vw,4.5rem)}
+.seminar-deck .seminar-cover-lead h1{font-size:clamp(2.65rem,5.25vw,6rem);word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance}
+.seminar-cover-benefits{margin:0;padding:clamp(1rem,3vw,2.5rem);border-radius:.65rem;background:var(--story-ink);color:var(--story-paper)}
+.seminar-cover-benefits h2{margin:0;font:750 clamp(1rem,1.6vw,1.5rem)/1.3 var(--story-display)}
+.seminar-cover-benefits dl{display:grid;gap:clamp(.65rem,2.1vh,1.35rem);margin:1rem 0 0}
+.seminar-cover-benefits dl div{padding-top:.7rem;border-top:1px solid #fff4e255}
+.seminar-cover-benefits dt{font-size:clamp(.9rem,1.23vw,1.2rem);font-weight:700}
+.seminar-cover-benefits dd{margin:.2rem 0 0;color:#ffd8b5;font-size:clamp(2.35rem,4.75vw,5.4rem);font-weight:850;letter-spacing:-.06em;line-height:1.1;word-break:keep-all}
+.seminar-cover-benefits p{margin:1rem 0 0;font-size:.9rem;color:#eadaca}
 .seminar-deck .seminar-slide{display:grid;align-content:stretch;grid-template-rows:1fr auto;row-gap:1rem}
 .slide-stage{align-self:center;min-width:0;padding-block:1rem}
 .slide-split{display:grid;grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);align-items:center;gap:clamp(1.5rem,3.5vw,4.25rem)}
@@ -283,7 +292,6 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-calendar-later .slide-calendar .calendar-dates td{height:1.1rem;padding:.08rem .17rem}
 .slide-calendar-later .slide-calendar td time,.slide-calendar-later .slide-calendar .calendar-bar{font-size:clamp(.64rem,.9vw,.8rem)}
 .schedule-note{margin:.25rem 0 0;font-size:clamp(.96rem,1.35vw,1.45rem);font-weight:700}
-.schedule-benefits{margin:.25rem 0 0;color:var(--story-muted);font-size:.92rem}
 .slide-concept-groups{margin:.4rem 0 0;display:grid}
 .slide-concept-groups>div{display:grid;grid-template-columns:minmax(7.7rem,.23fr) minmax(0,1fr);align-items:baseline;gap:.7rem 1rem;border-top:1px solid var(--story-rule);padding:clamp(.6rem,1.8vh,1.25rem) 0}
 .slide-concept-groups dt{color:var(--story-accent);font-weight:850;font-size:clamp(1rem,1.55vw,1.4rem)}
@@ -330,12 +338,7 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-quote .slide-numbers div + div::before{content:"→";position:absolute;left:-1.72rem;top:50%;transform:translateY(-50%);color:var(--story-accent);font-size:1.45rem}
 .slide-quote .slide-numbers dd{font-size:clamp(1.25rem,2.4vw,2.5rem);color:inherit;word-break:keep-all}
 
-.slide-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:1rem;border-top:1px solid var(--story-rule);padding-top:.6rem}
-.slide-notes{min-width:0;max-width:58rem;font-size:1rem}
-.slide-notes summary{width:fit-content;min-height:44px;align-content:center;cursor:pointer;color:var(--story-muted)}
-.slide-notes p{line-height:1.65;margin:.8rem 0}
-.slide-source{color:var(--story-muted);overflow-wrap:anywhere}
-.slide-notes .scene-gallery{margin:1rem 0}
+.slide-foot{display:flex;justify-content:flex-end;border-top:1px solid var(--story-rule);padding-top:.6rem}
 .slide-nav{display:flex;align-items:center;gap:.7rem;color:inherit}
 .slide-nav button{min-height:44px;padding:.3rem .8rem;background:transparent;border:1px solid var(--story-rule);border-radius:2rem;color:inherit;font:inherit;cursor:pointer}
 .slide-nav span{font-variant-numeric:tabular-nums;color:var(--story-muted);font-size:.9rem;white-space:nowrap}
@@ -346,6 +349,10 @@ html:has(.seminar-deck){scroll-behavior:auto}
 }
 @media(max-width:760px){
   .seminar-deck{--slide-pad:0}
+  .seminar-cover-lead{grid-template-columns:minmax(0,1fr);gap:1.25rem}
+  .seminar-deck .seminar-cover-lead h1{font-size:clamp(2.35rem,8vw,3.8rem)}
+  .seminar-cover-benefits dl{grid-template-columns:1.5fr 1fr;gap:.8rem}
+  .seminar-cover-benefits dd{font-size:clamp(1.75rem,6.7vw,3.25rem)}
   .seminar-deck .story-cover h1,.seminar-deck .slide-copy h2{font-size:clamp(2.35rem,8vw,3.8rem)}
   .seminar-deck .slide-split h2{font-size:clamp(2.25rem,6.6vw,3.2rem)}
   .seminar-deck .slide-copy h2{white-space:normal}
@@ -366,8 +373,6 @@ html:has(.seminar-deck){scroll-behavior:auto}
   .seminar-deck .story-cover-topics{grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
   .seminar-deck .story-cover .scene-stats strong{font-size:clamp(1rem,4vw,1.55rem)}
   .seminar-deck .story-cover .scene-stats span{font-size:.9rem}
-  .slide-foot:has(details[open]){grid-template-columns:1fr}
-  .slide-foot .slide-nav{justify-self:end}
   .slide-nav{gap:.45rem}
   .slide-nav button{padding-inline:.7rem}
 }
