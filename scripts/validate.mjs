@@ -113,14 +113,30 @@ for (const post of data.posts) {
       }
       if (section.schedule !== undefined) {
         assert.ok(Array.isArray(section.schedule) && section.schedule.length);
-        for (const group of section.schedule) {
-          requiredText(group.label, `${post.id}: 일정 묶음 제목`);
-          assert.ok(Array.isArray(group.rows) && group.rows.length);
-          for (const row of group.rows) {
-            requiredText(row.date, `${post.id}: 일정 날짜`);
-            requiredText(row.activity, `${post.id}: 일정 내용`);
-            if (row.highlight !== undefined) assert.equal(typeof row.highlight, "boolean");
+        let previousMonth = "";
+        for (const {month, events} of section.schedule) {
+          assert.match(month, /^20\d{2}-(0[1-9]|1[0-2])$/);
+          assert.ok(month > previousMonth, `${post.id}: 일정 월은 시간순으로 한 번만 사용`);
+          previousMonth = month;
+          const [year, monthNumber] = month.split("-").map(Number);
+          const lastDay = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate();
+          assert.ok(Array.isArray(events) && events.length);
+          let previousEnd = 0;
+          for (const {start, end = start, label, activity, kind} of events) {
+            assert.ok(Number.isInteger(start) && Number.isInteger(end) && start > previousEnd && end >= start && end <= lastDay, `${post.id}: 달력 일정 날짜 범위`);
+            previousEnd = end;
+            requiredText(label, `${post.id}: 달력 일정 이름`);
+            requiredText(activity, `${post.id}: 달력 일정 설명`);
+            assert.ok(["class", "project", "exam"].includes(kind));
           }
+        }
+      }
+      if (section.conceptGroups !== undefined) {
+        assert.ok(Array.isArray(section.conceptGroups) && section.conceptGroups.length);
+        for (const {label, terms} of section.conceptGroups) {
+          requiredText(label, `${post.id}: 개념 영역 이름`);
+          assert.ok(Array.isArray(terms) && terms.length);
+          for (const term of terms) requiredText(term, `${post.id}: 개념 키워드`);
         }
       }
       if (section.studyExamples !== undefined) {

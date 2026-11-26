@@ -70,12 +70,31 @@ function renderNotebookExcerpt(media, sectionIndex) {
     <figcaption>${escape(media.caption)} <span>· 눌러서 전체 보기</span></figcaption>
   </figure>`;
 }
-function renderSeminarSchedule(groups) {
-  return `<div class="slide-schedule">${groups.map(({label, rows}) => `<table>
-    <caption>${escape(label)}</caption>
-    <tbody>${rows.map(({date, activity, highlight}) => `<tr${highlight ? ' class="schedule-highlight"' : ""}>
-      <th scope="row">${escape(date)}</th><td>${escape(activity)}</td></tr>`).join("")}</tbody>
-    </table>`).join("")}</div>`;
+function renderSeminarCalendar({month, events}) {
+  const [year, monthNumber] = month.split("-").map(Number);
+  const firstWeekday = new Date(Date.UTC(year, monthNumber - 1, 1)).getUTCDay();
+  const days = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate();
+  const headers = ["일", "월", "화", "수", "목", "금", "토"];
+  const weeks = Array.from({length: Math.ceil((firstWeekday + days) / 7)}, (_, week) => {
+    const cells = headers.map((_, weekday) => {
+      const day = week * 7 + weekday - firstWeekday + 1;
+      if (day < 1 || day > days) return '<td class="calendar-empty"></td>';
+      const date = `${month}-${String(day).padStart(2, "0")}`;
+      const event = events.find(({start, end = start}) => day >= start && day <= end);
+      const eventName = event && (day === event.start || weekday === 0) ? event.label : "";
+      const kind = event ? ` class="calendar-${escape(event.kind)}" title="${escape(event.activity)}"` : "";
+      return `<td${kind}><time datetime="${date}"${event ? ` aria-label="${day}일 · ${escape(event.activity)}"` : ""}>${day}</time>${eventName ? `<span aria-hidden="true">${escape(eventName)}</span>` : ""}</td>`;
+    });
+    return `<tr>${cells.join("")}</tr>`;
+  });
+  return `<table class="slide-calendar"><caption>${year}년 ${monthNumber}월</caption>
+    <thead><tr>${headers.map(day => `<th scope="col">${day}</th>`).join("")}</tr></thead>
+    <tbody>${weeks.join("")}</tbody></table>`;
+}
+function renderSeminarSchedule(months) {
+  const [first, ...later] = months;
+  return `<div class="slide-schedule">${renderSeminarCalendar(first)}
+    <div class="slide-calendar-later">${later.map(renderSeminarCalendar).join("")}</div></div>`;
 }
 function renderSeminarSlide(section, index, sections) {
   const media = section.media || [];
@@ -96,7 +115,8 @@ function renderSeminarSlide(section, index, sections) {
   const code = section.code?.length ? `<pre class="slide-code" aria-label="강조한 코드"><code>${section.code.map(line => `<mark>${escape(line)}</mark>`).join("\n")}</code></pre>` : "";
   const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
   const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
-  const stageLayout = section.schedule || pairedFigures ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
+  const concepts = section.conceptGroups ? `<dl class="slide-concept-groups">${section.conceptGroups.map(({label, terms}) => `<div><dt>${escape(label)}</dt><dd><ul>${terms.map(term => `<li>${escape(term)}</li>`).join("")}</ul></dd></div>`).join("")}</dl>` : "";
+  const stageLayout = section.schedule || pairedFigures || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
   return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
@@ -110,6 +130,7 @@ function renderSeminarSlide(section, index, sections) {
       ${code}
       ${steps}
       ${examples}
+      ${concepts}
     </div>
     <div class="slide-foot"><details class="slide-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p>
       <p class="slide-source"><strong>${escape(source.label)}</strong><br>${escape(source.detail)}</p>

@@ -6027,66 +6027,102 @@
       "sections": [
         {
           "label": "2026년 13차 개발 과정",
-          "heading": "교육에서 최종 심사까지",
+          "heading": "개발 과정 일정",
           "body": "실기와 현업 과제는 병행하며, 둘 다 통과해야 최종 인증을 받습니다.",
           "takeaway": "최종 인증 시 인사 가점 1점 · 자격수당 월 30만 원 (13차 안내 기준)",
           "schedule": [
             {
-              "label": "2026년 교육·실기",
-              "rows": [
+              "month": "2026-11",
+              "events": [
                 {
-                  "date": "11/2–3",
-                  "activity": "LLM · 어텐션, GPT, 미세조정"
+                  "start": 2,
+                  "end": 3,
+                  "label": "LLM",
+                  "activity": "LLM · 어텐션, GPT, 미세조정",
+                  "kind": "class"
                 },
                 {
-                  "date": "11/4–5",
-                  "activity": "Vision · 분류, 검출, 분할"
+                  "start": 4,
+                  "end": 5,
+                  "label": "Vision",
+                  "activity": "Vision · 분류, 검출, 분할",
+                  "kind": "class"
                 },
                 {
-                  "date": "11/6",
-                  "activity": "현업 과제 기획·인증평가 안내"
+                  "start": 6,
+                  "label": "과제기획",
+                  "activity": "현업 과제 기획·인증평가 안내",
+                  "kind": "class"
                 },
                 {
-                  "date": "11/9–10",
-                  "activity": "온디바이스 AI · 양자화, 경량화"
+                  "start": 9,
+                  "end": 10,
+                  "label": "온디바이스",
+                  "activity": "온디바이스 AI · 양자화, 경량화",
+                  "kind": "class"
                 },
                 {
-                  "date": "11/11",
-                  "activity": "Data · 시계열 예측과 추천"
+                  "start": 11,
+                  "label": "Data",
+                  "activity": "Data · 시계열 예측과 추천",
+                  "kind": "class"
                 },
                 {
-                  "date": "11/12–13",
-                  "activity": "RAG · 문서 검색과 답변 생성"
+                  "start": 12,
+                  "end": 13,
+                  "label": "RAG",
+                  "activity": "RAG · 문서 검색과 답변 생성",
+                  "kind": "class"
                 },
                 {
-                  "date": "11/16",
-                  "activity": "오전 과제 워크숍 · 오후 자율학습"
+                  "start": 16,
+                  "label": "워크숍",
+                  "activity": "오전 과제 워크숍 · 오후 자율학습",
+                  "kind": "class"
                 },
                 {
-                  "date": "11/17",
+                  "start": 17,
+                  "label": "3시간 실기",
                   "activity": "인증평가 · 3시간 코딩 실기",
-                  "highlight": true
+                  "kind": "exam"
+                },
+                {
+                  "start": 18,
+                  "end": 24,
+                  "label": "계획서",
+                  "activity": "현업 과제 계획서 제출",
+                  "kind": "project"
                 }
               ]
             },
             {
-              "label": "현업 과제",
-              "rows": [
+              "month": "2027-01",
+              "events": [
                 {
-                  "date": "2026/11/18–24",
-                  "activity": "현업 과제 계획서 제출"
+                  "start": 25,
+                  "end": 29,
+                  "label": "중간보고",
+                  "activity": "현업 과제 중간보고",
+                  "kind": "project"
+                }
+              ]
+            },
+            {
+              "month": "2027-02",
+              "events": [
+                {
+                  "start": 15,
+                  "end": 19,
+                  "label": "1차 심사",
+                  "activity": "현업 과제 1차 심사",
+                  "kind": "project"
                 },
                 {
-                  "date": "2027/1/25–29",
-                  "activity": "중간보고"
-                },
-                {
-                  "date": "2027/2/15–19",
-                  "activity": "1차 심사"
-                },
-                {
-                  "date": "2027/2/22–26",
-                  "activity": "최종 심사"
+                  "start": 22,
+                  "end": 26,
+                  "label": "최종 심사",
+                  "activity": "현업 과제 최종 심사",
+                  "kind": "project"
                 }
               ]
             }
@@ -6175,15 +6211,15 @@
         {
           "label": "강의 원본과 복습 그림",
           "heading": "어텐션을 코드 흐름으로 그렸습니다",
-          "body": "관련 있는 단어에 점수 매기기 → GPT에서 미래 토큰 가리기 → 필요한 정보 섞기",
+          "body": "Q·K·V로 문맥 읽기 → 여러 헤드의 결과 합치기",
           "figureLayout": "pair",
           "media": [
             {
-              "src": "assets/ai-specialist/attention-original.webp",
+              "src": "assets/ai-specialist/attention-multihead-original.webp",
               "width": 1397,
               "height": 787,
-              "alt": "creature가 주변 단어의 표현을 참고하는 어텐션 강의 원본 117쪽",
-              "caption": "강의 원본 · Attention 의미 p.117"
+              "alt": "각 헤드에서 Q·K·V를 만들고 계산한 결과를 옆으로 이어 붙이는 멀티헤드 어텐션 원본 그림",
+              "caption": "강의 원본 · Multi-head Attention p.120"
             },
             {
               "src": "assets/ai-specialist/attention-study.webp",
@@ -6193,10 +6229,10 @@
               "caption": "실제로 만든 그림 · 어텐션으로 문맥 섞기"
             }
           ],
-          "speakerNotes": "왼쪽 강의 그림에서는 creature가 fluffy와 blue를 참고해서 문맥을 얻는 걸 봤습니다. 오른쪽은 GPT 실습을 제가 이해한 순서로 다시 그린 것입니다. 어떤 단어를 참고할지 점수를 내고, 아직 나오지 않은 단어는 가리고, 남은 정보는 점수 비율에 따라 섞습니다. 이후 비전에서는 글 대신 이미지 조각 사이의 관계를 계산하는 데도 같은 어텐션을 쓴다는 걸 봤습니다.",
+          "speakerNotes": "왼쪽 강의 그림은 같은 입력을 여러 헤드에서 각자 보고, 결과를 이어 붙이는 모습을 보여줍니다. 오른쪽은 실습에서 헤드 하나가 하는 일을 제가 정리한 그림입니다. Q와 K로 참고할 위치에 점수를 매기고, GPT에서는 미래 위치를 가린 다음, 그 비율대로 V의 정보를 섞습니다. 실제 코드를 읽으면서 왼쪽 큰 그림과 오른쪽 세 단계를 연결할 수 있었습니다.",
           "courseSource": {
-            "label": "LLM 강의 p.117 · 어텐션 실습 복습",
-            "detail": "Day1 LLM 강의 원본 p.117과 AI-S 실습 03 ‘어텐션으로 문맥 섞기’ 복습 그림입니다."
+            "label": "LLM 강의 p.120 · 어텐션 실습 복습",
+            "detail": "Day1 원본의 Multi-head Attention 구조도와 AI-S 실습 03 ‘어텐션으로 문맥 섞기’ 복습 그림입니다."
           }
         },
         {
@@ -6251,14 +6287,61 @@
           }
         },
         {
-          "label": "개발 과정에서 남은 것",
-          "heading": "현업에선\n‘언제 쓰는지’가 남았습니다",
-          "body": "워치에서 모델을 가볍게 돌릴 때는 양자화. 문서를 근거로 답하게 할 때는 RAG.",
-          "speakerNotes": "시간이 지나면 코드 한 줄 한 줄은 잊어도, 어떤 문제에 무슨 개념을 쓸 수 있는지는 남더라고요. 모델이 너무 크면 양자화했을 때 속도와 정확도가 어떻게 바뀌는지부터 볼 수 있고요. 사내 문서를 근거로 답하는 기능이라면 검색과 답변 생성을 어떤 방식으로 연결할지 볼 수 있습니다. 제 일에서 떠오른 건 워치페이스 추천이었고, 교육에서 본 방법을 바탕으로 제 상황에 맞는 질문부터 구체화할 수 있었습니다.",
+          "label": "수업 정리",
+          "heading": "개발 과정 핵심 개념",
+          "body": "2년 전 배운 개념을 이번에는 코드로 다시 봤습니다.",
+          "speakerNotes": "2년 전에 들었던 교육 내용을 이번 과정에서 다시 복습했습니다. 그때는 전체 흐름을 훑는 오버뷰 수준이었구나 싶었어요. 이번에는 실습 코드에서 어떤 개념이 어디에서 쓰이는지까지 연결해 볼 수 있었습니다. 나중에 현업에서 모델을 줄이거나, 추천을 만들거나, 문서를 찾아 답하게 할 일이 생기면 이 키워드에서 시작해서 더 들어갈 수 있겠다는 생각이 들었습니다.",
           "courseSource": {
-            "label": "온디바이스·RAG 실습 · 수강 소감",
-            "detail": "온디바이스 모델 경량화와 문서 검색 실습을 현업에서 다시 찾아볼 수 있는 기술의 예로 듭니다."
-          }
+            "label": "개발 과정 5개 영역 · 수강 소감",
+            "detail": "LLM, 비전, 온디바이스 AI, 데이터, RAG에서 배운 핵심 개념과 2년 전 교육을 복습한 소감입니다."
+          },
+          "conceptGroups": [
+            {
+              "label": "LLM",
+              "terms": [
+                "토큰",
+                "어텐션",
+                "Transformer",
+                "LoRA"
+              ]
+            },
+            {
+              "label": "Vision",
+              "terms": [
+                "CNN",
+                "ResNet",
+                "ViT",
+                "DETR",
+                "U-Net"
+              ]
+            },
+            {
+              "label": "온디바이스",
+              "terms": [
+                "양자화",
+                "가지치기",
+                "지식 증류"
+              ]
+            },
+            {
+              "label": "Data",
+              "terms": [
+                "시계열",
+                "LSTM",
+                "추천 시스템",
+                "NGCF"
+              ]
+            },
+            {
+              "label": "RAG",
+              "terms": [
+                "임베딩",
+                "문서 검색",
+                "GraphRAG",
+                "CRAG"
+              ]
+            }
+          ]
         }
       ],
       "sources": [
@@ -6271,8 +6354,8 @@
           "url": "https://ai-s.pages.dev/slides/course-intro.html#s3"
         },
         {
-          "title": "LLM 강의 원본 p.117 · Attention 의미",
-          "url": "https://ai-s.pages.dev/slides/day1.html#s117"
+          "title": "LLM 강의 원본 p.120 · Multi-head Attention",
+          "url": "https://ai-s.pages.dev/slides/day1.html#s120"
         },
         {
           "title": "추천 강의 원본 p.32 · NGCF",
