@@ -245,6 +245,11 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .seminar-deck .slide-copy h2{margin:0;max-width:19em;font-family:var(--story-display);font-size:clamp(3.6rem,6.9vw,8.25rem);line-height:1.13;white-space:pre-line;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance}
 .seminar-deck .slide-split h2{font-size:clamp(2.8rem,4.55vw,5.8rem)}
 .slide-body{max-width:37em;margin:1.4rem 0 0;color:var(--story-muted);font-size:clamp(1.18rem,1.75vw,1.85rem);line-height:1.55;text-wrap:pretty}
+.slide-code{margin:0;padding:clamp(1rem,2.4vw,2.25rem);border-radius:.5rem;background:#2a241f;font-size:clamp(.85rem,1.35vw,1.5rem);line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
+.slide-code mark{padding:.17em .32em;border-radius:.2em;background:#5f422d;color:#ffe4bd;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.slide-steps{margin:0;padding:0;display:grid;gap:.65rem;list-style-position:inside}
+.slide-steps li{border-top:1px solid var(--story-rule);padding:.55rem 0;font-size:clamp(1.1rem,2.2vw,2.3rem);font-weight:700;word-break:keep-all}
+.slide-steps li::marker{color:var(--story-accent)}
 .seminar-deck .slide-stage .story-media-open{width:100%;background:#faf7f0}
 .seminar-deck .slide-stage .story-media img{width:100%;max-height:calc(var(--scene-h) - 9rem)}
 .slide-numbers{margin:0;padding:0;display:grid;gap:1.6rem}

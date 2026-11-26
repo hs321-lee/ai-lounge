@@ -152,8 +152,8 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(december.main.innerHTML, /aria-label="교육 과정"/);
   const [cover, ...scenes] = december.main.innerHTML.split(/id="scene-\d+"/);
   for (const benefit of ["인사 가점 1점", "월 30만 원", "2주 교육"]) assert.ok(cover.includes(benefit), benefit);
-  assert.equal(scenes.length, 4);
-  assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, 5);
+  assert.equal(scenes.length, 8);
+  assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, scenes.length + 1);
   assert.match(cover, /3시간 실기와 현업 과제/);
   assert.match(cover, /실기와 과제 통과 후 최종 인증/);
   assert.match(cover, /내년에는 교육과정이 바뀐다고/);
@@ -162,17 +162,23 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
     assert.ok(december.main.innerHTML.includes(`href="#post/daily-${date}"`));
     assert.ok(december.main.innerHTML.includes(`src="assets/daily/${date}.webp"`));
   }
-  assert.match(scenes[0], /32×32/);
-  assert.match(scenes[0], /concept-study\.webp/);
-  assert.match(scenes[1], /어텐션을 다시 만났습니다/);
-  assert.match(scenes[1].split('class="slide-foot"')[0], /seminar-attention\.webp/);
-  assert.match(scenes[2], /지난 50거래일 시가/);
-  assert.match(scenes[2], /직접 만들 생각을 접었습니다/);
-  assert.match(scenes[2], /<blockquote>“그래서 어떤 알고리즘 하나의 수명이 엄청나게 짧아요\.”<\/blockquote>/);
-  assert.match(scenes[2], /2교시 01:30/);
-  assert.match(scenes[2], /ts_solution\.ipynb/);
-  assert.match(scenes[3], /워치페이스라면/);
-  assert.match(scenes[3].split('class="slide-foot"')[0], /seminar-watch\.webp/);
+  assert.match(scenes[0], /concept-attention\.webp/);
+  assert.match(scenes[1], /concept-vit\.webp/);
+  assert.match(scenes[2], /32×32/);
+  assert.match(scenes[2], /concept-study\.webp/);
+  assert.match(scenes[3].split('class="slide-foot"')[0], /<mark>preds = logits\.argmax\(dim=1\)<\/mark>/);
+  assert.match(scenes[4].split('class="slide-foot"')[0], /<ol class="slide-steps"><li>지시문 읽기<\/li><li>시간을 재고 직접 작성<\/li><li>노트북에서 값과 모양 확인<\/li><\/ol>/);
+  const lastReview = scenes[5].split('class="slide-foot"')[0];
+  assert.match(lastReview, /LLM 7분 · Vision 6분 · On-Device 5분 · Data 6분 · RAG 6분/);
+  assert.match(lastReview, /<mark>self\.head_dim = d_out \/\/ num_heads<\/mark>/);
+  assert.match(lastReview, /<mark>model\.maxpool = nn\.Identity\(\)<\/mark>/);
+  assert.match(scenes[6], /지난 50거래일 시가/);
+  assert.match(scenes[6], /직접 만들 생각을 접었습니다/);
+  assert.match(scenes[6], /<blockquote>“그래서 어떤 알고리즘 하나의 수명이 엄청나게 짧아요\.”<\/blockquote>/);
+  assert.match(scenes[6], /2교시 01:30/);
+  assert.match(scenes[6], /ts_solution\.ipynb/);
+  assert.match(scenes[7], /편집한 화면도/);
+  assert.match(scenes[7].split('class="slide-foot"')[0], /concept-watch\.webp/);
   assert.doesNotMatch(december.main.innerHTML, /data-next-token/);
   assert.equal(december.main.innerHTML.match(/<summary>발표 메모<\/summary>/g).length, scenes.length);
   assert.equal(december.main.innerHTML.match(/class="slide-nav"/g).length, scenes.length+1);
@@ -180,7 +186,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.equal(december.main.innerHTML.match(/class="course-source-jump"/g).length, scenes.length);
   for (const record of ["Chapter_4_Excercise_GPT", "02_ViT_CIFAR10", "resnet-study-note.png", "RecSys_GCF_sol", "2027년 모집 안내"]) assert.ok(december.main.innerHTML.includes(record), record);
   assert.doesNotMatch(december.main.innerHTML, /arxiv\.org|jalammar\.github\.io/);
-  assert.doesNotMatch(december.main.innerHTML, /PUBLIC CASE STUDY|https:\/\/ai-s.pages.dev/);
+  assert.doesNotMatch(december.main.innerHTML, /PUBLIC CASE STUDY|https:\/\/ai-s.pages.dev|제보|기출|복원/);
 });
 
 test("4편은 후속 소개 한 장에서 기존 인사이트와 원문으로 연결한다", async () => {
