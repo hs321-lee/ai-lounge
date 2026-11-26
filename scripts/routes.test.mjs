@@ -157,11 +157,18 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   const [schedule, environment, assessment, study, attention, recommendation, series, closing] =
     scenes.map(scene => scene.split('class="slide-foot"')[0]);
   for (const benefit of ["인사 가점 1점", "월 30만 원"]) assert.ok(schedule.includes(benefit), benefit);
-  assert.equal(schedule.match(/<table>/g).length, 2);
-  assert.equal(schedule.match(/scope="row"/g).length, 12);
-  assert.match(schedule, /<tr class="schedule-highlight">\s*<th scope="row">11\/17<\/th><td>인증평가 · 3시간 코딩 실기/);
-  assert.match(schedule, /2027\/2\/15–19<\/th><td>1차 심사/);
-  assert.match(schedule, /2027\/2\/22–26<\/th><td>최종 심사/);
+  assert.equal(schedule.match(/class="slide-calendar"/g).length, 3);
+  for (const month of ["2026년 11월", "2027년 1월", "2027년 2월"]) assert.ok(schedule.includes(`<caption>${month}</caption>`), month);
+  assert.match(schedule, /<th scope="col">일<\/th><th scope="col">월<\/th>/);
+  assert.match(schedule, /class="calendar-exam" title="인증평가 · 3시간 코딩 실기"><time datetime="2026-11-17"/);
+  for (const [date, activity] of [
+    ["2026-11-18", "현업 과제 계획서 제출"], ["2026-11-24", "현업 과제 계획서 제출"],
+    ["2027-01-25", "현업 과제 중간보고"], ["2027-01-29", "현업 과제 중간보고"],
+    ["2027-02-15", "현업 과제 1차 심사"], ["2027-02-19", "현업 과제 1차 심사"],
+    ["2027-02-22", "현업 과제 최종 심사"], ["2027-02-26", "현업 과제 최종 심사"]
+  ]) {
+    assert.ok(schedule.includes(`title="${activity}"><time datetime="${date}"`), date);
+  }
   assert.match(schedule, /실기와 현업 과제는 병행/);
   for (const date of ["2026-11-18", "2026-11-24"]) {
     assert.ok(december.main.innerHTML.includes(`href="#post/daily-${date}"`));
@@ -175,7 +182,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(study, /<mark>self\.head_dim = d_out \/\/ num_heads<\/mark>/);
   for (const [scene, files] of [
     [environment, ["course-overview-original", "image-classification"]],
-    [attention, ["attention-original", "attention-study"]],
+    [attention, ["attention-multihead-original", "attention-study"]],
     [recommendation, ["ngcf-original", "ngcf-study"]]
   ]) {
     assert.match(scene, /class="slide-figure-pair"/);
@@ -187,7 +194,12 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(series, /유재민 서울대 컴퓨터공학부 조교수 · 시계열 수업 2교시 01:30/);
   assert.match(series, /time-series-study\.webp/);
   assert.match(scenes[6], /ts_solution\.ipynb/);
-  assert.match(closing, /양자화.*RAG/);
+  assert.match(attention, /Multi-head Attention p\.120/);
+  assert.match(closing, /개발 과정 핵심 개념/);
+  assert.match(closing, /2년 전 배운 개념을 이번에는 코드로 다시 봤습니다/);
+  assert.equal(closing.match(/<dt>/g).length, 5);
+  for (const concept of ["어텐션", "ViT", "양자화", "NGCF", "GraphRAG"]) assert.ok(closing.includes(`<li>${concept}</li>`), concept);
+  assert.match(scenes[7], /오버뷰 수준/);
   assert.doesNotMatch(december.main.innerHTML, /data-next-token/);
   assert.equal(december.main.innerHTML.match(/<summary>발표 메모<\/summary>/g).length, scenes.length);
   assert.equal(december.main.innerHTML.match(/class="slide-nav"/g).length, scenes.length+1);
