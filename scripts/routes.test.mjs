@@ -189,11 +189,12 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(study, /시험 직전 30분/);
   assert.match(study, /self\.head_dim = <mark>d_out \/\/ num_heads<\/mark>/);
   for (const line of ["keys.view(", "self.mask.bool()", "torch.softmax("]) assert.ok(study.includes(`<mark>${line}`), line);
-  assert.match(environment, /class="slide-recap-gallery"/);
-  assert.match(environment, /slide-split slide-gallery-split/);
-  assert.equal(environment.match(/data-media="1-\d+"/g).length, 9);
-  for (const file of ["lora-study", "object-detection-study", "distillation-study"]) {
-    assert.ok(environment.includes(`src="assets/ai-specialist/${file}.webp"`), file);
+  assert.match(environment, /class="slide-recap-figures"/);
+  assert.match(environment, /slide-stacked slide-recap-stage/);
+  assert.equal(environment.match(/data-media="1-\d+"/g).length, 3);
+  for (const [diagram, file] of [["attention", "attention-study"], ["quantization", "quantization-study"], ["rag", "rag-study"]]) {
+    assert.ok(environment.includes(`class="recap-${diagram}"`), diagram);
+    assert.ok(environment.includes(`href="assets/ai-specialist/${file}.webp"`), file);
   }
   assert.match(december.main.innerHTML, /https:\/\/ai-s\.pages\.dev\/slides\/course-intro\.html#s3/);
   for (const [scene, file] of [

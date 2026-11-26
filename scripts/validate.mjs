@@ -119,9 +119,13 @@ for (const post of data.posts) {
       assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
       if (section.figureLayout !== undefined) {
         const {figureLayout, media = []} = section;
-        assert.ok(["notebooks", "pair", "gallery", "feature"].includes(figureLayout));
-        if (figureLayout === "gallery") {
-          assert.ok(media.length === 9 && media.every(item => item.excerpt), `${post.id}: 복습 썸네일 아홉 장 필요`);
+        assert.ok(["notebooks", "pair", "recap", "feature"].includes(figureLayout));
+        if (figureLayout === "recap") {
+          assert.deepEqual(media.map(item => item.diagram), ["attention", "quantization", "rag"], `${post.id}: 복습 도식 세 개 필요`);
+          for (const item of media) {
+            requiredText(item.diagramAlt, `${post.id}: 복습 도식 대체 텍스트`);
+            requiredText(item.description, `${post.id}: 복습 도식 설명`);
+          }
         } else {
           assert.equal(media.length, {notebooks:3, pair:2, feature:1}[figureLayout], `${post.id}: 그림 수와 배치 불일치`);
         }

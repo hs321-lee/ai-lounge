@@ -70,6 +70,26 @@ function renderNotebookExcerpt(media, sectionIndex, mediaIndex = 0) {
     <figcaption>${escape(media.caption)}</figcaption>
   </figure>`;
 }
+const recapDiagrams = {
+  attention: `<div class="recap-attention"><strong>잠들었다</strong><div class="recap-attention-weights">
+    <span><i></i>고양이가</span><span><i></i>창가에서</span><span><i></i>잠들었다</span>
+  </div></div>`,
+  quantization: `<div class="recap-quantization">
+    <div><span>실수</span><b>0.0</b><b>0.5</b><b>1.0</b></div><p>÷ 0.5 ↓</p>
+    <div><span>정수</span><b>0</b><b>1</b><b>2</b></div>
+  </div>`,
+  rag: `<div class="recap-rag"><span><i class="recap-question">?</i>질문</span><b>→</b>
+    <span><i class="recap-document"></i>문서 검색</span><b>→</b>
+    <span><i class="recap-answer">✓</i>답변</span></div>`
+};
+function renderRecapFigures(media, sectionIndex) {
+  return `<div class="slide-recap-figures">${media.map((item, mediaIndex) => `<figure class="recap-figure">
+    <a class="recap-visual" href="${escape(item.src)}" data-media="${sectionIndex}-${mediaIndex}" target="_blank" rel="noopener" aria-label="${escape(item.caption)} 복습 원본 보기">
+      <div class="recap-diagram" role="img" aria-label="${escape(item.diagramAlt)}"><div aria-hidden="true">${recapDiagrams[item.diagram]}</div></div>
+    </a>
+    <figcaption><strong>${escape(item.caption)}</strong><p>${escape(item.description)}</p></figcaption>
+  </figure>`).join("")}</div>`;
+}
 function renderSeminarCalendar({month, events}) {
   const [year, monthNumber] = month.split("-").map(Number);
   const firstWeekday = new Date(Date.UTC(year, monthNumber - 1, 1)).getUTCDay();
@@ -113,13 +133,13 @@ function renderSeminarSlide(section, index, sections) {
   const mainFigure = media.length > 0 && !section.stats;
   const notebooks = section.figureLayout === "notebooks";
   const pairedFigures = section.figureLayout === "pair";
-  const gallery = section.figureLayout === "gallery";
+  const recapFigures = section.figureLayout === "recap";
   const feature = section.figureLayout === "feature";
   let artwork = "";
   if (notebooks || pairedFigures) {
     artwork = `<div class="${notebooks ? "notebook-spread" : "slide-figure-pair"}">${renderGallery(media, index)}</div>`;
-  } else if (gallery) {
-    artwork = `<div class="slide-recap-gallery">${media.map((item, mediaIndex) => renderNotebookExcerpt(item, index, mediaIndex)).join("")}</div>`;
+  } else if (recapFigures) {
+    artwork = renderRecapFigures(media, index);
   } else if (feature) {
     artwork = `<div class="slide-feature-figure">${renderGallery(media.slice(0, 1), index)}</div>`;
   } else if (mainFigure) {
@@ -138,7 +158,7 @@ function renderSeminarSlide(section, index, sections) {
   const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
   const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
   const concepts = section.conceptGroups ? `<dl class="slide-concept-groups">${section.conceptGroups.map(({label, terms}) => `<div><dt>${escape(label)}</dt><dd><ul>${terms.map(term => `<li>${escape(term)}</li>`).join("")}</ul></dd></div>`).join("")}</dl>` : "";
-  const stageLayout = gallery ? " slide-split slide-gallery-split" : section.schedule || pairedFigures || feature || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
+  const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.schedule || pairedFigures || feature || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
   return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
