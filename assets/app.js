@@ -70,14 +70,22 @@ function renderNotebookExcerpt(media, sectionIndex) {
     <figcaption>${escape(media.caption)} <span>· 눌러서 전체 보기</span></figcaption>
   </figure>`;
 }
+function renderSeminarSchedule(groups) {
+  return `<div class="slide-schedule">${groups.map(({label, rows}) => `<table>
+    <caption>${escape(label)}</caption>
+    <tbody>${rows.map(({date, activity, highlight}) => `<tr${highlight ? ' class="schedule-highlight"' : ""}>
+      <th scope="row">${escape(date)}</th><td>${escape(activity)}</td></tr>`).join("")}</tbody>
+    </table>`).join("")}</div>`;
+}
 function renderSeminarSlide(section, index, sections) {
   const media = section.media || [];
   const mainFigure = media.length > 0 && !section.stats;
   const notebooks = section.figureLayout === "notebooks";
-  const extraStart = notebooks ? media.length : Number(mainFigure);
+  const pairedFigures = section.figureLayout === "pair";
+  const extraStart = notebooks || pairedFigures ? media.length : Number(mainFigure);
   let artwork = "";
-  if (notebooks) {
-    artwork = `<div class="notebook-spread">${renderGallery(media, index)}</div>`;
+  if (notebooks || pairedFigures) {
+    artwork = `<div class="${notebooks ? "notebook-spread" : "slide-figure-pair"}">${renderGallery(media, index)}</div>`;
   } else if (mainFigure) {
     artwork = media[0].excerpt ? renderNotebookExcerpt(media[0], index) : renderGallery(media.slice(0,1), index);
   }
@@ -87,16 +95,21 @@ function renderSeminarSlide(section, index, sections) {
   const numbers = section.stats?.map(stat => `<div><dt>${escape(stat.label)}</dt><dd>${escape(stat.value)}</dd></div>`).join("");
   const code = section.code?.length ? `<pre class="slide-code" aria-label="강조한 코드"><code>${section.code.map(line => `<mark>${escape(line)}</mark>`).join("\n")}</code></pre>` : "";
   const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
+  const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
+  const stageLayout = section.schedule || pairedFigures ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
   return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
-    <div class="slide-stage${mainFigure || numbers || code || steps ? " slide-split" : ""}">
+    <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
-        ${section.body ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
+        ${section.body && !section.schedule ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
+        ${section.linkLabel ? `<a class="slide-resource" href="${safeUrl(section.url)}" target="_blank" rel="noopener">${escape(section.linkLabel)} ↗</a>` : ""}
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
       </div>
+      ${section.schedule ? `${renderSeminarSchedule(section.schedule)}<div class="schedule-foot"><p class="schedule-note">${escape(section.body)}</p>${section.takeaway ? `<p class="schedule-benefits">${escape(section.takeaway)}</p>` : ""}</div>` : ""}
       ${artwork}
       ${numbers ? `<dl class="slide-numbers">${numbers}</dl>` : ""}
       ${code}
       ${steps}
+      ${examples}
     </div>
     <div class="slide-foot"><details class="slide-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p>
       <p class="slide-source"><strong>${escape(source.label)}</strong><br>${escape(source.detail)}</p>

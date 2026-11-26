@@ -108,10 +108,34 @@ for (const post of data.posts) {
       requiredText(section.speakerNotes, `${post.id}: 발표 메모`);
       assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
       if (section.figureLayout !== undefined) {
-        assert.equal(section.figureLayout, "notebooks");
-        assert.equal(section.media?.length, 3, `${post.id}: 복습 노트 세 장 필요`);
+        assert.ok(["notebooks", "pair"].includes(section.figureLayout));
+        assert.equal(section.media?.length, section.figureLayout === "notebooks" ? 3 : 2, `${post.id}: 그림 수와 배치 불일치`);
+      }
+      if (section.schedule !== undefined) {
+        assert.ok(Array.isArray(section.schedule) && section.schedule.length);
+        for (const group of section.schedule) {
+          requiredText(group.label, `${post.id}: 일정 묶음 제목`);
+          assert.ok(Array.isArray(group.rows) && group.rows.length);
+          for (const row of group.rows) {
+            requiredText(row.date, `${post.id}: 일정 날짜`);
+            requiredText(row.activity, `${post.id}: 일정 내용`);
+            if (row.highlight !== undefined) assert.equal(typeof row.highlight, "boolean");
+          }
+        }
+      }
+      if (section.studyExamples !== undefined) {
+        assert.ok(Array.isArray(section.studyExamples) && section.studyExamples.length);
+        for (const example of section.studyExamples) {
+          requiredText(example.label, `${post.id}: 복습 자료 이름`);
+          requiredText(example.detail, `${post.id}: 복습 자료 설명`);
+          if (example.code !== undefined) requiredText(example.code, `${post.id}: 복습 코드`);
+        }
       }
       if (section.spotlight !== undefined) assert.equal(typeof section.spotlight, "boolean");
+      if (section.linkLabel !== undefined) {
+        requiredText(section.linkLabel, `${post.id}: 자료 링크 이름`);
+        https(section.url, `${post.id}: 자료 링크 주소`);
+      }
     }
     assert.ok(typeof section.heading === "string" && section.heading.trim(), `${post.id}: heading 필요`);
     assert.equal(typeof section.body, "string", `${post.id}: body 필요`);
