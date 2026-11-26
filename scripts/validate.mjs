@@ -102,17 +102,26 @@ for (const post of data.posts) {
     assert.equal(post.type, "monthly");
     assert.equal(post.presentation, "slides");
   }
+  if (post.coverBenefits !== undefined) {
+    assert.equal(post.presentation, "slides", `${post.id}: 인증 혜택은 슬라이드 표지 전용`);
+    const {title, items, note} = post.coverBenefits;
+    requiredText(title, `${post.id}: 혜택 제목`);
+    requiredText(note, `${post.id}: 혜택 안내 기준`);
+    assert.ok(Array.isArray(items) && items.length, `${post.id}: 혜택 항목 필요`);
+    for (const {label, value} of items) {
+      requiredText(label, `${post.id}: 혜택 항목 이름`);
+      requiredText(value, `${post.id}: 혜택 항목 값`);
+    }
+  }
   for (const section of post.sections) {
     if (post.presentation === "slides") {
       requiredText(section.label, `${post.id}: 슬라이드 주제`);
-      requiredText(section.speakerNotes, `${post.id}: 발표 메모`);
       assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
       if (section.figureLayout !== undefined) {
         const {figureLayout, media = []} = section;
         assert.ok(["notebooks", "pair", "gallery", "feature"].includes(figureLayout));
         if (figureLayout === "gallery") {
-          const thumbnails = media.slice(0, 6);
-          assert.ok(thumbnails.length === 6 && thumbnails.every(item => item.excerpt), `${post.id}: 복습 썸네일 여섯 장 필요`);
+          assert.ok(media.length === 6 && media.every(item => item.excerpt), `${post.id}: 복습 썸네일 여섯 장 필요`);
         } else {
           assert.equal(media.length, {notebooks:3, pair:2, feature:1}[figureLayout], `${post.id}: 그림 수와 배치 불일치`);
         }

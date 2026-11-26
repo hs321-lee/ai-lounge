@@ -152,11 +152,14 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   const [cover, ...scenes] = december.main.innerHTML.split(/id="scene-\d+"/);
   assert.match(cover, /AI 스페셜리스트 개발 과정, 이렇게 공부했습니다/);
   assert.match(cover, /설계 과정과 개발 과정/);
+  assert.match(cover, /class="seminar-cover-benefits"[\s\S]*최종 인증 혜택/);
+  assert.match(cover, /<dt>자격수당<\/dt><dd>월 30만 원<\/dd>/);
+  assert.match(cover, /<dt>인사 가점<\/dt><dd>1점<\/dd>/);
+  assert.match(cover, /2026년 13차 안내 기준/);
   assert.equal(scenes.length, 8);
   assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, scenes.length + 1);
   const [schedule, environment, assessment, study, attention, recommendation, series, closing] =
     scenes.map(scene => scene.split('class="slide-foot"')[0]);
-  for (const benefit of ["인사 가점 1점", "월 30만 원"]) assert.ok(schedule.includes(benefit), benefit);
   assert.equal(schedule.match(/class="slide-calendar"/g).length, 3);
   for (const month of ["2026년 11월", "2027년 1월", "2027년 2월"]) assert.ok(schedule.includes(`<caption>${month}</caption>`), month);
   assert.match(schedule, /<th scope="col">일<\/th><th scope="col">월<\/th>/);
@@ -182,13 +185,13 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(environment, /개인 ChatGPT·Claude/);
   assert.match(assessment, /가장 큰 관문은 실기였습니다/);
   assert.match(study, /실제 오답노트 발췌/);
-  assert.match(study, /모의고사는 시간을 재고/);
+  assert.match(study, /직접 만든 모의고사는 시간을 재고/);
   assert.match(study, /시험 직전 30분/);
   assert.match(study, /self\.head_dim = <mark>d_out \/\/ num_heads<\/mark>/);
   for (const line of ["keys.view(", "self.mask.bool()", "torch.softmax("]) assert.ok(study.includes(`<mark>${line}`), line);
   assert.match(environment, /class="slide-recap-gallery"/);
   assert.equal(environment.match(/data-media="1-\d+"/g).length, 6);
-  assert.match(scenes[1], /course-overview-original\.webp/);
+  assert.match(december.main.innerHTML, /https:\/\/ai-s\.pages\.dev\/slides\/course-intro\.html#s3/);
   for (const [scene, file] of [
     [attention, "attention-multihead-original"],
     [recommendation, "ngcf-original"]
@@ -202,16 +205,15 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(series, /다음 날 시가/);
   assert.match(series, /<blockquote>“그래서 어떤 알고리즘 하나의 수명이 엄청나게 짧아요\.”<\/blockquote>/);
   assert.match(series, /유재민 서울대 컴퓨터공학부 조교수 · 시계열 수업 2교시 01:30/);
-  assert.match(scenes[6], /time-series-study\.webp/);
-  assert.match(scenes[6], /ts_solution\.ipynb/);
+  assert.match(series, /KDD에 발표한 논문은 고정된 데이터셋/);
+  assert.match(december.main.innerHTML, /ts_solution\.ipynb/);
   assert.match(attention, /Multi-head Attention p\.120/);
   assert.match(closing, /개발 과정 핵심 개념/);
-  assert.match(closing, /2년 전 배운 개념을 이번에는 코드로 다시 봤습니다/);
+  assert.match(closing, /2년 전엔 전체 흐름을 훑었고, 이번엔 핵심 개념을 코드로 다시 봤습니다/);
   assert.equal(closing.match(/<dt>/g).length, 5);
   for (const concept of ["어텐션", "ViT", "양자화", "NGCF", "GraphRAG"]) assert.ok(closing.includes(`<li>${concept}</li>`), concept);
-  assert.match(scenes[7], /오버뷰 수준/);
   assert.doesNotMatch(december.main.innerHTML, /data-next-token/);
-  assert.equal(december.main.innerHTML.match(/<summary>발표 메모<\/summary>/g).length, scenes.length);
+  assert.doesNotMatch(december.main.innerHTML, /발표 메모|class="slide-notes"/);
   assert.equal(december.main.innerHTML.match(/class="slide-nav"/g).length, scenes.length+1);
   assert.match(december.main.innerHTML, /발표에 사용한 AI-S 수업·복습 자료/);
   assert.equal(december.main.innerHTML.match(/class="course-source-jump"/g).length, scenes.length);

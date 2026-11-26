@@ -115,19 +115,16 @@ function renderSeminarSlide(section, index, sections) {
   const pairedFigures = section.figureLayout === "pair";
   const gallery = section.figureLayout === "gallery";
   const feature = section.figureLayout === "feature";
-  const extraStart = gallery ? 6 : notebooks || pairedFigures ? media.length : Number(mainFigure);
   let artwork = "";
   if (notebooks || pairedFigures) {
     artwork = `<div class="${notebooks ? "notebook-spread" : "slide-figure-pair"}">${renderGallery(media, index)}</div>`;
   } else if (gallery) {
-    artwork = `<div class="slide-recap-gallery">${media.slice(0, extraStart).map((item, mediaIndex) => renderNotebookExcerpt(item, index, mediaIndex)).join("")}</div>`;
+    artwork = `<div class="slide-recap-gallery">${media.map((item, mediaIndex) => renderNotebookExcerpt(item, index, mediaIndex)).join("")}</div>`;
   } else if (feature) {
     artwork = `<div class="slide-feature-figure">${renderGallery(media.slice(0, 1), index)}</div>`;
   } else if (mainFigure) {
     artwork = media[0].excerpt ? renderNotebookExcerpt(media[0], index) : renderGallery(media.slice(0,1), index);
   }
-  const extra = media.slice(extraStart);
-  const source = section.courseSource;
   const quote = section.instructorQuote;
   const numbers = section.stats?.map(stat => `<div><dt>${escape(stat.label)}</dt><dd>${escape(stat.value)}</dd></div>`).join("");
   const code = section.code?.length ? `<figure class="slide-code-example">
@@ -149,7 +146,7 @@ function renderSeminarSlide(section, index, sections) {
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
         ${section.takeaway && !section.schedule ? `<p class="slide-takeaway">${escape(section.takeaway)}</p>` : ""}
       </div>
-      ${section.schedule ? `${renderSeminarSchedule(section.schedule)}<div class="schedule-foot"><p class="schedule-note">${escape(section.body)}</p>${section.takeaway ? `<p class="schedule-benefits">${escape(section.takeaway)}</p>` : ""}</div>` : ""}
+      ${section.schedule ? `${renderSeminarSchedule(section.schedule)}<p class="schedule-note">${escape(section.body)}</p>` : ""}
       ${artwork}
       ${numbers ? `<dl class="slide-numbers">${numbers}</dl>` : ""}
       ${code}
@@ -157,11 +154,7 @@ function renderSeminarSlide(section, index, sections) {
       ${examples}
       ${concepts}
     </div>
-    <div class="slide-foot"><details class="slide-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p>
-      <p class="slide-source"><strong>${escape(source.label)}</strong><br>${escape(source.detail)}</p>
-      ${extra.length ? renderGallery(extra, index, extraStart) : ""}</details>
-      ${slideNav(index+1, sections.length+1)}
-    </div></section>`;
+    <div class="slide-foot">${slideNav(index+1, sections.length+1)}</div></section>`;
 }
 function monthlyIssueLink(issue) {
   const month = issue.date.slice(0, 7);
@@ -208,11 +201,13 @@ function renderNewsRecap(recap) {
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
   const slides = issue.presentation === "slides";
+  const benefits = issue.coverBenefits;
   const chapters = issue.sections.map((section,index)=>({ section, index })).filter(item=>item.section.kind === "chapter");
-  main.innerHTML = `<div class="monthly-detail-nav"><a href="#monthly">← ${escape(navigationLabels.monthly)} 목록</a><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><div class="monthly-story${slides ? " seminar-deck" : ""}"><section class="story-scene story-cover"${slides ? ' tabindex="-1"' : ""} data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · ${escape(navigationLabels.monthly)} · AI 라운지</p>${issue.coverArt ? '<div class="concept-cover-lead"><div>' : ""}<h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p>
+  main.innerHTML = `<div class="monthly-detail-nav"><a href="#monthly">← ${escape(navigationLabels.monthly)} 목록</a><time datetime="${escape(issue.date.slice(0,7))}">${escape(issue.date.slice(0,7).replace("-","."))}</time></div><div class="monthly-story${slides ? " seminar-deck" : ""}"><section class="story-scene story-cover"${slides ? ' tabindex="-1"' : ""} data-scene aria-label="표지"><p class="story-edition">${escape(issue.date.slice(0,7).replace("-","."))} · ${escape(navigationLabels.monthly)} · AI 라운지</p>${benefits ? '<div class="seminar-cover-lead"><div>' : ""}${issue.coverArt ? '<div class="concept-cover-lead"><div>' : ""}<h1>${escape(issue.title)}</h1><p class="story-deck">${escape(issue.summary)}</p>
   ${issue.coverNote ? `<p class="monthly-public-note">${escape(issue.coverNote)}</p>` : ""}
   ${issue.coverArt ? `</div><img src="${escape(issue.coverArt.src)}" alt="${escape(issue.coverArt.alt)}" width="${issue.coverArt.width}" height="${issue.coverArt.height}"></div>` : ""}
   ${issue.coverTopics?.length ? `<ul class="scene-stats story-cover-topics" aria-label="교육 과정">${issue.coverTopics.map(topic=>`<li><strong>${escape(topic.title)}</strong><span>${escape(topic.description)}</span></li>`).join("")}</ul>` : ""}
+  ${benefits ? `</div><section class="seminar-cover-benefits" aria-labelledby="seminar-benefits-title"><h2 id="seminar-benefits-title">${escape(benefits.title)}</h2><dl>${benefits.items.map(({label, value}) => `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join("")}</dl><p>${escape(benefits.note)}</p></section></div>` : ""}
   ${chapters.length ? `<ol class="story-chapters">${chapters.map(({section,index})=>`<li><span class="chapter-part">${escape(section.part)}</span><strong>${escape(section.heading)}</strong><span class="chapter-actions"><button type="button" class="story-jump" data-jump="${index}">바로 가기</button><a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} ↗</a></span></li>`).join("")}</ol>` : ""}
   ${slides ? slideNav(0, issue.sections.length+1) : `<p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p>`}</section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
