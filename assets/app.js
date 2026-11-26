@@ -85,14 +85,18 @@ function renderSeminarSlide(section, index, sections) {
   const source = section.courseSource;
   const quote = section.instructorQuote;
   const numbers = section.stats?.map(stat => `<div><dt>${escape(stat.label)}</dt><dd>${escape(stat.value)}</dd></div>`).join("");
+  const code = section.code?.length ? `<pre class="slide-code" aria-label="강조한 코드"><code>${section.code.map(line => `<mark>${escape(line)}</mark>`).join("\n")}</code></pre>` : "";
+  const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
   return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
-    <div class="slide-stage${mainFigure || numbers ? " slide-split" : ""}">
+    <div class="slide-stage${mainFigure || numbers || code || steps ? " slide-split" : ""}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
         ${section.body ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
       </div>
       ${artwork}
       ${numbers ? `<dl class="slide-numbers">${numbers}</dl>` : ""}
+      ${code}
+      ${steps}
     </div>
     <div class="slide-foot"><details class="slide-notes"><summary>발표 메모</summary><p>${escape(section.speakerNotes)}</p>
       <p class="slide-source"><strong>${escape(source.label)}</strong><br>${escape(source.detail)}</p>
