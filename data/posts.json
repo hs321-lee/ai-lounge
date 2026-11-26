@@ -2,6 +2,117 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-26",
+      "type": "daily",
+      "date": "2026-11-26",
+      "published": true,
+      "title": "Hurdle로 스킬 평가 · Codex MCP 지연 시작 · Claude 실행 전 훅",
+      "summary": "스킬의 효과를 반복 평가하고, MCP 서버는 필요할 때 시작하며, 스킬을 읽는 중 실행되는 명령도 별도로 제어하는 변화입니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "Hurdle",
+        "Codex",
+        "Claude Code"
+      ],
+      "highlights": [
+        "Hurdle의 API·스킬·문서 평가",
+        "Codex 0.172.0의 조건부 MCP 지연 시작",
+        "Claude Code 2.1.332의 로딩 중 명령 훅"
+      ],
+      "sections": [
+        {
+          "heading": "Hurdle, 스킬·문서의 효과를 반복 평가",
+          "summary": "Together AI가 Claude Code·Codex로 실제 작업을 반복 평가하는 Hurdle을 공식 소개했습니다. 코드 검사·API 요청 가드·LLM 심사를 조합해 결과를 비교합니다.",
+          "relevance": "API 문서나 공용 스킬을 고쳤을 때 작업 성공률이 달라지는지 확인하려는 제작자에게 유용합니다.",
+          "body": "11월 25일 공식 소개이며 원본 저장소는 MIT입니다. 최초 코드 공개일과 같은 뜻은 아닙니다. 확인한 0.5.0에서는 E2B·Together 스냅샷 경로가 제거돼 Together 샌드박스 또는 로컬을 사용합니다. 스킬·MCP 유무 등 조건별로 새 에이전트를 실행하고 결과·시간·비용을 살펴봅니다. Node.js 22.18+가 필요하며 Codex는 API 키 방식만 지원하고 ChatGPT 로그인은 지원하지 않습니다. 로컬 실행은 보안 샌드박스가 아니고 API 요청 검사도 제공하지 않습니다. Together 샌드박스는 별도 키와 사용 비용이 필요합니다. Guardian은 macOS·Linux를 지원하며 기본값이 모든 API를 차단하는 것은 아닙니다. 실제 평가·설치·비용 측정은 미실행입니다.",
+          "takeaway": "사실: 반복 평가 도구가 공식 소개됐습니다. 해석: 성공 사례 하나보다 동일 조건의 비교가 스킬 개선 판단에 도움이 됩니다. 성능 향상은 자신의 평가로 확인해야 합니다.",
+          "action": "10분 읽기: 원본 README의 로컬·샌드박스 차이와 인증 조건을 확인하고, 아래 프롬프트로 쓰기 요청을 금지한 가상 평가부터 설계하세요.",
+          "date": "2026-11-25",
+          "url": "https://www.together.ai/blog/introducing-hurdle-run-agent-evals-on-your-api-skills-and-docs",
+          "label": "새 평가 도구"
+        },
+        {
+          "heading": "Codex 0.172.0, MCP를 첫 호출 때 시작",
+          "summary": "캐시된 도구 목록이 있는 선택적 stdio MCP 서버는 첫 도구 호출 시 시작하도록 기본 동작이 바뀌었습니다. 검색·기록의 스레드 링크로 저장된 대화와 하위 에이전트를 열 수 있습니다.",
+          "relevance": "여러 MCP 서버와 에이전트 작업을 오가는 터미널 사용자에게 연결되는 변경입니다.",
+          "body": "11월 24일 릴리스로 최근 7일 범위에서 선정했습니다. 모든 MCP 서버나 모든 전송 방식에 적용되는 지연 시작은 아닙니다. 지원하는 슬래시 명령의 인수를 Tab으로 완성하고, 연결된 앱의 개별 도구에 승인 검토자를 지정할 수도 있습니다. 이전 0.171.0 소개에 이어 이번에는 서버 시작 조건과 기록 탐색의 실제 변경을 다룹니다. 시작 시간 절감량은 직접 측정하지 않았습니다.",
+          "takeaway": "사실: 선택적 stdio·도구 목록 캐시라는 조건이 있습니다. 해석: 사용하지 않는 연결의 초기 작업을 줄일 수 있지만 첫 호출 지연은 따로 확인해야 합니다.",
+          "action": "현재 MCP 설정에서 선택적 stdio 서버와 캐시 여부를 확인하고, 적용 전후 시작·첫 호출 시간을 따로 기록하세요. 업데이트와 측정은 미실행입니다.",
+          "date": "2026-11-24",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.172.0",
+          "label": "코딩 도구 업데이트"
+        },
+        {
+          "heading": "Claude Code 2.1.332, 스킬 로딩 중 명령도 차단",
+          "summary": "PreSkillShellCommand 훅이 추가돼 스킬·명령을 읽는 중 삽입 실행되는 셸 명령을 거부할 수 있습니다. 기존 PreToolUse 훅이 호출되지 않는 경로를 다룹니다.",
+          "relevance": "공용 스킬을 배포·도입하면서 로딩 중 실행까지 관리하려는 운영자에게 중요한 후속 변화입니다.",
+          "body": "11월 25일 릴리스입니다. 어제 소개한 Skills over MCP의 재소개가 아니라 새 클라이언트 훅을 다룹니다. v2.1.332 이상으로 업데이트한 뒤 설정해야 하며 이전 버전은 해당 훅을 무시한다는 경고를 표시합니다. 공식 문서는 설정 파일 또는 플러그인에 동기 방식으로 두고 Bash|PowerShell과 onFailure: block을 확인하도록 안내합니다. 스킬 자신의 frontmatter 훅만으로 첫 로딩 명령을 보호할 수 없습니다. 명령이 차단돼도 스킬은 계속 로드될 수 있으며, 이후 일반 도구 호출에는 PreToolUse가 필요합니다. 모든 명령을 자동으로 안전하게 만드는 기능은 아닙니다.",
+          "takeaway": "사실: 스킬을 읽는 중의 실행에 별도 제어 지점이 생겼습니다. 해석: 배포 편의와 실행 통제의 지원 버전을 함께 관리할 이유가 더 분명해졌습니다.",
+          "action": "설정 변경 전 사용 버전을 확인하고 공식 문서의 무해한 echo 예제로 두 훅의 적용 경로를 검토하세요. 훅 설정·차단 시험은 미실행입니다.",
+          "date": "2026-11-25",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.332",
+          "label": "스킬 운영 후속"
+        }
+      ],
+      "radar": [],
+      "recipe": {
+        "heading": "스킬 유무를 비교할 작은 API 평가 설계",
+        "description": "Hurdle의 코드 검사·요청 가드·LLM 심사를 나눠 보는 문서 실험입니다.",
+        "steps": [
+          "가상 API와 요구사항을 아래 프롬프트에 넣으세요.",
+          "정답 검사와 금지 요청의 실패 기준이 분리됐는지 검토하세요.",
+          "실행하려면 인증·비용·샌드박스 조건을 먼저 확인하고 결과를 별도 기록하세요."
+        ],
+        "prompt": "가상 API 평가를 설계해 줘. 입력: GET /items는 [{\"id\":\"a\"},{\"id\":\"a\"},{\"id\":\"b\"}]를 반환한다. 목표: 중복 없는 id 목록을 JSON으로 저장한다. POST·DELETE 요청은 금지한다. 스킬 없음/있음 조건을 각각 새 에이전트로 3회 비교할 계획을 작성해 줘. 결과는 조건 / 코드 검사 / 요청 가드 / LLM 심사 기준 / 실패 반례 / 기록할 값 표로 써 줘. 정답은 [\"a\",\"b\"]이며 금지 요청은 시도만 해도 실패다. 코드 검사는 결과 정확성, 가드는 API 접근, LLM은 설명 품질을 맡겨 줘. 근거와 미확인 조건을 구분하고 실제 호출·성공률·비용은 만들지 마.",
+        "limitation": "기대 결과는 정답 a·b와 쓰기 요청 시도 실패를 구분한 비교 계획입니다. 3회는 제안한 반복 수이며 성능 증거가 아닙니다. 이 프롬프트는 Hurdle 실행 파일이나 실제 실행 결과가 아닙니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "공용 스킬을 반복 평가하는 Hurdle",
+          "reason": "스킬·문서 변경을 정답 검사와 요청 가드로 비교하는 사례를 보완할 후보입니다.",
+          "url": "https://github.com/togethercomputer/hurdle"
+        },
+        {
+          "title": "스킬 로딩 중 실행과 일반 도구 실행의 제어 구분",
+          "reason": "PreSkillShellCommand와 PreToolUse의 범위·지원 버전을 함께 설명할 후보입니다.",
+          "url": "https://code.claude.com/docs/en/hooks#preskillshellcommand"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Hurdle 공식 발표 · 2026-11-25",
+          "url": "https://www.together.ai/blog/introducing-hurdle-run-agent-evals-on-your-api-skills-and-docs"
+        },
+        {
+          "title": "Hurdle 원본 README·MIT·최근 활동",
+          "url": "https://github.com/togethercomputer/hurdle"
+        },
+        {
+          "title": "Hurdle 0.5.0 변경 기록",
+          "url": "https://github.com/togethercomputer/hurdle/blob/main/CHANGELOG.md"
+        },
+        {
+          "title": "Codex 0.172.0 공식 릴리스 · 2026-11-24",
+          "url": "https://github.com/openai/codex/releases/tag/rust-v0.172.0"
+        },
+        {
+          "title": "Claude Code 2.1.332 공식 릴리스 · 2026-11-25",
+          "url": "https://github.com/anthropics/claude-code/releases/tag/v2.1.332"
+        },
+        {
+          "title": "PreSkillShellCommand 공식 문서",
+          "url": "https://code.claude.com/docs/en/hooks#preskillshellcommand"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-26.webp",
+        "date": "2026-11-26",
+        "width": 1024,
+        "height": 1536,
+        "alt": "AI 생성 요약 삽화: Hurdle 반복 평가, Codex 조건부 stdio MCP 지연 시작, Claude Code 스킬 로딩 중 명령 훅과 API 평가 설계 프롬프트"
+      }
+    },
+    {
       "id": "daily-2026-11-25",
       "type": "daily",
       "date": "2026-11-25",

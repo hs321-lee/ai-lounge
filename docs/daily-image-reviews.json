@@ -2,6 +2,34 @@
   "schemaVersion": 1,
   "reviews": [
     {
+      "date": "2026-11-26",
+      "imageSha256": "c1769f8738eba15b55e2845a85aabdd05a1e7ae40a8f1c3a6f3f5a30863e222d",
+      "contentSha256": "a0469599e8e9c76f297d90a4177af8d6370ccbcbfec5ca4ee72bcd207312ebce",
+      "width": 1024,
+      "height": 1536,
+      "reference": {
+        "commit": "2a48e5221580dfc634660b6d88b8a5afe8b75688",
+        "path": "assets/daily/2026-10-30.webp"
+      },
+      "provenance": {
+        "method": "generated",
+        "tool": "image_gen",
+        "details": "고정 승인 원본을 참조해 확정된 세 소식과 평가 설계 프롬프트의 날짜별 새 삽화를 생성하고 WebP로 최적화했다."
+      },
+      "authorReview": {
+        "reviewer": "Codex author 2026-11-26",
+        "reviewedAt": "2026-11-26T00:03:03.561008Z",
+        "result": "pass",
+        "notes": "승인 원본과 최종 WebP를 같은 1024×1536 크기로 직접 열어 대조했다. 날짜·한글·제품명·버전과 stdio·캐시 조건, 새 훅의 업데이트 필요 문구가 확정 본문에 맞는다. 평가 제안과 실측 성과를 혼동하지 않는다. 크림 종이·불균일 브라운선·사선 연필·주황 수채와 붓터치·2×2 구획·여백·설명 삽화를 유지하고 글자를 읽을 수 있다."
+      },
+      "independentReview": {
+        "reviewer": "Independent visual reviewer 2026-11-26",
+        "reviewedAt": "2026-11-26T00:02:12Z",
+        "result": "pass",
+        "notes": "승인 원본과 최종 그림을 같은 1024×1536 크기로 직접 대조했다. 날짜·제품명·버전·한글이 정확하고 Codex의 선택적 stdio·캐시 조건과 Claude의 새 훅·업데이트 필요 문구가 본문에 부합한다. 평가 설계 프롬프트도 일치한다. 크림 종이·불균일 브라운선·연필 사선 음영·주황 수채와 붓터치·2×2 구획·여백·단순 삽화를 유지하며 읽기 어렵거나 사실과 어긋나는 표현을 발견하지 못했다."
+      }
+    },
+    {
       "date": "2026-10-01",
       "imageSha256": "526f499b95d0a51ae6b001ae68c7c8a116f6d41992f116f8d790e2b0ef055c75",
       "contentSha256": "e7a2be912cdf8807e2bdacda89e8ad892b402f9f104e8d76386e3ad75104eb24",
