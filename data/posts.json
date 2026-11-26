@@ -6039,14 +6039,16 @@
                   "end": 3,
                   "label": "LLM",
                   "activity": "LLM · 어텐션, GPT, 미세조정",
-                  "kind": "class"
+                  "kind": "class",
+                  "subject": "llm"
                 },
                 {
                   "start": 4,
                   "end": 5,
                   "label": "Vision",
                   "activity": "Vision · 분류, 검출, 분할",
-                  "kind": "class"
+                  "kind": "class",
+                  "subject": "vision"
                 },
                 {
                   "start": 6,
@@ -6059,20 +6061,23 @@
                   "end": 10,
                   "label": "온디바이스",
                   "activity": "온디바이스 AI · 양자화, 경량화",
-                  "kind": "class"
+                  "kind": "class",
+                  "subject": "on-device"
                 },
                 {
                   "start": 11,
                   "label": "Data",
                   "activity": "Data · 시계열 예측과 추천",
-                  "kind": "class"
+                  "kind": "class",
+                  "subject": "data"
                 },
                 {
                   "start": 12,
                   "end": 13,
                   "label": "RAG",
                   "activity": "RAG · 문서 검색과 답변 생성",
-                  "kind": "class"
+                  "kind": "class",
+                  "subject": "rag"
                 },
                 {
                   "start": 16,
@@ -6134,32 +6139,97 @@
           }
         },
         {
-          "label": "수업 환경",
-          "heading": "외부망이 열려 있을 때, AI를 복습에 쓰세요",
-          "body": "교육 중 개인 ChatGPT·Claude를 쓸 수 있었습니다. 막힌 실습은 그림과 설명으로 다시 정리했습니다.",
+          "label": "수업 중 개인 AI 활용",
+          "heading": "실습 흐름을 그림으로 정리했습니다",
+          "body": "외부망에서 개인 ChatGPT·Claude를 써서 막히는 실습을 그림과 설명으로 다시 정리했습니다.",
           "url": "https://ai-s.pages.dev/practice/illustrated-recaps",
           "linkLabel": "제가 만든 그림 모아보기",
-          "figureLayout": "pair",
+          "figureLayout": "gallery",
           "media": [
+            {
+              "src": "assets/ai-specialist/attention-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "참고 점수를 계산하는 Q·K와 단어 사이의 관계를 보여주는 그림",
+              "caption": "어텐션 · 어떤 단어를 참고할까",
+              "excerpt": {
+                "top": 389,
+                "bottom": 607,
+                "alt": "참고 점수를 계산하는 Q·K와 단어 사이의 관계를 보여주는 그림"
+              }
+            },
+            {
+              "src": "assets/ai-specialist/image-classification.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "이미지가 여러 특징 맵을 거쳐 어떤 곳에서 반응했는지 보여주는 그림",
+              "caption": "이미지 분류 · 특징 맵 보기",
+              "excerpt": {
+                "top": 389,
+                "bottom": 607,
+                "alt": "이미지가 여러 특징 맵을 거쳐 어떤 곳에서 반응했는지 보여주는 그림"
+              }
+            },
+            {
+              "src": "assets/ai-specialist/quantization-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "여러 실수 값이 더 적은 단계의 정수로 옮겨지는 그림",
+              "caption": "양자화 · 실수를 정수로",
+              "excerpt": {
+                "top": 389,
+                "bottom": 607,
+                "alt": "여러 실수 값이 더 적은 단계의 정수로 옮겨지는 그림"
+              }
+            },
+            {
+              "src": "assets/ai-specialist/time-series-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "앞의 값 세 개를 보고 다음 값 하나를 예측하는 예시 그림",
+              "caption": "시계열 · 과거 값으로 다음 값 예측",
+              "excerpt": {
+                "top": 389,
+                "bottom": 607,
+                "alt": "앞의 값 세 개를 보고 다음 값 하나를 예측하는 예시 그림"
+              }
+            },
+            {
+              "src": "assets/ai-specialist/ngcf-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "사용자와 아이템의 관계를 따라 이웃의 정보를 모아 점수를 내는 그림",
+              "caption": "추천 · 이웃의 선택을 모으기",
+              "excerpt": {
+                "top": 389,
+                "bottom": 607,
+                "alt": "사용자와 아이템의 관계를 따라 이웃의 정보를 모아 점수를 내는 그림"
+              }
+            },
+            {
+              "src": "assets/ai-specialist/rag-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "검색한 노드에서 본문을 꺼내 프롬프트와 답변으로 이어가는 그림",
+              "caption": "RAG · 검색한 문서를 답변 근거로",
+              "excerpt": {
+                "top": 389,
+                "bottom": 607,
+                "alt": "검색한 노드에서 본문을 꺼내 프롬프트와 답변으로 이어가는 그림"
+              }
+            },
             {
               "src": "assets/ai-specialist/course-overview-original.webp",
               "width": 1584,
               "height": 891,
               "alt": "PyTorch 실습 자료와 생성형 AI 활용 안내가 보이는 비전 강의 원본 3쪽",
               "caption": "강의 원본 · 비전 교안 Course overview p.3"
-            },
-            {
-              "src": "assets/ai-specialist/image-classification.webp",
-              "width": 1024,
-              "height": 1536,
-              "alt": "ResNet18 분류와 특징 맵을 정리한 실제 실습 복습 그림",
-              "caption": "실제로 만든 그림 · ResNet18로 이미지 분류"
             }
           ],
-          "speakerNotes": "교육 중에는 외부망이 열려서 제가 쓰던 ChatGPT나 Claude를 활용할 수 있었습니다. 저는 실습에서 어떤 입력이 들어가고 어떤 값이 나오는지 먼저 그려 보고, 설명이 막히는 부분을 코드로 돌아가 확인했어요. 오른쪽은 ResNet18 실습을 정리한 그림입니다. 그림 모아보기에는 과목별로 만든 자료가 있습니다. 수강하신다면 복습 자료가 밀리기 전에 수업 때부터 AI를 활용해 보셨으면 합니다.",
+          "speakerNotes": "교육 중에는 외부망이 열려서 제가 쓰던 ChatGPT나 Claude를 활용할 수 있었습니다. 이 화면은 수업을 들으면서 만든 그림 중 여섯 가지입니다. 어렵거나 헷갈리는 실습을 그림으로 다시 정리하니, 입력과 결과가 어떻게 이어지는지 이해하기 쉬웠습니다. 카드를 누르면 전체 그림을 볼 수 있고, 발표 메모에는 생성형 AI 활용 안내가 담긴 실제 교안 3쪽도 있습니다.",
           "courseSource": {
             "label": "비전 교안 Course overview p.3 · AI-S 그림 모아보기",
-            "detail": "원본 강의 교안의 생성형 AI 활용 안내, Day1 오리엔테이션 08:35–10:12, 이미지 분류 실습 복습 그림을 사용했습니다."
+            "detail": "Day1 오리엔테이션 08:35–10:12와 기존 AI-S 복습 자료를 사용했습니다. 비전 교안 Course overview 3쪽은 발표 메모에 있습니다."
           }
         },
         {
@@ -6184,35 +6254,30 @@
         },
         {
           "label": "제가 공부한 방법",
-          "heading": "코드가 많아서\n핵심 줄부터 골랐습니다",
-          "body": "그림으로 흐름 파악 → 핵심 코드 추리기 → 설명만 보고 다시 쓰기 → 원본에서 실행",
-          "studyExamples": [
-            {
-              "label": "오답노트",
-              "detail": "사진마다 점수가 가장 높은 클래스를 골라내는 줄",
-              "code": "preds = logits.argmax(dim=1)"
-            },
-            {
-              "label": "직접 만든 모의고사",
-              "detail": "지시문을 읽고 시간 안에 작성한 뒤 노트북에서 실행"
-            },
-            {
-              "label": "시험 직전 30분",
-              "detail": "5개 영역에서 표시해 둔 줄부터 훑기",
-              "code": "self.head_dim = d_out // num_heads"
-            }
-          ],
-          "speakerNotes": "실습이 쌓이니까 처음부터 끝까지 외울 수 없었습니다. 먼저 그림으로 흐름을 보고 실습에서 핵심 클래스와 헷갈렸던 줄을 골랐습니다. 분류 모델은 사진이 행, 클래스가 열이라 dim=1을 써야 사진마다 클래스 번호를 하나씩 얻습니다. 틀린 줄은 오답노트에 이유를 적고, 모의고사는 시간 맞춰 푼 뒤 원본 노트북 조건에서 다시 실행했습니다. 직전에는 30분 복습 페이지에서 표시한 줄만 훑었습니다.",
+          "heading": "틀린 줄부터\n다시 썼습니다",
+          "body": "틀린 줄 표시 → 이유 한 줄 → 다시 쓰기",
+          "speakerNotes": "실습이 쌓이니까 처음부터 끝까지 외울 수 없었습니다. 그래서 같은 곳에서 자꾸 틀리거나 헷갈리는 줄을 모아 표시해 뒀습니다. 예를 들어 head_dim에서 왜 헤드 개수로 나누는지, view에서 어떤 축을 분리하는지 말해 본 뒤 답을 가리고 다시 썼습니다. 모의고사는 시간을 재고 풀고 노트북에서 돌려 봤고, 시험장에 들어가기 전에는 30분 페이지에서 표시해 둔 줄 위주로 훑었습니다.",
           "courseSource": {
-            "label": "AI-S 오답노트 · 직접 만든 모의고사 · 시험 직전 30분",
-            "detail": "accuracy_top1과 MultiHeadAttention의 원본 복습 페이지에서 실제 강조한 줄을 옮겼습니다."
-          }
+            "label": "AI-S 오답노트 · Attention 축 흐름",
+            "detail": "첨부한 오답노트의 MHA 코드 중 head_dim, view, mask, softmax 네 줄을 화면에 읽기 좋은 텍스트로 옮기고, 복습할 이유를 짧게 붙였습니다."
+          },
+          "takeaway": "모의고사는 시간을 재고 풀고, 시험 직전 30분에는 표시해 둔 줄을 훑었습니다.",
+          "codeCaption": "실제 오답노트 발췌 · Attention 축 흐름",
+          "code": [
+            "# 헤드 하나의 너비는 전체 출력 차원 ÷ 헤드 개수",
+            "self.head_dim = d_out // num_heads",
+            "# 토큰 뒤에 헤드 개수와 헤드 너비를 분리",
+            "keys = keys.view(b, num_tokens, self.num_heads, self.head_dim)",
+            "# 현재 토큰 수만큼 마스크를 자르고 마지막 축에서 정규화",
+            "mask_bool = self.mask.bool()[:num_tokens, :num_tokens]",
+            "attn_weights = torch.softmax(attn_scores / keys.shape[-1]**0.5, dim=-1)"
+          ]
         },
         {
           "label": "강의 원본과 복습 그림",
           "heading": "어텐션을 코드 흐름으로 그렸습니다",
           "body": "Q·K·V로 문맥 읽기 → 여러 헤드의 결과 합치기",
-          "figureLayout": "pair",
+          "figureLayout": "feature",
           "media": [
             {
               "src": "assets/ai-specialist/attention-multihead-original.webp",
@@ -6220,16 +6285,9 @@
               "height": 787,
               "alt": "각 헤드에서 Q·K·V를 만들고 계산한 결과를 옆으로 이어 붙이는 멀티헤드 어텐션 원본 그림",
               "caption": "강의 원본 · Multi-head Attention p.120"
-            },
-            {
-              "src": "assets/ai-specialist/attention-study.webp",
-              "width": 1024,
-              "height": 1536,
-              "alt": "Q K V, 미래 토큰 가리기, 문맥 벡터 만들기를 정리한 실제 그림",
-              "caption": "실제로 만든 그림 · 어텐션으로 문맥 섞기"
             }
           ],
-          "speakerNotes": "왼쪽 강의 그림은 같은 입력을 여러 헤드에서 각자 보고, 결과를 이어 붙이는 모습을 보여줍니다. 오른쪽은 실습에서 헤드 하나가 하는 일을 제가 정리한 그림입니다. Q와 K로 참고할 위치에 점수를 매기고, GPT에서는 미래 위치를 가린 다음, 그 비율대로 V의 정보를 섞습니다. 실제 코드를 읽으면서 왼쪽 큰 그림과 오른쪽 세 단계를 연결할 수 있었습니다.",
+          "speakerNotes": "강의 그림은 같은 입력을 여러 헤드에서 각자 보고 결과를 이어 붙이는 모습을 보여줍니다. 복습 그림은 그중 헤드 하나가 하는 일을 정리한 거예요. Q와 K로 참고할 위치에 점수를 내고, GPT에서는 미래 위치를 가린 다음, 남은 위치의 점수에 따라 V의 정보를 섞습니다.",
           "courseSource": {
             "label": "LLM 강의 p.120 · 어텐션 실습 복습",
             "detail": "Day1 원본의 Multi-head Attention 구조도와 AI-S 실습 03 ‘어텐션으로 문맥 섞기’ 복습 그림입니다."
@@ -6239,7 +6297,7 @@
           "label": "강의 원본과 현업 아이디어",
           "heading": "영화 추천을 듣다가 워치페이스가 떠올랐습니다",
           "body": "영화에서는 평점. 워치페이스에서는 즐겨찾기와 편집한 화면.",
-          "figureLayout": "pair",
+          "figureLayout": "feature",
           "media": [
             {
               "src": "assets/ai-specialist/ngcf-original.webp",
@@ -6247,16 +6305,9 @@
               "height": 702,
               "alt": "사용자와 영화의 관계에서 이웃 정보를 반영하는 NGCF 강의 원본 32쪽",
               "caption": "강의 원본 · Neural Graph Collaborative Filtering p.32"
-            },
-            {
-              "src": "assets/ai-specialist/ngcf-study.webp",
-              "width": 1024,
-              "height": 1536,
-              "alt": "이웃의 메시지를 모아 추천 점수를 계산하는 실제 복습 그림",
-              "caption": "실제로 만든 그림 · 이웃 정보로 추천하기"
             }
           ],
-          "speakerNotes": "영화 추천 수업에서는 사용자와 영화를 연결해 이웃의 선택까지 추천에 활용했습니다. 저는 영화 대신 워치페이스를 생각해 봤습니다. 예를 들어 날씨와 걸음 수를 함께 넣어 둔 화면을 자주 저장한다면, 사용자가 선호하는 정보 조합을 다음 추천에 쓸 수 있지 않을까 싶었습니다.",
+          "speakerNotes": "강의 그림에서 사용자와 영화를 연결하고 이웃의 선택까지 추천에 쓰는 흐름을 봤습니다. 제 일에선 날씨와 걸음 수를 넣어 편집한 뒤 즐겨찾기에 남긴 워치페이스가 취향을 보여줄 수 있겠다고 생각했습니다.",
           "courseSource": {
             "label": "추천 강의 p.32 · NGCF 실습 복습",
             "detail": "Day8 추천 심화 원본 p.32와 ‘NGCF · 이웃에서 추천 학습’ 그림입니다. 워치페이스는 수업을 듣고 떠올린 적용 아이디어입니다."
@@ -6265,7 +6316,7 @@
         {
           "label": "수업에서 기억에 남은 이야기",
           "heading": "주가 예측기를\n만들려다 접었습니다",
-          "body": "지난 50거래일의 시가로 다음 거래일 시가를 예측해 봤습니다.",
+          "body": "",
           "instructorQuote": {
             "text": "그래서 어떤 알고리즘 하나의 수명이 엄청나게 짧아요.",
             "attribution": "유재민 서울대 컴퓨터공학부 조교수 · 시계열 수업 2교시 01:30"
@@ -6284,7 +6335,17 @@
           "courseSource": {
             "label": "Day8 시계열 실습 · 유재민 교수 질의응답",
             "detail": "ts_solution.ipynb의 시가 예측 실습, 시계열 2교시 00:11–02:25. 큰 인용문은 01:30, 논문에 대한 발언은 01:55입니다. 논문은 공개된 KDD 2021 연구를 소개한 것입니다."
-          }
+          },
+          "stats": [
+            {
+              "label": "입력",
+              "value": "과거 50거래일"
+            },
+            {
+              "label": "예측",
+              "value": "다음 날 시가"
+            }
+          ]
         },
         {
           "label": "수업 정리",

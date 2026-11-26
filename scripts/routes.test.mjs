@@ -160,7 +160,12 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.equal(schedule.match(/class="slide-calendar"/g).length, 3);
   for (const month of ["2026년 11월", "2027년 1월", "2027년 2월"]) assert.ok(schedule.includes(`<caption>${month}</caption>`), month);
   assert.match(schedule, /<th scope="col">일<\/th><th scope="col">월<\/th>/);
-  assert.match(schedule, /class="calendar-exam" title="인증평가 · 3시간 코딩 실기"><time datetime="2026-11-17"/);
+  assert.match(schedule, /title="인증평가 · 3시간 코딩 실기"><time datetime="2026-11-17"/);
+  for (const subject of ["llm", "vision", "on-device", "rag"]) {
+    assert.ok(schedule.includes(`<td colspan="2"><span class="calendar-bar calendar-${subject}"`), subject);
+  }
+  assert.match(schedule, /<td colspan="1"><span class="calendar-bar calendar-data"/);
+  assert.match(schedule, /class="calendar-bar calendar-exam" title="인증평가 · 3시간 코딩 실기"/);
   for (const [date, activity] of [
     ["2026-11-18", "현업 과제 계획서 제출"], ["2026-11-24", "현업 과제 계획서 제출"],
     ["2027-01-25", "현업 과제 중간보고"], ["2027-01-29", "현업 과제 중간보고"],
@@ -176,23 +181,28 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   }
   assert.match(environment, /개인 ChatGPT·Claude/);
   assert.match(assessment, /가장 큰 관문은 실기였습니다/);
-  assert.match(study, /<mark>preds = logits\.argmax\(dim=1\)<\/mark>/);
-  assert.match(study, /직접 만든 모의고사/);
+  assert.match(study, /실제 오답노트 발췌/);
+  assert.match(study, /모의고사는 시간을 재고/);
   assert.match(study, /시험 직전 30분/);
-  assert.match(study, /<mark>self\.head_dim = d_out \/\/ num_heads<\/mark>/);
-  for (const [scene, files] of [
-    [environment, ["course-overview-original", "image-classification"]],
-    [attention, ["attention-multihead-original", "attention-study"]],
-    [recommendation, ["ngcf-original", "ngcf-study"]]
+  assert.match(study, /self\.head_dim = <mark>d_out \/\/ num_heads<\/mark>/);
+  for (const line of ["keys.view(", "self.mask.bool()", "torch.softmax("]) assert.ok(study.includes(`<mark>${line}`), line);
+  assert.match(environment, /class="slide-recap-gallery"/);
+  assert.equal(environment.match(/data-media="1-\d+"/g).length, 6);
+  assert.match(scenes[1], /course-overview-original\.webp/);
+  for (const [scene, file] of [
+    [attention, "attention-multihead-original"],
+    [recommendation, "ngcf-original"]
   ]) {
-    assert.match(scene, /class="slide-figure-pair"/);
-    for (const file of files) assert.ok(scene.includes(`src="assets/ai-specialist/${file}.webp"`), file);
+    assert.match(scene, /class="slide-feature-figure"/);
+    assert.equal(scene.match(/data-media=/g).length, 1);
+    assert.ok(scene.includes(`src="assets/ai-specialist/${file}.webp"`), file);
   }
   assert.match(recommendation, /즐겨찾기와 편집한 화면/);
-  assert.match(series, /지난 50거래일의 시가/);
+  assert.match(series, /과거 50거래일/);
+  assert.match(series, /다음 날 시가/);
   assert.match(series, /<blockquote>“그래서 어떤 알고리즘 하나의 수명이 엄청나게 짧아요\.”<\/blockquote>/);
   assert.match(series, /유재민 서울대 컴퓨터공학부 조교수 · 시계열 수업 2교시 01:30/);
-  assert.match(series, /time-series-study\.webp/);
+  assert.match(scenes[6], /time-series-study\.webp/);
   assert.match(scenes[6], /ts_solution\.ipynb/);
   assert.match(attention, /Multi-head Attention p\.120/);
   assert.match(closing, /개발 과정 핵심 개념/);
