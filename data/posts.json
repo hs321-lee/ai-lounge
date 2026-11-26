@@ -6138,8 +6138,8 @@
         },
         {
           "label": "수업 중 개인 AI 활용",
-          "heading": "실습 흐름을 그림으로 정리했습니다",
-          "body": "외부망에서 개인 ChatGPT·Claude를 써서 막히는 실습을 그림과 설명으로 다시 정리했습니다.",
+          "heading": "막히는 실습은\n그림으로 풀었습니다",
+          "body": "외부망에서 개인 ChatGPT·Claude를 써서, 실습의 입력부터 결과까지 한 장씩 그려 봤습니다.",
           "url": "https://ai-s.pages.dev/practice/illustrated-recaps",
           "linkLabel": "제가 만든 그림 모아보기",
           "figureLayout": "gallery",
@@ -6149,7 +6149,7 @@
               "width": 1024,
               "height": 1536,
               "alt": "참고 점수를 계산하는 Q·K와 단어 사이의 관계를 보여주는 그림",
-              "caption": "어텐션 · 어떤 단어를 참고할까",
+              "caption": "어텐션",
               "excerpt": {
                 "top": 389,
                 "bottom": 607,
@@ -6157,11 +6157,23 @@
               }
             },
             {
+              "src": "assets/ai-specialist/lora-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "기존 가중치는 고정하고, 학습할 변경분을 두 작은 행렬로 표현하는 LoRA 그림",
+              "caption": "LoRA 미세 조정",
+              "excerpt": {
+                "top": 610,
+                "bottom": 838,
+                "alt": "기존 가중치는 고정하고, 학습할 변경분을 두 작은 행렬로 표현하는 LoRA 그림"
+              }
+            },
+            {
               "src": "assets/ai-specialist/image-classification.webp",
               "width": 1024,
               "height": 1536,
               "alt": "이미지가 여러 특징 맵을 거쳐 어떤 곳에서 반응했는지 보여주는 그림",
-              "caption": "이미지 분류 · 특징 맵 보기",
+              "caption": "이미지 분류",
               "excerpt": {
                 "top": 389,
                 "bottom": 607,
@@ -6169,11 +6181,23 @@
               }
             },
             {
+              "src": "assets/ai-specialist/object-detection-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "객체 쿼리로 이미지 속 객체의 종류와 박스 위치를 찾는 DETR 그림",
+              "caption": "객체 검출",
+              "excerpt": {
+                "top": 392,
+                "bottom": 620,
+                "alt": "객체 쿼리로 이미지 속 객체의 종류와 박스 위치를 찾는 DETR 그림"
+              }
+            },
+            {
               "src": "assets/ai-specialist/quantization-study.webp",
               "width": 1024,
               "height": 1536,
               "alt": "여러 실수 값이 더 적은 단계의 정수로 옮겨지는 그림",
-              "caption": "양자화 · 실수를 정수로",
+              "caption": "양자화",
               "excerpt": {
                 "top": 389,
                 "bottom": 607,
@@ -6181,11 +6205,23 @@
               }
             },
             {
+              "src": "assets/ai-specialist/distillation-study.webp",
+              "width": 1024,
+              "height": 1536,
+              "alt": "큰 모델의 예측과 정답을 활용해 작은 모델을 학습시키는 지식 증류 그림",
+              "caption": "지식 증류",
+              "excerpt": {
+                "top": 398,
+                "bottom": 626,
+                "alt": "큰 모델의 예측과 정답을 활용해 작은 모델을 학습시키는 지식 증류 그림"
+              }
+            },
+            {
               "src": "assets/ai-specialist/time-series-study.webp",
               "width": 1024,
               "height": 1536,
               "alt": "앞의 값 세 개를 보고 다음 값 하나를 예측하는 예시 그림",
-              "caption": "시계열 · 과거 값으로 다음 값 예측",
+              "caption": "시계열 예측",
               "excerpt": {
                 "top": 389,
                 "bottom": 607,
@@ -6197,7 +6233,7 @@
               "width": 1024,
               "height": 1536,
               "alt": "사용자와 아이템의 관계를 따라 이웃의 정보를 모아 점수를 내는 그림",
-              "caption": "추천 · 이웃의 선택을 모으기",
+              "caption": "추천",
               "excerpt": {
                 "top": 389,
                 "bottom": 607,
@@ -6209,7 +6245,7 @@
               "width": 1024,
               "height": 1536,
               "alt": "검색한 노드에서 본문을 꺼내 프롬프트와 답변으로 이어가는 그림",
-              "caption": "RAG · 검색한 문서를 답변 근거로",
+              "caption": "RAG",
               "excerpt": {
                 "top": 389,
                 "bottom": 607,
@@ -6300,17 +6336,13 @@
           }
         },
         {
-          "label": "수업에서 기억에 남은 이야기",
-          "heading": "주가 예측기를\n만들려다 접었습니다",
-          "body": "",
-          "instructorQuote": {
-            "text": "그래서 어떤 알고리즘 하나의 수명이 엄청나게 짧아요.",
-            "attribution": "유재민 서울대 컴퓨터공학부 조교수 · 시계열 수업 2교시 01:30"
-          },
+          "label": "시계열 수업에서 배운 것",
+          "heading": "시장이 바뀌면\n예측 모델도 다시 검증해야 합니다",
+          "body": "주가 예측 논문을 KDD에 발표한 서울대 유재민 교수도 시계열 예측을 계속 연구합니다. 수업에선 논문 성과를 고정된 데이터에서 얻은 결과라고 설명했습니다.",
           "spotlight": true,
           "courseSource": {
             "label": "Day8 시계열 실습 · 유재민 교수 질의응답",
-            "detail": "ts_solution.ipynb의 시가 예측 실습, 시계열 2교시 00:11–02:25. 큰 인용문은 01:30, 논문에 대한 발언은 01:55입니다. 논문은 공개된 KDD 2021 연구를 소개한 것입니다."
+            "detail": "시계열 2교시 질의응답 00:11–02:25와 ts_solution.ipynb의 시가 예측 실습을 참고했습니다. 교수의 연구 분야는 서울대 교수 소개, 공동 저술한 주가 움직임 예측 논문은 KDD 2021에서 확인할 수 있습니다."
           },
           "stats": [
             {
@@ -6322,7 +6354,8 @@
               "value": "다음 날 시가"
             }
           ],
-          "takeaway": "교수님도 KDD에 발표한 논문은 고정된 데이터셋에서 낸 성과라고 하셨습니다. 실제 시장에서는 전략과 시장 흐름이 계속 바뀐다는 얘기를 듣고 예측기를 만들려던 생각을 접었습니다."
+          "takeaway": "실제 시장에선 투자 전략이 바뀌고, 그 전략이 다시 시장을 바꿉니다. 그 얘기를 듣고 직접 예측기를 만들려던 생각을 접었습니다.",
+          "statsCaption": "수업에서 해 본 예측"
         },
         {
           "label": "수업 정리",

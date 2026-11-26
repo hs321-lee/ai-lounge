@@ -127,6 +127,7 @@ function renderSeminarSlide(section, index, sections) {
   }
   const quote = section.instructorQuote;
   const numbers = section.stats?.map(stat => `<div><dt>${escape(stat.label)}</dt><dd>${escape(stat.value)}</dd></div>`).join("");
+  const stats = numbers ? `<dl class="slide-numbers">${numbers}</dl>` : "";
   const code = section.code?.length ? `<figure class="slide-code-example">
     ${section.codeCaption ? `<figcaption>${escape(section.codeCaption)}</figcaption>` : ""}
     <pre class="slide-code" aria-label="강조한 코드"><code>${section.code.map(line => {
@@ -137,7 +138,7 @@ function renderSeminarSlide(section, index, sections) {
   const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
   const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
   const concepts = section.conceptGroups ? `<dl class="slide-concept-groups">${section.conceptGroups.map(({label, terms}) => `<div><dt>${escape(label)}</dt><dd><ul>${terms.map(term => `<li>${escape(term)}</li>`).join("")}</ul></dd></div>`).join("")}</dl>` : "";
-  const stageLayout = section.schedule || pairedFigures || gallery || feature || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
+  const stageLayout = gallery ? " slide-split slide-gallery-split" : section.schedule || pairedFigures || feature || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
   return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
@@ -148,7 +149,7 @@ function renderSeminarSlide(section, index, sections) {
       </div>
       ${section.schedule ? `${renderSeminarSchedule(section.schedule)}<p class="schedule-note">${escape(section.body)}</p>` : ""}
       ${artwork}
-      ${numbers ? `<dl class="slide-numbers">${numbers}</dl>` : ""}
+      ${section.statsCaption ? `<figure class="slide-numbers-figure"><figcaption>${escape(section.statsCaption)}</figcaption>${stats}</figure>` : stats}
       ${code}
       ${steps}
       ${examples}

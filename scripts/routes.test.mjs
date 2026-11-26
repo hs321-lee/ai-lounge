@@ -190,7 +190,11 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(study, /self\.head_dim = <mark>d_out \/\/ num_heads<\/mark>/);
   for (const line of ["keys.view(", "self.mask.bool()", "torch.softmax("]) assert.ok(study.includes(`<mark>${line}`), line);
   assert.match(environment, /class="slide-recap-gallery"/);
-  assert.equal(environment.match(/data-media="1-\d+"/g).length, 6);
+  assert.match(environment, /slide-split slide-gallery-split/);
+  assert.equal(environment.match(/data-media="1-\d+"/g).length, 9);
+  for (const file of ["lora-study", "object-detection-study", "distillation-study"]) {
+    assert.ok(environment.includes(`src="assets/ai-specialist/${file}.webp"`), file);
+  }
   assert.match(december.main.innerHTML, /https:\/\/ai-s\.pages\.dev\/slides\/course-intro\.html#s3/);
   for (const [scene, file] of [
     [attention, "attention-multihead-original"],
@@ -203,9 +207,11 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(recommendation, /즐겨찾기와 편집한 화면/);
   assert.match(series, /과거 50거래일/);
   assert.match(series, /다음 날 시가/);
-  assert.match(series, /<blockquote>“그래서 어떤 알고리즘 하나의 수명이 엄청나게 짧아요\.”<\/blockquote>/);
-  assert.match(series, /유재민 서울대 컴퓨터공학부 조교수 · 시계열 수업 2교시 01:30/);
-  assert.match(series, /KDD에 발표한 논문은 고정된 데이터셋/);
+  assert.match(series, /시장이 바뀌면\s+예측 모델도 다시 검증해야 합니다/);
+  assert.match(series, /주가 예측 논문을 KDD에 발표한 서울대 유재민 교수/);
+  assert.match(series, /고정된 데이터에서 얻은 결과/);
+  assert.match(series, /<figcaption>수업에서 해 본 예측<\/figcaption>/);
+  assert.doesNotMatch(series, /<blockquote>/);
   assert.match(december.main.innerHTML, /ts_solution\.ipynb/);
   assert.match(attention, /Multi-head Attention p\.120/);
   assert.match(closing, /개발 과정 핵심 개념/);

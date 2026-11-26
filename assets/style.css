@@ -301,7 +301,10 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-figure-pair .scene-gallery.count-2{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:center;gap:clamp(.7rem,2vw,2rem)}
 .seminar-deck .slide-stage .slide-figure-pair .story-media-open{width:auto}
 .seminar-deck .slide-stage .slide-figure-pair .story-media img{width:auto;max-height:min(47svh,28rem)}
-.slide-recap-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,1.25vw,1.15rem)}
+.slide-gallery-split{grid-template-columns:minmax(0,.73fr) minmax(0,1.27fr)}
+.seminar-deck .slide-gallery-split h2{font-size:clamp(2.7rem,4.25vw,5rem)}
+.slide-gallery-split .slide-resource{margin-top:.85rem;min-height:44px;align-content:center}
+.slide-recap-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.45rem,1vw,.9rem)}
 .slide-recap-gallery .notebook-excerpt{border:1px solid var(--story-rule);border-radius:.65rem;background:#fffaf3}
 .slide-recap-gallery .notebook-window{border-radius:.6rem .6rem 0 0}
 .slide-recap-gallery .notebook-window:focus-visible,.slide-feature-figure .story-media-open:focus-visible{outline:2px solid var(--story-accent);outline-offset:2px}
@@ -322,6 +325,12 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-numbers div{border-top:2px solid var(--story-rule);padding-top:.7rem}
 .slide-numbers dt{font-size:clamp(1rem,1.2vw,1.25rem);color:var(--story-muted)}
 .slide-numbers dd{margin:.25rem 0 0;font-size:clamp(2.8rem,5.6vw,6.5rem);font-weight:800;letter-spacing:-.06em;line-height:1.12;color:var(--story-accent)}
+.slide-numbers-figure{min-width:0;margin:0;padding:clamp(.8rem,2vw,1.65rem);border:1px solid var(--story-rule);border-radius:.65rem}
+.slide-numbers-figure figcaption{margin-bottom:.75rem;color:var(--story-muted);font-size:clamp(.95rem,1.35vw,1.25rem);font-weight:700}
+.slide-numbers-figure .slide-numbers{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.5rem,3vw,2.5rem)}
+.slide-numbers-figure .slide-numbers div{position:relative;border-top:1px solid var(--story-rule);padding-top:.75rem}
+.slide-numbers-figure .slide-numbers div + div::before{content:"→";position:absolute;right:100%;margin-right:.4rem;bottom:0;color:var(--story-accent);font-size:1.45rem}
+.slide-numbers-figure .slide-numbers dd{font-size:clamp(1.2rem,2.5vw,2.7rem);letter-spacing:-.04em;word-break:keep-all}
 .seminar-deck .slide-dark{--story-muted:#e1d4c8;--story-accent:#ffb17c;--story-rule:#74675d;background:#2a241f;color:#fff9f2;box-shadow:0 0 0 100vmax #2a241f;clip-path:inset(0 -100vmax)}
 .seminar-deck .slide-quote .slide-copy h2{font-size:clamp(1.25rem,2.1vw,2.1rem);font-weight:550}
 .slide-quote .instructor-quote{margin:1.8rem 0 0;padding:0;border:0}
@@ -357,9 +366,10 @@ html:has(.seminar-deck){scroll-behavior:auto}
   .seminar-deck .slide-split h2{font-size:clamp(2.25rem,6.6vw,3.2rem)}
   .seminar-deck .slide-copy h2{white-space:normal}
   .slide-split,.slide-split:has(.slide-code-example){grid-template-columns:minmax(0,1fr);gap:1.3rem}
+  .seminar-deck .slide-gallery-split h2{font-size:clamp(2.1rem,7vw,3.2rem)}
   .slide-schedule,.slide-calendar-later,.slide-figure-pair .scene-gallery.count-2{grid-template-columns:minmax(0,1fr)}
   .slide-calendar .calendar-dates td,.slide-calendar-later .slide-calendar .calendar-dates td{height:1.25rem}
-  .slide-recap-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .slide-recap-gallery .notebook-excerpt figcaption{padding:.35rem .3rem;font-size:.78rem;word-break:keep-all}
   .seminar-deck .slide-stage .slide-feature-figure .story-media img{max-height:39svh}
   .slide-concept-groups>div{grid-template-columns:1fr;gap:.28rem}
   .slide-concept-groups ul{column-gap:.85rem}
@@ -394,7 +404,7 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .notebook-spread .story-media figcaption{font-size:.9rem;line-height:1.35}
 .notebook-spread .story-zoom-hint{display:none}
 @media(min-width:761px){
- .slide-split:has(.notebook-excerpt,.notebook-spread){grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr)}
+ .slide-split:has(> .notebook-excerpt,> .notebook-spread){grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr)}
 }
 @media(max-width:760px){
  .notebook-spread{max-width:30rem;width:100%;justify-self:center}
