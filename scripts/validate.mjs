@@ -108,8 +108,14 @@ for (const post of data.posts) {
       requiredText(section.speakerNotes, `${post.id}: 발표 메모`);
       assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
       if (section.figureLayout !== undefined) {
-        assert.ok(["notebooks", "pair"].includes(section.figureLayout));
-        assert.equal(section.media?.length, section.figureLayout === "notebooks" ? 3 : 2, `${post.id}: 그림 수와 배치 불일치`);
+        const {figureLayout, media = []} = section;
+        assert.ok(["notebooks", "pair", "gallery", "feature"].includes(figureLayout));
+        if (figureLayout === "gallery") {
+          const thumbnails = media.slice(0, 6);
+          assert.ok(thumbnails.length === 6 && thumbnails.every(item => item.excerpt), `${post.id}: 복습 썸네일 여섯 장 필요`);
+        } else {
+          assert.equal(media.length, {notebooks:3, pair:2, feature:1}[figureLayout], `${post.id}: 그림 수와 배치 불일치`);
+        }
       }
       if (section.schedule !== undefined) {
         assert.ok(Array.isArray(section.schedule) && section.schedule.length);
@@ -122,12 +128,16 @@ for (const post of data.posts) {
           const lastDay = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate();
           assert.ok(Array.isArray(events) && events.length);
           let previousEnd = 0;
-          for (const {start, end = start, label, activity, kind} of events) {
+          for (const {start, end = start, label, activity, kind, subject} of events) {
             assert.ok(Number.isInteger(start) && Number.isInteger(end) && start > previousEnd && end >= start && end <= lastDay, `${post.id}: 달력 일정 날짜 범위`);
             previousEnd = end;
             requiredText(label, `${post.id}: 달력 일정 이름`);
             requiredText(activity, `${post.id}: 달력 일정 설명`);
             assert.ok(["class", "project", "exam"].includes(kind));
+            if (subject !== undefined) {
+              assert.equal(kind, "class");
+              assert.ok(["llm", "vision", "on-device", "data", "rag"].includes(subject));
+            }
           }
         }
       }
@@ -148,6 +158,10 @@ for (const post of data.posts) {
         }
       }
       if (section.spotlight !== undefined) assert.equal(typeof section.spotlight, "boolean");
+      if (section.codeCaption !== undefined) {
+        requiredText(section.codeCaption, `${post.id}: 코드 요약 이름`);
+        assert.ok(section.code?.length, `${post.id}: 코드 예시 필요`);
+      }
       if (section.linkLabel !== undefined) {
         requiredText(section.linkLabel, `${post.id}: 자료 링크 이름`);
         https(section.url, `${post.id}: 자료 링크 주소`);
