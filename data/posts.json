@@ -2,6 +2,120 @@
   "schemaVersion": 1,
   "posts": [
     {
+      "id": "daily-2026-11-27",
+      "type": "daily",
+      "date": "2026-11-27",
+      "published": true,
+      "title": "Gemini 스킬 설치 명령 · Copilot 리뷰 과금 예고 · CPU 추론 확장",
+      "summary": "공용 스킬 설치를 돕는 개발 변경, 리뷰 비용의 기본 귀속 변경 예고, GPU 없는 추론의 CPU 지원 확대를 구분해 봅니다.",
+      "author": "AI 라운지",
+      "tags": [
+        "Agent Skills",
+        "Copilot",
+        "로컬 추론"
+      ],
+      "highlights": [
+        "Gemini API CLI 스킬 설치는 main 변경",
+        "Copilot 리뷰 기본값은 12월 30일 변경 예정",
+        "openset-llm AVX2 경로 추가"
+      ],
+      "sections": [
+        {
+          "heading": "Gemini API CLI, 공용 스킬 설치 명령 추가",
+          "summary": "11월 26일 main에 install-skill 명령이 추가됐습니다. 선택한 에이전트의 스킬 폴더에 내장된 gemini-api-cli 지침을 설치합니다.",
+          "relevance": "여러 코딩 에이전트에 같은 API 사용 지침을 배포하려는 제작자에게 연결됩니다.",
+          "date": "2026-11-26",
+          "url": "https://github.com/google-gemini/gemini-api-cli/commit/3dcbb6e542c222dad1e6f5b6e43cb390561d0cca",
+          "label": "개발 브랜치 변경",
+          "body": "확인한 커밋은 3dcbb6e입니다. 내장 스킬을 사용해 설치 자체는 오프라인으로 동작하며 프로젝트 범위와 --global 범위를 구분합니다. --dry-run은 쓸 경로를 표시하고 파일을 쓰지 않습니다. 최신 공개 릴리스는 11월 20일 v0.5.0으로, 이 새 명령의 릴리스 포함은 확인되지 않았습니다. 개발 브랜치 변경을 정식 배포 완료로 보지 않습니다. CLI는 macOS·Linux·Windows용이며 실제 Gemini API 호출에는 별도 인증과 사용 조건이 필요합니다. Apache-2.0입니다. 설치·빌드·API 호출은 미실행입니다.",
+          "takeaway": "해석: 지침을 수동 복사하는 부담을 줄일 수 있지만, 설치 범위와 배포 버전을 먼저 구분해야 합니다.",
+          "action": "10분 읽기: 커밋과 README에서 대상 에이전트·프로젝트/전역 경로·dry-run을 확인하세요. 기존 환경에 바로 설치하지 않고 적용 범위를 적어 보세요."
+        },
+        {
+          "heading": "Copilot 리뷰, 미설정 과금 기본값을 조직으로",
+          "summary": "Copilot Business·Enterprise의 코드 리뷰 과금 설정을 저장하지 않았다면 12월 30일부터 조직 과금으로 바뀔 예정입니다. 이미 Member 또는 Organization을 선택했다면 그 선택은 유지됩니다.",
+          "relevance": "AI 코드 리뷰 비용을 개인 사용량과 조직 예산 중 어디에 귀속할지 관리하는 운영자에게 중요합니다.",
+          "date": "2026-11-25",
+          "url": "https://github.blog/changelog/2026-11-25-copilot-code-review-billing-will-default-to-the-organization/",
+          "label": "공식 확정 일정",
+          "body": "11월 25일 발표로 최근 7일 범위에서 선정했습니다. 오늘 이미 적용된 요금 변경은 아닙니다. 대상은 유료 Copilot 라이선스가 있는 구성원의 리뷰이며, 라이선스 없는 구성원의 별도 설정은 바뀌지 않습니다. AI Credits 유료 사용이 꺼져 있거나 billing lock 또는 청구 가능한 고객이 없는 계정은 Member로 설정됩니다. 기존 구성원 권한 사용을 유지하려면 기한 전에 Member를 명시적으로 선택하도록 공식 문서가 안내합니다. 엔터프라이즈가 설정을 관리하면 소유자가 선택해야 합니다. 실제 계정 설정은 조회·변경하지 않았습니다.",
+          "takeaway": "해석: 같은 리뷰 요청이라도 미설정 기본값 때문에 비용 귀속이 달라질 수 있습니다. 사용량 감소나 리뷰 품질 향상을 뜻하는 소식은 아닙니다.",
+          "action": "현재 선택이 미설정인지 명시적 Member인지 구분하고, 아래 가상 사례 표로 예외와 담당자를 검토하세요."
+        }
+      ],
+      "radar": [
+        {
+          "label": "주목할 저장소",
+          "repo": "opensetlabs/openset-llm",
+          "headline": "GPU 없이 CPU로 로컬 추론하기",
+          "url": "https://github.com/opensetlabs/openset-llm",
+          "sourceUrl": "https://trendar.org/ko/trending",
+          "description": "OpenAI 호환 API를 제공하는 CPU 추론 엔진으로 AVX2용 256비트 커널 경로가 추가됐습니다.",
+          "signal": "Trendar 2026-11-26 18:00 UTC 갱신 목록에서 발굴했습니다. 원본 README·MIT·최근 커밋(11월 26일 UTC)을 직접 확인했으며 성능 주장은 재현하지 않았습니다.",
+          "checkedAt": "2026-11-27",
+          "why": "GPU 없는 Linux·WSL2 머신에서 에이전트용 로컬 API를 검토할 때 후보가 됩니다.",
+          "try": "10분 읽기: 자신의 CPU가 x86-64·AVX2 또는 AVX-512인지, Linux/WSL2와 여유 메모리 조건이 맞는지 확인하고 README의 재현 조건을 비교하세요.",
+          "limitation": "초기 프로젝트이며 현재 특정 ternary 27B 모델을 대상으로 합니다. 첫 실행은 빌드와 약 7.3GB 모델 다운로드를 수반합니다. Mac·ARM 지원으로 해석하지 않습니다. 엔진 MIT와 모델 라이선스는 별도이며 모델 조건은 추가 확인이 필요합니다. 속도·메모리·정확도는 제작자 주장으로 실제 설치·추론은 미실행입니다."
+        }
+      ],
+      "recipe": {
+        "heading": "Copilot 리뷰 과금 변경의 적용 표 만들기",
+        "description": "공식 변경 조건을 가상 사례에 적용하는 문서 검토입니다. 실제 설정을 바꾸지 않습니다.",
+        "steps": [
+          "공식 변경 안내와 가상 사례를 입력하세요.",
+          "현재와 12월 30일 이후의 차이, 예외, 결정권자를 검토하세요.",
+          "실제 계정에는 소유자가 현재 설정을 확인한 뒤 필요한 선택만 적용하세요."
+        ],
+        "prompt": "Copilot 코드 리뷰 과금 변경 안내를 근거로 적용 표를 만들어 줘. 가상 사례는 유료 구성원+미설정+AI Credits 사용 가능, 유료 구성원+명시적 Member, 명시적 Organization, 미설정+유료 사용 꺼짐, 미설정+billing lock, 라이선스 없는 구성원이다. 현재/2026-12-30 이후/예외/확인할 설정/결정권자/근거 표로 써 줘. 안내만으로 결정할 수 없으면 미확인으로 남기고 반례도 적어 줘. 실제 계정 설정·과금액·절감액은 만들거나 변경하지 마.",
+        "limitation": "기대 결과는 미설정과 명시적 선택을 구분하고 유료 사용·라이선스 예외를 빠뜨리지 않은 표입니다. 실제 계정·청구 검증 결과가 아닙니다."
+      },
+      "monthlyCandidates": [
+        {
+          "title": "공용 스킬 설치 범위와 배포 버전의 구분",
+          "reason": "Gemini API CLI의 개발 변경과 실제 릴리스 제공을 후속 확인할 후보입니다.",
+          "url": "https://github.com/google-gemini/gemini-api-cli"
+        },
+        {
+          "title": "AI 리뷰의 비용 귀속 기본값 관리",
+          "reason": "12월 30일 적용 전후 실제 조건을 확인해 소개할 후보입니다.",
+          "url": "https://github.blog/changelog/2026-11-25-copilot-code-review-billing-will-default-to-the-organization/"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Gemini 스킬 설치 커밋 · 11월 26일",
+          "url": "https://github.com/google-gemini/gemini-api-cli/commit/3dcbb6e542c222dad1e6f5b6e43cb390561d0cca"
+        },
+        {
+          "title": "Gemini API CLI 원본 README",
+          "url": "https://github.com/google-gemini/gemini-api-cli"
+        },
+        {
+          "title": "Gemini API CLI 릴리스",
+          "url": "https://github.com/google-gemini/gemini-api-cli/releases"
+        },
+        {
+          "title": "Copilot 코드 리뷰 과금 변경 · 11월 25일",
+          "url": "https://github.blog/changelog/2026-11-25-copilot-code-review-billing-will-default-to-the-organization/"
+        },
+        {
+          "title": "openset-llm 원본",
+          "url": "https://github.com/opensetlabs/openset-llm"
+        },
+        {
+          "title": "Trendar 발굴 목록",
+          "url": "https://trendar.org/ko/trending"
+        }
+      ],
+      "coverImage": {
+        "src": "assets/daily/2026-11-27.webp",
+        "date": "2026-11-27",
+        "width": 1024,
+        "height": 1536,
+        "alt": "AI 생성 요약 삽화: Gemini API CLI 개발 브랜치 스킬 설치, Copilot 12월 30일 과금 기본값 예고, openset-llm CPU 조건과 가상 과금 적용 표"
+      }
+    },
+    {
       "id": "daily-2026-11-26",
       "type": "daily",
       "date": "2026-11-26",

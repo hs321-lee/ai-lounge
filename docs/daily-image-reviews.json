@@ -2,6 +2,34 @@
   "schemaVersion": 1,
   "reviews": [
     {
+      "date": "2026-11-27",
+      "imageSha256": "408fdc39d431dfa88db6fb5bc65fe70e2887d351bc89164dbfd19cc4e6c4de9f",
+      "contentSha256": "ccee02ac87740b64a0ae88377f8c6e67e90dd76ac400e509072911f04639f052",
+      "width": 1024,
+      "height": 1536,
+      "reference": {
+        "commit": "2a48e5221580dfc634660b6d88b8a5afe8b75688",
+        "path": "assets/daily/2026-10-30.webp"
+      },
+      "provenance": {
+        "method": "generated",
+        "tool": "image_gen",
+        "details": "고정 승인 원본을 참조해 확정된 개발 변경·과금 예고·CPU 추론 조건과 가상 적용 표의 새 삽화를 생성하고 WebP로 최적화했다."
+      },
+      "authorReview": {
+        "reviewer": "Codex author 2026-11-27",
+        "reviewedAt": "2026-11-26T23:21:17.489779Z",
+        "result": "pass",
+        "notes": "승인 원본과 최종 WebP를 같은 1024×1536 크기로 직접 열어 대조했다. 날짜·한글·제품명·main 미릴리스 조건·12월 30일 미설정 기본값 예고·Linux·WSL2·AVX2와 가상 과금 표가 본문에 일치한다. 크림 종이·불균일 브라운선·연필 사선·주황 수채와 붓터치·2×2·여백·단순 삽화를 유지하고 읽을 수 있다."
+      },
+      "independentReview": {
+        "reviewer": "Independent visual reviewer 2026-11-27",
+        "reviewedAt": "2026-11-26T23:20:41Z",
+        "result": "pass",
+        "notes": "승인 원본과 최종 그림을 동일한 1024×1536 크기로 직접 대조하고 확정 본문을 읽었다. 날짜·제품명·한글이 정확하며 Gemini의 main 변경과 릴리스 포함 미확인, Copilot의 12월 30일 미설정 기본값 변경 및 예외, openset-llm의 Linux·WSL2·AVX2 조건이 본문에 부합한다. 가상 과금 적용 표 프롬프트도 일치한다. 크림 종이·불균일 브라운선·연필 사선 음영·주황 수채와 붓터치·2×2 구획·여백·단순 삽화를 유지하며 가독성 문제나 사실 불일치를 발견하지 못했다."
+      }
+    },
+    {
       "date": "2026-11-26",
       "imageSha256": "c1769f8738eba15b55e2845a85aabdd05a1e7ae40a8f1c3a6f3f5a30863e222d",
       "contentSha256": "a0469599e8e9c76f297d90a4177af8d6370ccbcbfec5ca4ee72bcd207312ebce",
