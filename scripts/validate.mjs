@@ -121,7 +121,7 @@ for (const post of data.posts) {
         const {figureLayout, media = []} = section;
         assert.ok(["notebooks", "pair", "gallery", "feature"].includes(figureLayout));
         if (figureLayout === "gallery") {
-          assert.ok(media.length === 6 && media.every(item => item.excerpt), `${post.id}: 복습 썸네일 여섯 장 필요`);
+          assert.ok(media.length === 9 && media.every(item => item.excerpt), `${post.id}: 복습 썸네일 아홉 장 필요`);
         } else {
           assert.equal(media.length, {notebooks:3, pair:2, feature:1}[figureLayout], `${post.id}: 그림 수와 배치 불일치`);
         }
@@ -167,6 +167,10 @@ for (const post of data.posts) {
         }
       }
       if (section.spotlight !== undefined) assert.equal(typeof section.spotlight, "boolean");
+      if (section.statsCaption !== undefined) {
+        requiredText(section.statsCaption, `${post.id}: 실습 그림 설명`);
+        assert.equal(section.stats?.length, 2, `${post.id}: 실습의 입력과 결과 필요`);
+      }
       if (section.codeCaption !== undefined) {
         requiredText(section.codeCaption, `${post.id}: 코드 요약 이름`);
         assert.ok(section.code?.length, `${post.id}: 코드 예시 필요`);
