@@ -301,6 +301,9 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-nav button{min-height:44px;padding:.3rem .8rem;background:transparent;border:1px solid var(--story-rule);border-radius:2rem;color:inherit;font:inherit;cursor:pointer}
 .slide-nav span{font-variant-numeric:tabular-nums;color:var(--story-muted);font-size:.9rem;white-space:nowrap}
 .slide-nav button:disabled{opacity:.36;cursor:default}
+@media(min-width:761px) and (max-height:800px){
+  .seminar-deck .slide-stage .slide-figure-pair .story-media img{max-height:37svh}
+}
 @media(max-width:760px){
   .seminar-deck{--slide-pad:0}
   .seminar-deck .story-cover h1,.seminar-deck .slide-copy h2{font-size:clamp(2.35rem,8vw,3.8rem)}
