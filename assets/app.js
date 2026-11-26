@@ -62,7 +62,7 @@ function slideNav(index, total) {
 }
 function renderNotebookExcerpt(media, sectionIndex, mediaIndex = 0) {
   const { top, bottom, alt } = media.excerpt;
-  const style = `aspect-ratio:${media.width}/${bottom-top};--notebook-offset:${-100*top/media.height}%`;
+  const style = `--notebook-ratio:${media.width}/${bottom-top};--notebook-offset:${-100*top/media.height}%`;
   return `<figure class="notebook-excerpt">
     <a class="notebook-window" style="${style}" href="${escape(media.src)}" data-media="${sectionIndex}-${mediaIndex}" target="_blank" rel="noopener" aria-label="${escape(alt)} · 그림 전체 보기">
       <img src="${escape(media.src)}" width="${media.width}" height="${media.height}" alt="${escape(alt)}" loading="lazy" decoding="async">
