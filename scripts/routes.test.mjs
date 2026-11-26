@@ -207,9 +207,10 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(recommendation, /즐겨찾기와 편집한 화면/);
   assert.match(series, /과거 50거래일/);
   assert.match(series, /다음 날 시가/);
-  assert.match(series, /시장이 바뀌면\s+예측 모델도 다시 검증해야 합니다/);
-  assert.match(series, /주가 예측 논문을 KDD에 발표한 서울대 유재민 교수/);
-  assert.match(series, /고정된 데이터에서 얻은 결과/);
+  assert.match(series, /예측 모델 하나로는\s+퀀트를 이기기 어렵다/);
+  assert.match(series, /퀀트 트레이더들은 시장에 맞춰 거래 알고리즘을 매일 고도화합니다/);
+  assert.match(series, /그 전략이 시장 흐름을 다시 바꾸니/);
+  assert.match(series, /KDD 주가 예측 논문의 성과는 고정된 데이터에서 확인한 결과/);
   assert.match(series, /<figcaption>수업에서 해 본 예측<\/figcaption>/);
   assert.doesNotMatch(series, /<blockquote>/);
   assert.match(december.main.innerHTML, /ts_solution\.ipynb/);
