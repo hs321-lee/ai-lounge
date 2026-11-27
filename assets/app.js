@@ -129,11 +129,12 @@ function renderSeminarSchedule(months) {
     <div class="slide-calendar-later">${later.map(renderSeminarCalendar).join("")}</div></div>`;
 }
 function renderCoursePath(courses) {
-  return `<ol class="slide-course-path">${courses.map(({title, days, durationNote, focus, detail}) => `<li>
-    <p class="course-path-duration"><strong>${days}일</strong>${durationNote ? `<span>${escape(durationNote)}</span>` : ""}</p>
-    <h3>${escape(title)}</h3>
+  return `<ol class="slide-course-path">${courses.map(({title, days, durationNote, focus, keywords}) => `<li>
+    <div class="course-path-header"><h3>${escape(title)}</h3>
+      <span class="course-path-duration">${days}일${durationNote ? ` (${escape(durationNote)})` : ""}</span>
+    </div>
     <p class="course-path-focus">${escape(focus)}</p>
-    <p class="course-path-detail">${escape(detail)}</p>
+    <ul class="course-path-keywords">${keywords.map(keyword => `<li>${escape(keyword)}</li>`).join("")}</ul>
   </li>`).join("")}</ol>`;
 }
 function renderSeminarSlide(section, index, sections) {

@@ -164,10 +164,13 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
     scenes.map(scene => scene.split('class="slide-foot"')[0]);
   assert.match(coursePath, /기초부터 현업 적용까지/);
   assert.match(coursePath, /<ol class="slide-course-path">/);
-  assert.match(coursePath, /<strong>7일<\/strong><span>과정 안내 기준<\/span><\/p>\s*<h3>AI 에센셜<\/h3>/);
-  assert.match(coursePath, /<strong>3일<\/strong><\/p>\s*<h3>AI 에센셜 플러스<\/h3>/);
-  assert.match(coursePath, /<strong>12일<\/strong><\/p>\s*<h3>AI 스페셜리스트 개발 과정<\/h3>/);
-  assert.match(coursePath, /UI 시안과 요구사항 문서를 읽어 UI·API·DB 개발 할 일을 나누는 에이전트/);
+  assert.match(coursePath, /<h3>AI 에센셜<\/h3>\s*<span class="course-path-duration">7일 \(과정 안내 기준\)<\/span>/);
+  assert.match(coursePath, /<h3>AI 에센셜 플러스<\/h3>\s*<span class="course-path-duration">3일<\/span>/);
+  assert.match(coursePath, /<h3>AI 스페셜리스트 개발 과정<\/h3>\s*<span class="course-path-duration">12일<\/span>/);
+  assert.equal(coursePath.match(/<ul class="course-path-keywords">/g).length, 3);
+  for (const keyword of ["신경망 학습", "UI·API·DB 작업 분해", "온디바이스 경량화"]) {
+    assert.ok(coursePath.includes(`<li>${keyword}</li>`), keyword);
+  }
   assert.doesNotMatch(coursePath, /20\d{2}|\d+월/);
   assert.equal(schedule.match(/class="slide-calendar"/g).length, 3);
   for (const month of ["2026년 11월", "2027년 1월", "2027년 2월"]) assert.ok(schedule.includes(`<caption>${month}</caption>`), month);
