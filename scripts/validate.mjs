@@ -107,6 +107,9 @@ for (const post of data.posts) {
     const {title, items, note} = post.coverBenefits;
     requiredText(title, `${post.id}: 혜택 제목`);
     requiredText(note, `${post.id}: 혜택 안내 기준`);
+    for (const key of ["condition", "exception"]) {
+      if (post.coverBenefits[key] !== undefined) requiredText(post.coverBenefits[key], `${post.id}: 인증 혜택 ${key}`);
+    }
     assert.ok(Array.isArray(items) && items.length, `${post.id}: 혜택 항목 필요`);
     for (const {label, value} of items) {
       requiredText(label, `${post.id}: 혜택 항목 이름`);
@@ -117,6 +120,14 @@ for (const post of data.posts) {
     if (post.presentation === "slides") {
       requiredText(section.label, `${post.id}: 슬라이드 주제`);
       assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
+      if (section.coursePath !== undefined) {
+        assert.ok(Array.isArray(section.coursePath) && section.coursePath.length === 3, `${post.id}: 수강 과정 세 단계 필요`);
+        for (const course of section.coursePath) {
+          for (const key of ["title", "focus", "detail"]) requiredText(course[key], `${post.id}: 수강 과정 ${key}`);
+          assert.ok(Number.isInteger(course.days) && course.days > 0, `${post.id}: 수강 과정 일수 필요`);
+          if (course.durationNote !== undefined) requiredText(course.durationNote, `${post.id}: 수강 과정 일수 기준`);
+        }
+      }
       if (section.figureLayout !== undefined) {
         const {figureLayout, media = []} = section;
         assert.ok(["notebooks", "pair", "recap", "feature"].includes(figureLayout));
@@ -224,7 +235,7 @@ for (const post of data.posts) {
       assert.equal(section.kind, "chapter", `${post.id}: kind는 chapter만 허용`);
       assert.ok(typeof section.part === "string" && section.part.trim(), `${post.id}: chapter part 필요`);
       assert.equal(new URL(section.url).protocol, "https:", `${post.id}: chapter url은 HTTPS`);
-    } else if (!section.media && !section.stats && !section.points && !section.steps && !section.code) {
+    } else if (!section.media && !section.stats && !section.points && !section.steps && !section.code && !(post.presentation === "slides" && section.coursePath)) {
       assert.ok(section.body.trim() || section.instructorQuote?.text.trim(), `${post.id}: 내용 없는 장면: ${section.heading}`);
     }
     for (const key of ["points", "steps", "code"]) if (section[key] !== undefined) assert.ok(Array.isArray(section[key]) && section[key].every(item=>typeof item === "string" && item.trim()), `${post.id}: ${key} 오류`);

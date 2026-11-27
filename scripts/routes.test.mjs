@@ -156,10 +156,19 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(cover, /<dt>자격수당<\/dt><dd>월 30만 원<\/dd>/);
   assert.match(cover, /<dt>인사 가점<\/dt><dd>1점<\/dd>/);
   assert.match(cover, /2026년 13차 안내 기준/);
-  assert.equal(scenes.length, 8);
+  assert.match(cover, /3시간 코딩 실기와 현업 과제 심사를 모두 통과해 최종 인증/);
+  assert.match(cover, /기존 자격수당을 월 30만 원 이상 받고 있다면 일시 대체금 100만 원/);
+  assert.equal(scenes.length, 9);
   assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, scenes.length + 1);
-  const [schedule, environment, assessment, study, attention, recommendation, series, closing] =
+  const [coursePath, schedule, environment, assessment, study, attention, recommendation, series, closing] =
     scenes.map(scene => scene.split('class="slide-foot"')[0]);
+  assert.match(coursePath, /기초부터 현업 적용까지/);
+  assert.match(coursePath, /<ol class="slide-course-path">/);
+  assert.match(coursePath, /<strong>7일<\/strong><span>과정 안내 기준<\/span><\/p>\s*<h3>AI 에센셜<\/h3>/);
+  assert.match(coursePath, /<strong>3일<\/strong><\/p>\s*<h3>AI 에센셜 플러스<\/h3>/);
+  assert.match(coursePath, /<strong>12일<\/strong><\/p>\s*<h3>AI 스페셜리스트 개발 과정<\/h3>/);
+  assert.match(coursePath, /UI 시안과 요구사항 문서를 읽어 UI·API·DB 개발 할 일을 나누는 에이전트/);
+  assert.doesNotMatch(coursePath, /20\d{2}|\d+월/);
   assert.equal(schedule.match(/class="slide-calendar"/g).length, 3);
   for (const month of ["2026년 11월", "2027년 1월", "2027년 2월"]) assert.ok(schedule.includes(`<caption>${month}</caption>`), month);
   assert.match(schedule, /<th scope="col">일<\/th><th scope="col">월<\/th>/);
@@ -191,7 +200,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   for (const line of ["keys.view(", "self.mask.bool()", "torch.softmax("]) assert.ok(study.includes(`<mark>${line}`), line);
   assert.match(environment, /class="slide-recap-figures"/);
   assert.match(environment, /slide-stacked slide-recap-stage/);
-  assert.equal(environment.match(/data-media="1-\d+"/g).length, 3);
+  assert.equal(environment.match(/data-media="2-\d+"/g).length, 3);
   for (const [diagram, file] of [["attention", "attention-study"], ["quantization", "quantization-study"], ["rag", "rag-study"]]) {
     assert.ok(environment.includes(`class="recap-${diagram}"`), diagram);
     assert.ok(environment.includes(`href="assets/ai-specialist/${file}.webp"`), file);
