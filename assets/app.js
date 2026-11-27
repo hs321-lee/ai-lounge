@@ -128,6 +128,14 @@ function renderSeminarSchedule(months) {
   return `<div class="slide-schedule">${renderSeminarCalendar(first)}
     <div class="slide-calendar-later">${later.map(renderSeminarCalendar).join("")}</div></div>`;
 }
+function renderCoursePath(courses) {
+  return `<ol class="slide-course-path">${courses.map(({title, days, durationNote, focus, detail}) => `<li>
+    <p class="course-path-duration"><strong>${days}일</strong>${durationNote ? `<span>${escape(durationNote)}</span>` : ""}</p>
+    <h3>${escape(title)}</h3>
+    <p class="course-path-focus">${escape(focus)}</p>
+    <p class="course-path-detail">${escape(detail)}</p>
+  </li>`).join("")}</ol>`;
+}
 function renderSeminarSlide(section, index, sections) {
   const media = section.media || [];
   const mainFigure = media.length > 0 && !section.stats;
@@ -158,7 +166,7 @@ function renderSeminarSlide(section, index, sections) {
   const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
   const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
   const concepts = section.conceptGroups ? `<dl class="slide-concept-groups">${section.conceptGroups.map(({label, terms}) => `<div><dt>${escape(label)}</dt><dd><ul>${terms.map(term => `<li>${escape(term)}</li>`).join("")}</ul></dd></div>`).join("")}</dl>` : "";
-  const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.schedule || pairedFigures || feature || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
+  const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.coursePath || section.schedule || pairedFigures || feature || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
   return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
@@ -167,6 +175,7 @@ function renderSeminarSlide(section, index, sections) {
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
         ${section.takeaway && !section.schedule ? `<p class="slide-takeaway">${escape(section.takeaway)}</p>` : ""}
       </div>
+      ${section.coursePath ? renderCoursePath(section.coursePath) : ""}
       ${section.schedule ? `${renderSeminarSchedule(section.schedule)}<p class="schedule-note">${escape(section.body)}</p>` : ""}
       ${artwork}
       ${section.statsCaption ? `<figure class="slide-numbers-figure"><figcaption>${escape(section.statsCaption)}</figcaption>${stats}</figure>` : stats}
@@ -228,7 +237,10 @@ function renderIssue(issue) {
   ${issue.coverNote ? `<p class="monthly-public-note">${escape(issue.coverNote)}</p>` : ""}
   ${issue.coverArt ? `</div><img src="${escape(issue.coverArt.src)}" alt="${escape(issue.coverArt.alt)}" width="${issue.coverArt.width}" height="${issue.coverArt.height}"></div>` : ""}
   ${issue.coverTopics?.length ? `<ul class="scene-stats story-cover-topics" aria-label="교육 과정">${issue.coverTopics.map(topic=>`<li><strong>${escape(topic.title)}</strong><span>${escape(topic.description)}</span></li>`).join("")}</ul>` : ""}
-  ${benefits ? `</div><section class="seminar-cover-benefits" aria-labelledby="seminar-benefits-title"><h2 id="seminar-benefits-title">${escape(benefits.title)}</h2><dl>${benefits.items.map(({label, value}) => `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join("")}</dl><p>${escape(benefits.note)}</p></section></div>` : ""}
+  ${benefits ? `</div><section class="seminar-cover-benefits" aria-labelledby="seminar-benefits-title"><h2 id="seminar-benefits-title">${escape(benefits.title)}</h2><dl>${benefits.items.map(({label, value}) => `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join("")}</dl>
+    ${benefits.condition ? `<p class="seminar-benefit-condition">${escape(benefits.condition)}</p>` : ""}
+    ${benefits.exception ? `<p class="seminar-benefit-exception">${escape(benefits.exception)}</p>` : ""}
+    <p>${escape(benefits.note)}</p></section></div>` : ""}
   ${chapters.length ? `<ol class="story-chapters">${chapters.map(({section,index})=>`<li><span class="chapter-part">${escape(section.part)}</span><strong>${escape(section.heading)}</strong><span class="chapter-actions"><button type="button" class="story-jump" data-jump="${index}">바로 가기</button><a href="${safeUrl(section.url)}" target="_blank" rel="noopener">${section.part === "다음 소개" ? "홈페이지" : "원문"} ↗</a></span></li>`).join("")}</ol>` : ""}
   ${slides ? slideNav(0, issue.sections.length+1) : `<p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p>`}</section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
