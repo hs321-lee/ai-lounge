@@ -123,7 +123,9 @@ for (const post of data.posts) {
       if (section.coursePath !== undefined) {
         assert.ok(Array.isArray(section.coursePath) && section.coursePath.length === 3, `${post.id}: 수강 과정 세 단계 필요`);
         for (const course of section.coursePath) {
-          for (const key of ["title", "focus", "detail"]) requiredText(course[key], `${post.id}: 수강 과정 ${key}`);
+          for (const key of ["title", "focus"]) requiredText(course[key], `${post.id}: 수강 과정 ${key}`);
+          assert.ok(Array.isArray(course.keywords) && course.keywords.length, `${post.id}: 수강 과정 키워드 필요`);
+          for (const keyword of course.keywords) requiredText(keyword, `${post.id}: 수강 과정 키워드`);
           assert.ok(Number.isInteger(course.days) && course.days > 0, `${post.id}: 수강 과정 일수 필요`);
           if (course.durationNote !== undefined) requiredText(course.durationNote, `${post.id}: 수강 과정 일수 기준`);
         }
