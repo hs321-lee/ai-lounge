@@ -158,9 +158,9 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(cover, /2026년 13차 안내 기준/);
   assert.match(cover, /3시간 코딩 실기와 현업 과제 심사를 모두 통과해 최종 인증/);
   assert.match(cover, /기존 자격수당을 월 30만 원 이상 받고 있다면 일시 대체금 100만 원/);
-  assert.equal(scenes.length, 9);
+  assert.equal(scenes.length, 7);
   assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, scenes.length + 1);
-  const [coursePath, schedule, environment, assessment, study, attention, recommendation, series, closing] =
+  const [coursePath, schedule, environment, assessment, study, series, closing] =
     scenes.map(scene => scene.split('class="slide-foot"')[0]);
   assert.match(coursePath, /기초부터 현업 적용까지/);
   assert.match(coursePath, /<ol class="slide-course-path">/);
@@ -216,16 +216,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(environment, /data-anchor="shelf"[^>]*>문서 검색</);
   assert.match(environment, /문맥에서 관련 있는 단어에 더 큰 비중을 줍니다\./);
   assert.match(december.main.innerHTML, /https:\/\/ai-s\.pages\.dev\/slides\/course-intro\.html#s3/);
-  for (const [scene, file] of [
-    [attention, "attention-multihead-original"],
-    [recommendation, "ngcf-original"]
-  ]) {
-    assert.match(scene, /class="slide-feature-figure"/);
-    assert.equal(scene.match(/data-media=/g).length, 1);
-    assert.ok(scene.includes(`src="assets/ai-specialist/${file}.webp"`), file);
-  }
-  assert.match(recommendation, /즐겨찾기와 편집한 화면/);
-  assert.match(recommendation, /data-body-motion="contrast"/);
+  assert.doesNotMatch(december.main.innerHTML, /어텐션을 코드 흐름으로|영화 추천을 듣다가|개발 과정 핵심 개념/);
   assert.match(series, /과거 50거래일/);
   assert.match(series, /다음 날 시가/);
   assert.match(series, /예측 모델 하나로는\s+퀀트를 이기기 어렵다/);
@@ -235,11 +226,16 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(series, /<figcaption>수업에서 해 본 예측<\/figcaption>/);
   assert.doesNotMatch(series, /<blockquote>/);
   assert.match(december.main.innerHTML, /ts_solution\.ipynb/);
-  assert.match(attention, /Multi-head Attention p\.120/);
-  assert.match(closing, /개발 과정 핵심 개념/);
-  assert.match(closing, /2년 전엔 전체 흐름을 훑었고, 이번엔 핵심 개념을 코드로 다시 봤습니다/);
-  assert.equal(closing.match(/<dt>/g).length, 5);
-  for (const concept of ["어텐션", "ViT", "양자화", "NGCF", "GraphRAG"]) assert.ok(closing.includes(`<li>${concept}</li>`), concept);
+  assert.match(closing, /모델을 어디서부터 만들지 감이 왔습니다/);
+  assert.match(closing, /2년 전엔 모델 이름과 큰 흐름을 훑었습니다/);
+  assert.match(closing, /어텐션이 이미지에도 쓰이는 걸 코드로 보면서/);
+  assert.match(closing, /<dl class="slide-application-steps">/);
+  assert.deepEqual([...closing.matchAll(/<dt>([^<]+)<\/dt>/g)].map(([, label]) => label), [
+    "문제 정의", "데이터셋", "모델 선택", "검증"
+  ]);
+  assert.match(closing, /즐겨찾기 기록과 편집 후 화면을 확보해 선호 예시로/);
+  assert.match(closing, /나중에 고른 화면을 기존 방식보다 더 위에 추천하는지/);
+  assert.doesNotMatch(closing, /병재님|Qwen/);
   assert.doesNotMatch(december.main.innerHTML, /data-next-token/);
   assert.doesNotMatch(december.main.innerHTML, /발표 메모|class="slide-notes"/);
   assert.equal(december.main.innerHTML.match(/class="slide-nav"/g).length, scenes.length+1);

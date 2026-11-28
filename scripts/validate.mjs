@@ -189,12 +189,11 @@ for (const post of data.posts) {
           }
         }
       }
-      if (section.conceptGroups !== undefined) {
-        assert.ok(Array.isArray(section.conceptGroups) && section.conceptGroups.length);
-        for (const {label, terms} of section.conceptGroups) {
-          requiredText(label, `${post.id}: 개념 영역 이름`);
-          assert.ok(Array.isArray(terms) && terms.length);
-          for (const term of terms) requiredText(term, `${post.id}: 개념 키워드`);
+      if (section.applicationSteps !== undefined) {
+        assert.ok(Array.isArray(section.applicationSteps) && section.applicationSteps.length);
+        for (const {label, detail} of section.applicationSteps) {
+          requiredText(label, `${post.id}: 적용 단계 이름`);
+          requiredText(detail, `${post.id}: 적용 단계 설명`);
         }
       }
       if (section.studyExamples !== undefined) {
