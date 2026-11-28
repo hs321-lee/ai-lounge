@@ -6279,6 +6279,60 @@
       "coverNote": "AI 스페셜리스트에는 설계 과정과 개발 과정이 있습니다. 제가 들은 2026년 13차 개발 과정 이야기입니다.",
       "sections": [
         {
+          "label": "2026년 11월 · 28일 기준",
+          "heading": "11월 AI 소식 세 가지",
+          "body": "",
+          "briefing": [
+            {
+              "publisher": "OpenAI",
+              "date": "2026-11-26",
+              "headline": "GPT‑6.2, 출시 뒤 사용량 집계 수정",
+              "stat": "40% · 25%",
+              "statLabel": "Astra · Sol 한도 도달 속도 증가",
+              "summary": "11월 17일 출시 때 사용량을 적게 집계한 오류를 고쳤습니다. 같은 작업 기준으로 전주와 비교한 수치입니다.",
+              "sources": [
+                {
+                  "title": "OpenAI 출시 발표",
+                  "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
+                },
+                {
+                  "title": "한도 수정 보도",
+                  "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-warns-gpt-62-astra-will-hit-usage-limits-40-percent-faster-because-it-fixed-a-bug/"
+                }
+              ]
+            },
+            {
+              "publisher": "크래프톤",
+              "date": "2026-11-25",
+              "headline": "라온‑1 미니, 한국어 모델 가중치 공개",
+              "stat": "256K · 20 GiB",
+              "statLabel": "문맥 길이(토큰) · VRAM, NVFP4 기준",
+              "summary": "한국어 등 7개 언어를 지원하는 30B급 모델입니다. Apache 2.0으로 가중치를 공개해 로컬에서 장문 처리를 실험할 수 있습니다.",
+              "sources": [
+                {
+                  "title": "크래프톤 공식 모델 카드",
+                  "url": "https://huggingface.co/KRAFTON/Raon-1-mini"
+                }
+              ]
+            },
+            {
+              "publisher": "Anthropic",
+              "date": "2026-11-25",
+              "headline": "Claude와 함께 API를 Rust로 전환",
+              "stat": "CPU 약 70%↓",
+              "statLabel": "요청당 CPU 사용량",
+              "summary": "실제 운영 요청으로 두 버전을 비교해 무중단 전환했습니다. 첫 토큰까지 걸린 시간의 중앙값도 약 20% 줄었습니다.",
+              "sources": [
+                {
+                  "title": "Anthropic 엔지니어링",
+                  "url": "https://www.anthropic.com/research/migrating-api-to-rust"
+                }
+              ]
+            }
+          ],
+          "takeaway": "그럼 모델을 직접 만들어 보면, 우리 일에 적용할 실마리는 어디서 찾을 수 있을까요?"
+        },
+        {
           "label": "수강한 AI 교육",
           "heading": "기초부터 현업 적용까지",
           "body": "",
@@ -6731,22 +6785,6 @@
       ],
       "sourceNote": "개발 과정과 최종 인증 혜택은 2026년 13차 안내 기준입니다. 혜택과 적용 조건은 13차 오리엔테이션 11:01~12:31, 17:14, 27:01~27:48을 참고했습니다.",
       "presentation": "slides",
-      "newsRecap": {
-        "title": "그림으로 돌아본 11월 AI 소식",
-        "prompt": "우리 팀의 지난 PR 하나를 다시 맡기면, 에이전트가 당시 리뷰에서 지적한 문제를 찾아낼까요?",
-        "items": [
-          {
-            "postId": "daily-2026-11-18",
-            "heading": "에이전트도 같은 문제로 다시 평가합니다",
-            "body": "Copilot Evals에서 스킬을 고친 전후의 결과를 비교합니다."
-          },
-          {
-            "postId": "daily-2026-11-24",
-            "heading": "PR을 연 뒤에도 에이전트가 일합니다",
-            "body": "Claude Ship이 리뷰 의견과 CI 결과를 받아 후속 수정을 이어갑니다."
-          }
-        ]
-      },
       "coverBenefits": {
         "title": "최종 인증 혜택",
         "items": [

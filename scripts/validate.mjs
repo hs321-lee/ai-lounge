@@ -119,7 +119,7 @@ for (const post of data.posts) {
   for (const section of post.sections) {
     if (post.presentation === "slides") {
       requiredText(section.label, `${post.id}: 슬라이드 주제`);
-      assert.ok(section.courseSource, `${post.id}: 수업 또는 수강 소감의 출처 필요`);
+      assert.ok(section.briefing || section.courseSource, `${post.id}: 브리핑 또는 수업 자료 출처 필요`);
       if (section.coursePath !== undefined) {
         assert.ok(Array.isArray(section.coursePath) && section.coursePath.length === 3, `${post.id}: 수강 과정 세 단계 필요`);
         for (const course of section.coursePath) {
@@ -243,6 +243,19 @@ for (const post of data.posts) {
       requiredText(section.courseSource.label, `${post.id}: 수업 자료 이름`);
       requiredText(section.courseSource.detail, `${post.id}: 수업 자료 근거`);
     }
+    if (section.briefing !== undefined) {
+      assert.equal(post.presentation, "slides", `${post.id}: 발표 브리핑은 슬라이드 전용`);
+      assert.ok(Array.isArray(section.briefing) && section.briefing.length === 3, `${post.id}: 브리핑은 세 건이어야 합니다.`);
+      for (const item of section.briefing) {
+        for (const key of ["publisher", "headline", "stat", "statLabel", "summary"]) requiredText(item[key], `${post.id}: 브리핑 ${key}`);
+        validDate(item.date, `${post.id}: 브리핑 날짜`);
+        assert.ok(Array.isArray(item.sources) && item.sources.length, `${post.id}: 브리핑 출처 필요`);
+        for (const source of item.sources) {
+          requiredText(source.title, `${post.id}: 브리핑 출처 이름`);
+          https(source.url, `${post.id}: 브리핑 출처 URL`);
+        }
+      }
+    }
     if (section.speakerNotes !== undefined) {
       assert.equal(post.type, "monthly", `${post.id}: speakerNotes는 월간 발표 전용`);
       requiredText(section.speakerNotes, `${post.id}: speakerNotes`);
@@ -258,7 +271,7 @@ for (const post of data.posts) {
       assert.equal(section.kind, "chapter", `${post.id}: kind는 chapter만 허용`);
       assert.ok(typeof section.part === "string" && section.part.trim(), `${post.id}: chapter part 필요`);
       assert.equal(new URL(section.url).protocol, "https:", `${post.id}: chapter url은 HTTPS`);
-    } else if (!section.media && !section.stats && !section.points && !section.steps && !section.code && !(post.presentation === "slides" && section.coursePath)) {
+    } else if (!section.media && !section.stats && !section.points && !section.steps && !section.code && !(post.presentation === "slides" && (section.coursePath || section.briefing))) {
       assert.ok(section.body.trim() || section.instructorQuote?.text.trim(), `${post.id}: 내용 없는 장면: ${section.heading}`);
     }
     for (const key of ["points", "steps", "code"]) if (section[key] !== undefined) assert.ok(Array.isArray(section[key]) && section[key].every(item=>typeof item === "string" && item.trim()), `${post.id}: ${key} 오류`);

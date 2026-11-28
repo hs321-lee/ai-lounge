@@ -134,6 +134,15 @@ function renderCoursePath(courses) {
     <ul class="course-path-keywords">${keywords.map(keyword => `<li>${escape(keyword)}</li>`).join("")}</ul>
   </li>`).join("")}</ol>`;
 }
+function renderSlideBriefing(items) {
+  return `<ul class="slide-briefing">${items.map(item => `<li>
+    <p class="briefing-date">${escape(item.publisher)} <span aria-hidden="true">·</span> <time datetime="${escape(item.date)}">${escape(item.date.slice(5).replace("-", "."))}</time></p>
+    <h3>${escape(item.headline)}</h3>
+    <p class="briefing-stat"><strong>${escape(item.stat)}</strong><span>${escape(item.statLabel)}</span></p>
+    <p class="briefing-summary">${escape(item.summary)}</p>
+    <div class="briefing-sources">${item.sources.map(({title, url}) => `<a href="${safeUrl(url)}" target="_blank" rel="noopener">${escape(title)}<span aria-hidden="true"> ↗</span></a>`).join("")}</div>
+  </li>`).join("")}</ul>`;
+}
 function renderSeminarSlide(section, index, sections) {
   const media = section.media || [];
   const mainFigure = media.length > 0 && !section.stats;
@@ -164,15 +173,17 @@ function renderSeminarSlide(section, index, sections) {
   const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
   const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
   const application = section.applicationSteps ? `<dl class="slide-application-steps">${section.applicationSteps.map(({label, detail}) => `<div><dt>${escape(label)}</dt><dd>${escape(detail)}</dd></div>`).join("")}</dl>` : "";
-  const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.coursePath || section.schedule || pairedFigures || feature || application ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
+  const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.briefing || section.coursePath || section.schedule || pairedFigures || feature || application ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
   return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene${section.bodyMotion ? ` data-body-motion="${escape(section.bodyMotion)}"` : ""} aria-labelledby="slide-title-${index}">
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
         ${section.body && !section.schedule ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
         ${section.linkLabel ? `<a class="slide-resource" href="${safeUrl(section.url)}" target="_blank" rel="noopener">${escape(section.linkLabel)} ↗</a>` : ""}
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
-        ${section.takeaway && !section.schedule ? `<p class="slide-takeaway">${escape(section.takeaway)}</p>` : ""}
+        ${section.takeaway && !section.schedule && !section.briefing ? `<p class="slide-takeaway">${escape(section.takeaway)}</p>` : ""}
       </div>
+      ${section.briefing ? renderSlideBriefing(section.briefing) : ""}
+      ${section.briefing && section.takeaway ? `<p class="slide-briefing-takeaway">${escape(section.takeaway)}</p>` : ""}
       ${section.coursePath ? renderCoursePath(section.coursePath) : ""}
       ${section.schedule ? `${renderSeminarSchedule(section.schedule)}<p class="schedule-note">${escape(section.body)}</p>` : ""}
       ${artwork}
@@ -211,21 +222,6 @@ function renderMonthlySources(issue) {
   }).join("");
   return `<section class="story-sources"><h2>${courseList ? "발표에 사용한 AI-S 수업·복습 자료" : "출처"}</h2>${issue.sourceNote ? `<p>${escape(issue.sourceNote)}</p>` : ""}${courseList ? `<ol class="course-source-list">${courseList}</ol>` : ""}${issue.sources.length ? `<ul>${issue.sources.map(source=>`<li><a href="${safeUrl(source.url)}" target="_blank" rel="noopener">${escape(source.title)} ↗</a></li>`).join("")}</ul>` : ""}</section>`;
 }
-function renderNewsRecap(recap) {
-  if (!recap) return "";
-  const entries = recap.items.map(item => {
-    const report = dailyReports.find(post => post.id === item.postId);
-    if (!report?.coverImage) return "";
-    const { src, alt, width, height } = report.coverImage;
-    return `<a class="recap-entry" href="#post/${encodeURIComponent(report.id)}">
-      <img src="${escape(src)}" alt="${escape(alt)}" width="${width}" height="${height}" loading="lazy">
-      <div><time datetime="${escape(report.date)}">${escape(report.date.slice(5).replace("-","."))}</time>
-      <h3>${escape(item.heading)}</h3><p>${escape(item.body)}</p></div></a>`;
-  }).join("");
-  return entries ? `<details class="news-recap"><summary>${escape(recap.title)}</summary>
-    <div class="recap-entries">${entries}</div>
-    <p>${escape(recap.prompt)}</p></details>` : "";
-}
 function renderIssue(issue) {
   document.title = `${issue.title} — AI 라운지`;
   const slides = issue.presentation === "slides";
@@ -243,7 +239,6 @@ function renderIssue(issue) {
   ${slides ? slideNav(0, issue.sections.length+1) : `<p class="story-hint">발표할 때는 <kbd>→</kbd> <kbd>←</kbd> 키로 장면을 넘기고, 화면을 누르면 크게 봅니다.</p>`}</section>
   <div class="story-progress" aria-hidden="true"><span></span></div>
   ${issue.sections.map(slides ? renderSeminarSlide : renderScene).join("")}
-  ${renderNewsRecap(issue.newsRecap)}
   ${renderMonthlySources(issue)}
   <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""></dialog>
   ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 달의 자료</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="${monthlyIssueLink(item)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
