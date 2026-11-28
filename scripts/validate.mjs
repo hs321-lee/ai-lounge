@@ -130,7 +130,6 @@ for (const post of data.posts) {
           if (course.durationNote !== undefined) requiredText(course.durationNote, `${post.id}: 수강 과정 일수 기준`);
         }
       }
-      if (section.bodyMotion !== undefined) assert.ok(["contrast"].includes(section.bodyMotion), `${post.id}: bodyMotion 값 오류`);
       if (section.figureLayout !== undefined) {
         const {figureLayout, media = []} = section;
         assert.ok(["notebooks", "pair", "recap", "feature"].includes(figureLayout));
@@ -189,11 +188,18 @@ for (const post of data.posts) {
           }
         }
       }
-      if (section.applicationSteps !== undefined) {
-        assert.ok(Array.isArray(section.applicationSteps) && section.applicationSteps.length);
-        for (const {label, detail} of section.applicationSteps) {
-          requiredText(label, `${post.id}: 적용 단계 이름`);
-          requiredText(detail, `${post.id}: 적용 단계 설명`);
+      if (section.summaryAreas !== undefined) {
+        assert.ok(Array.isArray(section.summaryAreas) && section.summaryAreas.length, `${post.id}: 정리 영역 필요`);
+        for (const {label, focus, terms} of section.summaryAreas) {
+          requiredText(label, `${post.id}: 정리 영역 이름`);
+          requiredText(focus, `${post.id}: 정리 영역 수업 주제`);
+          assert.ok(Array.isArray(terms) && terms.length, `${post.id}: 정리 영역 핵심 개념 필요`);
+          for (const term of terms) requiredText(term, `${post.id}: 핵심 개념`);
+        }
+        assert.ok(Array.isArray(section.takeaways) && section.takeaways.length, `${post.id}: 정리 장 느낀 점 필요`);
+        for (const {label, detail} of section.takeaways) {
+          requiredText(label, `${post.id}: 느낀 점 제목`);
+          requiredText(detail, `${post.id}: 느낀 점 설명`);
         }
       }
       if (section.studyExamples !== undefined) {

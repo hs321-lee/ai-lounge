@@ -48,19 +48,6 @@ function splitSteps(element) {
 function prepareSlides(story) {
   story.querySelectorAll(".story-cover h1, .slide-recap-stage h2").forEach(splitChars);
   story.querySelectorAll(".slide-copy .slide-body").forEach(splitSteps);
-  story.querySelectorAll('[data-body-motion="contrast"] .slide-body').forEach(body => {
-    const sentences = body.textContent.match(/[^.]+\.\s*/g) || [];
-    if (sentences.length < 2) return;
-    body.textContent = "";
-    sentences.forEach((sentence, index) => {
-      const span = document.createElement("span");
-      span.className = "m-sentence";
-      span.style.setProperty("--i", index);
-      span.textContent = sentence.trim();
-      if (index) body.append(" ");
-      body.append(span);
-    });
-  });
   story.querySelectorAll(".slide-dark .slide-copy h2").forEach(heading => {
     const lines = heading.textContent.split("\n");
     heading.setAttribute("aria-label", lines.join(" "));
@@ -81,8 +68,9 @@ function prepareSlides(story) {
   });
   story.querySelectorAll(".slide-code").forEach(code => index("mark", code));
   story.querySelectorAll(".slide-course-path>li").forEach((course, i) => { course.style.setProperty("--c", i); index(".course-path-keywords li", course); });
-  index(".slide-application-steps>div");
   story.querySelectorAll(".recap-figure").forEach((figure, i) => figure.style.setProperty("--i", i));
+  story.querySelectorAll(".summary-areas>li").forEach((area, i) => { area.style.setProperty("--g", i); index("li", area, "--t"); });
+  index(".summary-takeaways>div");
   index(".slide-stage>.slide-numbers>div");
   story.querySelectorAll(".seminar-cover-benefits").forEach(benefits => {
     const shapes = document.createElement("span");

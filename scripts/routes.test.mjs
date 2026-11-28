@@ -226,15 +226,14 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(series, /<figcaption>수업에서 해 본 예측<\/figcaption>/);
   assert.doesNotMatch(series, /<blockquote>/);
   assert.match(december.main.innerHTML, /ts_solution\.ipynb/);
-  assert.match(closing, /모델을 어디서부터 만들지 감이 왔습니다/);
-  assert.match(closing, /2년 전엔 모델 이름과 큰 흐름을 훑었습니다/);
-  assert.match(closing, /어텐션이 이미지에도 쓰이는 걸 코드로 보면서/);
-  assert.match(closing, /<dl class="slide-application-steps">/);
-  assert.deepEqual([...closing.matchAll(/<dt>([^<]+)<\/dt>/g)].map(([, label]) => label), [
-    "문제 정의", "데이터셋", "모델 선택", "검증"
-  ]);
-  assert.match(closing, /즐겨찾기 기록과 편집 후 화면을 확보해 선호 예시로/);
-  assert.match(closing, /나중에 고른 화면을 기존 방식보다 더 위에 추천하는지/);
+  assert.match(closing, /AI-S 한 장 정리/);
+  assert.match(closing, /2년 전엔 전체 흐름을 훑었고, 이번엔 핵심 개념을 코드로 다시 봤습니다/);
+  assert.deepEqual([...closing.matchAll(/<h3>([^<]+)<\/h3>/g)].map(([, label]) => label), ["LLM", "Vision", "온디바이스", "Data", "RAG"]);
+  for (const term of ["Transformer", "ViT", "지식 증류", "NGCF", "GraphRAG"]) assert.ok(closing.includes(`<li>${term}</li>`), term);
+  assert.equal([...closing.matchAll(/<dt>/g)].length, 3);
+  assert.match(closing, /어텐션이 이미지\(ViT\)에도 쓰이는 걸 코드로 봤습니다/);
+  assert.match(closing, /만들려던 예측기를 접었습니다/);
+  assert.match(closing, /문제 정의 → 데이터셋 → 모델 선택 → 검증/);
   assert.doesNotMatch(closing, /병재님|Qwen/);
   assert.doesNotMatch(december.main.innerHTML, /data-next-token/);
   assert.doesNotMatch(december.main.innerHTML, /발표 메모|class="slide-notes"/);
