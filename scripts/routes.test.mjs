@@ -207,7 +207,14 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   for (const [diagram, file] of [["attention", "attention-study"], ["quantization", "quantization-study"], ["rag", "rag-study"]]) {
     assert.ok(environment.includes(`class="recap-${diagram}"`), diagram);
     assert.ok(environment.includes(`href="assets/ai-specialist/${file}.webp"`), file);
+    assert.ok(environment.includes(`src="assets/ai-specialist/recap-3d-${diagram}.webp"`), `${diagram} 3D still`);
+    assert.ok(environment.includes(`src="assets/ai-specialist/recap-3d-${diagram}.mp4"`), `${diagram} 3D video`);
   }
+  assert.equal(environment.match(/class="recap-label /g).length, 16);
+  assert.match(environment, /--x:28\.1%;--y:36\.6%[^"]*">62%</);
+  assert.match(environment, /무엇을 더 볼까\?/);
+  assert.match(environment, /0\.3은 1, 0\.8은 2/);
+  assert.match(environment, /class="slide-resource slide-motion" href="assets\/ai-specialist\/recap-motion\.mp4"/);
   assert.match(december.main.innerHTML, /https:\/\/ai-s\.pages\.dev\/slides\/course-intro\.html#s3/);
   for (const [scene, file] of [
     [attention, "attention-multihead-original"],

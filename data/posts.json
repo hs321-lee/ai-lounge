@@ -6449,8 +6449,60 @@
               "alt": "참고 점수를 계산하는 Q·K와 단어 사이의 관계를 보여주는 그림",
               "caption": "어텐션",
               "diagram": "attention",
-              "diagramAlt": "잠들었다를 읽을 때 고양이가에 큰 비중을 두는 어텐션 예시",
-              "description": "문맥에서 관련 있는 단어에 더 큰 비중을 줍니다."
+              "diagramAlt": "‘고양이가 창가에서 잠들었다’에서 ‘잠들었다’를 읽을 때 고양이가 62%, 창가에서 14%, 잠들었다 24%로 비중을 나누는 3D 어텐션 예시. 비중은 설명용 값입니다.",
+              "description": "문장을 읽을 때, 지금 단어와 관련 깊은 단어에 더 큰 비중을 줍니다.",
+              "hook": "무엇을 더 볼까?",
+              "example": "‘잠들었다’ → 누가? ‘고양이가’ 62%",
+              "model": {
+                "still": "assets/ai-specialist/recap-3d-attention.webp",
+                "video": "assets/ai-specialist/recap-3d-attention.mp4",
+                "width": 1440,
+                "height": 1080,
+                "labels": [
+                  {
+                    "text": "지금 읽는 단어 · 잠들었다",
+                    "x": 55.3,
+                    "y": 8,
+                    "tone": "key"
+                  },
+                  {
+                    "text": "62%",
+                    "x": 28.1,
+                    "y": 36.6,
+                    "tone": "value"
+                  },
+                  {
+                    "text": "14%",
+                    "x": 51.0,
+                    "y": 57.7,
+                    "tone": "value"
+                  },
+                  {
+                    "text": "24%",
+                    "x": 74.7,
+                    "y": 56.1,
+                    "tone": "value"
+                  },
+                  {
+                    "text": "고양이가",
+                    "x": 26.8,
+                    "y": 75.2,
+                    "tone": "plain"
+                  },
+                  {
+                    "text": "창가에서",
+                    "x": 49.3,
+                    "y": 78.3,
+                    "tone": "quiet"
+                  },
+                  {
+                    "text": "잠들었다",
+                    "x": 73.4,
+                    "y": 81.5,
+                    "tone": "quiet"
+                  }
+                ]
+              }
             },
             {
               "src": "assets/ai-specialist/quantization-study.webp",
@@ -6459,8 +6511,54 @@
               "alt": "여러 실수 값이 더 적은 단계의 정수로 옮겨지는 그림",
               "caption": "양자화",
               "diagram": "quantization",
-              "diagramAlt": "스케일이 0.5이고 영점이 0일 때 실수 0.0, 0.5, 1.0을 정수 0, 1, 2로 표현하는 예시",
-              "description": "실수를 제한된 정수 값으로 표현해 모델을 가볍게 만듭니다."
+              "diagramAlt": "실수 0.0부터 1.0까지의 경사 위 구슬이 스케일 0.5 기준으로 가장 가까운 정수 계단 0, 1, 2에 내려앉는 3D 양자화 예시. 0.3은 1, 0.8은 2가 됩니다.",
+              "description": "연속된 실수를 몇 단계의 정수로 반올림해 모델을 가볍게 만듭니다.",
+              "hook": "실수를 가까운 정수 계단으로",
+              "example": "스케일 0.5 → 0.3은 1, 0.8은 2 · 32비트를 8비트로 바꾸면 용량 ¼",
+              "model": {
+                "still": "assets/ai-specialist/recap-3d-quantization.webp",
+                "video": "assets/ai-specialist/recap-3d-quantization.mp4",
+                "width": 1440,
+                "height": 1080,
+                "labels": [
+                  {
+                    "text": "실수 0.0 ~ 1.0",
+                    "x": 25.0,
+                    "y": 63.0,
+                    "tone": "plain"
+                  },
+                  {
+                    "text": "0.3",
+                    "x": 37.7,
+                    "y": 40.6,
+                    "tone": "quiet"
+                  },
+                  {
+                    "text": "0.8",
+                    "x": 58.2,
+                    "y": 23.3,
+                    "tone": "quiet"
+                  },
+                  {
+                    "text": "정수 0",
+                    "x": 37.5,
+                    "y": 84.0,
+                    "tone": "key"
+                  },
+                  {
+                    "text": "1",
+                    "x": 55.1,
+                    "y": 67.0,
+                    "tone": "key"
+                  },
+                  {
+                    "text": "2",
+                    "x": 72.1,
+                    "y": 55.6,
+                    "tone": "key"
+                  }
+                ]
+              }
             },
             {
               "src": "assets/ai-specialist/rag-study.webp",
@@ -6469,13 +6567,45 @@
               "alt": "검색한 노드에서 본문을 꺼내 프롬프트와 답변으로 이어가는 그림",
               "caption": "RAG",
               "diagram": "rag",
-              "diagramAlt": "질문을 받으면 관련 문서를 찾아 그 문서를 근거로 답변하는 RAG 흐름",
-              "description": "관련 문서를 먼저 찾고, 그 내용을 근거로 답합니다."
+              "diagramAlt": "질문 말풍선에서 문서 서랍으로, 관련 문서 두 장이 떠오른 뒤 근거 표시가 붙은 답변 카드로 이어지는 3D RAG 흐름",
+              "description": "질문과 관련된 문서를 먼저 찾고, 그 문서를 근거로 답합니다.",
+              "hook": "먼저 찾고, 그다음 답한다",
+              "example": "질문 → 문서 두 장 선택 → 근거를 붙인 답변",
+              "model": {
+                "still": "assets/ai-specialist/recap-3d-rag.webp",
+                "video": "assets/ai-specialist/recap-3d-rag.mp4",
+                "width": 1440,
+                "height": 1080,
+                "labels": [
+                  {
+                    "text": "① 질문",
+                    "x": 13.7,
+                    "y": 25.8,
+                    "tone": "key"
+                  },
+                  {
+                    "text": "② 관련 문서 찾기",
+                    "x": 48.9,
+                    "y": 77.5,
+                    "tone": "plain"
+                  },
+                  {
+                    "text": "③ 근거로 답변",
+                    "x": 79.8,
+                    "y": 23.8,
+                    "tone": "plain"
+                  }
+                ]
+              }
             }
           ],
           "courseSource": {
             "label": "비전 교안 Course overview p.3 · AI-S 그림 모아보기",
-            "detail": "Day1 오리엔테이션 08:35–10:12와 기존 AI-S 복습 자료를 사용했습니다. 생성형 AI 활용 안내는 비전 교안 Course overview 3쪽입니다."
+            "detail": "Day1 오리엔테이션 08:35–10:12와 기존 AI-S 복습 자료를 사용했습니다. 생성형 AI 활용 안내는 비전 교안 Course overview 3쪽입니다. 3D 장면은 scripts/blender/recap-3d.py(Blender 4.5), 모션그래픽은 scripts/motion/recap-motion.html로 만들었습니다. 어텐션 비중은 설명용 값입니다."
+          },
+          "motion": {
+            "src": "assets/ai-specialist/recap-motion.mp4",
+            "label": "39초 모션그래픽 보기"
           }
         },
         {

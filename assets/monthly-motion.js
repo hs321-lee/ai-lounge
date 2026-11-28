@@ -63,6 +63,27 @@ window.MonthlyMotion = {
       }, { threshold: 0 });
       scenes.forEach(scene => { if (scene.getBoundingClientRect().top > window.innerHeight) observer.observe(scene); });
     }
+    // 3D 복습 장면: 화면에 들어오면 만들어지는 과정을 한 번 재생하고, 끝나면 고화질 정지 그림과 라벨로 넘깁니다.
+    // 모션 감소 설정이거나 재생이 막히면 처음부터 정지 그림과 라벨만 보입니다.
+    let stageObserver;
+    const stages = [...root.querySelectorAll(".recap-stage")].filter(stage => stage.querySelector("video"));
+    const finish = stage => stage.classList.remove("is-playing");
+    const play = stage => {
+      const video = stage.querySelector("video");
+      video.currentTime = 0;
+      video.addEventListener("playing", () => stage.classList.add("is-playing"), { once: true });
+      video.play().catch(() => finish(stage));
+    };
+    stages.forEach(stage => stage.querySelector("video").addEventListener("ended", () => finish(stage)));
+    if (!media.matches && "IntersectionObserver" in window && stages.length) {
+      stageObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) play(entry.target);
+          else { entry.target.querySelector("video").pause(); finish(entry.target); }
+        }
+      }, { threshold: 0.6 });
+      stages.forEach(stage => stageObserver.observe(stage));
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize, { passive: true });
     document.addEventListener("keydown", onKey);
@@ -70,6 +91,7 @@ window.MonthlyMotion = {
     paintProgress();
     return () => {
       observer?.disconnect();
+      stageObserver?.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("keydown", onKey);

@@ -138,6 +138,26 @@ for (const post of data.posts) {
           for (const item of media) {
             requiredText(item.diagramAlt, `${post.id}: 복습 도식 대체 텍스트`);
             requiredText(item.description, `${post.id}: 복습 도식 설명`);
+            requiredText(item.hook, `${post.id}: 복습 도식 질문형 한 줄`);
+            requiredText(item.example, `${post.id}: 복습 도식 예시`);
+            // Blender 3D 장면: 정지 그림·재생 영상·투영 라벨이 모두 있어야 합니다.
+            const model = item.model;
+            assert.ok(model && typeof model === "object", `${post.id}: ${item.diagram} 3D 모델 필요`);
+            assert.equal(model.still, `assets/ai-specialist/recap-3d-${item.diagram}.webp`, `${post.id}: 3D 정지 그림 경로`);
+            assert.equal(model.video, `assets/ai-specialist/recap-3d-${item.diagram}.mp4`, `${post.id}: 3D 영상 경로`);
+            for (const key of ["width", "height"]) assert.ok(Number.isInteger(model[key]) && model[key] > 0, `${post.id}: 3D ${key}`);
+            for (const file of [model.still, model.video]) assert.ok((await readFile(new URL(`../${file}`, import.meta.url))).length > 0, `${post.id}: 빈 3D 파일 ${file}`);
+            assert.ok(Array.isArray(model.labels) && model.labels.length, `${post.id}: 3D 라벨 필요`);
+            for (const label of model.labels) {
+              requiredText(label.text, `${post.id}: 3D 라벨 문구`);
+              assert.ok(["key", "value", "plain", "quiet"].includes(label.tone), `${post.id}: 3D 라벨 종류 ${label.tone}`);
+              for (const axis of ["x", "y"]) assert.ok(Number.isFinite(label[axis]) && label[axis] >= 0 && label[axis] <= 100, `${post.id}: 3D 라벨 ${axis} 범위`);
+            }
+          }
+          if (section.motion !== undefined) {
+            assert.match(section.motion.src, /^assets\/ai-specialist\/[a-z0-9-]+\.mp4$/, `${post.id}: 모션그래픽 경로`);
+            assert.ok((await readFile(new URL(`../${section.motion.src}`, import.meta.url))).length > 0, `${post.id}: 빈 모션그래픽`);
+            requiredText(section.motion.label, `${post.id}: 모션그래픽 링크 문구`);
           }
         } else {
           assert.equal(media.length, {notebooks:3, pair:2, feature:1}[figureLayout], `${post.id}: 그림 수와 배치 불일치`);

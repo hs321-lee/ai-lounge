@@ -102,6 +102,8 @@ Node.js 20 이상에서 JavaScript 문법과 콘텐츠의 필수 필드·중복 
 | `sections[].generationExample` | 시작 문구 `prompt` 뒤에 `tokens`를 하나씩 붙여 보는 월간 발표 예제 |
 | `sections[].courseSource` | 월간 교육 발표에서 근거로 삼은 차시·자료명(`label`)과 실제 다룬 내용(`detail`). 해당 장과 발표 하단 자료 목록에 표시 |
 | `sections[].speakerNotes` | 선택: 월간 발표 장면에서 펼쳐 읽는 발표 메모 |
+| `sections[].figureLayout: "recap"` | 어텐션·양자화·RAG 세 카드. 각 `media`에 `hook`(질문형 한 줄), `example`, `model`(`still`·`video`·`width`·`height`·`labels[{text,x,y,tone}]`) 필요. 라벨 `x`·`y`는 3D 카메라 투영 좌표(%) |
+| `sections[].motion` | 선택: `{src, label}`. 장면에서 여는 모션그래픽 mp4 |
 | 데일리 `sections[].label`, `date`, `takeaway`, `action`, `url` | 선택: 분류·발표 날짜·해석·활용 행동·공식 원문. 기존 `heading`, `body`와 함께 사용 |
 | 데일리 `sections[].summary`, `relevance` | 선택: 기본 표시할 짧은 사실 요약·왜 중요한지 한 문장. `summary`가 있으면 전체 `body`·해석·실행은 native details로 펼쳐 읽기 |
 | `radar` | 선택: `{label, repo, url, description, signal, checkedAt, sourceUrl, why, try, limitation}` 배열. 검증된 GitHub 저장소, 선정 근거와 관찰 날짜. 선택 `headline`은 용도가 드러나는 짧은 제목 |
@@ -109,6 +111,20 @@ Node.js 20 이상에서 JavaScript 문법과 콘텐츠의 필수 필드·중복 
 | `monthlyCandidates` | 선택: `{title, reason, url}` 배열. 준비 데이터만 저장하며 월간 발표 자동 발행 금지 |
 
 월간 목록은 `type: monthly`의 실제 발행 월만 최신순으로 모읍니다. 새 월간 항목을 추가하면 목록에 함께 표시하며, 없는 달을 만들지 않습니다. 각 `sections` 항목이 발표 장면 한 개입니다. 같은 월에 자료가 여러 개면 모두 표시하고 고유 `#post/아이디`로 연결합니다. `#monthly/YYYY-MM`은 그 달의 최신 자료를 엽니다. 초안은 제목·요약에 준비 상태를 명확히 적습니다. 데일리 기록은 최소 한 개의 HTTPS 원문이 필요합니다.
+
+## 12월 복습 장면의 3D와 모션그래픽
+
+‘수업 중 개인 AI 활용’ 장면의 세 카드는 Blender 4.5 LTS로 만든 3D 모델입니다. 색은 `tokens.css`·`lounge.css`의 OKLCH 값을 sRGB로 옮겨 쓰고, 글자는 그림에 굽지 않고 카메라 투영 좌표에 HTML(Pretendard)로 얹습니다. 카드가 화면에 들어오면 만들어지는 과정(4초)을 한 번 재생한 뒤 고화질 정지 그림과 라벨로 넘어가며, 모션 감소 설정에서는 정지 그림만 보입니다.
+
+```sh
+# 3D: 정지 그림(1440×1080 투명 PNG + 라벨 좌표 JSON), 애니메이션(800×600, 2프레임 간격)
+blender -b -P scripts/blender/recap-3d.py -- --scene attention --mode still --out OUT
+blender -b -P scripts/blender/recap-3d.py -- --scene attention --mode anim --out OUT/anim/attention
+# 39초 모션그래픽(키네틱 타이포 + 도형 + 3D 시퀀스): 1/30초씩 찍어 mp4로 묶기
+node scripts/motion/capture.mjs --frames OUT/anim --fonts FONTS --out assets/ai-specialist/recap-motion.mp4
+```
+
+`FONTS` 폴더에는 Pretendard Variable(woff2)과 Nanum Myeongjo ExtraBold(ttf)를 둡니다. 모션그래픽의 라벨 문구와 좌표는 `data/posts.json`에서 읽어 슬라이드와 같게 유지합니다. 어텐션 비중(62·14·24%)은 설명용 값입니다.
 
 ## 배포
 

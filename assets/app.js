@@ -70,24 +70,22 @@ function renderNotebookExcerpt(media, sectionIndex, mediaIndex = 0) {
     <figcaption>${escape(media.caption)}</figcaption>
   </figure>`;
 }
-const recapDiagrams = {
-  attention: `<div class="recap-attention"><strong>잠들었다</strong><div class="recap-attention-weights">
-    <span><i></i>고양이가</span><span><i></i>창가에서</span><span><i></i>잠들었다</span>
-  </div></div>`,
-  quantization: `<div class="recap-quantization">
-    <div><span>실수</span><b>0.0</b><b>0.5</b><b>1.0</b></div><p>÷ 0.5 ↓</p>
-    <div><span>정수</span><b>0</b><b>1</b><b>2</b></div>
-  </div>`,
-  rag: `<div class="recap-rag"><span><i class="recap-question">?</i>질문</span><b>→</b>
-    <span><i class="recap-document"></i>문서 검색</span><b>→</b>
-    <span><i class="recap-answer">✓</i>답변</span></div>`
-};
+// Blender 3D 장면: 정지 그림 위에 같은 카메라 투영 좌표로 HTML 라벨을 얹고,
+// 영상은 장면에 들어올 때 한 번 재생한 뒤 정지 그림으로 넘깁니다(monthly-motion.js).
+function renderRecapModel(item) {
+  const { still, video, width, height, labels } = item.model;
+  return `<div class="recap-stage recap-${escape(item.diagram)}" role="img" aria-label="${escape(item.diagramAlt)}" style="--stage-ratio:${width}/${height}">
+    <img class="recap-still" src="${escape(still)}" width="${width}" height="${height}" alt="" loading="lazy" decoding="async">
+    ${video ? `<video class="recap-video" src="${escape(video)}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}
+    <div class="recap-labels" aria-hidden="true">${labels.map(({ text, x, y, tone }, order) => `<span class="recap-label recap-label-${escape(tone)}" style="--x:${x}%;--y:${y}%;--order:${order}">${escape(text)}</span>`).join("")}</div>
+  </div>`;
+}
 function renderRecapFigures(media, sectionIndex) {
   return `<div class="slide-recap-figures">${media.map((item, mediaIndex) => `<figure class="recap-figure">
     <a class="recap-visual" href="${escape(item.src)}" data-media="${sectionIndex}-${mediaIndex}" target="_blank" rel="noopener" aria-label="${escape(item.caption)} 복습 원본 보기">
-      <div class="recap-diagram" role="img" aria-label="${escape(item.diagramAlt)}"><div aria-hidden="true">${recapDiagrams[item.diagram]}</div></div>
+      ${renderRecapModel(item)}
     </a>
-    <figcaption><strong>${escape(item.caption)}</strong><p>${escape(item.description)}</p></figcaption>
+    <figcaption><span class="recap-step" aria-hidden="true">${String(mediaIndex + 1).padStart(2, "0")}</span><strong>${escape(item.caption)}</strong>${item.hook ? `<em class="recap-hook">${escape(item.hook)}</em>` : ""}<p>${escape(item.description)}</p>${item.example ? `<p class="recap-example">${escape(item.example)}</p>` : ""}</figcaption>
   </figure>`).join("")}</div>`;
 }
 function renderSeminarCalendar({month, events}) {
@@ -172,7 +170,7 @@ function renderSeminarSlide(section, index, sections) {
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
         ${section.body && !section.schedule ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
-        ${section.linkLabel ? `<a class="slide-resource" href="${safeUrl(section.url)}" target="_blank" rel="noopener">${escape(section.linkLabel)} ↗</a>` : ""}
+        ${section.linkLabel || section.motion ? `<p class="slide-resources">${section.linkLabel ? `<a class="slide-resource" href="${safeUrl(section.url)}" target="_blank" rel="noopener">${escape(section.linkLabel)} ↗</a>` : ""}${section.motion ? `<a class="slide-resource slide-motion" href="${escape(section.motion.src)}" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> ${escape(section.motion.label)}</a>` : ""}</p>` : ""}
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
         ${section.takeaway && !section.schedule ? `<p class="slide-takeaway">${escape(section.takeaway)}</p>` : ""}
       </div>

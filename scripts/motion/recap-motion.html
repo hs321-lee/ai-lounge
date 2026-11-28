@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>수업 중 개인 AI 활용 · 모션그래픽</title>
+<!--
+  키네틱 타이포 + 도형 + Blender 3D 시퀀스로 만든 39초 모션그래픽 원본입니다.
+  - 색: tokens.css · lounge.css (크림 바탕, 오렌지 #ec6100 · #b03f00, 앰버 #f2a635, 잉크 #281c15)
+  - 글꼴: Pretendard Variable(굵기 45–920을 움직임에 사용) · Nanum Myeongjo ExtraBold(강조)
+  - 3D: scripts/blender/recap-3d.py 의 anim(2프레임 간격) · still 결과
+  - 라벨 문구와 좌표: data/posts.json 의 monthly-2026-12 '수업 중 개인 AI 활용' media.model
+  render(t)는 시간만으로 화면을 결정합니다. capture.mjs가 1/30초마다 찍어 mp4로 묶습니다.
+-->
+<style>
+@font-face{font-family:"Pretendard Variable";src:url("fonts/PretendardVariable.woff2") format("woff2");font-weight:45 920;font-display:block}
+@font-face{font-family:"Nanum Myeongjo";src:url("fonts/NanumMyeongjo-ExtraBold.ttf") format("truetype");font-weight:800;font-display:block}
+:root{--paper:#fdfaf6;--cream:#f6f1e7;--card:#f3eadd;--ink:#281c15;--muted:#645850;--line:#e8e0d8;--orange:#ec6100;--accent:#b03f00;--amber:#f2a635;--soft:#ffead7;--sans:"Pretendard Variable",Pretendard,sans-serif;--serif:"Nanum Myeongjo",serif}
+html,body{margin:0;height:100%;background:#1b1410}
+body{display:grid;place-items:center;overflow:hidden}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--sans);letter-spacing:-.03em;transform-origin:50% 50%;word-break:keep-all}
+.scene{position:absolute;inset:0;overflow:hidden;visibility:hidden}
+.abs{position:absolute;left:0;top:0;will-change:transform,opacity}
+.dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgb(40 28 21 / .07) 1.6px,transparent 1.8px);background-size:36px 36px}
+.glow{position:absolute;inset:0;background:radial-gradient(60% 70% at 88% 6%,rgb(255 234 215 / .95),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgb(242 166 53 / .16),transparent 70%)}
+.shape{position:absolute;left:0;top:0}
+.mask{position:absolute;overflow:hidden;padding:.08em .06em .16em;margin:-.08em -.06em -.16em}
+.line{display:block;white-space:nowrap}
+.ch{display:inline-block;white-space:pre}
+.serif{font-family:var(--serif);font-weight:800;letter-spacing:-.04em}
+.numeral{font-family:var(--serif);font-weight:800;font-size:300px;line-height:1;color:transparent;-webkit-text-stroke:3px var(--orange)}
+.card{position:absolute;left:880px;top:170px;width:960px;height:720px;border-radius:40px;background:var(--card);overflow:hidden;box-shadow:0 2px 4px rgb(80 50 30 / .06),0 30px 60px rgb(80 50 30 / .12)}
+.card canvas{position:absolute;inset:0;width:100%;height:100%}
+.label{position:absolute;padding:.3em .75em;border-radius:999px;background:rgb(255 252 247 / .94);box-shadow:0 2px 6px rgb(80 50 30 / .14);font-size:31px;font-weight:760;white-space:nowrap;line-height:1.2}
+.label.key{background:var(--accent);color:#fffaf3}
+.label.value{background:none;box-shadow:none;color:var(--accent);font-size:52px;font-weight:880;padding:0 .2em}
+.label.quiet{color:var(--muted);font-weight:650}
+.label.step{background:none;box-shadow:none;color:#fffaf3;font-size:46px;font-weight:880;padding:0}
+.title{font-size:150px;font-weight:860;line-height:1.05;letter-spacing:-.05em}
+.hook{font-size:50px;font-weight:720;color:var(--accent);letter-spacing:-.035em}
+.take{font-size:40px;font-weight:700;padding-left:30px;border-left:8px solid var(--orange)}
+.chip{font-size:26px;font-weight:800;letter-spacing:.18em;color:var(--accent)}
+.slot{position:absolute;overflow:hidden;height:150px}
+.slot>div{display:flex;flex-direction:column}
+.slot span{height:150px;line-height:150px;font-size:136px;font-weight:880;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.seg{position:absolute;top:0;height:64px;border-radius:6px}
+</style>
+</head>
+<body>
+<div id="stage" role="img" aria-label="수업 중 개인 AI 활용: 어텐션, 양자화, RAG를 3D와 움직이는 글자로 설명하는 39초 모션그래픽"></div>
+<script>
+"use strict";
+const W = 1920, H = 1080, DURATION = 39, FPS = 30;
+const stage = document.getElementById("stage");
+const params = new URLSearchParams(location.search);
+const FRAMES = params.get("frames") || "frames";
+
+// ------------------------------------------------------------------ easing
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, s, d) => clamp((t - s) / d);
+const E = {
+  out: x => 1 - (1 - x) ** 3,
+  expo: x => x >= 1 ? 1 : 1 - 2 ** (-10 * x),
+  inout: x => x < .5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2,
+  inExpo: x => x <= 0 ? 0 : 2 ** (10 * x - 10),
+  back: x => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * (x - 1) ** 3 + c1 * (x - 1) ** 2; },
+  elastic: x => x <= 0 ? 0 : x >= 1 ? 1 : 2 ** (-10 * x) * Math.sin((x * 10 - .75) * (2 * Math.PI) / 3) + 1,
+};
+const ease = (t, s, d, fn = E.expo) => fn(prog(t, s, d));
+
+// ------------------------------------------------------------------ DOM helpers
+function el(tag, cls, parent, html = "") {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (html) node.innerHTML = html;
+  parent.appendChild(node);
+  return node;
+}
+function place(node, x, y, extra = "") { node.style.transform = `translate(${x}px,${y}px) ${extra}`; }
+function chars(parent, text, cls = "") {
+  const line = el("span", `line ${cls}`, parent);
+  return [...text].map(c => el("span", "ch", line, c === " " ? " " : c));
+}
+// 마스크 안에서 글자가 아래에서 올라오며, 굵기가 가늘게 → 굵게 바뀝니다(가변 글꼴).
+function riseChars(list, t, start, gap = .045, dur = .7, w0 = 220, w1 = 860) {
+  list.forEach((c, i) => {
+    const k = ease(t, start + i * gap, dur);
+    c.style.transform = `translateY(${(1 - k) * 110}%) rotate(${(1 - k) * 8}deg)`;
+    c.style.opacity = k > 0 ? 1 : 0;
+    c.style.fontVariationSettings = `"wght" ${lerp(w0, w1, ease(t, start + i * gap + .1, dur, E.out))}`;
+  });
+}
+function fadeUp(node, t, start, dur = .7, dist = 40) {
+  const k = ease(t, start, dur);
+  node.style.opacity = k;
+  node.style.translate = `0 ${(1 - k) * dist}px`;
+}
+function exitUp(node, t, start, dur = .5, dist = 80) {
+  const k = ease(t, start, dur, E.inExpo);
+  if (k > 0) { node.style.opacity = 1 - k; node.style.translate = `0 ${-k * dist}px`; }
+}
+
+// ------------------------------------------------------------------ assets
+const SCENES3D = ["attention", "quantization", "rag"];
+const seq = {}, still = {};
+async function loadImage(src) { const img = new Image(); img.src = src; await img.decode(); return img; }
+async function loadAssets() {
+  const posts = await (await fetch("data/posts.json")).json();
+  const issue = posts.posts.find(p => p.id === "monthly-2026-12");
+  const recap = issue.sections.find(s => s.figureLayout === "recap");
+  const models = Object.fromEntries(recap.media.map(m => [m.diagram, m]));
+  await Promise.all(SCENES3D.map(async name => {
+    still[name] = await loadImage(models[name].model.still);
+    seq[name] = await Promise.all(Array.from({ length: 60 }, (_, i) =>
+      loadImage(`${FRAMES}/${name}/${name}-${String(1 + i * 2).padStart(4, "0")}.png`)));
+  }));
+  await document.fonts.load('800 100px "Pretendard Variable"');
+  await document.fonts.load('800 100px "Nanum Myeongjo"');
+  return models;
+}
+
+// ------------------------------------------------------------------ 3D card
+// 4초 동안 2프레임 간격 시퀀스를 재생하고, 끝나면 고화질 정지 그림과 HTML 라벨로 넘깁니다.
+function makeCard(parent, name, model) {
+  const card = el("div", "card", parent);
+  const canvas = el("canvas", "", card);
+  canvas.width = 1440; canvas.height = 1080;
+  const ctx = canvas.getContext("2d");
+  const labels = model.model.labels.map(({ text, x, y, tone }) => {
+    const node = el("span", `label ${tone}`, card, text);
+    node.dataset.x = x; node.dataset.y = y;
+    return node;
+  });
+  return {
+    card,
+    draw(lt) {
+      ctx.clearRect(0, 0, 1440, 1080);
+      if (lt < 0) return;
+      const img = lt >= 4 ? still[name] : seq[name][Math.min(59, Math.floor(lt * 15))];
+      ctx.drawImage(img, 0, 0, 1440, 1080);
+    },
+    labels(t, start) {
+      labels.forEach((node, i) => {
+        const k = ease(t, start + i * .06, .55, E.back);
+        node.style.opacity = clamp(k * 1.5);
+        node.style.left = `${node.dataset.x}%`;
+        node.style.top = `${node.dataset.y}%`;
+        node.style.transform = `translate(-50%,-50%) scale(${lerp(.4, 1, k)})`;
+      });
+    },
+  };
+}
+
+// 01·02·03 장면의 공통 틀: 큰 외곽선 숫자, 제목, 질문형 한 줄, 3D 카드
+function topicFrame(scene, { num, title, hook }, name, model) {
+  const numeral = el("div", "abs numeral", scene, num);
+  const titleBox = el("div", "abs mask title", scene);
+  const titleChars = chars(titleBox, title);
+  const hookNode = el("div", "abs hook", scene, hook);
+  const card = makeCard(scene, name, model);
+  return {
+    card,
+    update(t, s) {
+      const kn = ease(t, s, 1.1);
+      place(numeral, lerp(40, 100, kn), -20);
+      numeral.style.opacity = kn;
+      numeral.style.webkitTextStroke = `3px rgb(236 97 0 / ${lerp(0, .9, kn)})`;
+      place(titleBox, 120, 255);
+      riseChars(titleChars, t, s + .25, .07);
+      place(hookNode, 124, 430);
+      fadeUp(hookNode, t, s + .8);
+      const kc = ease(t, s + .1, 1.0);
+      card.card.style.transform = `translate(${(1 - kc) * 160}px,${(1 - kc) * 40}px) rotate(${(1 - kc) * 3}deg)`;
+      card.card.style.opacity = kc;
+    },
+  };
+}
+
+// ------------------------------------------------------------------ build
+function build(models) {
+  const S = {};
+  const scene = (name, bg) => {
+    const node = el("div", "scene", stage);
+    node.style.background = bg;
+    if (bg !== "var(--orange)") { el("div", "glow", node); el("div", "dots", node); }
+    S[name] = node;
+    return node;
+  };
+
+  // A · 인트로 ---------------------------------------------------------
+  const a = scene("intro", "var(--paper)");
+  const A = {
+    circle: el("div", "shape", a), square: el("div", "shape", a), pill: el("div", "shape", a),
+    eyebrow: el("div", "abs chip", a, "12월 함께 보기 · AI 스페셜리스트 개발 과정"),
+    pre: el("div", "abs mask serif", a), title: el("div", "abs mask", a),
+    sub: el("div", "abs", a), underline: el("div", "shape", a), wipe: el("div", "shape", a),
+  };
+  A.preChars = chars(A.pre, "수업 중");
+  A.pre.style.cssText += "font-size:84px;color:var(--accent)";
+  A.titleChars = chars(A.title, "개인 AI 활용");
+  A.title.style.cssText += "font-size:210px;font-weight:860;letter-spacing:-.055em;line-height:1";
+  A.sub.style.cssText += "font-size:58px;font-weight:650;display:flex;gap:.32em;align-items:baseline";
+  A.words = ["막힌 실습을", "그림으로", "풀었습니다"].map((w, i) => el("span", i === 1 ? "serif" : "", A.sub, w));
+  A.words[1].style.cssText = "color:var(--accent);font-size:68px";
+  Object.assign(A.circle.style, { width: "200px", height: "200px", borderRadius: "50%", background: "var(--orange)" });
+  Object.assign(A.square.style, { width: "170px", height: "170px", borderRadius: "42px", background: "var(--amber)" });
+  Object.assign(A.pill.style, { width: "300px", height: "120px", borderRadius: "60px", background: "var(--ink)" });
+  Object.assign(A.underline.style, { height: "10px", borderRadius: "5px", background: "var(--orange)", transformOrigin: "0 50%" });
+  Object.assign(A.wipe.style, { width: "200px", height: "200px", borderRadius: "50%", background: "var(--orange)" });
+
+  // B · 맥락 (오렌지 바탕) ----------------------------------------------
+  const b = scene("context", "var(--orange)");
+  const B = { lines: [], shapes: [], tags: [] };
+  [["외부망에서", 112], ["개인 ChatGPT·Claude로", 112], ["실습의 핵심 흐름을", 112]].forEach(([text, size]) => {
+    const m = el("div", "abs mask", b);
+    m.style.cssText += `font-size:${size}px;font-weight:820;color:#fffaf3;line-height:1.1`;
+    B.lines.push({ box: m, chars: chars(m, text) });
+  });
+  B.big = el("div", "abs mask serif", b);
+  B.big.style.cssText += "font-size:250px;color:var(--ink);line-height:1";
+  B.bigChars = chars(B.big, "그림으로.");
+  [["var(--paper)", "50%"], ["var(--amber)", "56px"], ["var(--ink)", "120px"]].forEach(([bg, radius], i) => {
+    const s = el("div", "shape", b);
+    Object.assign(s.style, { width: i === 2 ? "360px" : "240px", height: "240px", borderRadius: radius, background: bg });
+    B.shapes.push(s);
+    const tag = el("div", "abs", b, `<span style="font-size:30px;font-weight:800;letter-spacing:.14em;color:var(--ink)">0${i + 1}</span><br><span style="font-size:76px;font-weight:860;color:#fffaf3">${["어텐션", "양자화", "RAG"][i]}</span>`);
+    tag.style.lineHeight = "1.15";
+    B.tags.push(tag);
+  });
+  B.wipe = el("div", "shape", b);
+  Object.assign(B.wipe.style, { width: "240px", height: "240px", borderRadius: "50%", background: "var(--paper)" });
+
+  // C · 01 어텐션 --------------------------------------------------------
+  const c = scene("attention", "var(--paper)");
+  const C = { frame: topicFrame(c, { num: "01", title: "어텐션", hook: "무엇을 더 볼까?" }, "attention", models.attention) };
+  // 단어마다 한 줄: 글자 굵기·크기와 막대 길이가 비중을 따라 바뀝니다.
+  const weights = [.62, .14, .24];
+  C.words = ["고양이가", "창가에서", "잠들었다"].map((w, i) => {
+    const row = el("div", "abs", c);
+    row.style.cssText += "display:flex;align-items:center;gap:22px;height:92px";
+    const word = el("span", "", row, w);
+    word.style.cssText = "display:inline-block;width:280px;font-size:60px;line-height:1";
+    const bar = el("span", "", row);
+    bar.style.cssText = "display:inline-block;height:22px;border-radius:11px;transform-origin:0 50%";
+    const pct = el("span", "", row, "0%");
+    pct.style.cssText = "font-size:44px;font-weight:850;font-variant-numeric:tabular-nums";
+    return { row, word, bar, pct, w: weights[i] };
+  });
+  C.svg = el("div", "abs", c, `<svg width="120" height="260" viewBox="0 0 120 260" fill="none"><path d="M96 240 C 4 226, 4 40, 92 40" stroke="#ec6100" stroke-width="7" stroke-linecap="round"/><path d="M78 24 L104 40 L78 56 Z" fill="#ec6100"/></svg>`);
+  C.take = el("div", "abs take", c, "지금 단어와 <b style=\"color:var(--accent)\">관련 깊은 단어</b>에 더 큰 비중");
+
+  // D · 02 양자화 --------------------------------------------------------
+  const d = scene("quantization", "var(--paper)");
+  const D = { frame: topicFrame(d, { num: "02", title: "양자화", hook: "실수를 가까운 정수 계단으로" }, "quantization", models.quantization) };
+  D.slots = [["0.3", "0.6", "1"], ["0.8", "1.6", "2"]].map(values => {
+    const slot = el("div", "slot", d);
+    const col = el("div", "", slot);
+    values.forEach((v, i) => { const s = el("span", "", col, v); if (i === 2) s.style.color = "var(--orange)"; });
+    return { slot, col };
+  });
+  D.div = el("div", "abs", d, "÷ 0.5 (스케일)");
+  D.div.style.cssText += "font-size:40px;font-weight:800;color:var(--muted)";
+  D.round = el("div", "abs", d, "반올림");
+  D.round.style.cssText += "font-size:30px;font-weight:850;color:#fffaf3;background:var(--accent);padding:.25em .7em;border-radius:999px";
+  D.mem = el("div", "abs", d);
+  D.mem.style.cssText += "width:680px;height:64px";
+  D.segs = Array.from({ length: 32 }, () => { const s = el("div", "seg", D.mem); return s; });
+  D.memLabel = el("div", "abs", d);
+  D.memLabel.style.cssText += "font-size:34px;font-weight:780";
+  D.quarter = el("div", "abs", d, "용량 <span style=\"color:var(--orange)\">¼</span>");
+  D.quarter.style.cssText += "font-size:64px;font-weight:880";
+
+  // E · 03 RAG -----------------------------------------------------------
+  const e = scene("rag", "var(--paper)");
+  const R = { frame: topicFrame(e, { num: "03", title: "RAG", hook: "먼저 찾고, 그다음 답한다" }, "rag", models.rag) };
+  R.verbs = ["① 묻고", "② 찾고", "③ 답한다"].map(v => { const m = el("div", "abs mask", e); m.style.cssText += "font-size:112px;line-height:1.05"; return { box: m, chars: chars(m, v) }; });
+  R.take = el("div", "abs take", e, "답변에 <b style=\"color:var(--accent)\">근거 문서</b>를 함께 붙입니다");
+
+  // F · 마무리 ----------------------------------------------------------
+  const f = scene("outro", "var(--paper)");
+  const F = { cards: [], caps: [] };
+  F.title = el("div", "abs mask", f);
+  F.title.style.cssText += "font-size:96px;font-weight:860;letter-spacing:-.05em";
+  F.titleChars = chars(F.title, "막힌 실습을 그림으로 풀었습니다");
+  F.titleChars.slice(7, 11).forEach(ch => { ch.classList.add("serif"); ch.style.color = "var(--accent)"; });
+  SCENES3D.forEach((name, i) => {
+    const cv = el("canvas", "shape", f);
+    cv.width = 720; cv.height = 540;
+    Object.assign(cv.style, { width: "520px", height: "390px", borderRadius: "28px", background: "var(--card)", boxShadow: "0 24px 50px rgb(80 50 30 / .14)" });
+    cv.getContext("2d").drawImage(still[name], 0, 0, 720, 540);
+    F.cards.push(cv);
+    const cap = el("div", "abs", f, `<span style="color:var(--accent);font-weight:850;letter-spacing:.1em">0${i + 1}</span>  ${["어텐션", "양자화", "RAG"][i]}`);
+    cap.style.cssText += "font-size:42px;font-weight:820;white-space:pre";
+    F.caps.push(cap);
+  });
+  F.dot = el("div", "shape", f);
+  Object.assign(F.dot.style, { width: "200px", height: "200px", borderRadius: "50%", background: "var(--orange)" });
+  F.brand = el("div", "abs", f, "AI 라운지");
+  F.brand.style.cssText += "font-size:170px;letter-spacing:-.055em";
+  F.meta = el("div", "abs", f, "2026.12 · 함께 보기 · 수업 중 개인 AI 활용");
+  F.meta.style.cssText += "font-size:42px;font-weight:600;color:var(--muted);letter-spacing:-.01em";
+  F.mini = ["var(--orange)", "var(--amber)", "var(--ink)"].map((bg, i) => {
+    const s = el("div", "shape", f);
+    Object.assign(s.style, { width: i === 2 ? "84px" : "44px", height: "44px", borderRadius: i === 1 ? "12px" : "22px", background: bg });
+    return s;
+  });
+
+  return { S, A, B, C, D, R, F };
+}
+
+// ------------------------------------------------------------------ timeline
+const T = { intro: [0, 5], context: [5, 9.2], attention: [9.2, 17.2], quantization: [17.2, 25.2], rag: [25.2, 33.2], outro: [33.2, DURATION] };
+
+function render(t, X) {
+  const { S, A, B, C, D, R, F } = X;
+  for (const [name, [s, e]] of Object.entries(T)) {
+    // 밀어내기 전환을 위해 앞뒤 0.6초는 두 장면이 함께 보입니다.
+    const lead = ["quantization", "rag", "outro"].includes(name) ? .6 : 0;
+    S[name].style.visibility = t >= s - lead && t < e + .05 ? "visible" : "hidden";
+  }
+
+  // A · 인트로 0–5s
+  if (t < 5.1) {
+    // 세 도형이 가운데서 튀어나온 뒤 오른쪽으로 모여 정물처럼 떠 있습니다.
+    const kc = ease(t, 0, .8, E.back), ks = ease(t, .25, .9), kp = ease(t, .35, .9), kr = ease(t, 1.0, 1.0, E.inout);
+    const bob = (i) => Math.sin(t * 2.2 + i * 1.7) * 10 * kr;
+    const cx = lerp(860, 1430, kr), cy = lerp(440, 390, kr) + bob(0);
+    A.circle.style.transform = `translate(${cx - 100}px,${cy - 100}px) scale(${kc * lerp(1, 1.75, kr)})`;
+    const sx = lerp(lerp(-300, 1040, ks), 1660, kr), sy = lerp(455, 610, kr) + bob(1);
+    A.square.style.transform = `translate(${sx - 85}px,${sy - 85}px) rotate(${(1 - ks) * -140 + kr * 14}deg) scale(${lerp(1, 1.3, kr)})`;
+    const px = lerp(lerp(2200, 1290, kp), 1390, kr), py = lerp(470, 720, kr) + bob(2);
+    A.pill.style.transform = `translate(${px - 150}px,${py - 60}px) rotate(${kr * -8}deg) scale(${lerp(1, 1.25, kr)})`;
+    place(A.eyebrow, 150, 330); fadeUp(A.eyebrow, t, 1.1, .7, 20);
+    place(A.pre, 150, 380); riseChars(A.preChars, t, 1.25, .08, .7, 800, 800);
+    place(A.title, 140, 480); riseChars(A.titleChars, t, 1.4, .06, .8, 160, 880);
+    place(A.sub, 152, 760);
+    A.words.forEach((w, i) => fadeUp(w, t, 2.35 + i * .28, .7, 50));
+    const u = A.words[1];
+    const ku = ease(t, 3.15, .6, E.inout);
+    A.underline.style.width = `${u.offsetWidth}px`;
+    A.underline.style.transform = `translate(${152 + u.offsetLeft}px,${760 + u.offsetTop + u.offsetHeight - 2}px) scaleX(${ku})`;
+    // 원이 커지며 오렌지 장면으로 전환
+    const kw = ease(t, 4.35, .7, E.inExpo);
+    A.wipe.style.transform = `translate(${cx - 100}px,${cy - 100}px) scale(${kw * 26})`;
+    A.wipe.style.opacity = kw > 0 ? 1 : 0;
+    [A.eyebrow, A.pre, A.title, A.sub].forEach(n => exitUp(n, t, 4.2, .5, 60));
+  }
+
+  // B · 맥락 5–9.2s
+  if (t >= 4.4 && t < 9.8) {
+    B.lines.forEach((l, i) => {
+      place(l.box, 150, 140 + i * 150);
+      riseChars(l.chars, t, 5.1 + i * .32, .03, .6, 300, 820);
+      const ko = ease(t, 7.0, .6, E.inExpo);
+      l.box.style.opacity = 1 - ko;
+      l.box.style.translate = `${-ko * 300}px 0`;
+    });
+    place(B.big, 140, 610);
+    riseChars(B.bigChars, t, 6.05, .07, .8, 800, 800);
+    const kb = ease(t, 7.0, .6, E.inExpo);
+    B.big.style.opacity = 1 - kb; B.big.style.translate = `${-kb * 300}px 0`;
+    B.shapes.forEach((s, i) => {
+      const k = ease(t, 7.35 + i * .14, .9, E.back);
+      const x = 200 + i * 560, y = 330;
+      s.style.transform = `translate(${x}px,${lerp(-400, y, k)}px) rotate(${(1 - k) * (i - 1) * 40}deg)`;
+      place(B.tags[i], x, y + 290); fadeUp(B.tags[i], t, 7.6 + i * .14, .6, 30);
+    });
+    const kw = ease(t, 8.55, .65, E.inExpo);
+    B.wipe.style.transform = `translate(${200}px,${330}px) scale(${kw ? 1 + kw * 18 : 0})`;
+    B.wipe.style.transformOrigin = "50% 50%";
+  }
+
+  // 01·02·03 공통: 들어오는 장면은 오른쪽에서, 나가는 장면은 왼쪽으로 밀립니다.
+  const push = (node, s, e) => {
+    const kin = s > 10 ? ease(t, s - .6, .6, E.inout) : 1;
+    const kout = ease(t, e - .6, .6, E.inout);
+    node.style.transform = `translateX(${(1 - kin) * W - kout * W}px)`;
+  };
+
+  // C · 어텐션 9.2–17.2s
+  if (t >= 9 && t < 17.3) {
+    const s = 9.2;
+    push(S.attention, s, 17.2);
+    C.frame.update(t, s);
+    C.frame.card.draw(t - (s + .4));
+    C.frame.card.labels(t, s + 4.45);
+    const colors = ["var(--orange)", "#d6c4ae", "var(--amber)"];
+    C.words.forEach((wd, i) => {
+      place(wd.row, 200, 540 + i * 100);
+      fadeUp(wd.row, t, s + 1.4 + i * .25, .6, 40);
+      const k = ease(t, s + 3.0, 1.1, E.inout);
+      wd.word.style.fontSize = `${lerp(60, 36 + wd.w * 50, k)}px`;
+      wd.word.style.fontVariationSettings = `"wght" ${lerp(700, 300 + wd.w * 950, k)}`;
+      // '잠들었다'는 지금 읽는 단어(질의)라 강조색으로 둡니다.
+      wd.word.style.color = i === 2 ? "var(--accent)" : k > .5 && i === 1 ? "var(--muted)" : "var(--ink)";
+      const kb = ease(t, s + 3.1 + i * .08, 1.0, E.back);
+      wd.bar.style.width = `${wd.w * 360}px`;
+      wd.bar.style.background = colors[i];
+      wd.bar.style.transform = `scaleX(${kb})`;
+      const kp = ease(t, s + 3.1, 1.2, E.out);
+      wd.pct.textContent = `${Math.round(wd.w * 100 * kp)}%`;
+      wd.pct.style.opacity = kp > 0 ? 1 : 0;
+      wd.pct.style.color = i === 0 ? "var(--accent)" : "var(--muted)";
+    });
+    // 마지막 단어 '잠들었다'가 위의 '고양이가'를 돌아봅니다.
+    const ka = ease(t, s + 4.2, .8, E.inout);
+    const path = C.svg.querySelectorAll("path");
+    const len = path[0].getTotalLength();
+    path[0].style.strokeDasharray = len; path[0].style.strokeDashoffset = len * (1 - ka);
+    path[1].style.opacity = ka > .96 ? 1 : 0;
+    place(C.svg, 84, 546);
+    place(C.take, 124, 880); fadeUp(C.take, t, s + 5.2, .7);
+  }
+
+  // D · 양자화 17.2–25.2s
+  if (t >= 16.6 && t < 25.3) {
+    const s = 17.2;
+    push(S.quantization, s, 25.2);
+    D.frame.update(t, s - .45);
+    D.frame.card.draw(t - (s + .4));
+    D.frame.card.labels(t, s + 4.45);
+    D.slots.forEach(({ slot, col }, i) => {
+      place(slot, 124 + i * 330, 520);
+      fadeUp(slot, t, s + 1.2 + i * .2, .6);
+      const k1 = ease(t, s + 2.4, .7, E.back), k2 = ease(t, s + 3.4, .7, E.back);
+      col.style.transform = `translateY(${-(k1 + k2) * 150}px)`;
+      slot.style.width = "300px";
+    });
+    place(D.div, 128, 690); fadeUp(D.div, t, s + 2.0, .5, 20);
+    place(D.round, 400, 686); fadeUp(D.round, t, s + 3.1, .5, 20);
+    D.round.style.scale = lerp(.6, 1, ease(t, s + 3.1, .6, E.back));
+    // 32비트 → 8비트: 막대 32칸이 8칸으로 줄어듭니다.
+    place(D.mem, 124, 850);
+    const km = ease(t, s + 5.0, 1.1, E.inout);
+    const appear = ease(t, s + 4.4, .6);
+    D.segs.forEach((seg, i) => {
+      const keep = i < 8;
+      const wFull = 680 / 32, wSmall = 170 / 8;
+      const x = keep ? lerp(i * wFull, i * wSmall, km) : lerp(i * wFull, 170 + (i - 8) * 2, km);
+      seg.style.left = `${x}px`;
+      seg.style.width = `${keep ? lerp(wFull, wSmall, km) - 4 : (wFull - 4) * (1 - km)}px`;
+      seg.style.background = keep ? `rgb(236 97 0 / ${lerp(.35, 1, km)})` : "rgb(214 196 174)";
+      seg.style.opacity = keep ? appear : appear * (1 - km);
+      seg.style.transform = `scaleY(${ease(t, s + 4.4 + i * .012, .5, E.back)})`;
+    });
+    D.memLabel.innerHTML = km < .5 ? "32비트 실수" : "8비트 정수";
+    place(D.memLabel, 124, 796); fadeUp(D.memLabel, t, s + 4.4, .5, 20);
+    place(D.quarter, 330, 830); fadeUp(D.quarter, t, s + 5.9, .6, 30);
+    D.quarter.style.scale = lerp(.7, 1, ease(t, s + 5.9, .7, E.back));
+  }
+
+  // E · RAG 25.2–33.2s
+  if (t >= 24.6 && t < 33.3) {
+    const s = 25.2;
+    push(S.rag, s, 33.2);
+    R.frame.update(t, s - .45);
+    R.frame.card.draw(t - (s + .4));
+    R.frame.card.labels(t, s + 4.45);
+    // 3D에서 질문(0초) · 문서가 떠오름(1.5초) · 답변(2.7초)과 박자를 맞춥니다.
+    const beats = [s + .5, s + 1.95, s + 3.15];
+    R.verbs.forEach((v, i) => {
+      const active = t >= beats[i] && (i === 2 || t < beats[i + 1]);
+      const after = i < 2 && t >= beats[i + 1];
+      place(v.box, 124, 540 + i * 118);
+      riseChars(v.chars, t, beats[i], .05, .6, 300, after ? 500 : 880);
+      const ka = ease(t, i < 2 ? beats[i + 1] : 99, .5);
+      v.box.style.color = after ? `rgb(100 88 80 / ${lerp(1, .55, ka)})` : active ? "var(--accent)" : "var(--ink)";
+      if (i === 2 && t > beats[2] + .6) v.box.style.color = "var(--orange)";
+    });
+    place(R.take, 124, 920); fadeUp(R.take, t, s + 5.2, .7);
+  }
+
+  // F · 마무리 33.2–39s
+  if (t >= 32.6) {
+    const s = 33.2;
+    const kin = ease(t, s - .6, .6, E.inout);
+    S.outro.style.transform = `translateX(${(1 - kin) * W}px)`;
+    const collapse = ease(t, s + 3.0, .7, E.inExpo);
+    F.cards.forEach((cv, i) => {
+      const k = ease(t, s - .35 + i * .12, .9, E.back);
+      const x = lerp(140 + i * 580, 860, collapse), y = lerp(lerp(1200, 420, k), 440, collapse);
+      cv.style.transform = `translate(${x}px,${y}px) rotate(${(1 - k) * (i - 1) * 8}deg) scale(${1 - collapse})`;
+      place(F.caps[i], 140 + i * 580, 840); fadeUp(F.caps[i], t, s + .6 + i * .12, .6, 24);
+      F.caps[i].style.opacity = Math.min(+F.caps[i].style.opacity, 1 - collapse);
+    });
+    place(F.title, 140, 210);
+    riseChars(F.titleChars, t, s + .1, .035, .7, 200, 860);
+    F.title.style.opacity = 1 - collapse;
+    const kd = ease(t, s + 3.35, .8, E.back);
+    F.dot.style.transform = `translate(${860}px,${250}px) scale(${kd * 1.1})`;
+    place(F.brand, 0, 500); F.brand.style.width = "1920px"; F.brand.style.textAlign = "center";
+    fadeUp(F.brand, t, s + 3.7, .8, 40);
+    F.brand.style.fontVariationSettings = `"wght" ${lerp(200, 900, ease(t, s + 3.7, 1.1, E.out))}`;
+    place(F.meta, 0, 700); F.meta.style.width = "1920px"; F.meta.style.textAlign = "center";
+    fadeUp(F.meta, t, s + 4.0, .8, 30);
+    F.mini.forEach((m, i) => {
+      const k = ease(t, s + 4.3 + i * .1, .7, E.back);
+      const x = 960 - 100 + [0, 64, 128][i] - (i === 2 ? 0 : 0);
+      m.style.transform = `translate(${x}px,${lerp(860, 800, k)}px) scale(${k})`;
+    });
+  }
+}
+
+// ------------------------------------------------------------------ boot
+let X;
+window.__ready = loadAssets().then(models => {
+  X = build(models);
+  window.__render = t => render(t, X);
+  window.__duration = DURATION;
+  window.__fps = FPS;
+  const fixed = params.get("t");
+  if (params.has("capture")) { stage.style.transform = "none"; render(0, X); return; }
+  const fit = () => { const k = Math.min(innerWidth / W, innerHeight / H); stage.style.transform = `scale(${k})`; };
+  fit(); addEventListener("resize", fit);
+  if (fixed !== null) { render(+fixed, X); return; }
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { render(36.5, X); return; }
+  const t0 = performance.now();
+  const loop = now => { render(((now - t0) / 1000) % DURATION, X); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+});
+</script>
+</body>
+</html>

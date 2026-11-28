@@ -315,34 +315,32 @@ html:has(.seminar-deck){scroll-behavior:auto}
 /* Three examples use the same visual scale as the supporting text gets shorter. */
 .slide-recap-stage{gap:clamp(1.25rem,3.2vh,2rem)}
 .slide-recap-stage .slide-resource{margin-top:.45rem;min-height:44px;align-content:center}
+.slide-resources{display:flex;flex-wrap:wrap;gap:.25rem 1.4rem;margin:0}
+.slide-motion{padding:0 1rem;border-radius:999px;background:var(--story-accent);color:#fffaf3;text-decoration:none}
+.slide-motion:hover{background:oklch(46% 0.15 42)}
+.slide-motion:focus-visible{outline:2px solid var(--story-accent);outline-offset:3px}
 .slide-recap-figures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1rem,2vw,1.85rem)}
 .recap-figure{min-width:0;margin:0}
-.recap-visual{display:grid;min-height:clamp(11rem,27vh,17rem);padding:clamp(.75rem,2.15vw,1.75rem);place-items:center;background:#f3eadd;border-radius:.6rem;color:var(--story-ink);text-decoration:none}
-.recap-visual:hover{background:#efe1cf}
+.recap-visual{display:block;overflow:hidden;background:#f3eadd;border-radius:.9rem;color:var(--story-ink);text-decoration:none;transition:box-shadow .3s var(--story-ease-out,ease)}
+.recap-visual:hover{box-shadow:0 0 0 2px oklch(66% 0.19 45 / .35)}
 .recap-visual:focus-visible,.slide-feature-figure .story-media-open:focus-visible{outline:2px solid var(--story-accent);outline-offset:3px}
-.recap-diagram{width:100%;max-width:19rem;color:var(--story-ink);font-size:clamp(.8rem,1.13vw,1.05rem);font-weight:750}
-.recap-figure figcaption{margin-top:.85rem}
+.recap-stage{position:relative;aspect-ratio:var(--stage-ratio,4/3);container-type:inline-size}
+.recap-still,.recap-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}
+.recap-video{opacity:0;transition:opacity .6s ease}
+.recap-stage.is-playing .recap-video{opacity:1;transition:none}
+.recap-labels{position:absolute;inset:0;pointer-events:none}
+.recap-label{position:absolute;left:var(--x);top:var(--y);translate:-50% -50%;padding:.28em .7em;border-radius:999px;background:oklch(99% 0.008 85 / .92);box-shadow:0 1px 2px oklch(40% 0.05 50 / .12),0 4px 12px oklch(40% 0.05 50 / .1);color:var(--story-ink);font-size:clamp(.66rem,4.2cqi,1rem);font-weight:750;line-height:1.2;letter-spacing:-.02em;white-space:nowrap;transition:opacity .45s ease calc(var(--order) * 70ms),translate .6s var(--story-ease-out,ease) calc(var(--order) * 70ms)}
+.recap-label-key{background:var(--story-accent);color:#fffaf3}
+.recap-label-value{padding:.1em .3em;background:none;box-shadow:none;color:var(--story-accent);font-size:clamp(.9rem,6.4cqi,1.55rem);font-weight:850;font-variant-numeric:tabular-nums}
+.recap-label-quiet{color:var(--story-muted);font-weight:650}
+.recap-stage.is-playing .recap-label{opacity:0;translate:-50% -10%;transition:none}
+.recap-figure figcaption{display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:.6rem;margin-top:.85rem}
 .recap-figure figcaption strong{font-size:clamp(1.21rem,1.75vw,1.7rem);line-height:1.15}
 .recap-figure figcaption p{margin:.35rem 0 0;color:var(--story-muted);font-size:clamp(.96rem,1.3vw,1.21rem);line-height:1.45;word-break:keep-all}
-.recap-attention{display:grid;justify-items:center;gap:.8rem;text-align:center}
-.recap-attention strong{padding:.4rem .85rem;border-radius:1.25rem;background:var(--story-accent);color:#fffaf3}
-.recap-attention-weights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.24rem;width:100%;height:4.9rem}
-.recap-attention-weights span{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:.3rem;white-space:nowrap}
-.recap-attention-weights i{display:block;width:64%;height:26%;border-radius:.35rem .35rem 0 0;background:#c9b9a7}
-.recap-attention-weights span:first-child i{height:73%;background:var(--story-accent)}
-.recap-attention-weights span:last-child i{height:44%}
-.recap-quantization{text-align:center}
-.recap-quantization div{display:grid;grid-template-columns:.72fr repeat(3,minmax(0,1fr));gap:.32rem;align-items:center}
-.recap-quantization b{padding:.45rem 0;border:1px solid #cdb8a1;border-radius:.35rem;font-variant-numeric:tabular-nums}
-.recap-quantization div:last-child b{border-color:var(--story-accent);background:var(--story-accent);color:#fffaf3}
-.recap-quantization p{margin:.5rem 0 .5rem 18%;color:var(--story-accent);line-height:1.2}
-.recap-rag{display:grid;grid-template-columns:1fr auto 1.2fr auto 1fr;gap:.22rem;align-items:start;text-align:center}
-.recap-rag span{display:grid;justify-items:center;gap:.45rem;white-space:nowrap}
-.recap-rag>b{align-self:start;margin-top:.65rem;color:var(--story-accent);font-weight:600}
-.recap-rag i{display:grid;width:2.4rem;height:2.4rem;place-items:center;border:1px solid var(--story-accent);border-radius:.52rem;color:var(--story-accent);font-size:1.13rem;font-style:normal}
-.recap-rag .recap-question{border-radius:50%}
-.recap-rag .recap-document{background:repeating-linear-gradient(to bottom,var(--story-accent) 0 1px,transparent 1px 5px) center center/50% 38% no-repeat}
-.recap-rag .recap-answer{background:var(--story-accent);color:#fffaf3}
+.recap-figure figcaption>:not(.recap-step,strong){grid-column:1/-1}
+.recap-step{color:var(--story-accent);font-size:clamp(.85rem,1.05vw,1.05rem);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.recap-hook{margin-top:.2rem;color:var(--story-accent);font-size:clamp(1rem,1.3vw,1.25rem);font-style:normal;font-weight:750;letter-spacing:-.02em}
+.recap-figure .recap-example{margin-top:.55rem;padding:.4rem .7rem;border-left:3px solid var(--story-accent);background:oklch(95% 0.035 65 / .7);border-radius:0 .4rem .4rem 0;color:var(--story-ink);font-size:clamp(.88rem,1.1vw,1.08rem);font-weight:650}
 .seminar-deck .slide-stage .slide-feature-figure .story-media-open{width:auto}
 .seminar-deck .slide-stage .slide-feature-figure .story-media img{width:auto;max-height:min(52svh,31rem)}
 .slide-study-examples{display:grid;gap:.75rem;margin:0}
@@ -394,7 +392,6 @@ html:has(.seminar-deck){scroll-behavior:auto}
   .slide-course-path{grid-template-columns:minmax(0,1fr);gap:1.15rem}
   .slide-course-path>li{grid-row:auto;grid-template-rows:auto;gap:.4rem}
   .slide-recap-figures{grid-template-columns:minmax(0,1fr);gap:1.35rem}
-  .recap-visual{min-height:10rem}
   .recap-figure figcaption{margin-top:.55rem}
   .seminar-deck{--slide-pad:0}
   .seminar-cover-lead{grid-template-columns:minmax(0,1fr);gap:1.25rem}
