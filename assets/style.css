@@ -303,12 +303,10 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-calendar-later .slide-calendar .calendar-dates td{height:1.1rem;padding:.08rem .17rem}
 .slide-calendar-later .slide-calendar td time,.slide-calendar-later .slide-calendar .calendar-bar{font-size:clamp(.64rem,.9vw,.8rem)}
 .schedule-note{margin:.25rem 0 0;font-size:clamp(.96rem,1.35vw,1.45rem);font-weight:700}
-.slide-concept-groups{margin:.4rem 0 0;display:grid}
-.slide-concept-groups>div{display:grid;grid-template-columns:minmax(7.7rem,.23fr) minmax(0,1fr);align-items:baseline;gap:.7rem 1rem;border-top:1px solid var(--story-rule);padding:clamp(.6rem,1.8vh,1.25rem) 0}
-.slide-concept-groups dt{color:var(--story-accent);font-weight:850;font-size:clamp(1rem,1.55vw,1.4rem)}
-.slide-concept-groups dd{margin:0}
-.slide-concept-groups ul{display:flex;flex-wrap:wrap;gap:.25rem 1.6rem;margin:0;padding:0;list-style:none}
-.slide-concept-groups li{font-weight:800;font-size:clamp(1.06rem,2.24vw,2.4rem);line-height:1.28}
+.slide-application-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(.4rem,1.4vh,1rem) clamp(1.25rem,3vw,3rem);margin:clamp(.5rem,1.8vh,1.25rem) 0 0}
+.slide-application-steps>div{border-top:1px solid var(--story-rule);padding:clamp(.65rem,1.9vh,1.3rem) 0;word-break:keep-all}
+.slide-application-steps dt{color:var(--story-accent);font-weight:800;font-size:clamp(1.3rem,2.1vw,2.2rem);line-height:1.2}
+.slide-application-steps dd{margin:.35rem 0 0;color:var(--story-ink);font-size:clamp(1rem,1.45vw,1.45rem);line-height:1.5;text-wrap:pretty}
 .slide-figure-pair .scene-gallery.count-2{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:center;gap:clamp(.7rem,2vw,2rem)}
 .seminar-deck .slide-stage .slide-figure-pair .story-media-open{width:auto}
 .seminar-deck .slide-stage .slide-figure-pair .story-media img{width:auto;max-height:min(47svh,28rem)}
@@ -396,8 +394,7 @@ html:has(.seminar-deck){scroll-behavior:auto}
   .slide-schedule,.slide-calendar-later,.slide-figure-pair .scene-gallery.count-2{grid-template-columns:minmax(0,1fr)}
   .slide-calendar .calendar-dates td,.slide-calendar-later .slide-calendar .calendar-dates td{height:1.25rem}
   .seminar-deck .slide-stage .slide-feature-figure .story-media img{max-height:39svh}
-  .slide-concept-groups>div{grid-template-columns:1fr;gap:.28rem}
-  .slide-concept-groups ul{column-gap:.85rem}
+  .slide-application-steps{grid-template-columns:minmax(0,1fr)}
   .seminar-deck .slide-stage .slide-figure-pair .story-media img,.seminar-deck .slide-dark .slide-stage .story-media img{max-height:33svh}
   .slide-copy .scene-label{margin-bottom:.65rem}
   .slide-stage{padding-block:.5rem}
@@ -455,7 +452,7 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .motion-ready .m-word{white-space:nowrap}
 .motion-ready .m-line{display:block}
 /* 들어오기 전 상태 */
-.motion-ready [data-scene]:not(.is-current) :is(.slide-copy>:not(h2:has(.m-char,.m-line),.slide-body:has(.m-step,.m-sentence)),.m-char,.m-line,.m-step,.m-arrow,.m-sentence,.slide-schedule,.schedule-note,.slide-code-example,.slide-feature-figure,.slide-numbers-figure,.slide-stage>.slide-numbers>div,.slide-course-path>li>*,.course-path-keywords li,.recap-figure,.slide-concept-groups>div,.slide-concept-groups li,.story-edition,.story-deck,.monthly-public-note,.seminar-cover-benefits,.cover-shapes i){opacity:0}
+.motion-ready [data-scene]:not(.is-current) :is(.slide-copy>:not(h2:has(.m-char,.m-line),.slide-body:has(.m-step,.m-sentence)),.m-char,.m-line,.m-step,.m-arrow,.m-sentence,.slide-schedule,.schedule-note,.slide-code-example,.slide-feature-figure,.slide-numbers-figure,.slide-stage>.slide-numbers>div,.slide-course-path>li>*,.course-path-keywords li,.recap-figure,.slide-application-steps>div,.story-edition,.story-deck,.monthly-public-note,.seminar-cover-benefits,.cover-shapes i){opacity:0}
 /* 공통: 라벨 → 제목 → 본문·링크 */
 .motion-ready .is-current .slide-copy>.scene-label{animation:m-rise .5s var(--m-ease) both}
 .motion-ready .is-current .slide-copy>h2:not(:has(.m-char,.m-line)){animation:m-rise .6s var(--m-ease) .08s both}
@@ -503,16 +500,15 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .motion-ready .slide-code mark{background:linear-gradient(#ffe1a3,#ffe1a3) 0 0/100% 100% no-repeat}
 .motion-ready .is-current .slide-code-example{animation:m-rise .6s var(--m-ease) .3s both}
 .motion-ready .is-current .slide-code mark{animation:m-mark .5s var(--m-line) calc(.95s + var(--i) * .16s) both}
-/* 7·8 원본 그림: 문구 다음에 살짝 커지며 등장. 8은 앞 문장이 흐려지며 뒷 문장으로 시선 이동 */
+/* 원본 그림: 문구 다음에 살짝 커지며 등장 */
 .motion-ready .is-current .slide-feature-figure{animation:m-zoom .8s var(--m-ease) .75s both}
 .motion-ready .is-current .m-sentence{animation:m-rise .55s var(--m-ease) calc(.25s + var(--i) * .45s) both}
 .motion-ready .is-current .m-sentence:first-child{animation:m-rise .55s var(--m-ease) .25s both,m-dim .6s ease 1s forwards}
-/* 9 어두운 장: 바탕이 어두워진 뒤 제목 두 줄 → 예측 값 → 결론 */
+/* 7 어두운 장: 바탕이 어두워진 뒤 제목 두 줄 → 예측 값 → 결론 */
 .motion-ready .slide-dark.is-current{animation:m-dark .9s ease both}
 .motion-ready .is-current .m-line{animation:m-rise .7s var(--m-ease) calc(.45s + var(--i) * .14s) both}
 .motion-ready .slide-dark.is-current .slide-copy>:not(.scene-label,h2){animation-delay:.85s}
 .motion-ready .slide-dark.is-current .slide-copy>.slide-takeaway{animation-delay:1.2s}
 .motion-ready .is-current .slide-numbers-figure{animation:m-rise .6s var(--m-ease) 1s both}
-/* 10 핵심 개념: 묶음 순서대로, 개념 칩이 이어서 */
-.motion-ready .is-current .slide-concept-groups>div{animation:m-rise .5s var(--m-ease) calc(.3s + var(--g) * .12s) both}
-.motion-ready .is-current .slide-concept-groups li{animation:m-rise .4s var(--m-ease) calc(.42s + var(--g) * .12s + var(--t) * 40ms) both}
+/* 8 적용 순서: 각 항목이 순서대로 등장 */
+.motion-ready .is-current .slide-application-steps>div{animation:m-rise .5s var(--m-ease) calc(.3s + var(--i) * .12s) both}

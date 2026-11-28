@@ -81,7 +81,7 @@ function prepareSlides(story) {
   });
   story.querySelectorAll(".slide-code").forEach(code => index("mark", code));
   story.querySelectorAll(".slide-course-path>li").forEach((course, i) => { course.style.setProperty("--c", i); index(".course-path-keywords li", course); });
-  story.querySelectorAll(".slide-concept-groups>div").forEach((group, i) => { group.style.setProperty("--g", i); index("li", group, "--t"); });
+  index(".slide-application-steps>div");
   story.querySelectorAll(".recap-figure").forEach((figure, i) => figure.style.setProperty("--i", i));
   index(".slide-stage>.slide-numbers>div");
   story.querySelectorAll(".seminar-cover-benefits").forEach(benefits => {
