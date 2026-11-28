@@ -317,32 +317,21 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .slide-recap-stage .slide-resource{margin-top:.45rem;min-height:44px;align-content:center}
 .slide-recap-figures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1rem,2vw,1.85rem)}
 .recap-figure{min-width:0;margin:0}
-.recap-visual{display:grid;min-height:clamp(11rem,27vh,17rem);padding:clamp(.75rem,2.15vw,1.75rem);place-items:center;background:#f3eadd;border-radius:.6rem;color:var(--story-ink);text-decoration:none}
-.recap-visual:hover{background:#efe1cf}
+.recap-visual{display:block;overflow:hidden;background:#f3eadd;border-radius:.9rem;color:var(--story-ink);text-decoration:none;transition:box-shadow .3s var(--story-ease-out,ease)}
+.recap-visual:hover{box-shadow:0 0 0 2px oklch(66% 0.19 45 / .35)}
 .recap-visual:focus-visible,.slide-feature-figure .story-media-open:focus-visible{outline:2px solid var(--story-accent);outline-offset:3px}
-.recap-diagram{width:100%;max-width:19rem;color:var(--story-ink);font-size:clamp(.8rem,1.13vw,1.05rem);font-weight:750}
+.recap-stage{position:relative;aspect-ratio:var(--stage-ratio,4/3);container-type:inline-size}
+.recap-still,.recap-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}
+.recap-still{transition:opacity .4s ease}
+.recap-stage.is-live .recap-still{opacity:0}
+.recap-labels{position:absolute;inset:0;pointer-events:none}
+.recap-label{position:absolute;left:var(--x);top:var(--y);translate:-50% -50%;padding:.28em .7em;border-radius:999px;background:oklch(99% 0.008 85 / .92);box-shadow:0 1px 2px oklch(40% 0.05 50 / .12),0 4px 12px oklch(40% 0.05 50 / .1);color:var(--story-ink);font-size:clamp(.66rem,4.2cqi,1rem);font-weight:750;line-height:1.2;letter-spacing:-.02em;white-space:nowrap;transition:opacity .45s ease calc(var(--order) * 70ms),translate .6s var(--story-ease-out,ease) calc(var(--order) * 70ms)}
+.recap-label-key{background:var(--story-accent);color:#fffaf3}
+.recap-label-quiet{color:var(--story-muted);font-weight:650}
+.recap-stage.is-live .recap-label:not(.is-shown){opacity:0;translate:-50% -10%;transition:opacity .3s ease,translate .3s ease}
 .recap-figure figcaption{margin-top:.85rem}
 .recap-figure figcaption strong{font-size:clamp(1.21rem,1.75vw,1.7rem);line-height:1.15}
 .recap-figure figcaption p{margin:.35rem 0 0;color:var(--story-muted);font-size:clamp(.96rem,1.3vw,1.21rem);line-height:1.45;word-break:keep-all}
-.recap-attention{display:grid;justify-items:center;gap:.8rem;text-align:center}
-.recap-attention strong{padding:.4rem .85rem;border-radius:1.25rem;background:var(--story-accent);color:#fffaf3}
-.recap-attention-weights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.24rem;width:100%;height:4.9rem}
-.recap-attention-weights span{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:.3rem;white-space:nowrap}
-.recap-attention-weights i{display:block;width:64%;height:26%;border-radius:.35rem .35rem 0 0;background:#c9b9a7}
-.recap-attention-weights span:first-child i{height:73%;background:var(--story-accent)}
-.recap-attention-weights span:last-child i{height:44%}
-.recap-quantization{text-align:center}
-.recap-quantization div{display:grid;grid-template-columns:.72fr repeat(3,minmax(0,1fr));gap:.32rem;align-items:center}
-.recap-quantization b{padding:.45rem 0;border:1px solid #cdb8a1;border-radius:.35rem;font-variant-numeric:tabular-nums}
-.recap-quantization div:last-child b{border-color:var(--story-accent);background:var(--story-accent);color:#fffaf3}
-.recap-quantization p{margin:.5rem 0 .5rem 18%;color:var(--story-accent);line-height:1.2}
-.recap-rag{display:grid;grid-template-columns:1fr auto 1.2fr auto 1fr;gap:.22rem;align-items:start;text-align:center}
-.recap-rag span{display:grid;justify-items:center;gap:.45rem;white-space:nowrap}
-.recap-rag>b{align-self:start;margin-top:.65rem;color:var(--story-accent);font-weight:600}
-.recap-rag i{display:grid;width:2.4rem;height:2.4rem;place-items:center;border:1px solid var(--story-accent);border-radius:.52rem;color:var(--story-accent);font-size:1.13rem;font-style:normal}
-.recap-rag .recap-question{border-radius:50%}
-.recap-rag .recap-document{background:repeating-linear-gradient(to bottom,var(--story-accent) 0 1px,transparent 1px 5px) center center/50% 38% no-repeat}
-.recap-rag .recap-answer{background:var(--story-accent);color:#fffaf3}
 .seminar-deck .slide-stage .slide-feature-figure .story-media-open{width:auto}
 .seminar-deck .slide-stage .slide-feature-figure .story-media img{width:auto;max-height:min(52svh,31rem)}
 .slide-study-examples{display:grid;gap:.75rem;margin:0}
@@ -394,7 +383,6 @@ html:has(.seminar-deck){scroll-behavior:auto}
   .slide-course-path{grid-template-columns:minmax(0,1fr);gap:1.15rem}
   .slide-course-path>li{grid-row:auto;grid-template-rows:auto;gap:.4rem}
   .slide-recap-figures{grid-template-columns:minmax(0,1fr);gap:1.35rem}
-  .recap-visual{min-height:10rem}
   .recap-figure figcaption{margin-top:.55rem}
   .seminar-deck{--slide-pad:0}
   .seminar-cover-lead{grid-template-columns:minmax(0,1fr);gap:1.25rem}
@@ -446,3 +434,85 @@ html:has(.seminar-deck){scroll-behavior:auto}
 @media(max-width:760px){
  .notebook-spread{max-width:30rem;width:100%;justify-self:center}
 }
+
+/* 슬라이드 전환 — monthly-motion.js가 지금 장에 is-current를 붙일 때마다 한 번 재생합니다.
+ * motion-ready는 모션 감소 설정이 아닐 때만 붙으므로, 그 밖의 경우 모든 내용이 처음부터 보입니다.
+ * 문구는 바꾸지 않고 등장 순서와 움직임만 더합니다. 반복·회전·가로 밀기는 쓰지 않습니다. */
+@keyframes m-rise{from{opacity:0;translate:0 18px}}
+@keyframes m-fade{from{opacity:0}}
+@keyframes m-char{from{opacity:0;translate:0 .42em;font-weight:250}}
+@keyframes m-arrow{from{opacity:0;translate:-.45em 0}}
+@keyframes m-draw{from{transform:scaleX(0)}}
+@keyframes m-pop{0%{opacity:0;transform:scale(0)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+@keyframes m-dim{to{color:var(--story-muted)}}
+@keyframes m-weight{from{font-weight:300}}
+@keyframes m-mark{from{background-size:0% 100%;color:#f7f4eb}}
+@keyframes m-zoom{from{opacity:0;transform:translateY(14px) scale(.965)}}
+@keyframes m-dark{from{background-color:var(--l-bg);box-shadow:0 0 0 100vmax var(--l-bg);color:var(--l-ink)}}
+@keyframes m-ring{0%{box-shadow:0 0 0 0 oklch(52% 0.16 42 / .6)}100%{box-shadow:0 0 0 .75rem oklch(52% 0.16 42 / 0)}}
+.motion-ready{--m-ease:cubic-bezier(.16,1,.3,1);--m-line:cubic-bezier(.65,0,.35,1)}
+.motion-ready :is(.m-word,.m-char,.m-step,.m-arrow,.m-sentence){display:inline-block}
+.motion-ready .m-word{white-space:nowrap}
+.motion-ready .m-line{display:block}
+/* 들어오기 전 상태 */
+.motion-ready [data-scene]:not(.is-current) :is(.slide-copy>:not(h2:has(.m-char,.m-line),.slide-body:has(.m-step,.m-sentence)),.m-char,.m-line,.m-step,.m-arrow,.m-sentence,.slide-schedule,.schedule-note,.slide-code-example,.slide-feature-figure,.slide-numbers-figure,.slide-stage>.slide-numbers>div,.slide-course-path>li>*,.course-path-keywords li,.recap-figure,.slide-concept-groups>div,.slide-concept-groups li,.story-edition,.story-deck,.monthly-public-note,.seminar-cover-benefits,.cover-shapes i){opacity:0}
+/* 공통: 라벨 → 제목 → 본문·링크 */
+.motion-ready .is-current .slide-copy>.scene-label{animation:m-rise .5s var(--m-ease) both}
+.motion-ready .is-current .slide-copy>h2:not(:has(.m-char,.m-line)){animation:m-rise .6s var(--m-ease) .08s both}
+.motion-ready .is-current .slide-copy>:not(.scene-label,h2,.slide-body:has(.m-step,.m-sentence)){animation:m-rise .6s var(--m-ease) .22s both}
+.motion-ready .is-current .slide-copy>.slide-takeaway{animation-delay:.45s}
+.motion-ready .is-current .m-char{animation:m-char .7s var(--m-ease) calc(.08s + var(--i) * 26ms) both}
+.motion-ready .is-current .m-step{animation:m-rise .5s var(--m-ease) calc(.25s + var(--i) * .32s) both}
+.motion-ready .is-current .m-arrow{color:var(--story-accent);animation:m-arrow .4s var(--m-ease) calc(.12s + var(--i) * .32s) both}
+/* 1 표지: 제목 글자 → 혜택 카드 → 도형 세 개 */
+.seminar-cover-benefits{position:relative}
+.cover-shapes{position:absolute;top:-.85rem;right:1.5rem;display:flex;gap:.45rem;align-items:center}
+.cover-shapes i{display:block;width:1.7rem;height:1.7rem;border-radius:50%;background:var(--l-orange)}
+.cover-shapes i:nth-child(2){--k:1;width:1.5rem;height:1.5rem;border-radius:.38rem;background:var(--l-amber)}
+.cover-shapes i:nth-child(3){--k:2;width:2.9rem;height:1.35rem;border-radius:1rem;background:var(--story-accent)}
+.motion-ready .is-current .story-edition{animation:m-rise .5s var(--m-ease) both}
+.motion-ready .is-current .story-deck{animation:m-rise .6s var(--m-ease) .7s both}
+.motion-ready .is-current .monthly-public-note{animation:m-rise .6s var(--m-ease) .85s both}
+.motion-ready .is-current .seminar-cover-benefits{animation:m-rise .7s var(--m-ease) .3s both}
+.motion-ready .is-current .seminar-cover-benefits dd{animation:m-rise .55s var(--m-ease) calc(.7s + var(--i) * .15s) both,m-weight 1s var(--m-ease) calc(.7s + var(--i) * .15s) both}
+.motion-ready .is-current .cover-shapes i{animation:m-pop .6s cubic-bezier(.34,1.56,.64,1) calc(1s + var(--k,0) * .1s) both}
+/* 2 과정 3단계: 위쪽 선이 왼쪽→오른쪽으로 그려지며 단계가 차례로 등장 */
+.motion-ready .slide-course-path>li{position:relative;border-top-color:transparent}
+.motion-ready .slide-course-path>li::before{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;background:var(--story-rule);transform-origin:0 50%}
+.motion-ready .slide-course-path>li:last-child::before{background:var(--story-accent)}
+.motion-ready [data-scene]:not(.is-current) .slide-course-path>li::before{transform:scaleX(0)}
+.motion-ready .is-current .slide-course-path>li::before{animation:m-draw .45s var(--m-line) calc(.2s + var(--c) * .4s) both}
+.motion-ready .is-current .slide-course-path>li>*{animation:m-rise .55s var(--m-ease) calc(.4s + var(--c) * .4s) both}
+.motion-ready .is-current .slide-course-path>li>.course-path-keywords{animation:none}
+.motion-ready .is-current .course-path-keywords li{animation:m-rise .45s var(--m-ease) calc(.55s + var(--c) * .4s + var(--i) * 50ms) both}
+/* 3 일정: 막대가 날짜 순서대로 채워지고, 실기 날에 테두리가 한 번 퍼짐 */
+.motion-ready .calendar-bar{transform-origin:0 50%}
+.motion-ready .is-current .slide-schedule{animation:m-fade .5s ease .15s both}
+.motion-ready .is-current .calendar-bar{animation:m-draw .38s var(--m-line) calc(.4s + var(--i) * 45ms) both}
+.motion-ready .is-current .calendar-exam{animation:m-draw .38s var(--m-line) calc(.4s + var(--i) * 45ms) both,m-ring .9s ease-out calc(.6s + var(--bars) * 45ms) 1}
+.motion-ready .is-current .schedule-note{animation:m-rise .5s var(--m-ease) calc(.5s + var(--bars) * 45ms) both}
+/* 4 복습 3D: 제목 글자 → 카드 01·02·03 (3D는 recap-3d.js가 반복 재생) */
+.motion-ready .is-current .recap-figure{animation:m-rise .65s var(--m-ease) calc(.55s + var(--i) * .14s) both}
+/* 5 숫자: 값이 올라오며 굵어지고 아래에 밑줄이 그려짐 */
+.motion-ready .slide-stage>.slide-numbers dd{position:relative;width:fit-content;isolation:isolate}
+.motion-ready .slide-stage>.slide-numbers dd::after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:.08em;height:.16em;border-radius:.08em;background:oklch(78% 0.15 72 / .55);transform-origin:0 50%}
+.motion-ready .is-current .slide-stage>.slide-numbers>div{animation:m-rise .6s var(--m-ease) calc(.35s + var(--i) * .18s) both}
+.motion-ready .is-current .slide-stage>.slide-numbers dd{animation:m-weight 1s var(--m-ease) calc(.4s + var(--i) * .18s) both}
+.motion-ready .is-current .slide-stage>.slide-numbers dd::after{animation:m-draw .6s var(--m-line) calc(.8s + var(--i) * .18s) both}
+/* 6 코드: 단계 문구 → 코드 → 형광펜이 위에서부터 한 줄씩 */
+.motion-ready .slide-code mark{background:linear-gradient(#ffe1a3,#ffe1a3) 0 0/100% 100% no-repeat}
+.motion-ready .is-current .slide-code-example{animation:m-rise .6s var(--m-ease) .3s both}
+.motion-ready .is-current .slide-code mark{animation:m-mark .5s var(--m-line) calc(.95s + var(--i) * .16s) both}
+/* 7·8 원본 그림: 문구 다음에 살짝 커지며 등장. 8은 앞 문장이 흐려지며 뒷 문장으로 시선 이동 */
+.motion-ready .is-current .slide-feature-figure{animation:m-zoom .8s var(--m-ease) .75s both}
+.motion-ready .is-current .m-sentence{animation:m-rise .55s var(--m-ease) calc(.25s + var(--i) * .45s) both}
+.motion-ready .is-current .m-sentence:first-child{animation:m-rise .55s var(--m-ease) .25s both,m-dim .6s ease 1s forwards}
+/* 9 어두운 장: 바탕이 어두워진 뒤 제목 두 줄 → 예측 값 → 결론 */
+.motion-ready .slide-dark.is-current{animation:m-dark .9s ease both}
+.motion-ready .is-current .m-line{animation:m-rise .7s var(--m-ease) calc(.45s + var(--i) * .14s) both}
+.motion-ready .slide-dark.is-current .slide-copy>:not(.scene-label,h2){animation-delay:.85s}
+.motion-ready .slide-dark.is-current .slide-copy>.slide-takeaway{animation-delay:1.2s}
+.motion-ready .is-current .slide-numbers-figure{animation:m-rise .6s var(--m-ease) 1s both}
+/* 10 핵심 개념: 묶음 순서대로, 개념 칩이 이어서 */
+.motion-ready .is-current .slide-concept-groups>div{animation:m-rise .5s var(--m-ease) calc(.3s + var(--g) * .12s) both}
+.motion-ready .is-current .slide-concept-groups li{animation:m-rise .4s var(--m-ease) calc(.42s + var(--g) * .12s + var(--t) * 40ms) both}

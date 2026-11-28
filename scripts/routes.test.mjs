@@ -205,9 +205,16 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(environment, /slide-stacked slide-recap-stage/);
   assert.equal(environment.match(/data-media="2-\d+"/g).length, 3);
   for (const [diagram, file] of [["attention", "attention-study"], ["quantization", "quantization-study"], ["rag", "rag-study"]]) {
-    assert.ok(environment.includes(`class="recap-${diagram}"`), diagram);
+    assert.ok(environment.includes(`class="recap-stage recap-${diagram}"`), diagram);
     assert.ok(environment.includes(`href="assets/ai-specialist/${file}.webp"`), file);
+    assert.ok(environment.includes(`src="assets/ai-specialist/recap-3d-${diagram}.webp"`), `${diagram} 3D still`);
+    assert.ok(environment.includes(`data-glb="assets/ai-specialist/recap-3d-${diagram}.glb"`), `${diagram} live 3D model`);
   }
+  assert.doesNotMatch(environment, /recap-motion|\.mp4/);
+  assert.match(environment, /data-anchor="query"[^>]*>잠들었다</);
+  assert.match(environment, />÷ 0\.5 ↓</);
+  assert.match(environment, /data-anchor="shelf"[^>]*>문서 검색</);
+  assert.match(environment, /문맥에서 관련 있는 단어에 더 큰 비중을 줍니다\./);
   assert.match(december.main.innerHTML, /https:\/\/ai-s\.pages\.dev\/slides\/course-intro\.html#s3/);
   for (const [scene, file] of [
     [attention, "attention-multihead-original"],
@@ -218,6 +225,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
     assert.ok(scene.includes(`src="assets/ai-specialist/${file}.webp"`), file);
   }
   assert.match(recommendation, /즐겨찾기와 편집한 화면/);
+  assert.match(recommendation, /data-body-motion="contrast"/);
   assert.match(series, /과거 50거래일/);
   assert.match(series, /다음 날 시가/);
   assert.match(series, /예측 모델 하나로는\s+퀀트를 이기기 어렵다/);

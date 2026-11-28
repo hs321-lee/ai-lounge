@@ -130,6 +130,7 @@ for (const post of data.posts) {
           if (course.durationNote !== undefined) requiredText(course.durationNote, `${post.id}: 수강 과정 일수 기준`);
         }
       }
+      if (section.bodyMotion !== undefined) assert.ok(["contrast"].includes(section.bodyMotion), `${post.id}: bodyMotion 값 오류`);
       if (section.figureLayout !== undefined) {
         const {figureLayout, media = []} = section;
         assert.ok(["notebooks", "pair", "recap", "feature"].includes(figureLayout));
@@ -138,6 +139,27 @@ for (const post of data.posts) {
           for (const item of media) {
             requiredText(item.diagramAlt, `${post.id}: 복습 도식 대체 텍스트`);
             requiredText(item.description, `${post.id}: 복습 도식 설명`);
+            // Blender 3D 장면: 정지 그림·재생 영상·투영 라벨이 모두 있어야 합니다.
+            const model = item.model;
+            assert.ok(model && typeof model === "object", `${post.id}: ${item.diagram} 3D 모델 필요`);
+            assert.equal(model.still, `assets/ai-specialist/recap-3d-${item.diagram}.webp`, `${post.id}: 3D 정지 그림 경로`);
+            assert.equal(model.glb, `assets/ai-specialist/recap-3d-${item.diagram}.glb`, `${post.id}: 3D 모델(GLB) 경로`);
+            for (const key of ["width", "height"]) assert.ok(Number.isInteger(model[key]) && model[key] > 0, `${post.id}: 3D ${key}`);
+            for (const file of [model.still, model.glb]) assert.ok((await readFile(new URL(`../${file}`, import.meta.url))).length > 0, `${post.id}: 빈 3D 파일 ${file}`);
+            // GLB 머리(12바이트) 뒤 첫 청크가 JSON입니다. 라벨 기준점 노드 이름을 확인합니다.
+            const glb = await readFile(new URL(`../${model.glb}`, import.meta.url));
+            assert.equal(glb.toString("latin1", 0, 4), "glTF", `${post.id}: GLB 형식 아님`);
+            const glbJson = JSON.parse(glb.toString("utf8", 20, 20 + glb.readUInt32LE(12)));
+            const glbNodes = new Set(glbJson.nodes.map(node => node.name));
+            assert.ok(glbJson.animations?.length && glbJson.cameras?.length, `${post.id}: GLB 애니메이션·카메라 필요`);
+            assert.ok(Array.isArray(model.labels) && model.labels.length, `${post.id}: 3D 라벨 필요`);
+            for (const label of model.labels) {
+              requiredText(label.text, `${post.id}: 3D 라벨 문구`);
+              assert.match(label.anchor, /^[a-z]+[0-9]?$/, `${post.id}: 3D 라벨 기준점`);
+              assert.ok(glbNodes.has(`anchor_${label.anchor}`), `${post.id}: ${model.glb}에 anchor_${label.anchor} 없음`);
+              assert.ok(["key", "plain", "quiet"].includes(label.tone), `${post.id}: 3D 라벨 종류 ${label.tone}`);
+              for (const axis of ["x", "y"]) assert.ok(Number.isFinite(label[axis]) && label[axis] >= 0 && label[axis] <= 100, `${post.id}: 3D 라벨 ${axis} 범위`);
+            }
           }
         } else {
           assert.equal(media.length, {notebooks:3, pair:2, feature:1}[figureLayout], `${post.id}: 그림 수와 배치 불일치`);
