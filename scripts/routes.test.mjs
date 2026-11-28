@@ -158,16 +158,10 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(cover, /2026년 13차 안내 기준/);
   assert.match(cover, /3시간 코딩 실기와 현업 과제 심사를 모두 통과해 최종 인증/);
   assert.match(cover, /기존 자격수당을 월 30만 원 이상 받고 있다면 일시 대체금 100만 원/);
-  assert.equal(scenes.length, 8);
+  assert.equal(scenes.length, 7);
   assert.equal(december.main.innerHTML.match(/ data-scene\b/g).length, scenes.length + 1);
-  const [briefing, coursePath, schedule, environment, assessment, study, series, closing] =
+  const [coursePath, schedule, environment, assessment, study, series, closing] =
     scenes.map(scene => scene.split('class="slide-foot"')[0]);
-  assert.match(briefing, /11월 AI 소식 세 가지/);
-  assert.equal(briefing.match(/class="briefing-date"/g).length, 3);
-  assert.match(briefing, /GPT‑6\.2[\s\S]*40% · 25%[\s\S]*라온‑1 미니[\s\S]*256K · 20 GiB[\s\S]*Rust로 전환[\s\S]*CPU 약 70%↓/);
-  for (const host of ["openai.com", "www.bleepingcomputer.com", "huggingface.co", "www.anthropic.com"]) {
-    assert.ok(briefing.includes('href="https://' + host + '/'), host);
-  }
   assert.match(coursePath, /기초부터 현업 적용까지/);
   assert.match(coursePath, /<ol class="slide-course-path">/);
   assert.match(coursePath, /<h3>AI 에센셜<\/h3>\s*<span class="course-path-duration">7일 \(과정 안내 기준\)<\/span>/);
@@ -196,6 +190,10 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
     assert.ok(schedule.includes(`title="${activity}"><time datetime="${date}"`), date);
   }
   assert.match(schedule, /실기와 현업 과제는 병행/);
+  for (const date of ["2026-11-18", "2026-11-24"]) {
+    assert.ok(december.main.innerHTML.includes(`href="#post/daily-${date}"`));
+    assert.ok(december.main.innerHTML.includes(`src="assets/daily/${date}.webp"`));
+  }
   assert.match(environment, /개인 ChatGPT·Claude/);
   assert.match(assessment, /가장 큰 관문은 실기였습니다/);
   assert.match(study, /실제 오답노트 발췌/);
@@ -205,7 +203,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   for (const line of ["keys.view(", "self.mask.bool()", "torch.softmax("]) assert.ok(study.includes(`<mark>${line}`), line);
   assert.match(environment, /class="slide-recap-figures"/);
   assert.match(environment, /slide-stacked slide-recap-stage/);
-  assert.equal(environment.match(/data-media="3-\d+"/g).length, 3);
+  assert.equal(environment.match(/data-media="2-\d+"/g).length, 3);
   for (const [diagram, file] of [["attention", "attention-study"], ["quantization", "quantization-study"], ["rag", "rag-study"]]) {
     assert.ok(environment.includes(`class="recap-stage recap-${diagram}"`), diagram);
     assert.ok(environment.includes(`href="assets/ai-specialist/${file}.webp"`), file);
@@ -242,7 +240,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.doesNotMatch(december.main.innerHTML, /발표 메모|class="slide-notes"/);
   assert.equal(december.main.innerHTML.match(/class="slide-nav"/g).length, scenes.length+1);
   assert.match(december.main.innerHTML, /발표에 사용한 AI-S 수업·복습 자료/);
-  assert.equal(december.main.innerHTML.match(/class="course-source-jump"/g).length, scenes.length - 1);
+  assert.equal(december.main.innerHTML.match(/class="course-source-jump"/g).length, scenes.length);
   assert.match(december.main.innerHTML, /https:\/\/ai-s\.pages\.dev\/practice\/illustrated-recaps/);
   assert.doesNotMatch(december.main.innerHTML, /arxiv\.org|jalammar\.github\.io/);
   assert.doesNotMatch(december.main.innerHTML, /PUBLIC CASE STUDY|제보|기출|복원/);

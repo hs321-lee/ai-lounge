@@ -126,6 +126,14 @@ html,body{overflow-x:clip}
 .story-media figcaption{font-size:.9rem;color:var(--story-muted);line-height:1.6;margin-top:.6rem;text-align:center}
 
 /* Sources, progress, viewer */
+.news-recap{margin:2rem auto;max-width:900px;padding:1.3rem var(--slide-pad);border-block:1px solid var(--story-rule)}
+.news-recap summary{cursor:pointer;font-size:1.15rem;font-weight:700}
+.recap-entries{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:1.5rem;margin:1.3rem 0}
+.recap-entry{display:grid;grid-template-columns:5.25rem 1fr;align-items:center;gap:1rem;color:inherit;text-decoration:none}
+.recap-entry img{display:block;width:100%;height:auto}
+.recap-entry h3,.recap-entry p{margin:.3rem 0}
+.recap-entry time,.recap-entry p{color:var(--story-muted);font-size:.94rem}
+.recap-entry:hover h3,.recap-entry:focus-visible h3{text-decoration:underline}
 .seminar-deck .monthly-public-note{white-space:pre-line}
 .story-sources{padding:4rem 0;border-top:1px solid var(--story-rule);max-width:900px}
 .story-sources h2{font-size:1.15rem;margin:0 0 1rem}
@@ -262,24 +270,6 @@ html:has(.seminar-deck){scroll-behavior:auto}
 .seminar-deck .slide-stacked h2{font-size:clamp(2rem,3.6vw,4.1rem)}
 .slide-stacked .scene-label{margin-bottom:.45rem}
 .slide-stacked .slide-body{max-width:56rem;margin-top:.55rem;font-size:clamp(1rem,1.36vw,1.45rem)}
-.slide-briefing{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem clamp(.85rem,1.8vw,1.65rem);
-  margin:clamp(.75rem,2vh,1.5rem) 0 0;padding:0;list-style:none;
-}
-.slide-briefing>li{
-  display:grid;grid-row:span 5;grid-template-rows:subgrid;min-width:0;padding:clamp(.85rem,1.6vw,1.5rem);
-  border:1px solid var(--story-rule);border-top:3px solid var(--story-accent);background:var(--surface);
-}
-.briefing-date,.briefing-stat,.briefing-summary{margin:0}
-.briefing-date{color:var(--story-accent);font-size:.88rem;font-weight:750;font-variant-numeric:tabular-nums}
-.slide-briefing h3{margin:0;font-size:clamp(1.18rem,2vw,2.05rem);font-weight:800;line-height:1.27;letter-spacing:-.03em;overflow-wrap:anywhere}
-.briefing-stat strong{display:block;color:var(--story-accent);font-size:clamp(1.7rem,3vw,3.25rem);font-weight:850;line-height:1.15;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
-.briefing-stat span{display:block;margin-top:.25rem;color:var(--story-muted);font-size:clamp(.83rem,1.11vw,1.05rem);font-weight:650}
-.briefing-summary{font-size:clamp(.94rem,1.26vw,1.2rem);line-height:1.55}
-.briefing-sources{display:flex;flex-wrap:wrap;gap:.3rem .75rem;align-items:start}
-.briefing-sources a{color:var(--story-muted);font-size:.84rem;font-weight:650;text-underline-offset:.2em}
-.slide-briefing-takeaway{margin:.45rem 0 0;font-size:clamp(1rem,1.48vw,1.35rem);font-weight:700;line-height:1.5}
-.motion-ready .is-current :is(.slide-briefing,.slide-briefing-takeaway){animation:m-rise .55s var(--m-ease) .16s both}
 .slide-course-path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));row-gap:.6rem;column-gap:clamp(1.25rem,2.8vw,2.8rem);list-style:none;margin:clamp(.65rem,2vh,1.5rem) 0 0;padding:0}
 .slide-course-path>li{display:grid;grid-row:span 3;grid-template-rows:subgrid;min-width:0;padding-top:1rem;border-top:2px solid var(--story-rule);word-break:keep-all}
 .slide-course-path>li:last-child{border-color:var(--story-accent)}
@@ -388,8 +378,6 @@ html:has(.seminar-deck){scroll-behavior:auto}
   .seminar-deck .slide-stage .slide-feature-figure .story-media img{max-height:46svh}
 }
 @media(max-width:760px){
-  .slide-briefing{grid-template-columns:minmax(0,1fr)}
-  .slide-briefing>li{grid-row:auto;grid-template-rows:auto;gap:.5rem}
   .slide-course-path{grid-template-columns:minmax(0,1fr);gap:1.15rem}
   .slide-course-path>li{grid-row:auto;grid-template-rows:auto;gap:.4rem}
   .slide-recap-figures{grid-template-columns:minmax(0,1fr);gap:1.35rem}
