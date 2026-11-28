@@ -1,6 +1,99 @@
 "use strict";
 // Progressive enhancement: every scene is visible without this script.
 // Adds a one-time rise when a scene enters, a progress rail, and ←/→ scene navigation.
+// 발표(seminar-deck)에서는 슬라이드에 들어올 때마다 그 장의 모션을 한 번 재생합니다(style.css '슬라이드 전환').
+
+// 글자를 한 자씩 감싸되 단어째 묶어 줄바꿈(keep-all)을 지킵니다. 읽기 프로그램에는 원래 문장으로 읽힙니다.
+function splitChars(element) {
+  const text = element.textContent;
+  element.setAttribute("aria-label", text.replace(/\s+/g, " ").trim());
+  element.textContent = "";
+  let index = 0;
+  for (const part of text.split(/(\s+)/)) {
+    if (!part) continue;
+    if (/^\s+$/.test(part)) { element.append(part); continue; }
+    const word = document.createElement("span");
+    word.className = "m-word";
+    word.setAttribute("aria-hidden", "true");
+    for (const character of part) {
+      const span = document.createElement("span");
+      span.className = "m-char";
+      span.style.setProperty("--i", index++);
+      span.textContent = character;
+      word.append(span);
+    }
+    element.append(word);
+  }
+}
+// "A → B → C" 문장을 단계와 화살표로 나눕니다. 문구는 그대로입니다.
+function splitSteps(element) {
+  const parts = element.textContent.split(" → ");
+  if (parts.length < 2) return;
+  element.textContent = "";
+  parts.forEach((part, index) => {
+    if (index) {
+      const arrow = document.createElement("span");
+      arrow.className = "m-arrow";
+      arrow.style.setProperty("--i", index);
+      arrow.textContent = "→";
+      element.append(" ", arrow, " ");
+    }
+    const step = document.createElement("span");
+    step.className = "m-step";
+    step.style.setProperty("--i", index);
+    step.textContent = part;
+    element.append(step);
+  });
+}
+function prepareSlides(story) {
+  story.querySelectorAll(".story-cover h1, .slide-recap-stage h2").forEach(splitChars);
+  story.querySelectorAll(".slide-copy .slide-body").forEach(splitSteps);
+  story.querySelectorAll('[data-body-motion="contrast"] .slide-body').forEach(body => {
+    const sentences = body.textContent.match(/[^.]+\.\s*/g) || [];
+    if (sentences.length < 2) return;
+    body.textContent = "";
+    sentences.forEach((sentence, index) => {
+      const span = document.createElement("span");
+      span.className = "m-sentence";
+      span.style.setProperty("--i", index);
+      span.textContent = sentence.trim();
+      if (index) body.append(" ");
+      body.append(span);
+    });
+  });
+  story.querySelectorAll(".slide-dark .slide-copy h2").forEach(heading => {
+    const lines = heading.textContent.split("\n");
+    heading.setAttribute("aria-label", lines.join(" "));
+    heading.textContent = "";
+    lines.forEach((line, index) => {
+      const span = document.createElement("span");
+      span.className = "m-line";
+      span.setAttribute("aria-hidden", "true");
+      span.style.setProperty("--i", index);
+      span.textContent = line;
+      heading.append(span);
+    });
+  });
+  const index = (selector, scope = story, name = "--i") => scope.querySelectorAll(selector).forEach((node, i) => node.style.setProperty(name, i));
+  story.querySelectorAll(".slide-schedule").forEach(schedule => {
+    index(".calendar-bar", schedule);
+    schedule.style.setProperty("--bars", schedule.querySelectorAll(".calendar-bar").length);
+  });
+  story.querySelectorAll(".slide-code").forEach(code => index("mark", code));
+  story.querySelectorAll(".slide-course-path>li").forEach((course, i) => { course.style.setProperty("--c", i); index(".course-path-keywords li", course); });
+  story.querySelectorAll(".slide-concept-groups>div").forEach((group, i) => { group.style.setProperty("--g", i); index("li", group, "--t"); });
+  story.querySelectorAll(".recap-figure").forEach((figure, i) => figure.style.setProperty("--i", i));
+  index(".slide-stage>.slide-numbers>div");
+  story.querySelectorAll(".seminar-cover-benefits").forEach(benefits => {
+    const shapes = document.createElement("span");
+    shapes.className = "cover-shapes";
+    shapes.setAttribute("aria-hidden", "true");
+    shapes.innerHTML = "<i></i><i></i><i></i>";
+    benefits.prepend(shapes);
+    index("dd", benefits);
+  });
+}
+
 window.MonthlyMotion = {
   mount(root) {
     const scenes = [...root.querySelectorAll("[data-scene]")];
@@ -21,8 +114,20 @@ window.MonthlyMotion = {
     };
     const onScroll = () => { if (!frame) frame = window.requestAnimationFrame(paintProgress); };
     const onResize = () => { setHeaderHeight(); onScroll(); };
+    // 지금 장에 is-current를 다시 붙여 CSS 모션을 처음부터 재생합니다.
+    const animated = slides && !media.matches && "IntersectionObserver" in window;
+    let current;
+    const enter = scene => {
+      if (!animated || !scene || scene === current) return;
+      current?.classList.remove("is-current");
+      scene.classList.remove("is-current");
+      void scene.offsetWidth;
+      scene.classList.add("is-current");
+      current = scene;
+    };
     const goTo = index => {
       const target = scenes[Math.max(0, Math.min(scenes.length - 1, index))];
+      enter(target);
       if (slides) target?.focus({ preventScroll: true });
       target?.scrollIntoView({ behavior: slides ? "instant" : media.matches ? "auto" : "smooth", block: "start" });
     };
@@ -49,10 +154,23 @@ window.MonthlyMotion = {
       const button = event.target.closest?.("[data-jump]");
       if (!button || !root.contains(button)) return;
       const target = root.querySelector(`#scene-${Number(button.dataset.jump)}`);
+      enter(target);
       if (slides) target?.focus({ preventScroll: true });
       target?.scrollIntoView({ behavior: slides ? "instant" : media.matches ? "auto" : "smooth", block: "start" });
     };
     setHeaderHeight();
+    let slideObserver;
+    if (animated) {
+      prepareSlides(story);
+      story.classList.add("motion-ready");
+      slideObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) enter(entry.target);
+          else if (entry.target === current) { current.classList.remove("is-current"); current = undefined; }
+        }
+      }, { rootMargin: "-50% 0px -50% 0px", threshold: 0 }); // 화면 가운데 선을 지나는 장 하나
+      scenes.forEach(scene => slideObserver.observe(scene));
+    }
     if (!media.matches && "IntersectionObserver" in window) {
       observer = new IntersectionObserver(entries => {
         for (const entry of entries) {
@@ -63,27 +181,6 @@ window.MonthlyMotion = {
       }, { threshold: 0 });
       scenes.forEach(scene => { if (scene.getBoundingClientRect().top > window.innerHeight) observer.observe(scene); });
     }
-    // 3D 복습 장면: 화면에 들어오면 만들어지는 과정을 한 번 재생하고, 끝나면 고화질 정지 그림과 라벨로 넘깁니다.
-    // 모션 감소 설정이거나 재생이 막히면 처음부터 정지 그림과 라벨만 보입니다.
-    let stageObserver;
-    const stages = [...root.querySelectorAll(".recap-stage")].filter(stage => stage.querySelector("video"));
-    const finish = stage => stage.classList.remove("is-playing");
-    const play = stage => {
-      const video = stage.querySelector("video");
-      video.currentTime = 0;
-      video.addEventListener("playing", () => stage.classList.add("is-playing"), { once: true });
-      video.play().catch(() => finish(stage));
-    };
-    stages.forEach(stage => stage.querySelector("video").addEventListener("ended", () => finish(stage)));
-    if (!media.matches && "IntersectionObserver" in window && stages.length) {
-      stageObserver = new IntersectionObserver(entries => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) play(entry.target);
-          else { entry.target.querySelector("video").pause(); finish(entry.target); }
-        }
-      }, { threshold: 0.6 });
-      stages.forEach(stage => stageObserver.observe(stage));
-    }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize, { passive: true });
     document.addEventListener("keydown", onKey);
@@ -91,7 +188,7 @@ window.MonthlyMotion = {
     paintProgress();
     return () => {
       observer?.disconnect();
-      stageObserver?.disconnect();
+      slideObserver?.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("keydown", onKey);

@@ -70,14 +70,13 @@ function renderNotebookExcerpt(media, sectionIndex, mediaIndex = 0) {
     <figcaption>${escape(media.caption)}</figcaption>
   </figure>`;
 }
-// Blender 3D 장면: 정지 그림 위에 같은 카메라 투영 좌표로 HTML 라벨을 얹고,
-// 영상은 장면에 들어올 때 한 번 재생한 뒤 정지 그림으로 넘깁니다(monthly-motion.js).
+// Blender 3D 장면: 기본은 정지 그림 + 같은 카메라 투영 좌표의 HTML 라벨.
+// recap-3d.js가 WebGL로 같은 모델을 실시간으로 그리면 캔버스가 정지 그림을 덮습니다.
 function renderRecapModel(item) {
-  const { still, video, width, height, labels } = item.model;
-  return `<div class="recap-stage recap-${escape(item.diagram)}" role="img" aria-label="${escape(item.diagramAlt)}" style="--stage-ratio:${width}/${height}">
+  const { glb, still, width, height, labels } = item.model;
+  return `<div class="recap-stage recap-${escape(item.diagram)}" role="img" aria-label="${escape(item.diagramAlt)}" data-glb="${escape(glb)}" style="--stage-ratio:${width}/${height}">
     <img class="recap-still" src="${escape(still)}" width="${width}" height="${height}" alt="" loading="lazy" decoding="async">
-    ${video ? `<video class="recap-video" src="${escape(video)}" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video>` : ""}
-    <div class="recap-labels" aria-hidden="true">${labels.map(({ text, x, y, tone }, order) => `<span class="recap-label recap-label-${escape(tone)}" style="--x:${x}%;--y:${y}%;--order:${order}">${escape(text)}</span>`).join("")}</div>
+    <div class="recap-labels" aria-hidden="true">${labels.map(({ text, anchor, x, y, tone }, order) => `<span class="recap-label recap-label-${escape(tone)}" data-anchor="${escape(anchor)}" style="--x:${x}%;--y:${y}%;--order:${order}">${escape(text)}</span>`).join("")}</div>
   </div>`;
 }
 function renderRecapFigures(media, sectionIndex) {
@@ -85,7 +84,7 @@ function renderRecapFigures(media, sectionIndex) {
     <a class="recap-visual" href="${escape(item.src)}" data-media="${sectionIndex}-${mediaIndex}" target="_blank" rel="noopener" aria-label="${escape(item.caption)} 복습 원본 보기">
       ${renderRecapModel(item)}
     </a>
-    <figcaption><span class="recap-step" aria-hidden="true">${String(mediaIndex + 1).padStart(2, "0")}</span><strong>${escape(item.caption)}</strong>${item.hook ? `<em class="recap-hook">${escape(item.hook)}</em>` : ""}<p>${escape(item.description)}</p>${item.example ? `<p class="recap-example">${escape(item.example)}</p>` : ""}</figcaption>
+    <figcaption><strong>${escape(item.caption)}</strong><p>${escape(item.description)}</p></figcaption>
   </figure>`).join("")}</div>`;
 }
 function renderSeminarCalendar({month, events}) {
@@ -166,11 +165,11 @@ function renderSeminarSlide(section, index, sections) {
   const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
   const concepts = section.conceptGroups ? `<dl class="slide-concept-groups">${section.conceptGroups.map(({label, terms}) => `<div><dt>${escape(label)}</dt><dd><ul>${terms.map(term => `<li>${escape(term)}</li>`).join("")}</ul></dd></div>`).join("")}</dl>` : "";
   const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.coursePath || section.schedule || pairedFigures || feature || concepts ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
-  return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
+  return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene${section.bodyMotion ? ` data-body-motion="${escape(section.bodyMotion)}"` : ""} aria-labelledby="slide-title-${index}">
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
         ${section.body && !section.schedule ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
-        ${section.linkLabel || section.motion ? `<p class="slide-resources">${section.linkLabel ? `<a class="slide-resource" href="${safeUrl(section.url)}" target="_blank" rel="noopener">${escape(section.linkLabel)} ↗</a>` : ""}${section.motion ? `<a class="slide-resource slide-motion" href="${escape(section.motion.src)}" target="_blank" rel="noopener"><span aria-hidden="true">▶</span> ${escape(section.motion.label)}</a>` : ""}</p>` : ""}
+        ${section.linkLabel ? `<a class="slide-resource" href="${safeUrl(section.url)}" target="_blank" rel="noopener">${escape(section.linkLabel)} ↗</a>` : ""}
         ${quote ? `<figure class="instructor-quote"><blockquote>“${escape(quote.text)}”</blockquote><figcaption>${escape(quote.attribution)}</figcaption></figure>` : ""}
         ${section.takeaway && !section.schedule ? `<p class="slide-takeaway">${escape(section.takeaway)}</p>` : ""}
       </div>
@@ -249,8 +248,14 @@ function renderIssue(issue) {
   <dialog class="story-viewer" aria-labelledby="screen-viewer-title"><div class="story-viewer-bar"><h2 id="screen-viewer-title">화면 크게 보기</h2><button type="button" data-viewer-close autofocus>닫기 ×</button></div><img class="story-viewer-image" alt=""></dialog>
   ${issues.length > 1 ? `<section class="monthly-archive"><h2>다른 달의 자료</h2>${issues.filter(item=>item.id!==issue.id).map(item=>`<p><a href="${monthlyIssueLink(item)}">${escape(item.title)} →</a></p>`).join("")}</section>` : ""}</div>`;
   const disposeMotion = window.MonthlyMotion?.mount(main) || (() => {});
+  // 실시간 3D는 해당 카드가 있는 발표에서만 불러오며, 실패하면 정지 그림이 그대로 남습니다.
+  let dispose3D = () => {};
+  let unmounted = false;
+  if (main.querySelector(".recap-stage[data-glb]")) {
+    import("./recap-3d.js").then(({ mountRecap3D }) => { if (!unmounted) dispose3D = mountRecap3D(main); }).catch(() => {});
+  }
   const disposeMedia = window.MonthlyMedia?.mount(main, issue.sections) || (() => {});
-  monthlyMotionCleanup = () => { disposeMedia(); disposeMotion(); };
+  monthlyMotionCleanup = () => { unmounted = true; dispose3D(); disposeMedia(); disposeMotion(); };
 }
 function setView(view, presentation = false) {
   document.body.classList.toggle("monthly-view", presentation);

@@ -4,12 +4,12 @@ Blender 4.5 LTS에서 실행합니다. 화면 라벨은 그림에 굽지 않고,
 JSON으로 내보내 HTML 글자(Pretendard)로 얹습니다.
 
   blender -b -P scripts/blender/recap-3d.py -- --scene attention --mode still --out DIR
-  blender -b -P scripts/blender/recap-3d.py -- --scene rag --mode anim --out DIR
+  blender -b -P scripts/blender/recap-3d.py -- --scene rag --mode glb --out assets/ai-specialist
 
 mode
   preview : 마지막 프레임 저해상도 확인용
   still   : 마지막 프레임 1440×1080 투명 PNG + 라벨 좌표 JSON
-  anim    : 1–FRAMES 프레임 800×600 투명 PNG 시퀀스 (빠른 설정)
+  glb     : 웹 실시간 3D용 GLB(모델 + 1–FRAMES 애니메이션 + 라벨 기준점 + 곡선 경로)
 """
 import bpy, bmesh, json, math, os, sys
 from mathutils import Vector
@@ -63,14 +63,14 @@ scene.cycles.glossy_bounces = 2
 scene.cycles.transmission_bounces = 0
 scene.cycles.caustics_reflective = scene.cycles.caustics_refractive = False
 scene.render.use_persistent_data = True
-FAST = MODE == "anim"  # 애니메이션은 피부 산란(SSS) 없이 빠르게, 정지 그림은 전체 품질
+FAST = MODE == "glb"  # glTF에는 피부 산란(SSS)이 없으므로 웹용은 빼고 만듭니다.
 scene.render.film_transparent = True
 scene.view_settings.view_transform = "Standard"  # 브랜드 색을 그대로 유지
 scene.view_settings.look = "None"
 scene.view_settings.exposure = 0.0
 scene.render.image_settings.file_format = "PNG"
 scene.render.image_settings.color_mode = "RGBA"
-res = {"preview": (640, 480), "still": (1440, 1080), "anim": (800, 600)}[MODE]
+res = {"preview": (640, 480), "still": (1440, 1080), "glb": (1440, 1080)}[MODE]
 scene.render.resolution_x, scene.render.resolution_y = res
 scene.render.resolution_percentage = 100
 
@@ -227,6 +227,8 @@ def grow_z(obj, start, length, final_z):
     key(obj, "scale", start + length, (1, 1, final_z), "BEZIER")
 
 def draw(curve_obj, start, length):
+    # 웹에서는 같은 시점에 관을 앞에서부터 그립니다(GLB의 extras로 전달).
+    curve_obj["draw"] = [start, length]
     cu = curve_obj.data
     key(cu, "bevel_factor_end", start, 0.0, "SINE", "EASE_IN_OUT")
     key(cu, "bevel_factor_end", start + length, 1.0, "SINE")
@@ -296,14 +298,13 @@ def build_attention():
                    M["orange"] if i == 0 else (M["amber"] if i == 2 else M["beige"]))
         draw(arc, 28 + i * 5, 24)
         label(f"word{i}", (x, -0.95, 0.2))
-        label(f"weight{i}", (x, 0.0, 0.34 + h + 0.75))
     q = sphere("query", 0.62, query, M["orange_deep"])
     move(q, [(10, query + Vector((0, 0, 2.4))), (30, query)])
     pop(q, 10, 16)
     ring = tube("ring", [query + Vector((0.85 * math.cos(t), 0.85 * math.sin(t), -0.05)) for t in [k * math.pi / 4 for k in range(8)]], 0.035, M["amber"])
     ring.data.splines[0].use_cyclic_u = True
     pop(ring, 22, 12)
-    label("query", (query.x, query.y, query.z + 1.15))
+    label("query", (query.x, query.y, query.z + 0.9))
     return floor_and_lights(target=(-0.25, 0.7, 1.95), cam_loc=(2.3, -12.2, 7.0), lens=45)
 
 # ============================================================== 2. 양자화
@@ -332,7 +333,7 @@ def build_quantization():
         st = rounded_box(f"step{i}", (width, 1.15, 1.0), (x0 + L * (a + b) / 2, step_y, 0), M["orange"], 0.08)
         grow_z(st, 30 + i * 6, 22, h)
         label(f"step{i}", (x0 + L * (a + b) / 2, step_y - 0.6, h * 0.5))
-    values = [0.0, 0.3, 0.5, 0.8, 1.0]
+    values = [0.0, 0.5, 1.0]  # 기존 도식의 예시: 스케일 0.5, 영점 0 → 정수 0, 1, 2
     r = 0.21
     for i, v in enumerate(values):
         qv = round(v / 0.5 + 1e-9)
@@ -341,18 +342,19 @@ def build_quantization():
             start.z = r + 0.02
         end_h = max(0.12, H * qv / 2)
         end = Vector((start.x, step_y, end_h + r))
-        rounded = v in (0.3, 0.8)
-        ball = sphere(f"ball{i}", r, start, M["ink"] if not rounded else M["orange_deep"])
+        ball = sphere(f"ball{i}", r, start, M["ink"])
         pop(ball, 18 + i * 3, 12)
-        t0 = 58 + i * 7
+        t0 = 58 + i * 10
         apex = (start + end) / 2 + Vector((0, 0, 1.0))
         move(ball, [(t0, start), (t0 + 9, apex), (t0 + 18, end)], "SINE")
         # 원래 실수 자리를 작은 점으로 남겨 "어디에서 어디로" 옮겼는지 보이게 합니다.
         ghost = sphere(f"ghost{i}", 0.1, start - Vector((0, 0, r - 0.04)), M["muted"])
         pop(ghost, t0 + 2, 8)
-        label(f"ball{i}", tuple(end + Vector((0, 0, 0.5))))
         label(f"real{i}", tuple(start + Vector((0, 0, 0.5))))
-    label("ramp", (x0 + L * 0.5, ramp_y + 0.6, H * 0.5 + 0.9))
+    # 줄 이름은 각 줄의 왼쪽 끝 밖에, '÷ 0.5'는 가운데 구슬이 떨어지는 길 오른쪽에 둡니다.
+    label("ramp", (x0 - 1.0, ramp_y, 0.35))
+    label("int", (x0 - 1.0, step_y, 0.25))
+    label("div", (x0 + L * 0.5 + 1.75, (ramp_y + step_y) / 2, H * 0.5 + 0.35))
     return floor_and_lights(target=(0.1, 0.25, 0.95), cam_loc=(-3.6, -10.4, 8.4), lens=45)
 
 # ============================================================== 3. RAG
@@ -389,7 +391,6 @@ def build_rag():
             ln.location = (-0.075, -0.1 + j * 0.1, 1.2 - j * 0.3)
         if chosen:
             move(card, [(44 + i * 2, (x, 0, 0.2)), (62 + i * 2, (x, -0.45, 1.25))], "BACK")
-            label(f"doc{i}", (x, -0.45, 1.25 + 1.95))
     aloc = Vector((3.6, 0.2, 0.0))
     ans = rounded_box("answer", (1.9, 0.18, 2.35), aloc, M["paper"], 0.1)
     ans.rotation_euler = (0, 0, math.radians(-14))
@@ -443,8 +444,41 @@ if MODE in ("preview", "still"):
     scene.render.filepath = os.path.join(OUT, f"{SCENE}-{MODE}.png")
     bpy.ops.render.render(write_still=True)
 else:
-    scene.frame_start = int(opts.get("--start", 1))
-    scene.frame_end = int(opts.get("--end", FRAMES))
-    scene.frame_step = int(opts.get("--step", 2))  # 점토 애니메이션처럼 2프레임마다 한 장(on twos)
-    scene.render.filepath = os.path.join(OUT, f"{SCENE}-")
-    bpy.ops.render.render(animation=True)
+    # 웹용 GLB: 그림자 바닥·조명은 three.js가 맡으므로 빼고, 곡선·글자는 메시로 바꿉니다.
+    scene.frame_set(FRAMES)
+    for ob in [o for o in scene.objects if o.type == "LIGHT" or o.name == "floor"]:
+        bpy.data.objects.remove(ob, do_unlink=True)
+    depsgraph = bpy.context.evaluated_depsgraph_get()
+    for ob in [o for o in scene.objects if o.type == "CURVE" and "draw" in o.keys()]:
+        # 그려지는 관: 중심선 좌표와 굵기·재질만 남기고 웹에서 TubeGeometry로 다시 만듭니다.
+        depth = ob.data.bevel_depth
+        ob.data.bevel_depth = 0
+        ob.data.bevel_factor_end = 1.0
+        bpy.context.view_layer.update()
+        ev = ob.evaluated_get(bpy.context.evaluated_depsgraph_get())
+        me = ev.to_mesh()
+        pts = [tuple(round(c, 4) for c in (ob.matrix_world @ v.co)) for v in me.vertices]
+        ev.to_mesh_clear()
+        holder = bpy.data.objects.new(f"tube_{ob.name}", None)
+        scene.collection.objects.link(holder)
+        # Blender(Z 위) → glTF(Y 위): (x, z, -y)
+        holder["points"] = [c for x, y, z in pts for c in (x, z, -y)]
+        holder["radius"] = depth
+        holder["draw"] = list(ob["draw"])
+        holder["material"] = ob.data.materials[0].name
+        bpy.data.objects.remove(ob, do_unlink=True)
+    for ob in [o for o in scene.objects if o.type in ("CURVE", "FONT")]:
+        bpy.ops.object.select_all(action="DESELECT")
+        ob.select_set(True)
+        bpy.context.view_layer.objects.active = ob
+        bpy.ops.object.convert(target="MESH")
+    for name, co in LABELS.items():
+        anchor = bpy.data.objects.new(f"anchor_{name}", None)
+        anchor.location = co
+        scene.collection.objects.link(anchor)
+    bpy.ops.export_scene.gltf(
+        filepath=os.path.join(OUT, f"recap-3d-{SCENE}.glb"), export_format="GLB",
+        export_apply=True, export_extras=True, export_cameras=True, export_lights=False,
+        export_yup=True, export_animations=True, export_animation_mode="SCENE",
+        export_force_sampling=True, export_frame_range=True, export_optimize_animation_size=True,
+        export_texcoords=False, export_normals=True)
