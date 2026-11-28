@@ -205,7 +205,7 @@ test("12월 교육 소개는 시작 화면과 함께 보기 목록에서 발표 
   assert.match(environment, /slide-stacked slide-recap-stage/);
   assert.equal(environment.match(/data-media="2-\d+"/g).length, 3);
   for (const [diagram, file] of [["attention", "attention-study"], ["quantization", "quantization-study"], ["rag", "rag-study"]]) {
-    assert.ok(environment.includes(`class="recap-${diagram}"`), diagram);
+    assert.ok(environment.includes(`class="recap-stage recap-${diagram}"`), diagram);
     assert.ok(environment.includes(`href="assets/ai-specialist/${file}.webp"`), file);
     assert.ok(environment.includes(`src="assets/ai-specialist/recap-3d-${diagram}.webp"`), `${diagram} 3D still`);
     assert.ok(environment.includes(`src="assets/ai-specialist/recap-3d-${diagram}.mp4"`), `${diagram} 3D video`);
