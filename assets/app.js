@@ -163,9 +163,13 @@ function renderSeminarSlide(section, index, sections) {
     }).join("\n")}</code></pre></figure>` : "";
   const steps = section.steps?.length ? `<ol class="slide-steps">${section.steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol>` : "";
   const examples = section.studyExamples?.length ? `<dl class="slide-study-examples">${section.studyExamples.map(example => `<div><dt>${escape(example.label)}</dt><dd>${escape(example.detail)}${example.code ? `<code><mark>${escape(example.code)}</mark></code>` : ""}</dd></div>`).join("")}</dl>` : "";
-  const application = section.applicationSteps ? `<dl class="slide-application-steps">${section.applicationSteps.map(({label, detail}) => `<div><dt>${escape(label)}</dt><dd>${escape(detail)}</dd></div>`).join("")}</dl>` : "";
-  const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.coursePath || section.schedule || pairedFigures || feature || application ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
-  return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene${section.bodyMotion ? ` data-body-motion="${escape(section.bodyMotion)}"` : ""} aria-labelledby="slide-title-${index}">
+  // 마무리 장: 개발 과정 5개 영역의 핵심과 수강 후 느낀 점을 한 장에
+  const summary = section.summaryAreas ? `<div class="slide-summary">
+    <ol class="summary-areas">${section.summaryAreas.map(({label, focus, terms}) => `<li><h3>${escape(label)}</h3><p>${escape(focus)}</p><ul>${terms.map(term => `<li>${escape(term)}</li>`).join("")}</ul></li>`).join("")}</ol>
+    ${section.takeaways ? `<dl class="summary-takeaways">${section.takeaways.map(({label, detail}) => `<div><dt>${escape(label)}</dt><dd>${escape(detail)}</dd></div>`).join("")}</dl>` : ""}
+  </div>` : "";
+  const stageLayout = recapFigures ? " slide-stacked slide-recap-stage" : section.coursePath || section.schedule || pairedFigures || feature || summary ? " slide-stacked" : mainFigure || numbers || code || steps || examples ? " slide-split" : "";
+  return `<section class="story-scene seminar-slide${section.spotlight ? " slide-dark" : ""}${quote ? " slide-quote" : ""}" id="scene-${index}" tabindex="-1" data-scene aria-labelledby="slide-title-${index}">
     <div class="slide-stage${stageLayout}">
       <div class="slide-copy"><p class="scene-label">${escape(section.label)}</p><h2 id="slide-title-${index}">${escape(section.heading)}</h2>
         ${section.body && !section.schedule ? `<p class="slide-body">${escape(section.body)}</p>` : ""}
@@ -180,7 +184,7 @@ function renderSeminarSlide(section, index, sections) {
       ${code}
       ${steps}
       ${examples}
-      ${application}
+      ${summary}
     </div>
     <div class="slide-foot">${slideNav(index+1, sections.length+1)}</div></section>`;
 }
